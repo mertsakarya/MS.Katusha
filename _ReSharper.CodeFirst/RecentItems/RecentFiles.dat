@@ -1,0 +1,66 @@
+﻿<RecentFiles>
+  <RecentFiles>
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Interfaces/f:IBoyRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Interfaces/f:IConversationRepository.cs" caret="37" fromTop="2" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Interfaces/f:IGirlRepository.cs" caret="140" fromTop="4" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:VisitRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:StateRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:SearchingForRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:PhotoRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:LanguagesSpokenRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:GirlRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:CountriesToVisitRepository.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:UserRepository.cs" caret="0" fromTop="0" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:Models.cs" caret="0" fromTop="0" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Enums/f:Enums.cs" caret="0" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:BoyRepository.cs" caret="183" fromTop="6" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/f:IGuidRepository.cs" caret="243" fromTop="7" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/d:BaseEntities/f:BaseFriendlyModel.cs" caret="97" fromTop="4" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/f:BaseFriendlyNameRepository.cs" caret="425" fromTop="12" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/d:Repositories/f:ConversationRepository.cs" caret="299" fromTop="8" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:IKatushaContext.cs" caret="595" fromTop="19" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/f:BaseGuidRepository.cs" caret="483" fromTop="15" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:Visit.cs" caret="268" fromTop="10" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:Conversation.cs" caret="649" fromTop="23" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:User.cs" caret="277" fromTop="11" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:Profile.cs" caret="673" fromTop="3" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:KatushaContextTest.cs" caret="2571" fromTop="31" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:KatushaContextInitializer.cs" caret="1237" fromTop="31" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/f:RepositoryHelper.cs" caret="1643" fromTop="0" />
+    <File id="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3/f:BaseRepository.cs" caret="1278" fromTop="11" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4372" fromTop="19" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1097" fromTop="0" />
+  </RecentFiles>
+  <RecentEdits>
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1870" fromTop="25" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:Profile.cs" caret="1872" fromTop="25" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:Profile.cs" caret="673" fromTop="14" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1813" fromTop="24" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6868" fromTop="49" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4993" fromTop="12" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="7493" fromTop="42" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6289" fromTop="44" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6314" fromTop="44" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6333" fromTop="44" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6339" fromTop="44" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="5690" fromTop="32" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6687" fromTop="49" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6421" fromTop="39" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="6722" fromTop="8" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1053" fromTop="10" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1586" fromTop="22" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/f:KatushaContext.cs" caret="1365" fromTop="18" />
+    <File id="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152/d:Entities/f:User.cs" caret="277" fromTop="5" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="2591" fromTop="18" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="3147" fromTop="28" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="2407" fromTop="11" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="383" fromTop="2" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="7707" fromTop="20" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="3524" fromTop="8" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4305" fromTop="32" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="3882" fromTop="6" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4634" fromTop="24" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4288" fromTop="14" />
+    <File id="3683ECE1-FE57-42C5-8477-156669EDFA1E/f:BoyRepositoryTest.cs" caret="4359" fromTop="18" />
+  </RecentEdits>
+</RecentFiles>

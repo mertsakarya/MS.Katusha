@@ -1,0 +1,15 @@
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\MS.Katusha.MVC.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\MS.Katusha.MVC.pdb
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\Autofac.Configuration.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\Autofac.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\Autofac.Integration.Mvc.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\AutoMapper.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\EntityFramework.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\MS.Katusha.Domain.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\MS.Katusha.Domain.pdb
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\Autofac.xml
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\AutoMapper.xml
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\bin\EntityFramework.xml
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\obj\Debug\MS.Katusha.MVC.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.MVC\obj\Debug\MS.Katusha.MVC.pdb

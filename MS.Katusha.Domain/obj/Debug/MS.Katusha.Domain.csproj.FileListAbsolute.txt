@@ -1,0 +1,10 @@
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\MS.Katusha.Domain.dll.config
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\MS.Katusha.Domain.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\MS.Katusha.Domain.pdb
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\EntityFramework.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\System.Data.SqlServerCe.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\System.Data.SqlServerCe.Entity.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\EntityFramework.xml
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\obj\Debug\MS.Katusha.Domain.dll
+C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\obj\Debug\MS.Katusha.Domain.pdb

@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="f7ab743b-42bd-4429-8f19-265bb76c6700" name="mert.sakarya@MERTSAKARYA 2012-03-05 19:48:48" runUser="SAHIBINDEN\mert.sakarya" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="68342950-b16e-4d12-b71a-95a7036c6fb6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="mert.sakarya_MERTSAKARYA 2012-03-05 19_48_48">
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Repository\bin\Debug\MS.Katusha.Repository.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.Entity.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\MS.Katusha.Domain.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-03-05T19:48:48.9169012+02:00" queuing="2012-03-05T19:48:50.7950890+02:00" start="2012-03-05T19:48:51.1071202+02:00" finish="2012-03-05T19:50:23.9682010+02:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="6" executed="6" passed="6" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <DebugTrace>Assembly Init
+ClassCleanup
+AssemblyCleanup
+</DebugTrace>
+    </Output>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldBeAbleToFindBoy" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="c110fe79-5d51-7c14-01d1-711d00a6e64f">
+      <Execution id="c147256e-e7f9-4ded-80cb-0267e3d42ab3" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy" />
+    </UnitTest>
+    <UnitTest name="TestVisitAndConversation" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="612255e6-ac16-66c6-627d-e06d4332ae15">
+      <Execution id="34d8acca-cc9e-4c11-beb8-a6edccf0f5a1" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TestVisitAndConversation" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindBoy" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="2c3b54dd-eda2-8575-6b29-4aef6babadf6">
+      <Execution id="79e5a4b6-79eb-4763-a1ee-0e9c598626e7" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.KatushaRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindBoy2" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="329007e2-3baa-f261-caae-3580f430a309">
+      <Execution id="356667c6-50b0-4752-ae52-84e5937d47c6" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy2" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindAUser" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="877536f0-aab5-dc3d-50d4-130ded0dfe18">
+      <Execution id="0e43139c-be21-459e-ba56-a3344166f1bb" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.KatushaRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindAUser" />
+    </UnitTest>
+    <UnitTest name="TestVisits" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="d22554e5-525e-5d9c-f2ee-f7ad962ac07f">
+      <Execution id="74870fb6-e842-4995-8740-36fdfb4db93d" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TestVisits" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="2c3b54dd-eda2-8575-6b29-4aef6babadf6" executionId="79e5a4b6-79eb-4763-a1ee-0e9c598626e7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="877536f0-aab5-dc3d-50d4-130ded0dfe18" executionId="0e43139c-be21-459e-ba56-a3344166f1bb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="329007e2-3baa-f261-caae-3580f430a309" executionId="356667c6-50b0-4752-ae52-84e5937d47c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c110fe79-5d51-7c14-01d1-711d00a6e64f" executionId="c147256e-e7f9-4ded-80cb-0267e3d42ab3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="612255e6-ac16-66c6-627d-e06d4332ae15" executionId="34d8acca-cc9e-4c11-beb8-a6edccf0f5a1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d22554e5-525e-5d9c-f2ee-f7ad962ac07f" executionId="74870fb6-e842-4995-8740-36fdfb4db93d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="79e5a4b6-79eb-4763-a1ee-0e9c598626e7" testId="2c3b54dd-eda2-8575-6b29-4aef6babadf6" testName="ShouldBeAbleToFindBoy" computerName="MERTSAKARYA" duration="00:00:10.1693743" startTime="2012-03-05T19:48:51.3241419+02:00" endTime="2012-03-05T19:49:03.3823476+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="79e5a4b6-79eb-4763-a1ee-0e9c598626e7">
+      <Output>
+        <DebugTrace>Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 8b2cf397-253b-4f50-8f19-3af5639f7a9a | Profile: Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 8b2cf397-253b-4f50-8f19-3af5639f7a9a | FriendlyName: mertiko1 | UserId: 1 | State: Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57[ProfileId: 1 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:57 | Expires: 05.03.2013 17:48:57] | Name:  | From: Turkey | City: Istanbul1 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Searches: [
+	Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Search: LongTimeRelationship
+	Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Search: Friend
+	Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Search: OneNight
+	Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Search: Sex
+]
+Photos: [
+	Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 58aba7f4-2891-43ac-af2c-ad67b407ff89 | ProfileId: 1 | Description: [
+Açıklama1
+]
+	Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: df5962ee-210a-4934-abe3-00cdf9f0823e | ProfileId: 1 | Description: [
+Açıklama21
+]
+]
+CountriesToVisit: [
+	Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Country: Turkey
+	Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Language: English
+	Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Language: Russian
+	Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 1 | Language: Turkish
+] | DickSize: Medium | DickThickness: Thick | Gender: Male | UserName: mertsakarya1 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 40712f86-6898-4036-b23b-f9c1c2d4fe50 | Profile: Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 40712f86-6898-4036-b23b-f9c1c2d4fe50 | FriendlyName: mertiko2 | UserId: 2 | State: Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57[ProfileId: 2 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:57 | Expires: 05.03.2013 17:48:57] | Name:  | From: Turkey | City: Istanbul2 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Searches: [
+	Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Search: LongTimeRelationship
+	Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Search: Friend
+	Id: 7 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Search: OneNight
+	Id: 8 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Search: Sex
+]
+Photos: [
+	Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 32cdaac4-96ba-4bb6-9f20-62eea177ac65 | ProfileId: 2 | Description: [
+Açıklama2
+]
+	Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 4397d40c-eaae-4d17-b3ff-77f188962c10 | ProfileId: 2 | Description: [
+Açıklama22
+]
+]
+CountriesToVisit: [
+	Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Country: Turkey
+	Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Language: English
+	Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Language: Russian
+	Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 2 | Language: Turkish
+] | DickSize: Medium | DickThickness: Thick | Gender: Male | UserName: mertsakarya2 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 2b28e668-33a5-4976-a6a0-d47fb063c402 | Profile: Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 2b28e668-33a5-4976-a6a0-d47fb063c402 | FriendlyName: mertiko3 | UserId: 3 | State: Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57[ProfileId: 3 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:57 | Expires: 05.03.2013 17:48:57] | Name:  | From: Turkey | City: Istanbul3 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Searches: [
+	Id: 9 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Search: LongTimeRelationship
+	Id: 10 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Search: Friend
+	Id: 11 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Search: OneNight
+	Id: 12 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Search: Sex
+]
+Photos: [
+	Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 20ccdc64-3827-412e-a3b1-b73d56c8652d | ProfileId: 3 | Description: [
+Açıklama3
+]
+	Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 35b6b364-846f-4543-b50c-036f303b98e7 | ProfileId: 3 | Description: [
+Açıklama23
+]
+]
+CountriesToVisit: [
+	Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Country: Turkey
+	Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 7 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Language: English
+	Id: 8 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Language: Russian
+	Id: 9 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 3 | Language: Turkish
+] | DickSize: Medium | DickThickness: Thick | Gender: Male | UserName: mertsakarya3 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 30f03d92-7761-4c10-abdf-1907664dd808 | Profile: Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 30f03d92-7761-4c10-abdf-1907664dd808 | FriendlyName: girl_mertiko4 | UserId: 4 | State: Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57[ProfileId: 4 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:57 | Expires: 05.03.2013 17:48:57] | Name:  | From: Turkey | City: Ankara4 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Photos: [
+	Id: 7 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 4f51d8dd-42e9-4e27-a278-ccac684d077f | ProfileId: 4 | Description: [
+Açıklama4
+]
+	Id: 8 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 23248ba1-6dff-4ad4-9d9d-5ab8ad303758 | ProfileId: 4 | Description: [
+Açıklama24
+]
+]
+CountriesToVisit: [
+	Id: 7 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 4 | Country: Turkey
+	Id: 8 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 4 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 10 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 4 | Language: English
+	Id: 11 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 4 | Language: Russian
+	Id: 12 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 4 | Language: Turkish
+] | BreastSize: Large | Gender: Female | UserName: mertsakarya4 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 913a6f8d-75c3-45ef-8be9-49f52001274c | Profile: Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | Guid: 913a6f8d-75c3-45ef-8be9-49f52001274c | FriendlyName: girl_mertiko5 | UserId: 5 | State: Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58[ProfileId: 5 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:57 | Expires: 05.03.2013 17:48:57] | Name:  | From: Turkey | City: Ankara5 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Photos: [
+	Id: 9 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 068ec6ba-9590-445e-abf9-787a88ff6a53 | ProfileId: 5 | Description: [
+Açıklama5
+]
+	Id: 10 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: b14c9957-7487-41ad-92eb-b98a9d03d473 | ProfileId: 5 | Description: [
+Açıklama25
+]
+]
+CountriesToVisit: [
+	Id: 9 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 5 | Country: Turkey
+	Id: 10 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 5 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 13 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 5 | Language: English
+	Id: 14 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 5 | Language: Russian
+	Id: 15 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | ProfileId: 5 | Language: Turkish
+] | BreastSize: Large | Gender: Female | UserName: mertsakarya5 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | Guid: 4045c3b4-4257-4a71-9ced-1a7a13b7bdd7 | Profile: Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | Guid: 4045c3b4-4257-4a71-9ced-1a7a13b7bdd7 | FriendlyName: girl_mertiko6 | UserId: 6 | State: Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58[ProfileId: 6 | MembershipType: Normal | Status: Online | Existance: Active | LastOnline: 05.03.2012 17:47:58 | Expires: 05.03.2013 17:48:58] | Name:  | From: Turkey | City: Ankara6 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Photos: [
+	Id: 11 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | Guid: 9af7152d-d213-4658-b9cc-a00a1e354170 | ProfileId: 6 | Description: [
+Açıklama6
+]
+	Id: 12 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | Guid: c996e2f4-1ab6-4509-b246-334098ba41f6 | ProfileId: 6 | Description: [
+Açıklama26
+]
+]
+CountriesToVisit: [
+	Id: 11 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | ProfileId: 6 | Country: Turkey
+	Id: 12 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | ProfileId: 6 | Country: Ukraine
+]
+LanguagesSpoken: [
+	Id: 16 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | ProfileId: 6 | Language: English
+	Id: 17 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | ProfileId: 6 | Language: Russian
+	Id: 18 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:58 | CreationsDate: 05.03.2012 17:48:58 | ProfileId: 6 | Language: Turkish
+] | BreastSize: Large | Gender: Female | UserName: mertsakarya6 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Created Sample Data
+Found 1 boy and 2 photos, out of 3 boys and 3 girls.
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0e43139c-be21-459e-ba56-a3344166f1bb" testId="877536f0-aab5-dc3d-50d4-130ded0dfe18" testName="ShouldBeAbleToFindAUser" computerName="MERTSAKARYA" duration="00:00:00.1177041" startTime="2012-03-05T19:49:03.3893483+02:00" endTime="2012-03-05T19:49:03.5153609+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e43139c-be21-459e-ba56-a3344166f1bb">
+      <Output>
+        <DebugTrace>Result 05.03.2013 17:48:57
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="356667c6-50b0-4752-ae52-84e5937d47c6" testId="329007e2-3baa-f261-caae-3580f430a309" testName="ShouldBeAbleToFindBoy2" computerName="MERTSAKARYA" duration="00:00:00.1749567" startTime="2012-03-05T19:49:03.5303624+02:00" endTime="2012-03-05T19:49:03.7133807+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="356667c6-50b0-4752-ae52-84e5937d47c6">
+      <Output>
+        <DebugTrace>Found User:
+ Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 40712f86-6898-4036-b23b-f9c1c2d4fe50 | Profile: Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 40712f86-6898-4036-b23b-f9c1c2d4fe50 | FriendlyName: mertiko2 | UserId: 2 | State:  | Name:  | From: Turkey | City: Istanbul2 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0 | DickSize: Medium | DickThickness: Thick | Gender: Male | UserName: mertsakarya2 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Found boy with 2 photos.
+Found boy with 2 photos.
+Found boy with 2 photos.
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c147256e-e7f9-4ded-80cb-0267e3d42ab3" testId="c110fe79-5d51-7c14-01d1-711d00a6e64f" testName="ShouldBeAbleToFindBoy" computerName="MERTSAKARYA" duration="00:00:00.0283038" startTime="2012-03-05T19:49:03.7233817+02:00" endTime="2012-03-05T19:49:03.7563850+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c147256e-e7f9-4ded-80cb-0267e3d42ab3">
+      <Output>
+        <DebugTrace>Found 3 boys and 3 boys
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="34d8acca-cc9e-4c11-beb8-a6edccf0f5a1" testId="612255e6-ac16-66c6-627d-e06d4332ae15" testName="TestVisitAndConversation" computerName="MERTSAKARYA" duration="00:00:00.2447551" startTime="2012-03-05T19:49:03.7633857+02:00" endTime="2012-03-05T19:49:04.0154109+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="34d8acca-cc9e-4c11-beb8-a6edccf0f5a1">
+      <Output>
+        <DebugTrace>Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:03 | CreationsDate: 05.03.2012 17:49:03 | Guid: d4b8a4b0-8f79-4d8a-afc1-ae3a258b1c63 | ProfileId: 1 | VisitorProfileId: 4
+Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:03 | CreationsDate: 05.03.2012 17:49:03 | Guid: d1b07df9-a6be-4b55-8e25-42c16f459710 | From: 1 | To: 4 | ReadDate:  | Subject: Hi
+MESSAGE: [
+
+I would 
+Like to meet you
+
+]
+Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:03 | CreationsDate: 05.03.2012 17:49:03 | Guid: d1b07df9-a6be-4b55-8e25-42c16f459710 | From: 1 | To: 4 | ReadDate:  | Subject: Hi
+MESSAGE: [
+
+I would 
+Like to meet you
+
+]
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="74870fb6-e842-4995-8740-36fdfb4db93d" testId="d22554e5-525e-5d9c-f2ee-f7ad962ac07f" testName="TestVisits" computerName="MERTSAKARYA" duration="00:01:19.7641499" startTime="2012-03-05T19:49:04.0254119+02:00" endTime="2012-03-05T19:50:23.7981840+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74870fb6-e842-4995-8740-36fdfb4db93d">
+      <Output>
+        <DebugTrace>Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: c819d445-e03e-4547-a13a-31a69b62177c | ProfileId: 1 | VisitorProfileId: 6
+Id: 3 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: 3f9d0df2-db2f-4987-8726-f8fa9ad792e4 | ProfileId: 3 | VisitorProfileId: 5
+Id: 4 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: a0c529aa-b0ae-4799-ac5b-bebd2903d6bb | ProfileId: 1 | VisitorProfileId: 5
+Id: 5 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: 7cd374ad-6408-4f24-bbe6-be7ce1d815e3 | ProfileId: 1 | VisitorProfileId: 5
+Id: 6 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: db264fb5-5a64-45aa-9b5a-79dc9a6d5805 | ProfileId: 2 | VisitorProfileId: 4
+Id: 7 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: 561323c6-c101-4953-aa39-782ba58a5829 | ProfileId: 3 | VisitorProfileId: 4
+Id: 8 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: d3d3c433-b0ab-47de-8560-a2042505eca6 | ProfileId: 1 | VisitorProfileId: 4
+Id: 9 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:49:04 | CreationsDate: 05.03.2012 17:49:04 | Guid: 90f5bd26-b3c2-4fd6-9613-02df35ecffa0 | ProfileId: 4 | VisitorProfileId: 5
+Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 8b2cf397-253b-4f50-8f19-3af5639f7a9a | FriendlyName: mertiko1 | UserId: 1 | State:  | Name:  | From: Turkey | City: Istanbul1 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0
+Photos: [
+	Id: 1 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: 58aba7f4-2891-43ac-af2c-ad67b407ff89 | ProfileId: 1 | Description: [
+Açıklama1
+]
+	Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:48:57 | CreationsDate: 05.03.2012 17:48:57 | Guid: df5962ee-210a-4934-abe3-00cdf9f0823e | ProfileId: 1 | Description: [
+Açıklama21
+]
+] | DickSize: Medium | DickThickness: Thick
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

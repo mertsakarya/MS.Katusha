@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="f3439343-18fe-41ac-aac7-19764aeac686" name="mert.sakarya@MERTSAKARYA 2012-03-05 19:17:15" runUser="SAHIBINDEN\mert.sakarya" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="68342950-b16e-4d12-b71a-95a7036c6fb6">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="mert.sakarya_MERTSAKARYA 2012-03-05 19_17_15">
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Repository\bin\Debug\MS.Katusha.Repository.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.Entity.dll" />
+      <DeploymentItem filename="C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Domain\bin\Debug\MS.Katusha.Domain.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-03-05T19:17:15.1996099+02:00" queuing="2012-03-05T19:17:17.1428042+02:00" start="2012-03-05T19:17:17.5038403+02:00" finish="2012-03-05T19:18:02.2597096+02:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="5" executed="5" passed="4" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <DebugTrace>Assembly Init
+</DebugTrace>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="MERTSAKARYA" outcome="Error" timestamp="2012-03-05T19:18:02.2587095+02:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ShouldBeAbleToFindAUser" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="877536f0-aab5-dc3d-50d4-130ded0dfe18">
+      <Execution id="2edff63d-c825-4f06-8bdb-9db05ec91f47" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.KatushaRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindAUser" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindBoy2" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="329007e2-3baa-f261-caae-3580f430a309">
+      <Execution id="72b83f30-f2ea-47a7-b0a1-709c9c01e444" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy2" />
+    </UnitTest>
+    <UnitTest name="TestUser" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="380bf227-8d3b-b14a-6cc0-ee5ebd14b386">
+      <Execution id="268fb8f8-46ac-4740-9580-7bafde1f45f4" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TestUser" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindBoy" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="c110fe79-5d51-7c14-01d1-711d00a6e64f">
+      <Execution id="c0bee51d-cb9c-402b-a533-96bb41e1a86e" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.BoyRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy" />
+    </UnitTest>
+    <UnitTest name="ShouldBeAbleToFindBoy" storage="c:\users\mert.sakarya\documents\visual studio 2010\projects\codefirst\ms.katusha.test\bin\debug\ms.katusha.test.dll" id="2c3b54dd-eda2-8575-6b29-4aef6babadf6">
+      <Execution id="a6ecbfd7-2d4d-415d-b68e-791044defcd1" />
+      <TestMethod codeBase="C:/Users/mert.sakarya/documents/visual studio 2010/Projects/CodeFirst/MS.Katusha.Test/bin/Debug/MS.Katusha.Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MS.Katusha.Test.KatushaRepositoryTest, MS.Katusha.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ShouldBeAbleToFindBoy" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="2c3b54dd-eda2-8575-6b29-4aef6babadf6" executionId="a6ecbfd7-2d4d-415d-b68e-791044defcd1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="877536f0-aab5-dc3d-50d4-130ded0dfe18" executionId="2edff63d-c825-4f06-8bdb-9db05ec91f47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="329007e2-3baa-f261-caae-3580f430a309" executionId="72b83f30-f2ea-47a7-b0a1-709c9c01e444" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c110fe79-5d51-7c14-01d1-711d00a6e64f" executionId="c0bee51d-cb9c-402b-a533-96bb41e1a86e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="380bf227-8d3b-b14a-6cc0-ee5ebd14b386" executionId="268fb8f8-46ac-4740-9580-7bafde1f45f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="a6ecbfd7-2d4d-415d-b68e-791044defcd1" testId="2c3b54dd-eda2-8575-6b29-4aef6babadf6" testName="ShouldBeAbleToFindBoy" computerName="MERTSAKARYA" duration="00:00:04.6956721" startTime="2012-03-05T19:17:17.7378637+02:00" endTime="2012-03-05T19:17:24.5615460+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6ecbfd7-2d4d-415d-b68e-791044defcd1">
+      <Output>
+        <DebugTrace>Saved 0 entities to the database.
+Found 1 boy and 2 photos, out of 3 boys and 3 girls.
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2edff63d-c825-4f06-8bdb-9db05ec91f47" testId="877536f0-aab5-dc3d-50d4-130ded0dfe18" testName="ShouldBeAbleToFindAUser" computerName="MERTSAKARYA" duration="00:00:00.1242300" startTime="2012-03-05T19:17:24.5715470+02:00" endTime="2012-03-05T19:17:24.7025601+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2edff63d-c825-4f06-8bdb-9db05ec91f47">
+      <Output>
+        <DebugTrace>Result 05.03.2013 17:17:24
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="72b83f30-f2ea-47a7-b0a1-709c9c01e444" testId="329007e2-3baa-f261-caae-3580f430a309" testName="ShouldBeAbleToFindBoy2" computerName="MERTSAKARYA" duration="00:00:00.1842067" startTime="2012-03-05T19:17:24.7105609+02:00" endTime="2012-03-05T19:17:24.8995798+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="72b83f30-f2ea-47a7-b0a1-709c9c01e444">
+      <Output>
+        <DebugTrace>Found User:
+ Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:17:23 | CreationsDate: 05.03.2012 17:17:23 | Guid: fe74f92b-f17c-4117-bbb3-15d22e029932 | Profile: Id: 2 | ts: System.Byte[] | ModifiedDate: 05.03.2012 17:17:23 | CreationsDate: 05.03.2012 17:17:23 | Guid: fe74f92b-f17c-4117-bbb3-15d22e029932 | FriendlyName: mertiko2 | UserId: 2 | State:  | Name:  | From: Turkey | City: Istanbul2 | BodyBuild:  | EyeColor:  | HairColor:  | Smokes:  | Alcohol:  | Religion:  | Height: 170 | BirthYear: 0 | DickSize: Medium | DickThickness: Thick | Gender: Male | UserName: mertsakarya2 | Email: mertsakarya@gmail.com | Phone:  | Password: 690514
+Found boy with 2 photos.
+Found boy with 2 photos.
+Found boy with 2 photos.
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c0bee51d-cb9c-402b-a533-96bb41e1a86e" testId="c110fe79-5d51-7c14-01d1-711d00a6e64f" testName="ShouldBeAbleToFindBoy" computerName="MERTSAKARYA" duration="00:00:00.0260734" startTime="2012-03-05T19:17:24.9125811+02:00" endTime="2012-03-05T19:17:24.9435842+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c0bee51d-cb9c-402b-a533-96bb41e1a86e">
+      <Output>
+        <DebugTrace>Found 3 boys and 3 boys
+</DebugTrace>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="268fb8f8-46ac-4740-9580-7bafde1f45f4" testId="380bf227-8d3b-b14a-6cc0-ee5ebd14b386" testName="TestUser" computerName="MERTSAKARYA" duration="00:00:37.3061244" startTime="2012-03-05T19:17:24.9535852+02:00" endTime="2012-03-05T19:18:02.2597096+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="268fb8f8-46ac-4740-9580-7bafde1f45f4">
+    </UnitTestResult>
+  </Results>
+</TestRun>
