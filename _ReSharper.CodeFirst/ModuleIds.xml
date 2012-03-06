@@ -1,7 +1,0 @@
-<Modules>
-  <Module PersistentId="4EFB98C2-AF05-4B00-8D1A-CDD03C4C1E3B" ModuleId="CodeFirst" />
-  <Module PersistentId="36AA6969-6329-4BB1-BEA6-8AFCC1CA4152" ModuleId="MS.Katusha.Domain" />
-  <Module PersistentId="3683ECE1-FE57-42C5-8477-156669EDFA1E" ModuleId="MS.Katusha.Test" />
-  <Module PersistentId="DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E" ModuleId="MS.Katusha.Web" />
-  <Module PersistentId="78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3" ModuleId="MS.Katusha.Repository" />
-</Modules>
