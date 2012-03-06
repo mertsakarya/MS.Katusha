@@ -18,6 +18,5 @@ namespace MS.Katusha.Domain
         DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
 
-        int Commit();
     }
 }
