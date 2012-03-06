@@ -42,3 +42,47 @@ C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Web\bin\AutoMapper.dll
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Web\bin\Autofac.xml
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Web\bin\AutoMapper.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\MS.Katusha.Web.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\MS.Katusha.Web.pdb
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\Autofac.Configuration.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\Autofac.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\Autofac.Integration.Mvc.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\AutoMapper.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\EntityFramework.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\Microsoft.Web.Infrastructure.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\MS.Katusha.Domain.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Json.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.Formatting.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.WebRequest.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Helpers.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.Common.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.WebHost.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Mvc.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Optimization.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Providers.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Razor.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.Deployment.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.Razor.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\MS.Katusha.Domain.pdb
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\Autofac.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\AutoMapper.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\EntityFramework.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Json.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.Formatting.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Net.Http.WebRequest.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Helpers.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.Common.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Http.WebHost.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Mvc.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.Razor.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.Deployment.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\bin\System.Web.WebPages.Razor.xml
+P:\GIT\MS.Katusha\MS.Katusha.Web\obj\Debug\ResolveAssemblyReference.cache
+P:\GIT\MS.Katusha\MS.Katusha.Web\obj\Debug\MS.Katusha.Web.dll
+P:\GIT\MS.Katusha\MS.Katusha.Web\obj\Debug\MS.Katusha.Web.pdb

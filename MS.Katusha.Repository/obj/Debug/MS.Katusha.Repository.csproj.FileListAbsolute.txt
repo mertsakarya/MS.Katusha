@@ -7,3 +7,12 @@ C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Repository\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Repository\obj\Debug\MS.Katusha.Repository.dll
 C:\Users\mert.sakarya\documents\visual studio 2010\Projects\CodeFirst\MS.Katusha.Repository\obj\Debug\MS.Katusha.Repository.pdb
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\MS.Katusha.Repository.dll
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\MS.Katusha.Repository.pdb
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\EntityFramework.dll
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\MS.Katusha.Domain.dll
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\MS.Katusha.Domain.pdb
+P:\GIT\MS.Katusha\MS.Katusha.Repository\bin\Debug\EntityFramework.xml
+P:\GIT\MS.Katusha\MS.Katusha.Repository\obj\Debug\ResolveAssemblyReference.cache
+P:\GIT\MS.Katusha\MS.Katusha.Repository\obj\Debug\MS.Katusha.Repository.dll
+P:\GIT\MS.Katusha\MS.Katusha.Repository\obj\Debug\MS.Katusha.Repository.pdb
