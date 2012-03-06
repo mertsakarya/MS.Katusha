@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Linq;
 using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Domain
@@ -16,5 +17,7 @@ namespace MS.Katusha.Domain
         DbSet<Photo> Photos { get; set; }
         DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
+
+        int Commit();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
+using System.Linq;
 
 namespace MS.Katusha.Domain
 {
@@ -17,6 +18,10 @@ namespace MS.Katusha.Domain
         public DbSet<Photo> Photos { get; set; }
         public DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         public DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
+        public int Commit()
+        {
+            return SaveChanges();
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

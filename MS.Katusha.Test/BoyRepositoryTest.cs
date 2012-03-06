@@ -7,8 +7,9 @@ using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
-using MS.Katusha.Repository;
-using MS.Katusha.Repository.Repositories;
+using MS.Katusha.IRepositories.Interfaces;
+using MS.Katusha.RepositoryRavenDB;
+using MS.Katusha.RepositoryRavenDB.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MS.Katusha.Test
@@ -18,16 +19,16 @@ namespace MS.Katusha.Test
     {
         private KatushaContext _context;
 
-        private BoyRepository _repositoryBoy;
-        private GirlRepository _repositoryGirl;
-        private ConversationRepository _repositoryConverstaion;
-        private CountriesToVisitRepository _repositoryCountriesToVisit;
-        private LanguagesSpokenRepository _repositoryLanguagesSpoken;
-        private PhotoRepository _repositoryPhoto;
-        private SearchingForRepository _repositorySearchingFor;
-        private StateRepository _repositoryState;
-        private UserRepository _repositoryUser;
-        private VisitRepository _repositoryVisit;
+        private IBoyRepository _repositoryBoy;
+        private IGirlRepository _repositoryGirl;
+        private IConversationRepository _repositoryConverstaion;
+        private ICountriesToVisitRepository _repositoryCountriesToVisit;
+        private ILanguagesSpokenRepository _repositoryLanguagesSpoken;
+        private IPhotoRepository _repositoryPhoto;
+        private ISearchingForRepository _repositorySearchingFor;
+        private IStateRepository _repositoryState;
+        private IUserRepository _repositoryUser;
+        private IVisitRepository _repositoryVisit;
 
         [TestInitialize]
         public void TestInitialize()

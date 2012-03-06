@@ -15,7 +15,7 @@ namespace MS.Katusha.Test
     [TestClass]
     public class KatushaRepositoryTest
     {
-        private KatushaContext context;
+        private KatushaContext _context;
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -33,7 +33,7 @@ namespace MS.Katusha.Test
         [TestCleanup()]
         public void Cleanup()
         {
-            context.Dispose();
+            _context.Dispose();
         }
 
         [ClassCleanup()]
@@ -51,7 +51,7 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            context = new KatushaContext();
+            _context = new KatushaContext();
         }
 
 
@@ -67,13 +67,13 @@ namespace MS.Katusha.Test
         public void ShouldBeAbleToFindBoy()
         {
 
-            var boy = context.Boys.Find(1);
-            var photos = (from photo in context.Photos where photo.ProfileId == boy.Id select photo);
+            var boy = _context.Boys.Find(1);
+            var photos = (from photo in _context.Photos where photo.ProfileId == boy.Id select photo);
             foreach (var photo in photos)
                 boy.Photos.Add(photo);
 
-            var boys = (context.Boys.Where(b => b.LanguagesSpoken.Count > 0));
-            var girls = (from b in context.Girls select b);
+            var boys = (_context.Boys.Where(b => b.LanguagesSpoken.Count > 0));
+            var girls = (from b in _context.Girls select b);
             Debug.WriteLine(String.Format("Found {0} boy and {1} photos, out of {2} boys and {3} girls.", boy.Id,
                                           boy.Photos.Count, boys.Count(), girls.Count()));
         }
@@ -82,7 +82,7 @@ namespace MS.Katusha.Test
         public void ShouldBeAbleToFindAUser()
         {
             IKatushaRepository repository = new KatushaRepository();
-            var user = (from u in context.Users where u.UserName == "mertsakarya4" select u).SingleOrDefault();
+            var user = (from u in _context.Users where u.UserName == "mertsakarya4" select u).SingleOrDefault();
             var profile = repository.GetProfile(user);
             var girl = profile as Girl;
             if (girl != null) 

@@ -74,9 +74,13 @@
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repository.csproj">
+    <ProjectReference Include="..\MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj">
+      <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
+      <Name>MS.Katusha.IRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.RepositoryDB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
-      <Name>MS.Katusha.Repository</Name>
+      <Name>MS.Katusha.RepositoryDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

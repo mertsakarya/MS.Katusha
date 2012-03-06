@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Domain", "MS.Katusha.Domain\MS.Katusha.Domain.csproj", "{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Test", "MS.Katusha.Test\MS.Katusha.Test.csproj", "{3683ECE1-FE57-42C5-8477-156669EDFA1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DE893ED-7B2F-4841-8545-282767BCA949}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		MS.Katusha.vsmdi = MS.Katusha.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Web", "MS.Katusha.Web\MS.Katusha.Web.csproj", "{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.RepositoryDB", "MS.Katusha.Repository\MS.Katusha.RepositoryDB.csproj", "{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.IRepositories", "MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj", "{EDD4F455-4699-45BE-988E-9E9D138CB419}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.RepositoryRavenDB", "MS.Katusha.RepositoryRavenDB\MS.Katusha.RepositoryRavenDB.csproj", "{143869F1-31AA-4F5F-9C0C-42E1660186D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Context", "MS.Katusha.Context\MS.Katusha.Context.csproj", "{B63EBE28-2E0E-44EB-9017-130C9768CB0E}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MS.Katusha.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3683ECE1-FE57-42C5-8477-156669EDFA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3683ECE1-FE57-42C5-8477-156669EDFA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3683ECE1-FE57-42C5-8477-156669EDFA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3683ECE1-FE57-42C5-8477-156669EDFA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD4F455-4699-45BE-988E-9E9D138CB419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD4F455-4699-45BE-988E-9E9D138CB419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD4F455-4699-45BE-988E-9E9D138CB419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD4F455-4699-45BE-988E-9E9D138CB419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{143869F1-31AA-4F5F-9C0C-42E1660186D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143869F1-31AA-4F5F-9C0C-42E1660186D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143869F1-31AA-4F5F-9C0C-42E1660186D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143869F1-31AA-4F5F-9C0C-42E1660186D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B63EBE28-2E0E-44EB-9017-130C9768CB0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B63EBE28-2E0E-44EB-9017-130C9768CB0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B63EBE28-2E0E-44EB-9017-130C9768CB0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B63EBE28-2E0E-44EB-9017-130C9768CB0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
