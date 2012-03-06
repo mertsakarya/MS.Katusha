@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class VisitRepository : BaseGuidRepository<Visit>, IVisitRepository
     {
-        public VisitRepository(KatushaContext context) : base(context) { }
+        public VisitRepository(string ravenDbConnectionString) : base(ravenDbConnectionString) { }
     }
 }

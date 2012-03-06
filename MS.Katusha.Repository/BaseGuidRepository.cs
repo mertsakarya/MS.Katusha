@@ -9,17 +9,17 @@ namespace MS.Katusha.RepositoryRavenDB
 {
     public abstract class BaseGuidRepository<T> : BaseRepository<T>, IGuidRepository<T> where T : BaseGuidModel
     {
-        protected BaseGuidRepository(DbContext context) : base(context) { }
+        protected BaseGuidRepository(DbContext dbContext) : base(dbContext) { }
 
 
         public new T Add(T entity)
         {
-            return RepositoryHelper.AddWithGuid(Context, entity);
+            return RepositoryHelper.AddWithGuid(DbContext, entity);
         }
 
         public T Add(T entity, Guid guid)
         {
-            return RepositoryHelper.AddWithGuid(Context, entity, guid);
+            return RepositoryHelper.AddWithGuid(DbContext, entity, guid);
         }
         
         public T GetByGuid(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams)

@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class SearchingForRepository : BaseRepository<SearchingFor>, ISearchingForRepository
     {
-        public SearchingForRepository(KatushaContext context) : base(context) { }
+        public SearchingForRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

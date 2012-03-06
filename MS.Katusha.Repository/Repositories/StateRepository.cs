@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class StateRepository : BaseRepository<State>, IStateRepository
     {
-        public StateRepository(KatushaContext context) : base(context) { }
+        public StateRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

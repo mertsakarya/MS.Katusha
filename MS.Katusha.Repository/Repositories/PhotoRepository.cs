@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class PhotoRepository : BaseGuidRepository<Photo>, IPhotoRepository
     {
-        public PhotoRepository(KatushaContext context) : base(context) { }
+        public PhotoRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

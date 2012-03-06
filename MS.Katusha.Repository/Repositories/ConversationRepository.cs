@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class ConversationRepository : BaseGuidRepository<Conversation>, IConversationRepository
     {
-        public ConversationRepository(KatushaContext context) : base(context) { }
+        public ConversationRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

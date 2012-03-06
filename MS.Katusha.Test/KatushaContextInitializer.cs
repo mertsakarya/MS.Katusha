@@ -9,18 +9,18 @@ using MS.Katusha.RepositoryRavenDB.Repositories;
 
 namespace MS.Katusha.Test
 {
-    public class KatushaContextInitializer : DropCreateDatabaseIfModelChanges<KatushaContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
+    public class KatushaContextInitializer : DropCreateDatabaseIfModelChanges<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
     {
-        private KatushaContext _context;
-        protected override void Seed(KatushaContext context)
+        private KatushaDbContext _dbContext;
+        protected override void Seed(KatushaDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
             CreateSampleData();
         }
 
         private void CreateSampleUser(int id, Sex gender)
         {
-            var userRepository = new UserRepository(_context);
+            var userRepository = new UserRepository(_dbContext);
             var user = new User { Email = "mertsakarya@gmail.com", UserName = "mertsakarya" + id.ToString(CultureInfo.InvariantCulture), Password = "690514" };
             user = userRepository.Add(user);
 
@@ -36,11 +36,11 @@ namespace MS.Katusha.Test
         private Profile CreateSampleGirl(int id, Guid guid)
         {
             var now = DateTime.Now.ToUniversalTime();
-            var girlRepository = new GirlRepository(_context);
-            var stateRepository = new StateRepository(_context);
-            var countriesToVisitRepository = new CountriesToVisitRepository(_context);
-            var languagesSpokenRepository = new LanguagesSpokenRepository(_context);
-            var photoRepository = new PhotoRepository(_context);
+            var girlRepository = new GirlRepository(_dbContext);
+            var stateRepository = new StateRepository(_dbContext);
+            var countriesToVisitRepository = new CountriesToVisitRepository(_dbContext);
+            var languagesSpokenRepository = new LanguagesSpokenRepository(_dbContext);
+            var photoRepository = new PhotoRepository(_dbContext);
 
             var girl = new Girl
             {
@@ -64,7 +64,7 @@ namespace MS.Katusha.Test
             girl.Photos.Add(photo2);
 
             girl = girlRepository.Add(girl, guid);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
 
             var state = new State
             {
@@ -78,7 +78,7 @@ namespace MS.Katusha.Test
                 ProfileId = girl.Id
             };
             stateRepository.Add(state);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
 
             return girl;
         }
@@ -86,12 +86,12 @@ namespace MS.Katusha.Test
         private Profile CreateSampleBoy(int id, Guid guid)
         {
             var now = DateTime.Now.ToUniversalTime();
-            var boyRepository = new BoyRepository(_context);
-            var stateRepository = new StateRepository(_context);
-            var countriesToVisitRepository = new CountriesToVisitRepository(_context);
-            var languagesSpokenRepository = new LanguagesSpokenRepository(_context);
-            var photoRepository = new PhotoRepository(_context);
-            var searchingForRepository = new SearchingForRepository(_context);
+            var boyRepository = new BoyRepository(_dbContext);
+            var stateRepository = new StateRepository(_dbContext);
+            var countriesToVisitRepository = new CountriesToVisitRepository(_dbContext);
+            var languagesSpokenRepository = new LanguagesSpokenRepository(_dbContext);
+            var photoRepository = new PhotoRepository(_dbContext);
+            var searchingForRepository = new SearchingForRepository(_dbContext);
 
             var boy = new Boy
             {
@@ -119,7 +119,7 @@ namespace MS.Katusha.Test
             boy.Photos.Add(photo2);
 
             boy = boyRepository.Add(boy, guid);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             
             var state = new State
             {
@@ -134,7 +134,7 @@ namespace MS.Katusha.Test
             };
 
             stateRepository.Add(state);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return boy;
         }
 

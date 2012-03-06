@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class UserRepository : BaseGuidRepository<User>, IUserRepository
     {
-        public UserRepository(KatushaContext context) : base(context) { }
+        public UserRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

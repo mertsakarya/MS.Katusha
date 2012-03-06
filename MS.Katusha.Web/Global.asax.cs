@@ -54,7 +54,7 @@ namespace MS.Katusha.Web
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<KatushaService>().As<IKatushaService>().InstancePerHttpRequest();
+            //builder.RegisterType<KatushaService>().As<IKatushaService>().InstancePerHttpRequest();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

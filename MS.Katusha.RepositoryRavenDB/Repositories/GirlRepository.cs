@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class GirlRepository : BaseFriendlyNameRepository<Girl>, IGirlRepository
     {
-        public GirlRepository(KatushaContext context) : base(context) { }
+        public GirlRepository(string ravenDbConnectionString) : base(ravenDbConnectionString) { }
     }
 }

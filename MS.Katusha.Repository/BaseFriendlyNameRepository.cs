@@ -9,7 +9,7 @@ namespace MS.Katusha.RepositoryRavenDB
 {
     public abstract class BaseFriendlyNameRepository<T> : BaseGuidRepository<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
-        protected BaseFriendlyNameRepository(DbContext context) : base(context) { }
+        protected BaseFriendlyNameRepository(DbContext dbContext) : base(dbContext) { }
         
         public T GetByFriendlyName(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams)
         {

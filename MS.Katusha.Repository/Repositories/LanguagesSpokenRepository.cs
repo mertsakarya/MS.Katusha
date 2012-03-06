@@ -6,6 +6,6 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class LanguagesSpokenRepository : BaseRepository<LanguagesSpoken>, ILanguagesSpokenRepository
     {
-        public LanguagesSpokenRepository(KatushaContext context) : base(context) { }
+        public LanguagesSpokenRepository(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

@@ -10,16 +10,16 @@ namespace MS.Katusha.RepositoryRavenDB
 {
     public abstract class BaseRepository<T> : IRepository<T> where T : BaseModel
     {
-        protected readonly DbContext Context;
+        protected readonly DbContext DbContext;
 
         protected IQueryable<T> QueryableRepository
         {
-            get { return Context.Set<T>().AsQueryable().AsNoTracking(); }
+            get { return DbContext.Set<T>().AsQueryable().AsNoTracking(); }
         }
 
-        protected BaseRepository(DbContext context)
+        protected BaseRepository(DbContext dbContext)
         {
-            Context = context;
+            DbContext = dbContext;
         }
 
         public T GetById(long id, params Expression<Func<T, object>>[] includeExpressionParams)
@@ -34,19 +34,20 @@ namespace MS.Katusha.RepositoryRavenDB
 
         public T Add(T entity)
         {
-            return RepositoryHelper.Add(Context, entity);
+            return RepositoryHelper.Add(DbContext, entity);
         }
 
         public T FullUpdate(T entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
-            return RepositoryHelper.Update(Context, entity);
+            DbContext.Entry(entity).State = EntityState.Modified;
+            return RepositoryHelper.Update(DbContext, entity);
         }
 
         public T Delete(T entity)
         {
-            return RepositoryHelper.Delete(Context, entity);
+            return RepositoryHelper.Delete(DbContext, entity);
         }
+
     }
 }
 

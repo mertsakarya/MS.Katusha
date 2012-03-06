@@ -68,11 +68,8 @@
     <Compile Include="Entities\State.cs" />
     <Compile Include="Entities\Visit.cs" />
     <Compile Include="Enums\Enums.cs" />
-    <Compile Include="IKatushaContext.cs" />
-    <Compile Include="KatushaContext.cs" />
-    <Compile Include="KatushaRepository.cs" />
-    <Compile Include="KatushaService.cs" />
-    <Compile Include="Models.cs" />
+    <Compile Include="IKatushaDbContext.cs" />
+    <Compile Include="KatushaDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +78,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CreateDatabase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MS.Katusha.Context\MS.Katusha.Context.csproj">
+      <Project>{B63EBE28-2E0E-44EB-9017-130C9768CB0E}</Project>
+      <Name>MS.Katusha.Context</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

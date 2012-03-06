@@ -17,7 +17,7 @@ namespace MS.Katusha.Test
     [TestClass]
     public class BoyRepositoryTest
     {
-        private KatushaContext _context;
+        private KatushaDbContext _dbContext;
 
         private IBoyRepository _repositoryBoy;
         private IGirlRepository _repositoryGirl;
@@ -33,18 +33,18 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            _context = new KatushaContext();
+            _dbContext = new KatushaDbContext();
 
-            _repositoryBoy = new BoyRepository(_context);
-            _repositoryGirl = new GirlRepository(_context);
-            _repositoryConverstaion = new ConversationRepository(_context);
-            _repositoryCountriesToVisit = new CountriesToVisitRepository(_context);
-            _repositoryLanguagesSpoken = new LanguagesSpokenRepository(_context);
-            _repositoryPhoto = new PhotoRepository(_context);
-            _repositorySearchingFor = new SearchingForRepository(_context);
-            _repositoryState = new StateRepository(_context);
-            _repositoryUser = new UserRepository(_context);
-            _repositoryVisit = new VisitRepository(_context);
+            _repositoryBoy = new BoyRepository(_dbContext);
+            _repositoryGirl = new GirlRepository(_dbContext);
+            _repositoryConverstaion = new ConversationRepository(_dbContext);
+            _repositoryCountriesToVisit = new CountriesToVisitRepository(_dbContext);
+            _repositoryLanguagesSpoken = new LanguagesSpokenRepository(_dbContext);
+            _repositoryPhoto = new PhotoRepository(_dbContext);
+            _repositorySearchingFor = new SearchingForRepository(_dbContext);
+            _repositoryState = new StateRepository(_dbContext);
+            _repositoryUser = new UserRepository(_dbContext);
+            _repositoryVisit = new VisitRepository(_dbContext);
         }
 
         [ClassInitialize()]
@@ -88,7 +88,7 @@ namespace MS.Katusha.Test
 
 
             photo = _repositoryPhoto.Add(photo);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             Debug.WriteLine(photo);
         }
 
@@ -99,17 +99,17 @@ namespace MS.Katusha.Test
             var ph = (from photo in user.Profile.Photos where photo.Id == 8 select photo).SingleOrDefault();
             ph.Description = "Deneme";
             _repositoryPhoto.FullUpdate(ph);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             Debug.WriteLine(ph);
         }
 
         [TestMethod]
         public void UpdatePhoto2()
         {
-            var ph = (from photo in _context.Photos where photo.Id == 8 select photo).SingleOrDefault();
+            var ph = (from photo in _dbContext.Photos where photo.Id == 8 select photo).SingleOrDefault();
             ph.Description = "Deneme2";
             _repositoryPhoto.FullUpdate(ph);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             Debug.WriteLine(ph);
         }
 
@@ -153,7 +153,7 @@ namespace MS.Katusha.Test
             Visit visit12 = CreateVisit(girl1, boy3);
             Visit visit13 = CreateVisit(girl2, boy3);
             Visit visit14 = CreateVisit(girl2, boy1);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
 
             Debug.WriteLine(visit1);
             Debug.WriteLine(visit3);
@@ -172,21 +172,21 @@ namespace MS.Katusha.Test
         private void DeleteVisit(Visit visit)
         {
             _repositoryVisit.Delete(visit);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         private Conversation CreateConversation(Profile from, Profile to, string subject, string message)
         {
             var conversation = new Conversation {FromId = from.Id, ToId = to.Id, Subject = subject, Message = message};
             conversation =  _repositoryConverstaion.Add(conversation);
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return conversation;
         }
 
         private Visit CreateVisit(Profile profile, Profile visitorProfile)
         {
             Visit visit = _repositoryVisit.Add(new Visit {ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id});
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return visit;
         }
 

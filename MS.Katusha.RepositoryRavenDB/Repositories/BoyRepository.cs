@@ -7,7 +7,7 @@ namespace MS.Katusha.RepositoryRavenDB.Repositories
 {
     public class BoyRepository : BaseFriendlyNameRepository<Boy>, IBoyRepository
     {
-        public BoyRepository(KatushaContext context) : base(context) { }
+        public BoyRepository(string ravenDbConnectionString) : base(ravenDbConnectionString) { }
     }
 
 }
