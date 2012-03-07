@@ -5,7 +5,7 @@ using MS.Katusha.Domain;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
-using MS.Katusha.RepositoryRavenDB.Repositories;
+using MS.Katusha.RepositoryDB.Repositories;
 
 namespace MS.Katusha.Test
 {
@@ -21,7 +21,13 @@ namespace MS.Katusha.Test
         private void CreateSampleUser(int id, Sex gender)
         {
             var userRepository = new UserRepository(_dbContext);
-            var user = new User { Email = "mertsakarya@gmail.com", UserName = "mertsakarya" + id.ToString(CultureInfo.InvariantCulture), Password = "690514" };
+            var user = new User
+            {
+                Email = "mertsakarya@gmail.com",
+                UserName = "mertsakarya" + id.ToString(CultureInfo.InvariantCulture),
+                Password = "690514",
+                Expires = DateTime.Now.AddYears(1)
+          };
             user = userRepository.Add(user);
 
             Profile profile;
@@ -69,7 +75,6 @@ namespace MS.Katusha.Test
             var state = new State
             {
                 Existance = (byte)Existance.Active,
-                Expires = now.AddYears(1),
                 LastOnline = now.AddMinutes(-1),
                 Status = (byte)Status.Online,
                 MembershipType = (byte)MembershipType.Normal,
@@ -124,7 +129,6 @@ namespace MS.Katusha.Test
             var state = new State
             {
                 Existance = (byte)Existance.Active,
-                Expires = now.AddYears(1),
                 LastOnline = now.AddMinutes(-1),
                 Status = (byte)Status.Online,
                 MembershipType = (byte)MembershipType.Normal,

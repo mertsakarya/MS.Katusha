@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
-namespace MS.Katusha.RepositoryRavenDB
+namespace MS.Katusha.RepositoryDB
 {
     public static class RepositoryHelper
     {

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Domain.Enums;
+using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
 {
@@ -10,7 +11,8 @@ namespace MS.Katusha.Domain.Entities
         private Profile _profile;
 
         //public long ProfileId { get; set; }
-        public virtual Profile Profile
+        [JsonIgnore]
+        public Profile Profile
         {
             get { return _profile; }
             set { 
@@ -39,9 +41,11 @@ namespace MS.Katusha.Domain.Entities
         [MinLength(6), MaxLength(14)]
         public string Password { get; set; }
 
+        public DateTime Expires { get; set; }
+
         public override string ToString()
         {
-            return base.ToString() + String.Format(" | Profile: {0} | Gender: {1} | UserName: {2} | Email: {3} | Phone: {4} | Password: {5}", Profile, Enum.GetName(typeof(Sex) , Gender), UserName, Email, Phone, Password);
+            return base.ToString() + String.Format(" | Profile: {0} | Gender: {1} | UserName: {2} | Email: {3} | Phone: {4} | Password: {5} | Expires: {6}", Profile, Enum.GetName(typeof(Sex) , Gender), UserName, Email, Phone, Password, Expires);
         }
 
     }

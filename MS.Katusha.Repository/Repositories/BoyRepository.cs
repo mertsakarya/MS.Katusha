@@ -1,13 +1,12 @@
-﻿using MS.Katusha.Domain;
+﻿using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.IRepositories.Interfaces;
 
-
-namespace MS.Katusha.RepositoryRavenDB.Repositories
+namespace MS.Katusha.RepositoryDB.Repositories
 {
     public class BoyRepository : BaseFriendlyNameRepository<Boy>, IBoyRepository
     {
-        public BoyRepository(KatushaDbContext dbContext) : base(dbContext) { }
+        public BoyRepository(DbContext dbContext) : base(dbContext) { }
     }
 
 }

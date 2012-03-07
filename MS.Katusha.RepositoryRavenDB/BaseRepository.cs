@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
@@ -27,7 +28,7 @@ namespace MS.Katusha.RepositoryRavenDB
 
         protected BaseRepository(string ravenDbConnectionString)
         {
-            _documentStore = new DocumentStore {ConnectionStringName = ravenDbConnectionString};
+            _documentStore = new DocumentStore {Url = ravenDbConnectionString};
             _documentStore.Initialize();
         }
 
@@ -65,17 +66,14 @@ namespace MS.Katusha.RepositoryRavenDB
 
         public T FullUpdate(T entity)
         {
-            return entity;
+            return Add(entity);
         }
 
         public T Delete(T entity)
         {
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Delete(entity);
-                session.SaveChanges();
-                return entity;
-            }
+            var name = String.Format("{0}s/{1}", typeof (T).Name.ToLower(CultureInfo.CreateSpecificCulture("en-US")), entity.Id);
+            _documentStore.DatabaseCommands.Delete(name, null);
+            return entity;
         }
     }
 }

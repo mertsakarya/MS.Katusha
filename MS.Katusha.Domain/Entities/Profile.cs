@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Domain.Enums;
+using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
 {
@@ -21,15 +22,17 @@ namespace MS.Katusha.Domain.Entities
 
         //[Required]
         //public long UserId { get; set; }
-        public virtual User User { get; set; }
+        
+        public User User { get; set; }
 
         // public long StateId { get; set; }
+        [JsonIgnore]
         public State State { get; set; }
-
 
         public string Name { get; set; }
 
         public byte From { get; set; }
+
         public string City { get; set; }
         public byte BodyBuild { get; set; }
         public byte EyeColor { get; set; }
@@ -48,10 +51,14 @@ namespace MS.Katusha.Domain.Entities
         public HashSet<CountriesToVisit> CountriesToVisit { get; set; }
         public HashSet<LanguagesSpoken> LanguagesSpoken { get; set; }
 
+        [JsonIgnore]
         public HashSet<Conversation> SentMessages { get; set; }
+        [JsonIgnore]
         public HashSet<Conversation> RecievedMessages { get; set; }
 
+        [JsonIgnore]
         public HashSet<Visit> WhoVisited { get; set; }
+        [JsonIgnore]
         public HashSet<Visit> Visited { get; set; }
 
         public override string ToString()
@@ -59,7 +66,7 @@ namespace MS.Katusha.Domain.Entities
             var str = base.ToString() +
                       String.Format(
                           " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | Religion: {10} | Height: {11} | BirthYear: {12}",
-                          User.Id, State, Name,
+                          (User == null) ? 0 : User.Id, State, Name,
                           Enum.GetName(typeof (Country), From),
                           City,
                           Enum.GetName(typeof (BodyBuild), BodyBuild),

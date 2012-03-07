@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.IRepositories;
 
-namespace MS.Katusha.RepositoryRavenDB
+namespace MS.Katusha.RepositoryDB
 {
     public abstract class BaseGuidRepository<T> : BaseRepository<T>, IGuidRepository<T> where T : BaseGuidModel
     {

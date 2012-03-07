@@ -1,12 +1,14 @@
 using System;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
 {
     public class Photo : BaseGuidModel
     {
         public long ProfileId { get; set; }
-        public virtual Profile Profile { get; set; }
+        [JsonIgnore]
+        public Profile Profile { get; set; }
         public string Description { get; set; }
 
         public override string ToString()

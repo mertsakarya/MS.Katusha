@@ -8,8 +8,7 @@ using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
 using MS.Katusha.IRepositories.Interfaces;
-using MS.Katusha.RepositoryRavenDB;
-using MS.Katusha.RepositoryRavenDB.Repositories;
+using MS.Katusha.RepositoryDB.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MS.Katusha.Test
@@ -22,11 +21,7 @@ namespace MS.Katusha.Test
         private IBoyRepository _repositoryBoy;
         private IGirlRepository _repositoryGirl;
         private IConversationRepository _repositoryConverstaion;
-        private ICountriesToVisitRepository _repositoryCountriesToVisit;
-        private ILanguagesSpokenRepository _repositoryLanguagesSpoken;
         private IPhotoRepository _repositoryPhoto;
-        private ISearchingForRepository _repositorySearchingFor;
-        private IStateRepository _repositoryState;
         private IUserRepository _repositoryUser;
         private IVisitRepository _repositoryVisit;
 
@@ -38,11 +33,7 @@ namespace MS.Katusha.Test
             _repositoryBoy = new BoyRepository(_dbContext);
             _repositoryGirl = new GirlRepository(_dbContext);
             _repositoryConverstaion = new ConversationRepository(_dbContext);
-            _repositoryCountriesToVisit = new CountriesToVisitRepository(_dbContext);
-            _repositoryLanguagesSpoken = new LanguagesSpokenRepository(_dbContext);
             _repositoryPhoto = new PhotoRepository(_dbContext);
-            _repositorySearchingFor = new SearchingForRepository(_dbContext);
-            _repositoryState = new StateRepository(_dbContext);
             _repositoryUser = new UserRepository(_dbContext);
             _repositoryVisit = new VisitRepository(_dbContext);
         }
@@ -83,7 +74,7 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void CreateNewPhoto()
         {
-            var user = _repositoryUser.GetById(4);
+            var user = _repositoryUser.GetById(4, p=> p.Profile);
             var photo = new Photo() { Description = "Veli", ProfileId = user.Profile.Id };
 
 
