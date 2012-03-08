@@ -19,7 +19,8 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult Index()
         {
-            
+
+            Session["MERTIKO"] = "MERT";
             //var id = katushaService.GetUserIdByUserName("mertsakarya4");
             //var user = katushaService.GetUserById(id);
             //var profile = katushaService.GetProfileById(id);

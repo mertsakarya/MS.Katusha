@@ -18,23 +18,23 @@ namespace MS.Katusha.Test
     {
         private KatushaDbContext _dbContext;
 
-        private IBoyRepository _repositoryBoy;
-        private IGirlRepository _repositoryGirl;
-        private IConversationRepository _repositoryConverstaion;
-        private IPhotoRepository _repositoryPhoto;
-        private IUserRepository _repositoryUser;
-        private IVisitRepository _repositoryVisit;
+        private IBoyRepositoryDB _repositoryBoy;
+        private IGirlRepositoryDB _repositoryGirl;
+        private IConversationRepositoryDB _repositoryConverstaion;
+        private IPhotoRepositoryDB _repositoryPhoto;
+        private IUserRepositoryDB _repositoryUser;
+        private IVisitRepositoryDB _repositoryVisit;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _dbContext = new KatushaDbContext();
 
-            _repositoryBoy = new BoyRepository(_dbContext);
-            _repositoryGirl = new GirlRepository(_dbContext);
-            _repositoryConverstaion = new ConversationRepository(_dbContext);
-            _repositoryPhoto = new PhotoRepository(_dbContext);
-            _repositoryUser = new UserRepository(_dbContext);
+            _repositoryBoy = new BoyRepositoryDB(_dbContext);
+            _repositoryGirl = new GirlRepositoryDB(_dbContext);
+            _repositoryConverstaion = new ConversationRepositoryDB(_dbContext);
+            _repositoryPhoto = new PhotoRepositoryDB(_dbContext);
+            _repositoryUser = new UserRepositoryDB(_dbContext);
             _repositoryVisit = new VisitRepository(_dbContext);
         }
 
@@ -58,7 +58,7 @@ namespace MS.Katusha.Test
         {
             var boy = _repositoryBoy.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
-            var list = _repositoryBoy.Query(p => p.State.Status == (byte)Status.Online, p => p.Photos);
+            var list = _repositoryBoy.Query(p => p.State.Status == (byte)Status.Online, null, p => p.Photos);
             foreach (var b in list)
                 Debug.WriteLine(String.Format("Found boy with {0} photos.", b.Photos.Count));
         }
@@ -66,8 +66,8 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void ShouldBeAbleToFindBoy()
         {
-            var boys = (_repositoryBoy.Query(b => b.LanguagesSpoken.Count > 0, b => b.Photos));
-            var boys2 = _repositoryBoy.Query(b => true, b => b.Photos, b => b.User);
+            var boys = (_repositoryBoy.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
+            var boys2 = _repositoryBoy.Query(null, null, b => b.Photos, b => b.User);
             Debug.WriteLine(String.Format("Found {0} boys and {1} boys", boys.Count(), boys2.Count()));
         }
 

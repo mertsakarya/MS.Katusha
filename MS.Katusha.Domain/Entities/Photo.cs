@@ -6,6 +6,7 @@ namespace MS.Katusha.Domain.Entities
 {
     public class Photo : BaseGuidModel
     {
+        [JsonIgnore]
         public long ProfileId { get; set; }
         [JsonIgnore]
         public Profile Profile { get; set; }

@@ -26,7 +26,6 @@ namespace MS.Katusha.Domain.Entities
         public User User { get; set; }
 
         // public long StateId { get; set; }
-        [JsonIgnore]
         public State State { get; set; }
 
         public string Name { get; set; }

@@ -44,19 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseFriendlyNameRepository.cs" />
-    <Compile Include="BaseGuidRepository.cs" />
-    <Compile Include="BaseRepository.cs" />
-    <Compile Include="Repositories\BoyRepository.cs" />
+    <Compile Include="BaseFriendlyNameRepositoryDB.cs" />
+    <Compile Include="BaseGuidRepositoryDB.cs" />
+    <Compile Include="BaseRepositoryDB.cs" />
+    <Compile Include="Repositories\BoyRepositoryDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ConversationRepository.cs" />
+    <Compile Include="Repositories\ConversationRepositoryDB.cs" />
     <Compile Include="Repositories\CountriesToVisitRepository.cs" />
-    <Compile Include="Repositories\GirlRepository.cs" />
-    <Compile Include="Repositories\LanguagesSpokenRepository.cs" />
-    <Compile Include="Repositories\PhotoRepository.cs" />
-    <Compile Include="Repositories\SearchingForRepository.cs" />
-    <Compile Include="Repositories\StateRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\GirlRepositoryDB.cs" />
+    <Compile Include="Repositories\LanguagesSpokenRepositoryDB.cs" />
+    <Compile Include="Repositories\PhotoRepositoryDB.cs" />
+    <Compile Include="Repositories\SearchingForRepositoryDB.cs" />
+    <Compile Include="Repositories\StateRepositoryDB.cs" />
+    <Compile Include="Repositories\UserRepositoryDB.cs" />
     <Compile Include="Repositories\VisitRepository.cs" />
     <Compile Include="RepositoryHelper.cs" />
   </ItemGroup>

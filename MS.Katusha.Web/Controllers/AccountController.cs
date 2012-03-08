@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MS.Katusha.MembershipService;
 using MS.Katusha.Web.Models;
 
 namespace MS.Katusha.Web.Controllers
@@ -12,7 +13,12 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IKatushaMembershipService _service;
 
+        public AccountController(IKatushaMembershipService service)
+        {
+            _service = service;
+        }
         //
         // GET: /Account/Login
 
@@ -31,7 +37,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (_service.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return Json(new { success = true, redirect = returnUrl });
@@ -55,7 +61,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (_service.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
@@ -106,10 +112,10 @@ namespace MS.Katusha.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                KatushaMembershipCreateStatus createStatus;
+                _service.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
 
-                if (createStatus == MembershipCreateStatus.Success)
+                if (createStatus == KatushaMembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                     return Json(new { success = true });
@@ -134,10 +140,10 @@ namespace MS.Katusha.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                KatushaMembershipCreateStatus createStatus;
+                _service.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
 
-                if (createStatus == MembershipCreateStatus.Success)
+                if (createStatus == KatushaMembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                     return RedirectToAction("Index", "Home");
@@ -174,8 +180,8 @@ namespace MS.Katusha.Web.Controllers
                 bool changePasswordSucceeded;
                 try
                 {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
-                    changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                    //var currentUser = _service.GetUser(User.Identity.Name, userIsOnline: true);
+                    changePasswordSucceeded = _service.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
                 }
                 catch (Exception)
                 {
@@ -225,37 +231,37 @@ namespace MS.Katusha.Web.Controllers
         }
 
         #region Status Codes
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        private static string ErrorCodeToString(KatushaMembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
             switch (createStatus)
             {
-                case MembershipCreateStatus.DuplicateUserName:
+                case KatushaMembershipCreateStatus.DuplicateUserName:
                     return "User name already exists. Please enter a different user name.";
 
-                case MembershipCreateStatus.DuplicateEmail:
+                case KatushaMembershipCreateStatus.DuplicateEmail:
                     return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
 
-                case MembershipCreateStatus.InvalidPassword:
+                case KatushaMembershipCreateStatus.InvalidPassword:
                     return "The password provided is invalid. Please enter a valid password value.";
 
-                case MembershipCreateStatus.InvalidEmail:
+                case KatushaMembershipCreateStatus.InvalidEmail:
                     return "The e-mail address provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidAnswer:
+                case KatushaMembershipCreateStatus.InvalidAnswer:
                     return "The password retrieval answer provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidQuestion:
+                case KatushaMembershipCreateStatus.InvalidQuestion:
                     return "The password retrieval question provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidUserName:
+                case KatushaMembershipCreateStatus.InvalidUserName:
                     return "The user name provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.ProviderError:
+                case KatushaMembershipCreateStatus.ProviderError:
                     return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
-                case MembershipCreateStatus.UserRejected:
+                case KatushaMembershipCreateStatus.UserRejected:
                     return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 default:

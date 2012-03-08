@@ -2,14 +2,15 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.IRepositories;
 
 namespace MS.Katusha.RepositoryDB
 {
-    public abstract class BaseGuidRepository<T> : BaseRepository<T>, IGuidRepository<T> where T : BaseGuidModel
+    public abstract class BaseGuidRepositoryDB<T> : BaseRepositoryDB<T>, IGuidRepository<T> where T : BaseGuidModel
     {
-        protected BaseGuidRepository(DbContext dbContext) : base(dbContext) { }
+        protected BaseGuidRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
 
 
         public new T Add(T entity)
@@ -24,7 +25,7 @@ namespace MS.Katusha.RepositoryDB
         
         public T GetByGuid(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            return Query(p => p.Guid == guid, includeExpressionParams).FirstOrDefault();
+            return Single(p => p.Guid == guid, includeExpressionParams);
         }
     }
 }

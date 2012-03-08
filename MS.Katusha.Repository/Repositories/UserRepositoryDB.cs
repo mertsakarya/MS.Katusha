@@ -4,8 +4,8 @@ using MS.Katusha.IRepositories.Interfaces;
 
 namespace MS.Katusha.RepositoryDB.Repositories
 {
-    public class PhotoRepository : BaseGuidRepository<Photo>, IPhotoRepository
+    public class UserRepositoryDB : BaseGuidRepositoryDB<User>, IUserRepositoryDB
     {
-        public PhotoRepository(KatushaDbContext dbContext) : base(dbContext) { }
+        public UserRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }

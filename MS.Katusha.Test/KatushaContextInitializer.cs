@@ -9,7 +9,7 @@ using MS.Katusha.RepositoryDB.Repositories;
 
 namespace MS.Katusha.Test
 {
-    public class KatushaContextInitializer : DropCreateDatabaseIfModelChanges<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
+    public class KatushaContextInitializer : DropCreateDatabaseAlways<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
     {
         private KatushaDbContext _dbContext;
         protected override void Seed(KatushaDbContext dbContext)
@@ -20,7 +20,7 @@ namespace MS.Katusha.Test
 
         private void CreateSampleUser(int id, Sex gender)
         {
-            var userRepository = new UserRepository(_dbContext);
+            var userRepository = new UserRepositoryDB(_dbContext);
             var user = new User
             {
                 Email = "mertsakarya@gmail.com",
@@ -42,11 +42,11 @@ namespace MS.Katusha.Test
         private Profile CreateSampleGirl(int id, Guid guid)
         {
             var now = DateTime.Now.ToUniversalTime();
-            var girlRepository = new GirlRepository(_dbContext);
-            var stateRepository = new StateRepository(_dbContext);
-            var countriesToVisitRepository = new CountriesToVisitRepository(_dbContext);
-            var languagesSpokenRepository = new LanguagesSpokenRepository(_dbContext);
-            var photoRepository = new PhotoRepository(_dbContext);
+            var girlRepository = new GirlRepositoryDB(_dbContext);
+            var stateRepository = new StateRepositoryDB(_dbContext);
+            var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
+            var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
+            var photoRepository = new PhotoRepositoryDB(_dbContext);
 
             var girl = new Girl
             {
@@ -91,12 +91,12 @@ namespace MS.Katusha.Test
         private Profile CreateSampleBoy(int id, Guid guid)
         {
             var now = DateTime.Now.ToUniversalTime();
-            var boyRepository = new BoyRepository(_dbContext);
-            var stateRepository = new StateRepository(_dbContext);
-            var countriesToVisitRepository = new CountriesToVisitRepository(_dbContext);
-            var languagesSpokenRepository = new LanguagesSpokenRepository(_dbContext);
-            var photoRepository = new PhotoRepository(_dbContext);
-            var searchingForRepository = new SearchingForRepository(_dbContext);
+            var boyRepository = new BoyRepositoryDB(_dbContext);
+            var stateRepository = new StateRepositoryDB(_dbContext);
+            var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
+            var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
+            var photoRepository = new PhotoRepositoryDB(_dbContext);
+            var searchingForRepository = new SearchingForRepositoryDB(_dbContext);
 
             var boy = new Boy
             {

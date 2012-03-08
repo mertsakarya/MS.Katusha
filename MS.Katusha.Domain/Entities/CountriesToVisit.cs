@@ -7,6 +7,7 @@ namespace MS.Katusha.Domain.Entities
 {
     public class CountriesToVisit : BaseModel
     {
+        [JsonIgnore]
         public long ProfileId { get; set; }
         [JsonIgnore]
         public Profile Profile { get; set; }

@@ -7,9 +7,11 @@ using MS.Katusha.IRepositories;
 
 namespace MS.Katusha.RepositoryRavenDB
 {
-    public abstract class BaseGuidRepository<T> : BaseRepository<T>, IGuidRepository<T> where T : BaseGuidModel
+    public abstract class BaseGuidRepositoryRavenDB<T> : BaseRepositoryRavenDB<T>, IGuidRepository<T> where T : BaseGuidModel
     {
-        protected BaseGuidRepository(string ravenDbConnectionString) : base(ravenDbConnectionString) { }
+        public BaseGuidRepositoryRavenDB(string connectionStringName = "KatushaRavenDB") : base(connectionStringName)
+        {
+        }
 
         public T Add(T entity, Guid guid)
         {
@@ -19,7 +21,7 @@ namespace MS.Katusha.RepositoryRavenDB
         
         public T GetByGuid(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            return Query(p => p.Guid == guid, includeExpressionParams).FirstOrDefault();
+            return Single(p => p.Guid == guid, includeExpressionParams);
         }
     }
 }

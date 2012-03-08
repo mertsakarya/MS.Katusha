@@ -18,13 +18,12 @@ namespace MS.Katusha.Test
     [TestClass]
     public class RepositoryRavenDBTest
     {
-        private IBoyRepository _repositoryBoyRavenDB;
-        private IGirlRepository _repositoryGirl;
-        private IConversationRepository _repositoryConverstaion;
-        private IVisitRepository _repositoryVisit;
+        private IBoyRepositoryRavenDB _repositoryBoyRavenDB;
+        private IGirlRepositoryRavenDB _repositoryGirl;
 
-        private IBoyRepository _repositoryBoyDb;
-        private IUserRepository _repositoryUserDb;
+
+        private IBoyRepositoryDB _repositoryBoyDb;
+        private IUserRepositoryDB _repositoryUserDb;
         private KatushaDbContext _dbContext;
 
 
@@ -36,16 +35,15 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            string url = "http://mertsakarya:8080/";
+            //string url = "http://mertsakarya:8080/";
 
-            _repositoryBoyRavenDB = new MS.Katusha.RepositoryRavenDB.Repositories.BoyRepository(url);
-            _repositoryGirl = new MS.Katusha.RepositoryRavenDB.Repositories.GirlRepository(url);
-            _repositoryVisit = new MS.Katusha.RepositoryRavenDB.Repositories.VisitRepository(url);
-            _repositoryConverstaion = new MS.Katusha.RepositoryRavenDB.Repositories.ConversationRepository(url);
+            _repositoryBoyRavenDB = new MS.Katusha.RepositoryRavenDB.Repositories.BoyRepositoryRavenDB();
+            _repositoryGirl = new MS.Katusha.RepositoryRavenDB.Repositories.GirlRepositoryRavenDB();
+
 
             _dbContext = new KatushaDbContext();
-            _repositoryBoyDb = new MS.Katusha.RepositoryDB.Repositories.BoyRepository(_dbContext);
-            _repositoryUserDb = new MS.Katusha.RepositoryDB.Repositories.UserRepository(_dbContext);
+            _repositoryBoyDb = new MS.Katusha.RepositoryDB.Repositories.BoyRepositoryDB(_dbContext);
+            _repositoryUserDb = new MS.Katusha.RepositoryDB.Repositories.UserRepositoryDB(_dbContext);
         }
 
         [ClassInitialize()]
@@ -58,9 +56,8 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void TestBoy()
         {
-            var users = _repositoryUserDb.Query(null, p => p.Profile, p => p.Profile.Photos, p => p.Profile.Searches,
-                                                p => p.Profile.CountriesToVisit, p => p.Profile.LanguagesSpoken).ToArray
-                ();
+            var users = _repositoryUserDb.Query(null, null, p => p.Profile, p => p.Profile.Photos, p => p.Profile.Searches,
+                                                p => p.Profile.CountriesToVisit, p => p.Profile.LanguagesSpoken);
             foreach (var user in users)
                 if (user.Gender == (byte) Sex.Male)
                     _repositoryBoyRavenDB.Add(user.Profile as Boy);
@@ -73,7 +70,7 @@ namespace MS.Katusha.Test
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
             var boyRavenDB = _repositoryBoyRavenDB.GetById(2);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boyRavenDB));
-            var girls = _repositoryGirl.Query(g => g.BreastSize == (byte) BreastSize.Large).ToArray();
+            var girls = _repositoryGirl.Query(g => g.BreastSize == (byte) BreastSize.Large, null, p=>p.Name).ToArray();
             Guid guid = Guid.Empty;
             foreach (var girl in girls)
             {

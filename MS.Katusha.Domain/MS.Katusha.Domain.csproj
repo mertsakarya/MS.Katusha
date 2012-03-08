@@ -82,12 +82,6 @@
   <ItemGroup>
     <None Include="CreateDatabase.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Context\MS.Katusha.Context.csproj">
-      <Project>{B63EBE28-2E0E-44EB-9017-130C9768CB0E}</Project>
-      <Name>MS.Katusha.Context</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

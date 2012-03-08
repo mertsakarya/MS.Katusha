@@ -10,7 +10,6 @@ namespace MS.Katusha.Domain.Entities
     {
         private Profile _profile;
 
-        //public long ProfileId { get; set; }
         [JsonIgnore]
         public Profile Profile
         {
@@ -23,8 +22,7 @@ namespace MS.Katusha.Domain.Entities
                     Gender = (byte)Sex.Male;
             }
         }
-
-        [Required]
+        
         public byte Gender { get; private set; }
 
         [Required]

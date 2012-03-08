@@ -7,18 +7,21 @@ using MS.Katusha.IRepositories;
 
 namespace MS.Katusha.RepositoryRavenDB
 {
-    public abstract class BaseFriendlyNameRepository<T> : BaseGuidRepository<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
+    public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
-        protected BaseFriendlyNameRepository(string ravenDbConnectionString) : base(ravenDbConnectionString) { }
-        
+        public BaseFriendlyNameRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
+            : base(connectionStringName)
+        {
+        }
+
         public T GetByFriendlyName(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            return Query(p => p.FriendlyName == friendlyName, includeExpressionParams).FirstOrDefault();
+            return Single(p => p.FriendlyName == friendlyName);
         }
 
         public bool CheckIfFriendlyNameExsists(string friendlyName)
         {
-            return Query(p => p.FriendlyName == friendlyName).Any();
+            return Query(p => p.FriendlyName == friendlyName, null).Any();
         }
     }
 }

@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AsyncCtpLibrary">
+      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\AsyncCtpLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
     </Reference>
@@ -54,7 +57,29 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.AspNet.SessionState">
+      <HintPath>..\packages\Raven.AspNet.SessionState.1.4.1\lib\net40\Raven.AspNet.SessionState.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Debug">
+      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.MvcIntegration">
+      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
@@ -232,6 +257,18 @@
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj">
+      <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
+      <Name>MS.Katusha.IRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.MembershipService\MS.Katusha.MembershipService.csproj">
+      <Project>{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}</Project>
+      <Name>MS.Katusha.MembershipService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.RepositoryDB.csproj">
+      <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
+      <Name>MS.Katusha.RepositoryDB</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

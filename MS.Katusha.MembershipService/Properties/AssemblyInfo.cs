@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MS.Katusha.Context")]
+[assembly: AssemblyTitle("MS.Katusha.MembershipService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MS.Katusha.Context")]
+[assembly: AssemblyProduct("MS.Katusha.MembershipService")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("32a61b4b-0bdb-4521-9bd2-e34aad28453e")]
+[assembly: Guid("bcb10bd6-aa33-4d40-a664-0b23d1df3506")]
 
 // Version information for an assembly consists of the following four values:
 //

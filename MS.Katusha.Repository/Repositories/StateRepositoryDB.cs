@@ -4,8 +4,8 @@ using MS.Katusha.IRepositories.Interfaces;
 
 namespace MS.Katusha.RepositoryDB.Repositories
 {
-    public class GirlRepository : BaseFriendlyNameRepository<Girl>, IGirlRepository
+    public class StateRepositoryDB : BaseRepositoryDB<State>, IStateRepositoryDB
     {
-        public GirlRepository(KatushaDbContext dbContext) : base(dbContext) { }
+        public StateRepositoryDB(KatushaDbContext dbContext) : base(dbContext) { }
     }
 }

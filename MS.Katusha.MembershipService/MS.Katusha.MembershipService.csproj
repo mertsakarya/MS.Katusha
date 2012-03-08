@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B63EBE28-2E0E-44EB-9017-130C9768CB0E}</ProjectGuid>
+    <ProjectGuid>{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.Katusha.Context</RootNamespace>
-    <AssemblyName>MS.Katusha.Context</AssemblyName>
+    <RootNamespace>MS.Katusha.MembershipService</RootNamespace>
+    <AssemblyName>MS.Katusha.MembershipService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,8 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDataContext.cs" />
+    <Compile Include="IKatushaMembershipService.cs" />
+    <Compile Include="KatushaMembershipService.cs" />
+    <Compile Include="MembershipCreateStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+      <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
+      <Name>MS.Katusha.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj">
+      <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
+      <Name>MS.Katusha.IRepositories</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

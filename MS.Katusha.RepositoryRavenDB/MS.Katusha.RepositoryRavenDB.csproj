@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
@@ -66,14 +67,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseFriendlyNameRepository.cs" />
-    <Compile Include="BaseGuidRepository.cs" />
-    <Compile Include="BaseRepository.cs" />
+    <Compile Include="BaseFriendlyNameRepositoryRavenDB.cs" />
+    <Compile Include="BaseGuidRepositoryRavenDB.cs" />
+    <Compile Include="BaseRepositoryRavenDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\BoyRepository.cs" />
-    <Compile Include="Repositories\ConversationRepository.cs" />
-    <Compile Include="Repositories\GirlRepository.cs" />
-    <Compile Include="Repositories\VisitRepository.cs" />
+    <Compile Include="Repositories\BoyRepositoryRavenDB.cs" />
+    <Compile Include="Repositories\ConversationRepositoryRavenDB.cs" />
+    <Compile Include="Repositories\GirlRepositoryRavenDB.cs" />
+    <Compile Include="Repositories\VisitRepositoryRavenDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
