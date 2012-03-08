@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.MembershipService;
 using MS.Katusha.Web.Models;
 

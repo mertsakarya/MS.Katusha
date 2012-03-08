@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.IRepositories.Interfaces;
 
@@ -31,15 +29,16 @@ namespace MS.Katusha.MembershipService
                 status = KatushaMembershipCreateStatus.DuplicateUserName;
                 return null;
             }
-            existingUser = _repository.Single(p => p.Email == email);
-            if (existingUser != null)
-            {
-                status = KatushaMembershipCreateStatus.DuplicateEmail;
-                return null;
-            }
+            //existingUser = _repository.Single(p => p.Email == email);
+            //if (existingUser != null)
+            //{
+            //    status = KatushaMembershipCreateStatus.DuplicateEmail;
+            //    return null;
+            //}
             var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100).ToUniversalTime()};
             _repository.Add(user);
             _repository.Save();
+            Mailer.Mailer.SendMail(email, "Welcome! You need one more step to open a new world!", "MailConfirm.cshtml", user);
             status = KatushaMembershipCreateStatus.Success;
             return user;
         }
@@ -59,6 +58,15 @@ namespace MS.Katusha.MembershipService
             _repository.FullUpdate(user);
             _repository.Save();
             return true;
+        }
+
+        public User ConfirmEMailAddresByGuid(Guid guid)
+        {
+            var user = _repository.GetByGuid(guid);
+            user.EmailValidated = true;
+            _repository.FullUpdate(user);
+            _repository.Save();
+            return user;
         }
     }
 }

@@ -33,6 +33,8 @@ namespace MS.Katusha.Domain.Entities
         [MinLength(7), MaxLength(64)]
         public string Email { get; set; }
 
+        public bool EmailValidated { get; set; }
+
         public string Phone { get; set; }
 
         [Required]
@@ -43,7 +45,7 @@ namespace MS.Katusha.Domain.Entities
 
         public override string ToString()
         {
-            return base.ToString() + String.Format(" | Profile: {0} | Gender: {1} | UserName: {2} | Email: {3} | Phone: {4} | Password: {5} | Expires: {6}", Profile, Enum.GetName(typeof(Sex) , Gender), UserName, Email, Phone, Password, Expires);
+            return base.ToString() + String.Format(" | Profile: {0} | Gender: {1} | UserName: {2} | Email: {3} | EmailValidated: {7} | Phone: {4} | Password: {5} | Expires: {6}", Profile, Enum.GetName(typeof(Sex), Gender), UserName, Email, Phone, Password, Expires, EmailValidated);
         }
 
     }

@@ -159,12 +159,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GirlsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Models.cs" />
+    <Compile Include="Models\BaseModels\BaseFriendlyModel.cs" />
+    <Compile Include="Models\BaseModels\BaseGuidModel.cs" />
+    <Compile Include="Models\BaseModels\BaseModel.cs" />
+    <Compile Include="Models\Boy.cs" />
+    <Compile Include="Models\Girl.cs" />
+    <Compile Include="Models\MS\Katusha\WebContext.cs" />
+    <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\ProfileModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Girls\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -262,6 +271,10 @@
       <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
       <Name>MS.Katusha.IRepositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
+      <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
+      <Name>MS.Katusha.Mailer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.MembershipService\MS.Katusha.MembershipService.csproj">
       <Project>{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}</Project>
       <Name>MS.Katusha.MembershipService</Name>
@@ -270,6 +283,12 @@
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.RepositoryDB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\MailConfirm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\MailConfirm.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -288,7 +307,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>10595</DevelopmentServerPort>
+          <DevelopmentServerPort>15468</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

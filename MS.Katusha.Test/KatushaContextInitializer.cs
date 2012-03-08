@@ -23,9 +23,10 @@ namespace MS.Katusha.Test
             var userRepository = new UserRepositoryDB(_dbContext);
             var user = new User
             {
-                Email = "mertsakarya@gmail.com",
+                Email = "mertsakarya@bigmail.com",
                 UserName = "mertsakarya" + id.ToString(CultureInfo.InvariantCulture),
                 Password = "690514",
+                EmailValidated = true,
                 Expires = DateTime.Now.AddYears(1)
           };
             user = userRepository.Add(user);

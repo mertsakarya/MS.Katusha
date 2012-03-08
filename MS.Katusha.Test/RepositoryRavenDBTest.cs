@@ -35,11 +35,8 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            //string url = "http://mertsakarya:8080/";
-
             _repositoryBoyRavenDB = new MS.Katusha.RepositoryRavenDB.Repositories.BoyRepositoryRavenDB();
             _repositoryGirl = new MS.Katusha.RepositoryRavenDB.Repositories.GirlRepositoryRavenDB();
-
 
             _dbContext = new KatushaDbContext();
             _repositoryBoyDb = new MS.Katusha.RepositoryDB.Repositories.BoyRepositoryDB(_dbContext);
@@ -51,6 +48,12 @@ namespace MS.Katusha.Test
         {
             Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             //Database.SetInitializer<KatushaContext>(new KatushaContextInitializer());
+        }
+        [TestMethod]
+        public void TestMail()
+        {
+            var user = _repositoryUserDb.GetById(2);
+            Mailer.Mailer.SendMail(user.Email, "Welcome", "MailConfirm.cshtml", user);
         }
 
         [TestMethod]

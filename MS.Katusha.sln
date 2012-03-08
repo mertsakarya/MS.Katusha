@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{27CA8EF6-91F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.MembershipService", "MS.Katusha.MembershipService\MS.Katusha.MembershipService.csproj", "{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Mailer", "MS.Katusha.Mailer\MS.Katusha.Mailer.csproj", "{0FF01629-20B8-45DF-96EA-47A3E4E8F712}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MS.Katusha.vsmdi
@@ -65,12 +67,17 @@ Global
 		{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF01629-20B8-45DF-96EA-47A3E4E8F712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF01629-20B8-45DF-96EA-47A3E4E8F712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF01629-20B8-45DF-96EA-47A3E4E8F712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF01629-20B8-45DF-96EA-47A3E4E8F712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E} = {27CA8EF6-91F4-4CFB-B817-EFA42913EADF}
+		{0FF01629-20B8-45DF-96EA-47A3E4E8F712} = {27CA8EF6-91F4-4CFB-B817-EFA42913EADF}
 		{EDD4F455-4699-45BE-988E-9E9D138CB419} = {4E582B41-0D84-4F3D-BA91-B79A0D41A957}
 		{143869F1-31AA-4F5F-9C0C-42E1660186D2} = {4E582B41-0D84-4F3D-BA91-B79A0D41A957}
 		{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3} = {4E582B41-0D84-4F3D-BA91-B79A0D41A957}

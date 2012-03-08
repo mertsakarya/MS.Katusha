@@ -1,35 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MS.Katusha.Domain;
-using MS.Katusha.Domain.Enums;
+using MS.Katusha.Domain.Entities;
+using MS.Katusha.MembershipService;
+using MS.Katusha.Web.Models;
 
 namespace MS.Katusha.Web.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly IKatushaService katushaService;
+        private readonly IKatushaMembershipService _service;
 
-        public HomeController() //IKatushaService katushaService)
+        public HomeController(IKatushaMembershipService service)
         {
-            //this.katushaService = katushaService;
+            _service = service;
         }
 
         public ActionResult Index()
         {
-
             Session["MERTIKO"] = "MERT";
-            //var id = katushaService.GetUserIdByUserName("mertsakarya4");
-            //var user = katushaService.GetUserById(id);
-            //var profile = katushaService.GetProfileById(id);
-            //var boy = katushaService.GetBoyById(id);
-            //var girl = katushaService.GetGirlById(id);
-            //if(boy != null)
-            //    ViewBag.Message = String.Format("Id: {0}, Email: {1}, Menşei: {2}, Aletin Büyüklüğü: {3}   ----> ", id, user.Email, (Country) profile.From, (DickSize)boy.DickSize) +"Modify this template to jump-start your ASP.NET MVC application.";
-            //else if(girl != null)
-            //    ViewBag.Message = String.Format("Id: {0}, Email: {1}, Menşei: {2}, Göğüs Büyüklüğü: {3}   ----> ", id, user.Email, (Country)profile.From, (BreastSize)girl.BreastSize) + "Modify this template to jump-start your ASP.NET MVC application.";
             return View();
         }
 
@@ -46,9 +34,16 @@ namespace MS.Katusha.Web.Controllers
 
             return View();
         }
+
+
+        public ActionResult MailConfirm(string id)
+        {
+            User user = _service.ConfirmEMailAddresByGuid(Guid.Parse(id));
+            var model = new MailConfirmModel { UserName = user.UserName };
+            return View(model);
+        }
     }
 }
-
 
 /*
  MENU
