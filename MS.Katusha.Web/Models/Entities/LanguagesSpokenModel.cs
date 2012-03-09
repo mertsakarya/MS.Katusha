@@ -3,14 +3,14 @@ using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
 
-namespace MS.Katusha.Domain.Entities
+namespace MS.Katusha.Web.Models.Entities
 {
-    public class LanguagesSpoken : BaseModel
+    public class LanguagesSpokenModel : BaseModel
     {
         [JsonIgnore]
         public long ProfileId { get; set; }
         [JsonIgnore]
-        public Profile Profile { get; set; }
+        public Web.Models.Entities.ProfileModel Profile { get; set; }
         public byte Language { get; set; }
 
         public override string ToString()

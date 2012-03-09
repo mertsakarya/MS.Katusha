@@ -1,7 +1,6 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace MS.Katusha.Web.Models.BaseModels
+namespace MS.Katusha.Web.Models.Entities.BaseEntities
 {
     public abstract class BaseGuidModel : BaseModel
     {

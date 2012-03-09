@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Services;
+using Girl = MS.Katusha.Web.Models.Entities.GirlModel;
 
 namespace MS.Katusha.Web.Controllers
 {

@@ -4,7 +4,7 @@ using System.Globalization;
 using MS.Katusha.Domain;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Enums;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Test

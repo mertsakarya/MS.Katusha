@@ -1,6 +1,6 @@
 using System;
 
-namespace MS.Katusha.Web.Models.BaseModels
+namespace MS.Katusha.Web.Models.Entities.BaseEntities
 {
     public abstract class BaseFriendlyModel : BaseGuidModel
     {

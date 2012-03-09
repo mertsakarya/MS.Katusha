@@ -1,5 +1,5 @@
 using System;
-using MS.Katusha.Domain.Enums;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Domain.Entities
 {

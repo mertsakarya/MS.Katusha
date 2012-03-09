@@ -1,5 +1,6 @@
 ﻿using System;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 

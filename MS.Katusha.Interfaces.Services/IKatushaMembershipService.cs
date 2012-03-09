@@ -1,5 +1,6 @@
 ﻿using System;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {

@@ -4,61 +4,57 @@ using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
 
-namespace MS.Katusha.Domain.Entities
+namespace MS.Katusha.Web.Models.Entities
 {
-    public class Profile : BaseFriendlyModel
+    public class ProfileModel : BaseFriendlyModel
     {
-        public Profile()
+        public ProfileModel()
         {
-            Searches = new List<SearchingFor>();
-            Photos = new List<Photo>();
-            CountriesToVisit = new List<CountriesToVisit>();
-            LanguagesSpoken = new List<LanguagesSpoken>();
-            SentMessages = new List<Conversation>();
-            RecievedMessages = new List<Conversation>();
-            WhoVisited = new List<Visit>();
-            Visited = new List<Visit>();
+            Searches = new List<SearchingForModel>();
+            Photos = new List<PhotoModel>();
+            CountriesToVisit = new List<CountriesToVisitModel>();
+            LanguagesSpoken = new List<LanguagesSpokenModel>();
+            SentMessages = new List<ConversationModel>();
+            RecievedMessages = new List<ConversationModel>();
+            WhoVisited = new List<VisitModel>();
+            Visited = new List<VisitModel>();
         }
 
         //[Required]
         //public long UserId { get; set; }
         
-        public User User { get; set; }
+        public UserModel User { get; set; }
 
         // public long StateId { get; set; }
-        public State State { get; set; }
+        public StateModel State { get; set; }
 
         public string Name { get; set; }
 
-        public byte From { get; set; }
+        public Country From { get; set; }
 
         public string City { get; set; }
-        public byte BodyBuild { get; set; }
-        public byte EyeColor { get; set; }
-        public byte HairColor { get; set; }
-        public byte Smokes { get; set; }
-        public byte Alcohol { get; set; }
-        public byte Religion { get; set; }
+        public BodyBuild BodyBuild { get; set; }
+        public EyeColor EyeColor { get; set; }
+        public HairColor HairColor { get; set; }
+        public Smokes Smokes { get; set; }
+        public Alcohol Alcohol { get; set; }
+        public Religion Religion { get; set; }
 
         public int Height { get; set; }
         public int BirthYear { get; set; }
 
         public string Description { get; set; }
 
-        public IList<SearchingFor> Searches { get; set; }
-        public IList<Photo> Photos { get; set; }
-        public IList<CountriesToVisit> CountriesToVisit { get; set; }
-        public IList<LanguagesSpoken> LanguagesSpoken { get; set; }
+        public IList<SearchingForModel> Searches { get; set; }
+        public IList<PhotoModel> Photos { get; set; }
+        public IList<CountriesToVisitModel> CountriesToVisit { get; set; }
+        public IList<LanguagesSpokenModel> LanguagesSpoken { get; set; }
 
-        [JsonIgnore]
-        public IList<Conversation> SentMessages { get; set; }
-        [JsonIgnore]
-        public IList<Conversation> RecievedMessages { get; set; }
+        public IList<ConversationModel> SentMessages { get; set; }
+        public IList<ConversationModel> RecievedMessages { get; set; }
 
-        [JsonIgnore]
-        public IList<Visit> WhoVisited { get; set; }
-        [JsonIgnore]
-        public IList<Visit> Visited { get; set; }
+        public IList<VisitModel> WhoVisited { get; set; }
+        public IList<VisitModel> Visited { get; set; }
 
         public override string ToString()
         {

@@ -1,11 +1,11 @@
 using System;
-using MS.Katusha.Domain.Enums;
+using MS.Katusha.Enumerations;
 
-namespace MS.Katusha.Web.Models
+namespace MS.Katusha.Web.Models.Entities
 {
-    public class Girl : Profile
+    public class GirlModel : ProfileModel
     {
-        public byte BreastSize { get; set; }
+        public BreastSize BreastSize { get; set; }
 
 
         public override string ToString()

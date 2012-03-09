@@ -1,9 +1,9 @@
 using System;
-using MS.Katusha.Domain.Enums;
+using MS.Katusha.Enumerations;
 
-namespace MS.Katusha.Web.Models
+namespace MS.Katusha.Web.Models.Entities
 {
-    public class Boy : Profile
+    public class BoyModel : ProfileModel
     {
         public byte DickSize { get; set; }
         public byte DickThickness { get; set; }
