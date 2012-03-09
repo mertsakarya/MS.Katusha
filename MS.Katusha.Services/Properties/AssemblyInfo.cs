@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ms.Katusha.Repositories.RavenDB")]
+[assembly: AssemblyTitle("MS.Katusha.Services")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ms.Katusha.Repositories.RavenDB")]
+[assembly: AssemblyProduct("MS.Katusha.Services")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("94e305ca-b8f1-426a-9314-9b12f47edb45")]
+[assembly: Guid("ce84d080-62a1-41af-968f-5ba7eada6cc4")]
 
 // Version information for an assembly consists of the following four values:
 //

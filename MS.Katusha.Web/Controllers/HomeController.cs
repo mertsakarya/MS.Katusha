@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.MembershipService;
+using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
 
 namespace MS.Katusha.Web.Controllers

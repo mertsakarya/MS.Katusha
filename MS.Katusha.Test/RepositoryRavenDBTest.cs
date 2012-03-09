@@ -7,9 +7,9 @@ using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
-using MS.Katusha.IRepositories.Interfaces;
-using MS.Katusha.RepositoryRavenDB.Repositories;
-using MS.Katusha.RepositoryDB.Repositories;
+using MS.Katusha.Interfaces.Repositories;
+using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.RavenDB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -35,12 +35,12 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            _repositoryBoyRavenDB = new MS.Katusha.RepositoryRavenDB.Repositories.BoyRepositoryRavenDB();
-            _repositoryGirl = new MS.Katusha.RepositoryRavenDB.Repositories.GirlRepositoryRavenDB();
+            _repositoryBoyRavenDB = new BoyRepositoryRavenDB();
+            _repositoryGirl = new GirlRepositoryRavenDB();
 
             _dbContext = new KatushaDbContext();
-            _repositoryBoyDb = new MS.Katusha.RepositoryDB.Repositories.BoyRepositoryDB(_dbContext);
-            _repositoryUserDb = new MS.Katusha.RepositoryDB.Repositories.UserRepositoryDB(_dbContext);
+            _repositoryBoyDb = new BoyRepositoryDB(_dbContext);
+            _repositoryUserDb = new UserRepositoryDB(_dbContext);
         }
 
         [ClassInitialize()]

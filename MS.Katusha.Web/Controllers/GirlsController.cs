@@ -1,31 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using MS.Katusha.Domain.Entities;
+using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Web.Controllers
 {
     public class GirlsController : Controller
     {
+        private IGirlService _girlService;
+
+        public GirlsController(IGirlService girlService)
+        {
+            _girlService = girlService;       
+        }
         //
-        // GET: /Girl/
+        // GET: /Girls/
 
         public ActionResult Index()
         {
+
             return View();
         }
 
         //
-        // GET: /Girl/Details/5
+        // GET: /Girls/Details/5
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string guid)
         {
             return View();
         }
 
         //
-        // GET: /Girl/Create
+        // GET: /Girls/Create
 
         public ActionResult Create()
         {
@@ -53,16 +59,16 @@ namespace MS.Katusha.Web.Controllers
         //
         // GET: /Girl/Edit/5
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string guid)
         {
             return View();
         }
 
         //
-        // POST: /Girl/Edit/5
+        // POST: /Girls/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string guid, FormCollection collection)
         {
             try
             {
@@ -77,18 +83,22 @@ namespace MS.Katusha.Web.Controllers
         }
 
         //
-        // GET: /Girl/Delete/5
+        // GET: /Girls/Delete/5
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string guid)
         {
+           
+            var girl = _girlService.GetProfile<Girl>(Guid.Parse(guid));
+            if(girl != null)
+                _girlService.DeleteProfile(girl);
             return View();
         }
 
         //
-        // POST: /Girl/Delete/5
+        // POST: /Girls/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string guid, FormCollection collection)
         {
             try
             {

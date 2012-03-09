@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Autofac;
-using Autofac.Integration.Mvc;
-using MS.Katusha.Domain;
-using MS.Katusha.IRepositories.Interfaces;
-using MS.Katusha.MembershipService;
-using MS.Katusha.RepositoryDB.Repositories;
+
 
 namespace MS.Katusha.Web
 {
@@ -46,27 +35,14 @@ namespace MS.Katusha.Web
 
         protected void Application_Start()
         {
-            RegisterDependencies();
+            DependencyHelper.RegisterDependencies();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
             BundleTable.Bundles.RegisterTemplateBundles();
-        }
-
-        private static void RegisterDependencies()
-        {
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
-            var builder = new ContainerBuilder();
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            
-            builder.RegisterType<KatushaMembershipService>().As<IKatushaMembershipService>().InstancePerHttpRequest();
-
-            builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
-            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

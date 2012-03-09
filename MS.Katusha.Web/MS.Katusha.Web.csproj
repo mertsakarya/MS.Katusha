@@ -173,6 +173,7 @@
     <Compile Include="Models\MS\Katusha\WebContext.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\ProfileModels.cs" />
+    <Compile Include="MvcApplicationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -267,21 +268,25 @@
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj">
-      <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
-      <Name>MS.Katusha.IRepositories</Name>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
+      <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
+      <Name>MS.Katusha.Interfaces.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
+      <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
+      <Name>MS.Katusha.Interfaces.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.MembershipService\MS.Katusha.MembershipService.csproj">
-      <Project>{32A3EAB0-518E-4AB5-9420-81B8B61CE2AE}</Project>
-      <Name>MS.Katusha.MembershipService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.RepositoryDB.csproj">
+    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
-      <Name>MS.Katusha.RepositoryDB</Name>
+      <Name>MS.Katusha.Repositories.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
+      <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>
+      <Name>MS.Katusha.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

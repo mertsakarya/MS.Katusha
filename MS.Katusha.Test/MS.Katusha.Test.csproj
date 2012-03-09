@@ -38,6 +38,13 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
@@ -78,21 +85,21 @@
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.IRepositories\MS.Katusha.IRepositories.csproj">
-      <Project>{EDD4F455-4699-45BE-988E-9E9D138CB419}</Project>
-      <Name>MS.Katusha.IRepositories</Name>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
+      <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
+      <Name>MS.Katusha.Interfaces.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.RepositoryRavenDB.csproj">
+    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
       <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
-      <Name>MS.Katusha.RepositoryRavenDB</Name>
+      <Name>MS.Katusha.Repositories.RavenDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.RepositoryDB.csproj">
+    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
-      <Name>MS.Katusha.RepositoryDB</Name>
+      <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

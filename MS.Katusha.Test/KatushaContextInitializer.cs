@@ -5,7 +5,7 @@ using MS.Katusha.Domain;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
-using MS.Katusha.RepositoryDB.Repositories;
+using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Test
 {

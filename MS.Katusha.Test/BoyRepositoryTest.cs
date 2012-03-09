@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
@@ -7,8 +6,8 @@ using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Enums;
-using MS.Katusha.IRepositories.Interfaces;
-using MS.Katusha.RepositoryDB.Repositories;
+using MS.Katusha.Interfaces.Repositories;
+using MS.Katusha.Repositories.DB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MS.Katusha.Test
