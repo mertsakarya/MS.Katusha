@@ -5,11 +5,7 @@ namespace MS.Katusha.Domain.Entities.BaseEntities
 {
     public abstract class BaseModel
     {
-        [Key]
         public long Id { get; set; }
-
-        [Timestamp]
-        public byte[] ts { get; set; }
 
         public DateTime ModifiedDate { get; set; }
         public DateTime CreationDate { get; set; }
@@ -17,7 +13,7 @@ namespace MS.Katusha.Domain.Entities.BaseEntities
 
         public override string ToString()
         {
-            return String.Format("Id: {0} | ts: {1} | ModifiedDate: {2} | CreationsDate: {3}", Id, ts, ModifiedDate, CreationDate);
+            return String.Format("Id: {0} | ModifiedDate: {1} | CreationsDate: {2}", Id, ModifiedDate, CreationDate);
         }
 
     }

@@ -38,12 +38,12 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
-        public IEnumerable<T> GetAll()
+        public T[] GetAll()
         {
             return QueryableRepository.ToArray();
         }
 
-        public IEnumerable<T> GetAll(int pageNo, int pageSize)
+        public T[] GetAll(int pageNo, int pageSize)
         {
             if (pageNo < 1) return GetAll();
             return QueryableRepository.Skip((pageNo - 1) * pageSize).Take(pageSize).ToArray();
@@ -56,14 +56,14 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return queryable;
         }
 
-        public IEnumerable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public T[] Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
             return q.ToArray();
         }
 
-        public IEnumerable<T> Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public T[] Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
             if (orderByClause != null) q = q.OrderBy(orderByClause);

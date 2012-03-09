@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Repositories.DB;
 
 
 namespace MS.Katusha.Services
@@ -7,12 +10,20 @@ namespace MS.Katusha.Services
 
     public class GirlService : IGirlService
     {
-        public T[] GetNewProfiles<T>(int pageNo = 0, int pageSize = 0)
+        private IGirlRepositoryDB _girlRepository;
+
+        public GirlService(IGirlRepositoryDB girlRepository)
         {
-            throw new NotImplementedException();
+            _girlRepository = girlRepository;
+        }
+        public IEnumerable<T> GetNewProfiles<T>(int pageNo = 1, int pageSize = 20)
+        {
+            var a = _girlRepository.GetAll(pageNo, pageSize);
+            var b = a as IEnumerable<T>;
+            return b;
         }
 
-        public T[] GetMostVisitedProfiles<T>(int pageNo = 0, int pageSize = 0)
+        public IEnumerable<T> GetMostVisitedProfiles<T>(int pageNo = 1, int pageSize = 20)
         {
             throw new NotImplementedException();
         }

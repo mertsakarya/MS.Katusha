@@ -36,7 +36,7 @@ namespace MS.Katusha.Web
         protected void Application_Start()
         {
             DependencyHelper.RegisterDependencies();
-
+            MapperHelper.HandleMappings();
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

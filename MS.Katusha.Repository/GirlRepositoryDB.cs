@@ -7,6 +7,6 @@ namespace MS.Katusha.Repositories.DB
 {
     public class GirlRepositoryDB : BaseFriendlyNameRepositoryDB<Girl>, IGirlRepositoryDB
     {
-        public GirlRepositoryDB(KatushaDbContext dbContext) : base(dbContext) { }
+        public GirlRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }

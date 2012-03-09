@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Interfaces.Services
 {
     public interface IProfileService<T>
     {
-        T[] GetNewProfiles<T>(int pageNo = 0, int pageSize = 0);
-        T[] GetMostVisitedProfiles<T>(int pageNo = 0, int pageSize = 0); 
+        IEnumerable<T> GetNewProfiles<T>(int pageNo = 1, int pageSize = 20);
+        IEnumerable<T> GetMostVisitedProfiles<T>(int pageNo = 1, int pageSize = 20); 
         T GetProfile<T>(int id);
         T GetProfile<T>(Guid guid);
         void CreateProfile<T>(T profile);

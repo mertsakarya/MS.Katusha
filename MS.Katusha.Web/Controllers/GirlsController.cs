@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using MS.Katusha.Domain.Entities;
+using AutoMapper;
 using MS.Katusha.Interfaces.Services;
-using Girl = MS.Katusha.Web.Models.Entities.GirlModel;
+using MS.Katusha.Web.Models;
+using MS.Katusha.Web.Models.Entities;
+using PagedList;
+using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -14,13 +18,61 @@ namespace MS.Katusha.Web.Controllers
         {
             _girlService = girlService;       
         }
-        //
-        // GET: /Girls/
 
-        public ActionResult Index()
+
+        // Ajax Paging (cont'd)
+        public ActionResult AjaxPage(int? page)
+        {
+            var listPaged = GetPagedNames(page);
+            if (listPaged == null)
+                return HttpNotFound();
+
+            return Json(new
+            {
+                names = listPaged,
+                pager = listPaged.GetMetaData()
+            }, JsonRequestBehavior.AllowGet);
+        }
+        private IPagedList<string> GetPagedNames(int? page)
+        {
+            // return a 404 if user browses to before the first page
+            if (page.HasValue && page < 1)
+                return null;
+
+            // retrieve list from database/whereverand
+            var listUnpaged = GetStuffFromDatabase();
+
+            // page the list
+            const int pageSize = 20;
+            var listPaged = listUnpaged.ToPagedList(page ?? 1, pageSize);
+
+            // return a 404 if user browses to pages beyond last page. special case first page if no items exist
+            if (listPaged.PageNumber != 1 && page.HasValue && page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+        }
+
+        private IEnumerable<string> GetStuffFromDatabase()
+        {
+            var sampleData = "1,2,3,4,5,6";
+            return sampleData.Split(',');
+        }
+
+        public ActionResult Index(int? page)
         {
 
-            return View();
+            var pageIndex = (page ?? 1); 
+            var pageSize = 2;
+            int totalUserCount = 1000; // will be set by call to GetAllUsers due to _out_ paramter :-|
+            var girls = _girlService.GetNewProfiles<Girl>(pageIndex, pageSize);
+            var girlsModel = Mapper.Map<IList<GirlModel>>(girls);
+            
+            var girlsAsIPagedList = new StaticPagedList<GirlModel>(girlsModel, pageIndex, pageSize, totalUserCount);
+            var model = new GirlsIndexModel {List = girlsAsIPagedList};
+            
+            return View(model);
+
         }
 
         //
