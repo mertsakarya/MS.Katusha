@@ -10,21 +10,23 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Services;
 
-namespace MS.Katusha.Web
+namespace MS.Katusha.Web.Helpers
 {
     public static class DependencyHelper
     {
         public static void RegisterDependencies()
         {
-            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterType<KatushaMembershipService>().As<IKatushaMembershipService>().InstancePerHttpRequest();
             builder.RegisterType<GirlService>().As<IGirlService>().InstancePerHttpRequest();
+            builder.RegisterType<BoyService>().As<IBoyService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<GirlRepositoryDB>().As<IGirlRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<BoyRepositoryDB>().As<IBoyRepositoryDB>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
             var container = builder.Build();

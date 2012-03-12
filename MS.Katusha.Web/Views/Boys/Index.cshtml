@@ -1,0 +1,173 @@
+@model IEnumerable<MS.Katusha.Web.Models.Entities.BoyModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            User
+        </th>
+        <th>
+            State
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            From
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            BodyBuild
+        </th>
+        <th>
+            EyeColor
+        </th>
+        <th>
+            HairColor
+        </th>
+        <th>
+            Smokes
+        </th>
+        <th>
+            Alcohol
+        </th>
+        <th>
+            Religion
+        </th>
+        <th>
+            Height
+        </th>
+        <th>
+            BirthYear
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Searches
+        </th>
+        <th>
+            Photos
+        </th>
+        <th>
+            CountriesToVisit
+        </th>
+        <th>
+            LanguagesSpoken
+        </th>
+        <th>
+            SentMessages
+        </th>
+        <th>
+            RecievedMessages
+        </th>
+        <th>
+            WhoVisited
+        </th>
+        <th>
+            Visited
+        </th>
+        <th>
+            DickSize
+        </th>
+        <th>
+            DickThickness
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.User).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.State).ToString()
+        </td>
+        <td>
+			@item.Name
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.From).ToString()
+        </td>
+        <td>
+			@item.City
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.BodyBuild).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.EyeColor).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.HairColor).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Smokes).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Alcohol).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Religion).ToString()
+        </td>
+        <td>
+			@item.Height
+        </td>
+        <td>
+			@item.BirthYear
+        </td>
+        <td>
+			@item.Description
+        </td>
+        <td>
+			@(item.Searches == null ? "None" : item.Searches.Count.ToString())
+        </td>
+        <td>
+			@(item.Photos == null ? "None" : item.Photos.Count.ToString())
+        </td>
+        <td>
+			@(item.CountriesToVisit == null ? "None" : item.CountriesToVisit.Count.ToString())
+        </td>
+        <td>
+			@(item.LanguagesSpoken == null ? "None" : item.LanguagesSpoken.Count.ToString())
+        </td>
+        <td>
+			@(item.SentMessages == null ? "None" : item.SentMessages.Count.ToString())
+        </td>
+        <td>
+			@(item.RecievedMessages == null ? "None" : item.RecievedMessages.Count.ToString())
+        </td>
+        <td>
+			@(item.WhoVisited == null ? "None" : item.WhoVisited.Count.ToString())
+        </td>
+        <td>
+			@(item.Visited == null ? "None" : item.Visited.Count.ToString())
+        </td>
+        <td>
+			@item.DickSize
+        </td>
+        <td>
+			@item.DickThickness
+        </td>
+    </tr>
+}
+
+</table>
+
+

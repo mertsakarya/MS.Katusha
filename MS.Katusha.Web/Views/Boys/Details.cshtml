@@ -1,0 +1,89 @@
+@model MS.Katusha.Web.Models.Entities.BoyModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>BoyModel</legend>
+
+    <div class="display-label">User</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.User).ToString()</div>
+
+    <div class="display-label">State</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.State).ToString()</div>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">From</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.From).ToString()</div>
+
+    <div class="display-label">City</div>
+    <div class="display-field">@Model.City</div>
+
+    <div class="display-label">BodyBuild</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.BodyBuild).ToString()</div>
+
+    <div class="display-label">EyeColor</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.EyeColor).ToString()</div>
+
+    <div class="display-label">HairColor</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.HairColor).ToString()</div>
+
+    <div class="display-label">Smokes</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Smokes).ToString()</div>
+
+    <div class="display-label">Alcohol</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Alcohol).ToString()</div>
+
+    <div class="display-label">Religion</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Religion).ToString()</div>
+
+    <div class="display-label">Height</div>
+    <div class="display-field">@Model.Height</div>
+
+    <div class="display-label">BirthYear</div>
+    <div class="display-field">@Model.BirthYear</div>
+
+    <div class="display-label">Description</div>
+    <div class="display-field">@Model.Description</div>
+
+    <div class="display-label">Searches</div>
+    <div class="display-field">@(Model.Searches == null ? "None" : Model.Searches.Count.ToString())</div>
+
+    <div class="display-label">Photos</div>
+    <div class="display-field">@(Model.Photos == null ? "None" : Model.Photos.Count.ToString())</div>
+
+    <div class="display-label">CountriesToVisit</div>
+    <div class="display-field">@(Model.CountriesToVisit == null ? "None" : Model.CountriesToVisit.Count.ToString())</div>
+
+    <div class="display-label">LanguagesSpoken</div>
+    <div class="display-field">@(Model.LanguagesSpoken == null ? "None" : Model.LanguagesSpoken.Count.ToString())</div>
+
+    <div class="display-label">SentMessages</div>
+    <div class="display-field">@(Model.SentMessages == null ? "None" : Model.SentMessages.Count.ToString())</div>
+
+    <div class="display-label">RecievedMessages</div>
+    <div class="display-field">@(Model.RecievedMessages == null ? "None" : Model.RecievedMessages.Count.ToString())</div>
+
+    <div class="display-label">WhoVisited</div>
+    <div class="display-field">@(Model.WhoVisited == null ? "None" : Model.WhoVisited.Count.ToString())</div>
+
+    <div class="display-label">Visited</div>
+    <div class="display-field">@(Model.Visited == null ? "None" : Model.Visited.Count.ToString())</div>
+
+    <div class="display-label">DickSize</div>
+    <div class="display-field">@Model.DickSize</div>
+
+    <div class="display-label">DickThickness</div>
+    <div class="display-field">@Model.DickThickness</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
