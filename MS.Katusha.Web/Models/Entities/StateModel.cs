@@ -13,9 +13,9 @@ namespace MS.Katusha.Web.Models.Entities
         [JsonIgnore]
         public ProfileModel Profile { get; set; }
 
-        public byte MembershipType { get; set; }
-        public byte Status { get; set; }
-        public byte Existance { get; set; }
+        public MembershipType MembershipType { get; set; }
+        public Status Status { get; set; }
+        public Existance Existance { get; set; }
         public DateTime LastOnline { get; set; }
 
         public override string ToString()

@@ -1,10 +1,13 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Web;
+using System.Web.ApplicationServices;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
+using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
@@ -20,7 +23,7 @@ namespace MS.Katusha.Web.Helpers
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            builder.RegisterType<KatushaMembershipService>().As<IKatushaMembershipService>().InstancePerHttpRequest();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<GirlService>().As<IGirlService>().InstancePerHttpRequest();
             builder.RegisterType<BoyService>().As<IBoyService>().InstancePerHttpRequest();
 

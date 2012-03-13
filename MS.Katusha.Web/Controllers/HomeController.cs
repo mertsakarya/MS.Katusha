@@ -8,16 +8,15 @@ namespace MS.Katusha.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IKatushaMembershipService _service;
+        private readonly IUserService _service;
 
-        public HomeController(IKatushaMembershipService service)
+        public HomeController(IUserService service)
         {
             _service = service;
         }
 
         public ActionResult Index()
         {
-            Session["MERTIKO"] = "MERT";
             return View();
         }
 

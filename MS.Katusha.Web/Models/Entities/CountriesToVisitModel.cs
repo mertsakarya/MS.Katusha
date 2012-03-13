@@ -11,7 +11,7 @@ namespace MS.Katusha.Web.Models.Entities
         public long ProfileId { get; set; }
         [JsonIgnore]
         public ProfileModel Profile { get; set; }
-        public byte Country { get; set; }
+        public Country Country { get; set; }
 
 
         public override string ToString()

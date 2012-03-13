@@ -1,4 +1,6 @@
-@model IEnumerable<MS.Katusha.Web.Models.Entities.BoyModel>
+@using PagedList
+@using PagedList.Mvc
+@model MS.Katusha.Web.Models.BoysIndexModel
 
 @{
     ViewBag.Title = "Index";
@@ -86,12 +88,12 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.List) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Guid }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Guid }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Guid })
         </td>
         <td>
 			@Html.DisplayTextFor(_ => item.User).ToString()
@@ -169,5 +171,5 @@
 }
 
 </table>
-
+@Html.PagedListPager((IPagedList)Model.List, page => Url.Action("Index", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 

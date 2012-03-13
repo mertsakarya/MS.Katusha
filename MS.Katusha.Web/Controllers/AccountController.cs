@@ -15,9 +15,9 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly IKatushaMembershipService _service;
+        private readonly IUserService _service;
 
-        public AccountController(IKatushaMembershipService service)
+        public AccountController(IUserService service)
         {
             _service = service;
         }

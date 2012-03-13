@@ -5,8 +5,8 @@ namespace MS.Katusha.Web.Models.Entities
 {
     public class BoyModel : ProfileModel
     {
-        public byte DickSize { get; set; }
-        public byte DickThickness { get; set; }
+        public DickSize DickSize { get; set; }
+        public DickThickness DickThickness { get; set; }
 
         public override string ToString()
         {

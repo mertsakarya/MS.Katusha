@@ -20,4 +20,6 @@ namespace MS.Katusha.Enumerations
     public enum LookingFor : byte { Friend = 1, Sex, OneNight, LongTimeRelationship }
 
     public enum KatushaMembershipCreateStatus : byte { Success = 1, DuplicateUserName, DuplicateEmail, InvalidPassword, InvalidEmail, InvalidAnswer, InvalidQuestion, InvalidUserName, ProviderError, UserRejected }
+
+    public enum MailType: byte { MailConfirm, PasswordChanged, YouveGotMessage }
 }

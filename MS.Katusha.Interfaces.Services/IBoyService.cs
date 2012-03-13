@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MS.Katusha.Domain.Entities;
+﻿using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Interfaces.Services
 {

@@ -6,11 +6,11 @@ using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Services
 {
-    public class KatushaMembershipService : IKatushaMembershipService
+    public class UserService : IUserService
     {
         private readonly IUserRepositoryDB _repository;
 
-        public KatushaMembershipService(IUserRepositoryDB repository)
+        public UserService(IUserRepositoryDB repository)
         {
             _repository = repository;
         }
@@ -47,6 +47,12 @@ namespace MS.Katusha.Services
         public User GetUser(string userName, bool userIsOnline = false)
         {
             var user = _repository.Single(u => u.UserName == userName);
+            return user;
+        }
+
+        public User GetUserByGuid(Guid guid)
+        {
+            var user = _repository.Single(u => u.Guid == guid);
             return user;
         }
 

@@ -10,8 +10,8 @@ namespace MS.Katusha.Web.Models.Entities
         [JsonIgnore]
         public long ProfileId { get; set; }
         [JsonIgnore]
-        public Web.Models.Entities.ProfileModel Profile { get; set; }
-        public byte Language { get; set; }
+        public ProfileModel Profile { get; set; }
+        public Language Language { get; set; }
 
         public override string ToString()
         {

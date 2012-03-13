@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBoyService.cs" />
-    <Compile Include="IKatushaMembershipService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="IGirlService.cs" />
     <Compile Include="IProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
