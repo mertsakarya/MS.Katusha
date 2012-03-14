@@ -23,14 +23,14 @@ namespace MS.Katusha.Web
 
             routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{guid}",
+                defaults: new { guid = RouteParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{guid}",
+                defaults: new { controller = "Home", action = "Index", guid = UrlParameter.Optional }
             );
         }
 

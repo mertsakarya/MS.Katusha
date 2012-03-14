@@ -20,8 +20,7 @@ namespace MS.Katusha.Test
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
         {
-            Database.DefaultConnectionFactory = new SqlConnectionFactory( @"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
-            Database.SetInitializer<KatushaDbContext>(new KatushaContextInitializer());
+
         }
 
         //[ClassInitialize()]
@@ -59,7 +58,8 @@ namespace MS.Katusha.Test
         [ClassInitialize()]
         public static void ClassInit(TestContext context)
         {
-
+            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+            Database.SetInitializer<KatushaDbContext>(new KatushaContextInitializer());
         }
 
         [TestMethod]

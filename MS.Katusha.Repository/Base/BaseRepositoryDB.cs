@@ -53,6 +53,7 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public T[] Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
+            
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
             return q.Skip((pageNo - 1) * pageSize).Take( pageSize ).ToArray();
@@ -65,18 +66,24 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public T Add(T entity)
         {
-            return RepositoryHelper.Add(DbContext, entity);
+            var ent = RepositoryHelper.Add(DbContext, entity);
+            Save();
+            return ent;
         }
 
         public T FullUpdate(T entity)
         {
             DbContext.Entry(entity).State = EntityState.Modified;
-            return RepositoryHelper.Update(DbContext, entity);
+            var ent = RepositoryHelper.Update(DbContext, entity);
+            Save();
+            return ent;
         }
 
         public T Delete(T entity)
         {
-            return RepositoryHelper.Delete(DbContext, entity);
+            var t = RepositoryHelper.Delete(DbContext, entity);
+            Save();
+            return t;
         }
 
         public void Save()

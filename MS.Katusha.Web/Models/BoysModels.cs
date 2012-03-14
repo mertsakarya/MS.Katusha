@@ -15,7 +15,7 @@ namespace MS.Katusha.Web.Models
     {
     }
 
-    public class BoysDetailsModel : BaseBoysModel
+    public class DetailsModel<Boy> : BaseBoysModel
     {
     }
 

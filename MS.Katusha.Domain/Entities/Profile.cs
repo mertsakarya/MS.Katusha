@@ -20,8 +20,7 @@ namespace MS.Katusha.Domain.Entities
             Visited = new List<Visit>();
         }
 
-        //[Required]
-        //public long UserId { get; set; }
+        public long UserId { get; set; }
         
         public User User { get; set; }
 

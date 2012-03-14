@@ -1,20 +1,20 @@
-@model MS.Katusha.Web.Models.Entities.BoyModel
+@model MS.Katusha.Web.Models.Entities.GirlModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Profile</legend>
+        <legend>BoyModel</legend>
 
 		@Html.Partial("Profiles/_CreateOrEdit", Model)
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Save" />
         </p>
     </fieldset>
 }
@@ -22,5 +22,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-

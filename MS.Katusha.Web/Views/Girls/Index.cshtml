@@ -1,16 +1,13 @@
-﻿@using PagedList
-@using PagedList.Mvc
-@model MS.Katusha.Web.Models.GirlsIndexModel
+@model MS.Katusha.Web.Models.PagedListModel<ProfileModel>
 
 @{
-    ViewBag.Title = "Girls Index";
+    ViewBag.Title = "Index";
 }
 
-<h2>title</h2>
-<h3>List of @Model.List.TotalItemCount Names (Page Size: @Model.List.PageSize, Current Page: @Model.List.PageNumber)</h3>
-<ol start="@Model.List.FirstItemOnPage">
-    @foreach (var item in Model.List) {
-        <li>@item</li>
-    }
-</ol>
-@Html.PagedListPager((IPagedList)Model.List, page => Url.Action("Index", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+<h2>Index</h2>
+
+@Html.Partial("Profiles/_Index", Model)
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

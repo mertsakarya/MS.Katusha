@@ -15,7 +15,7 @@ namespace MS.Katusha.Enumerations
     public enum HairColor : byte { Brunette = 1, Blonde, Scarlett, Chestnut }
     public enum Smokes : byte { Smokes = 1, DoesntSmoke }
     public enum Alcohol : byte { No = 1, Sometimes, Yes }
-    public enum Religion : byte { Brunette = 1, Blonde, Scarlett, Chestnut }
+    public enum Religion : byte { Christian = 1, Muslim, Jewish, Hindu, Buddhist, Atheist, Agnostic, Deist, Other }
 
     public enum LookingFor : byte { Friend = 1, Sex, OneNight, LongTimeRelationship }
 

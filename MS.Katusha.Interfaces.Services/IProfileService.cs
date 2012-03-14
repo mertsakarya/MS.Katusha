@@ -13,7 +13,7 @@ namespace MS.Katusha.Interfaces.Services
         T GetProfile(int id, params Expression<Func<T, object>>[] includeExpressionParams);
         T GetProfile(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams);
         void CreateProfile(T profile);
-        void DeleteProfile(T profile);
+        void DeleteProfile(Guid guid);
         void UpdateProfile(T profile);
     }
 }

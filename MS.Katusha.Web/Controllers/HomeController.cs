@@ -2,17 +2,15 @@
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Models;
 
 namespace MS.Katusha.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : KatushaController
     {
-        private readonly IUserService _service;
-
-        public HomeController(IUserService service)
+        public HomeController(IUserService service) : base(service)
         {
-            _service = service;
         }
 
         public ActionResult Index()
@@ -35,11 +33,17 @@ namespace MS.Katusha.Web.Controllers
         }
 
 
-        public ActionResult MailConfirm(string id)
+        public ActionResult MailConfirm(string guid)
         {
-            User user = _service.ConfirmEMailAddresByGuid(Guid.Parse(id));
+            User user = UserService.ConfirmEMailAddresByGuid(Guid.Parse(guid));
             var model = new MailConfirmModel { UserName = user.UserName };
             return View(model);
+        }
+
+        public ActionResult SendConfirmationMail()
+        {
+            UserService.SendConfirmationMail(KatushaUser);
+            return View();
         }
     }
 }

@@ -66,8 +66,8 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void CreateNewPhoto()
         {
-            var user = _repositoryUser.GetById(4, p=> p.Profile);
-            var photo = new Photo() { Description = "Veli", ProfileId = user.Profile.Id };
+            var user = _repositoryUser.GetById(4);
+            var photo = new Photo() { Description = "Veli", ProfileId = user.Id };
 
 
             photo = _repositoryPhoto.Add(photo);
@@ -75,16 +75,6 @@ namespace MS.Katusha.Test
             Debug.WriteLine(photo);
         }
 
-        [TestMethod]
-        public void UpdatePhoto()
-        {
-            var user = _repositoryUser.GetById(4, p => p.Profile.Photos);
-            var ph = (from photo in user.Profile.Photos where photo.Id == 8 select photo).SingleOrDefault();
-            ph.Description = "Deneme";
-            _repositoryPhoto.FullUpdate(ph);
-            _dbContext.SaveChanges();
-            Debug.WriteLine(ph);
-        }
 
         [TestMethod]
         public void UpdatePhoto2()

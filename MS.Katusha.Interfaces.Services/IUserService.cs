@@ -11,6 +11,7 @@ namespace MS.Katusha.Interfaces.Services
         User GetUser(string userName, bool userIsOnline = false);
         User GetUserByGuid(Guid guid);
         bool ChangePassword(string userName, string oldPassword, string newPassword);
+        void SendConfirmationMail(User user);
         User ConfirmEMailAddresByGuid(Guid guid);
     }
 }

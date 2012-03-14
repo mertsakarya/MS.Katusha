@@ -84,6 +84,9 @@
     <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.0.8.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.0.8\lib\net40\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -138,9 +141,9 @@
     <Reference Include="System.Web.Providers">
       <HintPath>..\packages\System.Web.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\AspNetRazor.Core.2.0.20126.16343\lib\net40\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\RazorEngine.3.0.8\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -166,9 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
+    <Compile Include="Controllers\BaseControllers\ProfileController.cs" />
     <Compile Include="Controllers\BoysController.cs" />
     <Compile Include="Controllers\GirlsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\DependencyHelper.cs" />
     <Compile Include="Global.asax.cs">
@@ -322,16 +328,13 @@
     <Content Include="Views\Home\MailConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Girls\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Boys\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Boys\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\Delete.cshtml" />
+    <Content Include="Views\Shared\DeleteProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Boys\Details.cshtml" />
@@ -340,7 +343,40 @@
     <Content Include="Views\Boys\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\_CreateOrEdit.cshtml" />
+    <Content Include="Views\Shared\_BoyCreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Profiles\_CreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_GirlCreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Girls\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Girls\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Girls\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Profiles\_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SendConfirmationMail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Profiles\_Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_BoyDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_GirlDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Girls\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

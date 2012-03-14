@@ -19,10 +19,11 @@ namespace MS.Katusha.Test
     public class RepositoryRavenDBTest
     {
         private IBoyRepositoryRavenDB _repositoryBoyRavenDB;
-        private IGirlRepositoryRavenDB _repositoryGirl;
+        private IGirlRepositoryRavenDB _repositoryGirlRavenDB;
 
 
         private IBoyRepositoryDB _repositoryBoyDb;
+        private IGirlRepositoryDB _repositoryGirlDb;
         private IUserRepositoryDB _repositoryUserDb;
         private KatushaDbContext _dbContext;
 
@@ -36,10 +37,11 @@ namespace MS.Katusha.Test
         public void TestInitialize()
         {
             _repositoryBoyRavenDB = new BoyRepositoryRavenDB();
-            _repositoryGirl = new GirlRepositoryRavenDB();
+            _repositoryGirlRavenDB = new GirlRepositoryRavenDB();
 
             _dbContext = new KatushaDbContext();
             _repositoryBoyDb = new BoyRepositoryDB(_dbContext);
+            _repositoryGirlDb = new GirlRepositoryDB(_dbContext);
             _repositoryUserDb = new UserRepositoryDB(_dbContext);
         }
 
@@ -53,21 +55,18 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void TestBoy()
         {
-            var users = _repositoryUserDb.Query(null, null, p => p.Profile, p => p.Profile.Photos, p => p.Profile.Searches,
-                                                p => p.Profile.CountriesToVisit, p => p.Profile.LanguagesSpoken);
-            foreach (var user in users)
-                if (user.Gender == (byte) Sex.Male)
-                    _repositoryBoyRavenDB.Add(user.Profile as Boy);
-                else
-                {
-                    _repositoryGirl.Add(user.Profile as Girl);
-                }
+            var bs = _repositoryBoyDb.GetAll();
+            foreach (var b in bs)
+                _repositoryBoyRavenDB.Add(b);
+            var gs = _repositoryGirlDb.GetAll();
+            foreach (var g in gs)
+                _repositoryGirlRavenDB.Add(g);
             var boy = _repositoryBoyDb.GetById(2, p => p.User, p => p.Photos, p => p.LanguagesSpoken, p => p.Searches,
                                                p => p.CountriesToVisit);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
             var boyRavenDB = _repositoryBoyRavenDB.GetById(2);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boyRavenDB));
-            var girls = _repositoryGirl.Query(g => g.BreastSize == (byte) BreastSize.Large, null, p=>p.Name).ToArray();
+            var girls = _repositoryGirlRavenDB.Query(g => g.BreastSize == (byte) BreastSize.Large, null, p=>p.Name).ToArray();
             Guid guid = Guid.Empty;
             foreach (var girl in girls)
             {
@@ -75,16 +74,16 @@ namespace MS.Katusha.Test
                 if (girl.Id == 5)
                 {
                     girl.Description = "DESCRIPTION";
-                    _repositoryGirl.FullUpdate(girl);
+                    _repositoryGirlRavenDB.FullUpdate(girl);
                 }
                 if (girl.Id == 4)
-                    _repositoryGirl.Delete(girl);
+                    _repositoryGirlRavenDB.Delete(girl);
                 if (girl.Id == 6)
                     guid = girl.Guid;
             }
             if (guid != Guid.Empty)
             {
-                var girl6 = _repositoryGirl.GetByGuid(guid);
+                var girl6 = _repositoryGirlRavenDB.GetByGuid(guid);
                 Debug.WriteLine(girl6);
             }
         }

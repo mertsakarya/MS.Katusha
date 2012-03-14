@@ -20,7 +20,7 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public static TEntity AddWithGuid<TEntity>(DbContext context, TEntity entity) where TEntity : BaseGuidModel
         {
-            entity = AddWithGuid(context, entity, Guid.NewGuid());
+            entity = AddWithGuid(context, entity, (entity.Guid == Guid.Empty) ? Guid.NewGuid(): entity.Guid);
             return entity;
         }
 
@@ -44,6 +44,10 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public static TEntity Delete<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
         {
+            if (context.Entry(entity).State == EntityState.Detached)
+            {
+                context.Set<TEntity>().Attach(entity);
+            } 
             return context.Set<TEntity>().Remove(entity);
         }
 

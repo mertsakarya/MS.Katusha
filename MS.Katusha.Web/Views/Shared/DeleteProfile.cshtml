@@ -1,0 +1,18 @@
+@model MS.Katusha.Web.Models.Entities.ProfileModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h2>Are you sure you want to delete your profile?</h2>
+
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

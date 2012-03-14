@@ -39,9 +39,14 @@ namespace MS.Katusha.Services
             var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100).ToUniversalTime()};
             _repository.Add(user);
             _repository.Save();
-            Mailer.Mailer.SendMail(email, "Welcome! You need one more step to open a new world!", "MailConfirm.cshtml", user);
+            SendConfirmationMail(user);
             status = KatushaMembershipCreateStatus.Success;
             return user;
+        }
+
+        public void SendConfirmationMail(User user)
+        {
+            Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm.cshtml", user);
         }
 
         public User GetUser(string userName, bool userIsOnline = false)

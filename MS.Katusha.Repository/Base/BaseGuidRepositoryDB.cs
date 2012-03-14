@@ -14,8 +14,6 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public new T Add(T entity)
         {
-            if (entity.Guid == Guid.Empty)
-                entity.Guid = Guid.NewGuid();
             return RepositoryHelper.AddWithGuid(DbContext, entity);
         }
 

@@ -45,8 +45,8 @@ namespace MS.Katusha.Domain
                         .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<State>().HasRequired(x => x.Profile); //.WithOptional(s => s.State).Map( x => x.MapKey("StateId"));
-            modelBuilder.Entity<Profile>().HasRequired(x => x.User); //.WithOptional(s => s.Profile).Map(x => x.MapKey("ProfileId"));
-            //modelBuilder.Entity<Photo>().HasRequired(p => p.Profile).WithMany(c => c.Photos).Map(x => x.MapKey("ProfileId"));
+            modelBuilder.Entity<Profile>().HasRequired(x => x.User); //.WithOptional(s=>s.Profile); //.Map(x => x.MapKey("UserId"));
+            //modelBuilder.Entity<CountriesToVisit>().HasRequired(p => p.Profile).WithMany(c => c.CountriesToVisit); //.Map(x => x.MapKey("ProfileId"));
 
 
             base.OnModelCreating(modelBuilder);
