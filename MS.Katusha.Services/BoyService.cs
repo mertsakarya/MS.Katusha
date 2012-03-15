@@ -31,6 +31,7 @@ namespace MS.Katusha.Services
 
         public override void UpdateProfile(Boy profile)
         {
+            base.UpdateProfile(profile);
             var dataProfile = base.GetProfile(profile.Guid);
             SetData(dataProfile, profile);
             dataProfile.DickSize = profile.DickSize;

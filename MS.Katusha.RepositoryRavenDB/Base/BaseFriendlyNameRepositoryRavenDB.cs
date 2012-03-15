@@ -18,9 +18,11 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return Single(p => p.FriendlyName == friendlyName);
         }
 
-        public bool CheckIfFriendlyNameExsists(string friendlyName)
+        public bool CheckIfFriendlyNameExists(string friendlyName, long id = 0)
         {
-            return Query(p => p.FriendlyName == friendlyName, null).Any();
+            if(id <= 0)
+                return Query(p => p.FriendlyName == friendlyName, null).Any();
+            return Query(p => p.FriendlyName == friendlyName && p.Id != id, null).Any();
         }
     }
 }

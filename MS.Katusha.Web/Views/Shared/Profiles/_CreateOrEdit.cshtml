@@ -11,6 +11,14 @@
 </div>
 
 <div class="editor-label">
+    @Html.LabelFor(model => model.FriendlyName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.FriendlyName)
+    @Html.ValidationMessageFor(model => model.FriendlyName)
+</div>
+
+<div class="editor-label">
     @Html.LabelFor(model => model.City)
 </div>
 <div class="editor-field">

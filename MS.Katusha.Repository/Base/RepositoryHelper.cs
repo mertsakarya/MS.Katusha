@@ -12,8 +12,15 @@ namespace MS.Katusha.Repositories.DB.Base
     {
         public static TEntity Add<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
         {
+            return ExecuteAdd(context, entity);
+        }
+
+        private static TEntity ExecuteAdd<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
+        {
             entity.ModifiedDate = DateTime.Now.ToUniversalTime();
             entity.CreationDate = entity.ModifiedDate;
+            entity.DeletionDate = new DateTime(1900, 1, 1, 0, 0, 0);
+            entity.Deleted = false;
             context.Set<TEntity>().Add(entity);
             return entity;
         }
@@ -26,11 +33,8 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public static TEntity AddWithGuid<TEntity>(DbContext context, TEntity entity, Guid guid) where TEntity : BaseGuidModel
         {
-            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
-            entity.CreationDate = entity.ModifiedDate;
             entity.Guid = guid;
-            context.Set<TEntity>().Add(entity);
-            return entity;
+            return ExecuteAdd(context, entity);
         }
 
         public static TEntity Update<TEntity>(DbContext context, TEntity entity, params Expression<Func<TEntity, object>>[] expressionParams) where TEntity : BaseModel
@@ -81,5 +85,20 @@ namespace MS.Katusha.Repositories.DB.Base
             expressionParams.ToList().ForEach(expression => context.Entry(entity).Property(expression).IsModified = true);
         }
 
+        public static TEntity SoftDelete<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
+        {
+            context.Entry(entity).State = EntityState.Modified;
+            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            entity.DeletionDate= entity.ModifiedDate;
+            entity.Deleted = true;
+            var expressions = new Expression<Func<TEntity, object>>[]
+                            {
+                                p => p.ModifiedDate,
+                                p => p.Deleted,
+                                p => p.DeletionDate
+                            };
+            AttachAndSetAsModified(context, entity, expressions);
+            return entity;
+        }
     }
 }

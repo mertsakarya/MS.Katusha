@@ -27,7 +27,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             {
                 using (var session = _documentStore.OpenSession())
                 {
-                    return session.Query<T>().AsQueryable().AsNoTracking();
+                    return session.Query<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking();
                 }            
             }
         }
@@ -38,15 +38,15 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
-        public T[] GetAll()
+        public IQueryable<T> GetAll()
         {
-            return QueryableRepository.ToArray();
+            return QueryableRepository;
         }
 
-        public T[] GetAll(int pageNo, int pageSize)
+        public IQueryable<T> GetAll(int pageNo, int pageSize)
         {
             if (pageNo < 1) return GetAll();
-            return QueryableRepository.Skip((pageNo - 1) * pageSize).Take(pageSize).ToArray();
+            return QueryableRepository.Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
         private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter)
@@ -56,18 +56,18 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return queryable;
         }
 
-        public T[] Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
-            return q.ToArray();
+            return q;
         }
 
-        public T[] Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
-            return q.Skip((pageNo - 1) * pageSize).Take(pageSize).ToArray();
+            return q.Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
         public T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
@@ -75,16 +75,20 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return QueryHelper(filter).FirstOrDefault();
         }
 
-
-
-        public T Add(T entity)
+        private T AddRavenDB(T entity)
         {
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(entity);
                 session.SaveChanges();
                 return entity;
-            } 
+            }
+        }
+
+        public T Add(T entity)
+        {
+            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            return AddRavenDB(entity);
         }
 
         public T FullUpdate(T entity)
@@ -97,6 +101,13 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             var name = String.Format("{0}s/{1}", typeof (T).Name.ToLower(CultureInfo.CreateSpecificCulture("en-US")), entity.Id);
             _documentStore.DatabaseCommands.Delete(name, null);
             return entity;
+        }
+
+        public T SoftDelete(T entity)
+        {
+            entity.Deleted = true;
+            entity.DeletionDate = DateTime.Now.ToUniversalTime();
+            return Add(entity);
         }
 
         public void Save()

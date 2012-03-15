@@ -16,7 +16,7 @@ namespace MS.Katusha.Repositories.DB.Base
 
         protected IQueryable<T> QueryableRepository
         {
-            get { return DbContext.Set<T>().AsQueryable().AsNoTracking(); }
+            get { return DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking(); }
         }
 
 
@@ -31,32 +31,32 @@ namespace MS.Katusha.Repositories.DB.Base
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
-        public T[] GetAll()
+        public IQueryable<T> GetAll()
         {
-            return QueryableRepository.ToArray();
+            return QueryableRepository;
         }
 
-        public T[] GetAll(int pageNo, int pageSize)
+        public IQueryable<T> GetAll(int pageNo, int pageSize)
         {
             if (pageNo < 1) return GetAll();
 
             //TODO: IMPLEMENT ORDER BY ON BASE REPOSTORY GRACEFULLY
-            return QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToArray();
+            return QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
-        public T[] Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
-            return q.ToArray();
+            return q;
         }
 
-        public T[] Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
             if (orderByClause != null) q = q.OrderBy(orderByClause);
-            return q.Skip((pageNo - 1) * pageSize).Take( pageSize ).ToArray();
+            return q.Skip((pageNo - 1) * pageSize).Take( pageSize );
         }
 
         public T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
@@ -82,6 +82,13 @@ namespace MS.Katusha.Repositories.DB.Base
         public T Delete(T entity)
         {
             var t = RepositoryHelper.Delete(DbContext, entity);
+            Save();
+            return t;
+        }
+
+        public T SoftDelete(T entity)
+        {
+            var t = RepositoryHelper.SoftDelete(DbContext, entity);
             Save();
             return t;
         }

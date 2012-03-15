@@ -32,6 +32,7 @@ namespace MS.Katusha.Services
 
         public override void UpdateProfile(Girl profile)
         {
+            base.UpdateProfile(profile);
             var dataProfile = base.GetProfile(profile.Guid);
             SetData(dataProfile, profile);
             dataProfile.BreastSize = profile.BreastSize;

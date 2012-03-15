@@ -9,19 +9,20 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IRepository<T> where T : BaseModel
     {
         T GetById(long id, params Expression<Func<T, object>>[] includeExpressionParams);
-        T[] GetAll();
-        T[] GetAll(int pageNo, int pageSize);
+        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(int pageNo, int pageSize);
 
         //IEnumerable<T> Query      (Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams);
-        T[] Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams);
+        IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams);
         //IEnumerable<T> Query      (Expression<Func<T, bool>> filter, int pageNo, int pageSize, params Expression<Func<T, object>>[] includeExpressionParams);
-        T[] Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams);
+        IQueryable<T> Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams);
 
         T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams);
 
         T Add(T entity);
         T FullUpdate(T entity);
         T Delete(T entity);
+        T SoftDelete(T entity);
         void Save();
     }
 }

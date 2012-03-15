@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</ProjectGuid>
+    <ProjectGuid>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.Katusha.Services</RootNamespace>
-    <AssemblyName>MS.Katusha.Services</AssemblyName>
+    <RootNamespace>MS.Katusha.Exceptions</RootNamespace>
+    <AssemblyName>MS.Katusha.Exceptions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,40 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoyService.cs" />
-    <Compile Include="GirlService.cs" />
-    <Compile Include="UserService.cs" />
-    <Compile Include="ProfileService.cs" />
+    <Compile Include="KatushaException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\KatushaFriendlyNameNotFoundException.cs" />
+    <Compile Include="Services\KatushaFriendlyNameExistsException.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Exceptions\MS.Katusha.Exceptions.csproj">
-      <Project>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</Project>
-      <Name>MS.Katusha.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
-      <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
-      <Name>MS.Katusha.Interfaces.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
-      <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
-      <Name>MS.Katusha.Interfaces.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
-      <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
-      <Name>MS.Katusha.Mailer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
-      <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
-      <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

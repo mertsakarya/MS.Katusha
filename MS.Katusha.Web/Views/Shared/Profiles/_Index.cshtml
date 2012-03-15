@@ -80,9 +80,9 @@
 {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { guid = item.Guid }) |
-            @Html.ActionLink("Details", "Details", new { guid = item.Guid }) |
-            @Html.ActionLink("Delete", "Delete", new { guid = item.Guid })
+            @Html.ActionLink("Edit", "Edit", new { key = (String.IsNullOrEmpty(item.FriendlyName)) ? item.Guid.ToString() : item.FriendlyName }) |
+            @Html.ActionLink("Details", "Details", new { key = (String.IsNullOrEmpty(item.FriendlyName)) ? item.Guid.ToString() : item.FriendlyName }) |
+            @Html.ActionLink("Delete", "Delete", new { key = item.Guid })
         </td>
         <td>
 			@item.Name

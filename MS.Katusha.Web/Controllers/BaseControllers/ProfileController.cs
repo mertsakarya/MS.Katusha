@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Domain.Entities.BaseEntities;
-using MS.Katusha.Enumerations;
+using MS.Katusha.Exceptions;
+using MS.Katusha.Exceptions.Services;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
@@ -38,11 +38,19 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         }
 
-        public ActionResult Details(string guid)
+        public ActionResult Details(string key)
         {
-            var profile = _profileService.GetProfile(Guid.Parse(guid));
-            var model = MapToModel(profile);
-            return View(model);
+            try
+            {
+                var profile = _profileService.GetProfile(key);
+                var model = MapToModel(profile);
+                return View(model);
+            }
+
+            catch (KatushaFriendlyNameNotFoundException ex)
+            {
+                return View("KatushaError", ex);
+            }
         }
 
         public ActionResult Create()
@@ -78,23 +86,36 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             }
         }
 
-        public ActionResult Edit(string guid)
-        {
-            var profile = _profileService.GetProfile(Guid.Parse(guid));
-            var model = MapToModel(profile);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(string guid, TModel model)
+        public ActionResult Edit(string key)
         {
             try
             {
-                if (!ModelState.IsValid) return View(model);
+                var profile = _profileService.GetProfile(key);
+                var model = MapToModel(profile);
+                return View(model);
+            }
+            catch (KatushaFriendlyNameNotFoundException ex)
+            {
+                return View("KatushaError", ex);
+            }
+        }
 
+        [HttpPost]
+        public ActionResult Edit(string key, TModel model)
+        {
+            try
+            {
+                var tmp = _profileService.GetProfile(key);
+                if (!ModelState.IsValid) return View(model);
                 T profile = MapToEntity(model);
+                profile.Id = tmp.Id;
+                profile.Guid = tmp.Guid;
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Index");
+            }
+            catch (KatushaException ex)
+            {
+                return View("KatushaError", ex);
             }
             catch
             {
@@ -102,20 +123,32 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             }
         }
 
-        public ActionResult Delete(string guid)
-        {
-            var entity = _profileService.GetProfile(Guid.Parse(guid));
-            var model = MapToModel(entity);
-            return View("DeleteProfile", model);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(string guid, FormCollection collection)
+        public ActionResult Delete(string key)
         {
             try
             {
-                _profileService.DeleteProfile(Guid.Parse(guid));
+                var profile = _profileService.GetProfile(key);
+                var model = MapToModel(profile);
+                return View("DeleteProfile", model);
+            }
+            catch (KatushaFriendlyNameNotFoundException ex)
+            {
+                return View("KatushaError", ex);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string key, FormCollection collection)
+        {
+            try
+            {
+                var profile = _profileService.GetProfile(key);
+                _profileService.DeleteProfile(profile.Guid);
                 return RedirectToAction("Index");
+            }
+            catch (KatushaFriendlyNameNotFoundException ex)
+            {
+                return View("KatushaError", ex);
             }
             catch
             {
