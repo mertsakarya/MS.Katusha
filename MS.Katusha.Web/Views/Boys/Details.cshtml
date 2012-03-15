@@ -12,7 +12,7 @@
 @Html.Partial("Profiles/_Details", Model)
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { key = (String.IsNullOrEmpty(Model.FriendlyName)) ? Model.Guid.ToString() : Model.FriendlyName }) |
+    @Html.ActionLink("Edit", "Edit", new { key = Html.KeyFor(Model)}) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

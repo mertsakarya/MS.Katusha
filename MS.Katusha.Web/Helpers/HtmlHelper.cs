@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MS.Katusha.Web.Models.Entities.BaseEntities;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -62,6 +63,11 @@ namespace MS.Katusha.Web.Helpers
                 items = SingleEmptyItem.Concat(items);
 
             return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
+        }
+
+        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
+        {   
+            return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
         }
     }
 }

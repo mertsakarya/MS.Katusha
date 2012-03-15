@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
-using Newtonsoft.Json;
+using MS.Katusha.Web.Models.Entities.BaseEntities;
+
 
 namespace MS.Katusha.Web.Models.Entities
 {

@@ -1,3 +1,4 @@
+@using MS.Katusha.Web.Models.Entities.BaseEntities
 @model MS.Katusha.Web.Models.PagedListModel<ProfileModel>
 
        
@@ -80,9 +81,9 @@
 {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { key = (String.IsNullOrEmpty(item.FriendlyName)) ? item.Guid.ToString() : item.FriendlyName }) |
-            @Html.ActionLink("Details", "Details", new { key = (String.IsNullOrEmpty(item.FriendlyName)) ? item.Guid.ToString() : item.FriendlyName }) |
-            @Html.ActionLink("Delete", "Delete", new { key = item.Guid })
+            @Html.ActionLink("Edit", "Edit", new { key = Html.KeyFor(item) }) |
+            @Html.ActionLink("Details", "Details", new { key = Html.KeyFor(item) }) |
+            @Html.ActionLink("Delete", "Delete", new { key = Html.KeyFor(item) })
         </td>
         <td>
 			@item.Name
