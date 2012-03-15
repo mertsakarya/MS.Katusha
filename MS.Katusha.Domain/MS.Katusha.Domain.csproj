@@ -65,6 +65,7 @@
     <Compile Include="Entities\CountriesToVisit.cs" />
     <Compile Include="Entities\Girl.cs" />
     <Compile Include="Entities\LanguagesSpoken.cs" />
+    <Compile Include="Entities\Resource.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Profile.cs" />

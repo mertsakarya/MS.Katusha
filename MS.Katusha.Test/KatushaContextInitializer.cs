@@ -160,6 +160,7 @@ namespace MS.Katusha.Test
 
         public void CreateSampleData()
         {
+            CreateResources();
             CreateSampleUser(Sex.Male);
             CreateSampleUser(Sex.Male);
             CreateSampleUser(Sex.Male);
@@ -167,6 +168,16 @@ namespace MS.Katusha.Test
             CreateSampleUser(Sex.Female);
             CreateSampleUser(Sex.Female);
             Debug.WriteLine("Created Sample Data");
+        }
+
+        private void CreateResources()
+        {
+            var resourceRepository = new ResourceRepositoryDB(_dbContext);
+            resourceRepository.Add(new Resource { ResourceKey = "FriendlyNameRegularExpression", Language = (byte)Language.English, Value = "^[a-zA-Z0-9_]*$" });
+            resourceRepository.Add(new Resource { ResourceKey = "FriendlyNameRegularExpressionError", Language = (byte)Language.English, Value = "Invalid characters in this field!" });
+            resourceRepository.Add(new Resource { ResourceKey = "DescriptionEmptyError", Language = (byte)Language.English, Value = "Description field cannot be empty!" });
+            
+            _dbContext.SaveChanges();
         }
     }
 

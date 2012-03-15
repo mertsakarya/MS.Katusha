@@ -42,7 +42,7 @@ namespace MS.Katusha.Services
         /// <summary>
         /// Tries to find friendlyName as Guid first, if unsuccessfull, looks for friendlyName
         /// </summary>
-        /// <param name="friendlyName"></param>
+        /// <param name="friendlyName">This value can be Guid or a FriendlyName</param>
         /// <param name="includeExpressionParams"></param>
         /// <returns></returns>
         public T GetProfile(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams)

@@ -48,6 +48,7 @@
     <Compile Include="IGirlRepository.cs" />
     <Compile Include="ILanguagesSpokenRepository.cs" />
     <Compile Include="IPhotoRepository.cs" />
+    <Compile Include="IResourceRepository.cs" />
     <Compile Include="ISearchingForRepository.cs" />
     <Compile Include="IStateRepository.cs" />
     <Compile Include="IUserRepository.cs" />

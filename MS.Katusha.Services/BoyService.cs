@@ -33,7 +33,7 @@ namespace MS.Katusha.Services
         {
             base.UpdateProfile(profile);
             var dataProfile = base.GetProfile(profile.Guid);
-            SetData(dataProfile, profile);
+            base.SetData(dataProfile, profile);
             dataProfile.DickSize = profile.DickSize;
             dataProfile.DickThickness = profile.DickThickness;
             Repository.FullUpdate(dataProfile);

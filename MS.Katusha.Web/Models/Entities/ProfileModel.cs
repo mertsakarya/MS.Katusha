@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 
@@ -40,9 +41,10 @@ namespace MS.Katusha.Web.Models.Entities
         public Alcohol Alcohol { get; set; }
         public Religion Religion { get; set; }
 
-        public int Height { get; set; }
+        public int? Height { get; set; }
         public int BirthYear { get; set; }
 
+        [KatushaRequired(AllowEmptyStrings = false, ErrorMessageResourceName = "DescriptionEmptyError", Language = Language.English)]
         public string Description { get; set; }
 
         public IList<SearchingForModel> Searches { get; set; }
