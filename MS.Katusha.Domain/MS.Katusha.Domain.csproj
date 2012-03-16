@@ -59,6 +59,7 @@
     <Compile Include="Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
+    <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
     <Compile Include="Entities\Boy.cs" />
     <Compile Include="Entities\Conversation.cs" />

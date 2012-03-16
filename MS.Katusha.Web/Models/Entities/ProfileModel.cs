@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
@@ -44,7 +45,7 @@ namespace MS.Katusha.Web.Models.Entities
         public int? Height { get; set; }
         public int BirthYear { get; set; }
 
-        [KatushaRequired(AllowEmptyStrings = false, ErrorMessageResourceName = "DescriptionEmptyError", Language = Language.English)]
+        [KatushaRequired(AllowEmptyStrings = false, ErrorMessageResourceName = "DescriptionEmptyError")]
         public string Description { get; set; }
 
         public IList<SearchingForModel> Searches { get; set; }
@@ -109,5 +110,6 @@ namespace MS.Katusha.Web.Models.Entities
             }
             return str;
         }
+
     }
 }

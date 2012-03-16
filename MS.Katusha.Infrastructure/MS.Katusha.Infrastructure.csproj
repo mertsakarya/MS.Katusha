@@ -36,6 +36,7 @@
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KatushaContextInitializer.cs" />
+    <Compile Include="ReloadResources.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +54,10 @@
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
+      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
+      <Name>MS.Katusha.Enumerations</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>

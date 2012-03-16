@@ -43,7 +43,7 @@ namespace MS.Katusha.Attributes
             get
             {
                 string errorMessage = string.Empty;
-                errorMessage = _resourceManager.GetValueFromCode(ErrorMessageResourceName, (byte)Language);
+                errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
 
                 if(String.IsNullOrEmpty(errorMessage)){
                     errorMessage = _errorMessage;
@@ -62,7 +62,7 @@ namespace MS.Katusha.Attributes
             get
             {
                 string pattern = string.Empty;
-                pattern = _resourceManager.GetValueFromCode(_patternResourceName, (byte)Language);
+                pattern = _resourceManager._R(_patternResourceName, (byte)Language);
 
                 if (String.IsNullOrEmpty(pattern))
                 {

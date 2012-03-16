@@ -19,13 +19,13 @@ namespace MS.Katusha.Web.Helpers
     {
         public static void RegisterDependencies()
         {
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<GirlService>().As<IGirlService>().InstancePerHttpRequest();
             builder.RegisterType<BoyService>().As<IBoyService>().InstancePerHttpRequest();
+            builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<GirlRepositoryDB>().As<IGirlRepositoryDB>().InstancePerHttpRequest();

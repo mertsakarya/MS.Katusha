@@ -1,10 +1,9 @@
 @model MS.Katusha.Web.Models.Entities.BoyModel
-
 <div class="editor-label">
     @Html.LabelFor(model => model.DickSize)
 </div>
 <div class="editor-field">
-    @Html.EnumDropDownListFor(model => model.DickSize)
+    @Html.EnumDropDownListFor(model => model.DickSize, true)
     @Html.ValidationMessageFor(model => model.DickSize)
 </div>
 

@@ -8,8 +8,8 @@
     <ProjectGuid>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.Katusha.Repository.DB</RootNamespace>
-    <AssemblyName>MS.Katusha.Repository</AssemblyName>
+    <RootNamespace>MS.Katusha.Repositories.DB</RootNamespace>
+    <AssemblyName>MS.Katusha.Repositories.DB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,6 +48,7 @@
     <Compile Include="Base\BaseGuidRepositoryDB.cs" />
     <Compile Include="Base\BaseRepositoryDB.cs" />
     <Compile Include="BoyRepositoryDB.cs" />
+    <Compile Include="ResourceLookupRepositoryDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConversationRepositoryDB.cs" />
     <Compile Include="CountriesToVisitRepository.cs" />

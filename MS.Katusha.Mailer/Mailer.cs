@@ -15,7 +15,7 @@ namespace MS.Katusha.Mailer
 
 
             string @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mertsakarya@gmail.com";
-            string templateFolder = ConfigurationManager.AppSettings["Template_Folder"] ?? "~\\___MailTemplates\\";
+            string templateFolder = ConfigurationManager.AppSettings["Root_Folder"]+ @"MS.Katusha.Web\Views\___MailTemplates\" ?? "~\\___MailTemplates\\";
             string templateText = null;
             string result = "";
             if (!templateName.EndsWith(".cshtml")) templateText = templateName;

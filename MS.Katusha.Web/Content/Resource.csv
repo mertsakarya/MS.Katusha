@@ -1,0 +1,4 @@
+﻿English			FriendlyNameRegularExpression		^[a-zA-Z0-9_]*$
+English		FriendlyNameRegularExpressionError		Invalid characters in this field...
+English	DescriptionEmptyError			Description field cannot be empty!
+English	EmptyText	<Empty>

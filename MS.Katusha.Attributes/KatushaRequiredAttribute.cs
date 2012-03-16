@@ -34,7 +34,7 @@ namespace MS.Katusha.Attributes
         {
             get
             {
-                _errorMessage = _resourceManager.GetValueFromCode(ErrorMessageResourceName, (byte)Language);
+                _errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
                 return _errorMessage;
             }
             set

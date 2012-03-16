@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KatushaStringLengthAttribute.cs" />
     <Compile Include="KatushaRangeAttribute.cs" />
     <Compile Include="KatushaRegularExpressionAttribute.cs" />
     <Compile Include="KatushaRequiredAttribute.cs" />

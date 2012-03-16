@@ -47,7 +47,7 @@ namespace MS.Katusha.Attributes
             get
             {
                 string errorMessage = string.Empty;
-                errorMessage = _resourceManager.GetValueFromCode(ErrorMessageResourceName, (byte)Language);
+                errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
 
                 if (String.IsNullOrEmpty(errorMessage))
                 {

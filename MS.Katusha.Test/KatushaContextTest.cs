@@ -59,7 +59,7 @@ namespace MS.Katusha.Test
         public static void ClassInit(TestContext context)
         {
             Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
-            Database.SetInitializer<KatushaDbContext>(new KatushaContextInitializer());
+            Database.SetInitializer<KatushaDbContext>(new KatushaContextInitializerTest());
         }
 
         [TestMethod]

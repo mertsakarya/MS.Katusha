@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IResourceLookupRepository.cs" />
     <Compile Include="IFrirendlyNameRepository.cs" />
     <Compile Include="IGuidRepository.cs" />
     <Compile Include="IBoyRepository.cs" />

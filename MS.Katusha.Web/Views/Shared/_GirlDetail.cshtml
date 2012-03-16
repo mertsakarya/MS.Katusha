@@ -1,4 +1,3 @@
-@model MS.Katusha.Web.Models.Entities.GirlModel
+@model GirlModel
 
-<div class="display-label">@Html.DisplayNameFor(_ => Model.BreastSize)</div>
-<div class="display-field">@Html.DisplayTextFor(_ => Model.BreastSize).ToString()</div>
+@Html.DisplayDetailFor(Model.BreastSize != 0, _ => Model.BreastSize)

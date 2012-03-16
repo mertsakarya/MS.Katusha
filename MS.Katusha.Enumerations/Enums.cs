@@ -7,7 +7,7 @@ namespace MS.Katusha.Enumerations
     public enum BreastSize : byte { Small = 1, Medium, Large, ExtraLarge }
     public enum DickSize : byte { Small = 1, Medium, Large, ExtraLarge }
     public enum DickThickness : byte { Narrow = 1, Wide, Thick, VeryThick }
-    public enum Language : byte { Turkish = 1, Russian, English }
+    public enum Language : byte { Turkish = 1, Russian, English, MaxLanguage = 3 }
     public enum Country : byte { Turkey = 1, Ukraine, Russia, UnitedStates }
 
     public enum BodyBuild : byte { Thin = 1, Fit, Average, AboveAverage, Overweight }

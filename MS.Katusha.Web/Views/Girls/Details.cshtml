@@ -12,7 +12,10 @@
 @Html.Partial("Profiles/_Details", Model)
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { key = Html.KeyFor(Model) }) |
+    @Html.ActionLink("Edit Profile", "Edit", new { key = Html.KeyFor(Model) }) |
+    @Html.ActionLink("Edit User", "Edit", new { key = Html.KeyFor(Model) }) |
+    @Html.ActionLink("Edit State", "Edit", new { key = Html.KeyFor(Model) }) |
+    @Html.ActionLink("Photos", "Edit", new { key = Html.KeyFor(Model) }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

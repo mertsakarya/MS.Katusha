@@ -7,7 +7,9 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -25,7 +27,7 @@ namespace MS.Katusha.Web.Helpers
             return realModelType;
         }
 
-        private static readonly SelectListItem[] SingleEmptyItem = new[] { new SelectListItem { Text = "", Value = "" } };
+        private static readonly SelectListItem[] SingleEmptyItem = new[] { new SelectListItem { Text = CultureHelper._R("EmptyText"), Value = "0" } };
 
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
@@ -39,17 +41,17 @@ namespace MS.Katusha.Web.Helpers
                 return value.ToString();
         }
 
-        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression)
+        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false)
         {
-            return EnumDropDownListFor(htmlHelper, expression, null);
+            return EnumDropDownListFor(htmlHelper, expression, optional, null);
         }
 
-        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, object htmlAttributes)
+        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional, object htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             Type enumType = GetNonNullableModelType(metadata);
             IEnumerable<TEnum> values = Enum.GetValues(enumType).Cast<TEnum>();
-
+            
             IEnumerable<SelectListItem> items = from value in values
                                                 select new SelectListItem
                                                 {
@@ -59,7 +61,7 @@ namespace MS.Katusha.Web.Helpers
                                                 };
 
             // If the enum is nullable, add an 'empty' item to the collection
-            if (metadata.IsNullableValueType)
+            if (optional || metadata.IsNullableValueType)
                 items = SingleEmptyItem.Concat(items);
 
             return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
@@ -68,6 +70,22 @@ namespace MS.Katusha.Web.Helpers
         public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
         {   
             return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
+        }
+
+
+        public static string _R<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
+        {
+            IResourceManager rm = new ResourceManager();
+            return rm._R(resourceName, (byte)language);
+        }
+
+        public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
+        {
+            if (condition)
+                return  htmlHelper.Raw(
+                        String.Format("<div class=\"display-label\">{0}</div><div class=\"display-field\">{1}</div>",
+                                     htmlHelper.DisplayNameFor(expression), htmlHelper.DisplayTextFor(expression)));
+            return htmlHelper.Raw("");
         }
     }
 }

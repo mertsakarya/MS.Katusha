@@ -1,40 +1,18 @@
 @model MS.Katusha.Web.Models.Entities.ProfileModel
 
-    <div class="display-label">Name</div>
-    <div class="display-field">@Model.Name</div>
-
-    <div class="display-label">From</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.From).ToString()</div>
-
-    <div class="display-label">City</div>
-    <div class="display-field">@Model.City</div>
-
-    <div class="display-label">BodyBuild</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.BodyBuild).ToString()</div>
-
-    <div class="display-label">EyeColor</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.EyeColor).ToString()</div>
-
-    <div class="display-label">HairColor</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.HairColor).ToString()</div>
-
-    <div class="display-label">Smokes</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.Smokes).ToString()</div>
-
-    <div class="display-label">Alcohol</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.Alcohol).ToString()</div>
-
-    <div class="display-label">Religion</div>
-    <div class="display-field">@Html.DisplayTextFor(_ => Model.Religion).ToString()</div>
-
-    <div class="display-label">Height</div>
-    <div class="display-field">@Model.Height</div>
-
-    <div class="display-label">BirthYear</div>
-    <div class="display-field">@Model.BirthYear</div>
-
-    <div class="display-label">Description</div>
-    <div class="display-field">@Model.Description</div>
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Name), _ => Model.Name)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.FriendlyName), _ => Model.FriendlyName)
+    @Html.DisplayDetailFor(Model.From != 0, _ => Model.From)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.City), _ => Model.City)
+    @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
+    @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
+    @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
+    @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
+    @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
+    @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
+    @Html.DisplayDetailFor(Model.Height <= 0, _ => Model.Height)
+    @Html.DisplayDetailFor(Model.BirthYear != 0, _ => Model.BirthYear)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
 
     <div class="display-label">Searches</div>
     <div class="display-field">

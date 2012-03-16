@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -36,6 +38,8 @@ namespace MS.Katusha.Web
 
         protected void Application_Start()
         {
+            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+
             DependencyHelper.RegisterDependencies();
             MapperHelper.HandleMappings();
             AreaRegistration.RegisterAllAreas();
