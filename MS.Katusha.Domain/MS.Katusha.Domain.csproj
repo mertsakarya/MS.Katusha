@@ -49,6 +49,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.Entity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,7 @@
     <Compile Include="Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
+    <Compile Include="Entities\ConfigurationData.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
     <Compile Include="Entities\Boy.cs" />

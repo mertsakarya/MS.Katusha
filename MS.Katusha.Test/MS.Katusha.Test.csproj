@@ -75,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoyRepositoryTest.cs" />
-    <Compile Include="KatushaResourceTest.cs" />
     <Compile Include="RepositoryRavenDBTest.cs" />
     <Compile Include="KatushaContextInitializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +88,10 @@
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
+      <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>
+      <Name>MS.Katusha.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>

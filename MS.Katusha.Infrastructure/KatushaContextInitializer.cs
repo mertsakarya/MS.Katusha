@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Data.Entity;
 using MS.Katusha.Domain;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
-using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Infrastructure
 {
@@ -24,8 +15,7 @@ namespace MS.Katusha.Infrastructure
 
         public void CreateData()
         {
-            ReloadResources.SetResources(_dbContext);
-            ReloadResources.SetResourceLookups(_dbContext);
+            ReloadResources.Set(_dbContext);
         }
 
     }

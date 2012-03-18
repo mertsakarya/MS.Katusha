@@ -14,7 +14,11 @@ namespace MS.Katusha.Domain.Entities
         [NotMapped]
         public string Key
         {
-            get { return ResourceKey + Language.ToString(); }
+            get { return LookupName + Language.ToString(); }
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} | LookupName: {4} | ResourceKey: {1} | Value: {2} | Language: {3} | Order: {5} | Key: {6}", base.ToString(), ResourceKey, Value, Language, LookupName, Order, Key);
         }
     }
 }

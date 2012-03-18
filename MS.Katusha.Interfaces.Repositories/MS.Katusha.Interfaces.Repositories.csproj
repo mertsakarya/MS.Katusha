@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConfigurationDataRepository.cs" />
+    <Compile Include="IConfigurationRepository.cs" />
     <Compile Include="IResourceLookupRepository.cs" />
     <Compile Include="IFrirendlyNameRepository.cs" />
     <Compile Include="IGuidRepository.cs" />

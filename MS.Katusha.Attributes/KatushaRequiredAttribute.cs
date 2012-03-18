@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using System.Web.Mvc;
 
@@ -11,48 +10,29 @@ namespace MS.Katusha.Attributes
     public class KatushaRequiredAttribute : RequiredAttribute, IClientValidatable
     {
         readonly IResourceManager _resourceManager;
-        private string _errorMessage;
+        private const string ErrorMessageKeyName = "RequiredErrorMessage";
+
+        public KatushaRequiredAttribute(string PropertyName)
+        {
+            this.PropertyName = PropertyName;
+            _resourceManager = new ResourceManager();
+        }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             ValidationResult validationResult = base.IsValid(value, validationContext);
-
             if (validationResult != null && !string.IsNullOrEmpty(validationResult.ErrorMessage))
-            {
                 validationResult.ErrorMessage = ErrorMessage;
-            }
-
             return validationResult;
         }
 
-        public KatushaRequiredAttribute()
-        {
-            _resourceManager = new ResourceManager();
-        }
+        protected string PropertyName { get; private set; }
 
-        public new string ErrorMessage
-        {
-            get
-            {
-                _errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
-                return _errorMessage;
-            }
-            set
-            {
-                _errorMessage = value;
-            }
-        }
-
-        public new Language Language { get; set; }
-        public new string ErrorMessageResourceName { get; set; }
+        public new string ErrorMessage { get { return _resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "*"; } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            yield return new ModelClientValidationRule
-            {
-                ErrorMessage = ErrorMessage,
-                ValidationType = "required"
-            };
+            yield return new ModelClientValidationRequiredRule(ErrorMessage);
         }
     }
 }

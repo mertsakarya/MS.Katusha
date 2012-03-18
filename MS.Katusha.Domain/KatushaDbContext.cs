@@ -14,6 +14,7 @@ namespace MS.Katusha.Domain
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Visit> Visits { get; set; }
 
+        public DbSet<ConfigurationData> ConfigurationDatas { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<ResourceLookup> ResourceLookups { get; set; }
 

@@ -18,9 +18,9 @@ namespace MS.Katusha.Repositories.DB
         {
         }
 
-        public List<Resource> GetActiveResources()
+        public Resource[] GetActiveValues()
         {
-            return DbContext.Set<Resource>().Where(r => !r.Deleted).ToList();
+            return DbContext.Set<Resource>().Where(r => !r.Deleted).ToArray();
         }
     }
 

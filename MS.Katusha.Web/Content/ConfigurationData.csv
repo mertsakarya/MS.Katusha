@@ -1,0 +1,359 @@
+﻿***********************************************************************************************************************
+*
+*	Author:		MERT SAKARYA
+*	Email:		mertsakarya@hotmail.com
+*	Date:		2012/03/17
+*
+***********************************************************************************************************************
+*
+* This file is used to upload Configuration information to Katusha Database
+* It can be executed from /Home/Init Action
+*
+* If first character is '*' or '#', it is considered as a comment line
+* Lines are Trimmed from spaces, whitespaces and tabs,
+# Blank lines are ignored
+* If line starts with [
+* It can be change a configuration section
+*	Configuration sections can be 
+*		[Configuration]
+*		[Resource]
+*		[ResourceLookup]
+*
+*
+*	[Configuration] is two tab delimited line for, Key and Value
+*	[Resource]	is three tab delimited line for, Language, Key and Value
+*	[ResourceLookup] is five tab delimited line for, Language, LookupName, Key, Value and Order
+*
+*	There cannot be more tabs for section lines unless it is empty and will be trimmed at the beginning anyhow.
+*	\r \n and \t are considered return, new line and tab on Value fields and will be replaced.
+*	If a Value field is "" it will be replaced with empty string.
+*	One line corresponds to a record on database
+*	Language value can be:
+*		An integer that can be casted to Language Enumeration
+*		Text that can be casted to Language Enumeration
+*		Culture text that can be mapped to Language Enumeration
+*
+***********************************************************************************************************************
+*
+*	Properties that are used
+
+*	<PropertyName>	Field Attribute
+*	[Configuration]
+*		<PropertyName>.HideSurroundingHtml	false
+*		<PropertyName>.ShowForDisplay	true
+*		<PropertyName>.ShowForEdit	true
+*	[Resource]
+*		en	<PropertyName>.DisplayName	""
+*		en	<PropertyName>.Description	""
+*		en	<PropertyName>.DisplayFormatString	""
+*		en	<PropertyName>.EditFormatString	""
+*		en	<PropertyName>.NullDisplayText	""
+*		en	<PropertyName>.ShortDisplayName	""
+*		en	<PropertyName>.TemplateHint	""
+*		en	<PropertyName>.Watermark	""
+
+*	PropertyName	StringLengthAttribute
+*	[Configuration]
+*		<PropertyName>.MaximumLength	int.MaxValue
+*		<PropertyName>.MinimumLength	int.MinValue
+*	[Resource]
+*		en	<PropertyName>.StringLengthErrorMessage	({0} - {1})
+
+*	PropertyName	RangeAttribute
+*	[Configuration]
+*		<PropertyName>.Maximum	double.MaxValue
+*		<PropertyName>.Minimum	double.MinValue
+*	[Resource]
+*		en	<PropertyName>.RangeErrorMessage	({0} - {1})
+
+*	PropertyName	RequiredAttribute
+*	[Resource]
+*		en	<PropertyName>.RequiredErrorMessage	*
+
+*	PropertyName	RegularExpression
+*	[Configuration]
+*		<PropertyName>.RegularExpressionPattern	""
+*	[Resource]
+*		en	<PropertyName>.RegularExpressionErrorMessage	*
+*
+***********************************************************************************************************************
+*
+*	<PropertyName>	Property List of whole field information with sample data
+*	[Configuration]
+*		<PropertyName>.HideSurroundingHtml	false
+*		<PropertyName>.ShowForDisplay	true
+*		<PropertyName>.ShowForEdit	true
+*		<PropertyName>.MaximumLength	int.MaxValue
+*		<PropertyName>.MinimumLength	int.MinValue
+*		<PropertyName>.Maximum	double.MaxValue
+*		<PropertyName>.Minimum	double.MinValue
+*		<PropertyName>.RegularExpressionPattern	""
+*		<PropertyName>.AdditionalValues	"a=1|b=2"
+*	[Resource]
+*		en	<PropertyName>.AdditionalValues	""
+*		en	<PropertyName>.DisplayName	""
+*		en	<PropertyName>.Description	""
+*		en	<PropertyName>.DisplayFormatString	""
+*		en	<PropertyName>.EditFormatString	""
+*		en	<PropertyName>.NullDisplayText	""
+*		en	<PropertyName>.ShortDisplayName	""
+*		en	<PropertyName>.TemplateHint	""
+*		en	<PropertyName>.Watermark	""
+*		en	<PropertyName>.StringLengthErrorMessage	({0} - {1})
+*		en	<PropertyName>.RangeErrorMessage	({0} - {1})
+*		en	<PropertyName>.RequiredErrorMessage	*
+*		en	<PropertyName>.RegularExpressionErrorMessage	*
+*
+***********************************************************************************************************************
+*
+*	ResourceManager looks for <PropertyName>.<Key><Language> pattern for Values, 
+*	If it cannot find the Value, it tries to find <Key><Language> for default,
+*	on Configuration Data, it excludes <Language> information.
+*	AdditionalValues are in the following format splitted by '|' character a=1|b=2
+*
+***********************************************************************************************************************
+
+***							Global Declarations
+ 	[Configuration]
+		MinimumLength	0
+		MaximumLength	8000
+ 	[Resource]
+ 		en	EmptyText	""
+
+***							Field Declarations
+*	FriendlyName
+ 	[Configuration]
+ 		FriendlyName.MaximumLength	64
+ 		FriendlyName.RegularExpressionPattern	^[a-z0-9_]*$
+ 	[Resource]
+ 		en	FriendlyName.DisplayName	Url friendly name
+ 		en	FriendlyName.Description	This value is for unique name for you to be used on URLs. If you have this value, you will not be referred with weird ID on URLs. This value must unique.
+ 		en	FriendlyName.NullDisplayText	<Friendly Name>
+ 		en	FriendlyName.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+ 		en	FriendlyName.RegularExpressionErrorMessage	Sorry, only lower case English characters, numbers and '_' sign are allowed.
+
+*	Profile.Name
+ 	[Configuration]
+ 		Profile.Name.MaximumLength	64
+ 		Profile.Name.RegularExpressionPattern	^[a-zA-Z0-9 ]*$
+ 	[Resource]
+ 		en	Profile.Name.DisplayName	Name
+ 		en	Profile.Name.Description	This can be any name you want.
+ 		en	Profile.Name.NullDisplayText	""
+ 		en	Profile.Name.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+ 		en	Profile.Name.RegularExpressionErrorMessage	Sorry, only English characters, numbers and space characters are allowed.
+
+*	Profile.From
+ 	[Resource]
+ 		en	Profile.From.DisplayName	Your country
+ 		en	Profile.From.Description	The country currently you are living in.
+
+*	Profile.City
+ 	[Configuration]
+ 		Profile.City.MaximumLength	64
+ 	[Resource]
+ 		en	Profile.City.DisplayName	Your city
+ 		en	Profile.City.Description	The city currently you are living in.
+ 		en	Profile.City.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+
+*	Profile.BodyBuild
+ 	[Resource]
+ 		en	Profile.BodyBuild.DisplayName	Body type
+ 		en	Profile.BodyBuild.Description	The country currently you are living in.
+
+*	Profile.EyeColor
+ 	[Resource]
+ 		en	Profile.EyeColor.DisplayName	Eye color
+ 		en	Profile.EyeColor.Description	What color are your eyes?
+
+*	Profile.HairColor
+ 	[Resource]
+ 		en	Profile.HairColor.DisplayName	Hair color
+ 		en	Profile.HairColor.Description	What color is your hair?.
+
+*	Profile.Smokes
+ 	[Resource]
+ 		en	Profile.Smokes.DisplayName	Do you smoke?
+ 		en	Profile.Smokes.Description	Do you smoke?
+
+*	Profile.Alcohol
+ 	[Resource]
+ 		en	Profile.Alcohol.DisplayName	Do you drink?
+ 		en	Profile.Alcohol.Description	Do you drink?
+
+*	Profile.Religion
+ 	[Resource]
+ 		en	Profile.Religion.DisplayName	What do you believe in?
+ 		en	Profile.Religion.Description	What do you believe in?
+
+*	Profile.Height
+ 	[Configuration]
+ 		Profile.Height.Minimum	100
+ 		Profile.Height.Maximum	250
+ 	[Resource]
+ 		en	Profile.Height.DisplayName	Height
+ 		en	Profile.Height.Description	How tall are you in centimeters?
+ 		en	Profile.Height.RangeErrorMessage	You can be between {0} and {1} cms.
+
+*	Profile.BirthYear
+ 	[Configuration]
+ 		Profile.BirthYear.Minimum	1920
+ 		Profile.BirthYear.Maximum	2000
+ 	[Resource]
+ 		en	Profile.BirthYear.DisplayName	Birthyear
+ 		en	Profile.BirthYear.Description	This is how we understand your age? :)
+ 		en	Profile.BirthYear.RangeErrorMessage	You can be born between years {0} and {1}.
+
+*	Profile.Description
+ 	[Configuration]
+ 		Profile.Description.MinimumLength	3
+ 		Profile.Description.MaximumLength	1920
+ 	[Resource]
+ 		en	Profile.Description.DisplayName	Description
+ 		en	Profile.Description.Description	Fill this up for people know you better.
+ 		en	Profile.Description.StringLengthErrorMessage	You must write at least {0} and up to {1} letters.
+ 		en	Profile.Description.RequiredErrorMessage	Why don't you write a little about yourself?
+
+*	Profile.Searches
+ 	[Resource]
+ 		en	Profile.Searches.DisplayName	Relationship you're looking for
+ 		en	Profile.Searches.Description	What are looking for here?
+
+*	Profile.CountriesToVisit
+ 	[Resource]
+ 		en	Profile.CountriesToVisit.DisplayName	Countries you want to go
+ 		en	Profile.CountriesToVisit.Description	Tell us about where you want to go.
+
+*	Profile.LanguagesSpoken
+ 	[Resource]
+ 		en	Profile.LanguagesSpoken.DisplayName	Languages you speak
+ 		en	Profile.LanguagesSpoken.Description	Which languages do you speak? Well, we have google translator now...
+
+*	Boy.DickThickness
+ 	[Resource]
+ 		en	Boy.DickThickness.DisplayName	Penis thickness
+ 		en	Boy.DickThickness.Description	How thick is your penis? Be honest.
+
+*	Boy.DickSize
+ 	[Resource]
+ 		en	Boy.DickSize.DisplayName	Penis size
+ 		en	Boy.DickSize.Description	How big is your penis? Be honest.
+
+*	Girl.BreastSize
+ 	[Resource]
+ 		en	Girl.BreastSize.DisplayName	Breast size
+ 		en	Girl.BreastSize.Description	What is your breast size. Be honest.
+
+
+
+
+
+[ResourceLookup]
+	en	Sex				Male			Man				2
+	en	Sex				Female			Girl			1
+
+	en	Language		Turkish			Turkish			3
+	en	Language		Russian			Russian			2
+	en	Language		English			English			1
+
+	en	Country			Turkey			Turkey			3
+	en	Country			Ukraine			Ukraine			4
+	en	Country			Russia			Russia			2
+	en	Country			UnitedStates	United States	1
+
+	en	Status			Online			Online			1
+	en	Status			Away			Away			2
+	en	Status			Offline			Offline			3
+
+	en	MembershipType	Normal			Normal			1
+	en	MembershipType	Gold			Gold			2
+	en	MembershipType	Platinium		Platinium		3
+
+	en	Existance		Active			Active			1
+	en	Existance		Expired			Expired			2
+
+	en	BreastSize		Small			Small			1
+	en	BreastSize		Medium			Medium			2
+	en	BreastSize		Large			Large			3
+	en	BreastSize		ExtraLarge		Extra Large		4
+
+	en	DickSize		Small			Small			1
+	en	DickSize		Medium			Medium			2
+	en	DickSize		Large			Large			3
+	en	DickSize		ExtraLarge		Extra Large		4
+
+	en	DickThickness	Narrow			Narrow			1
+	en	DickThickness	Wide			Wide			2
+	en	DickThickness	Thick			Thick			3
+	en	DickThickness	VeryThick		Very Thick		4
+
+	en	BodyBuild		Thin			Thin			1
+	en	BodyBuild		Fit				Fit				2
+	en	BodyBuild		Average			Average			3
+	en	BodyBuild		AboveAverage	Above Average	4
+	en	BodyBuild		Overweight		Over weight		4
+
+	en	EyeColor		Black			Black			1
+	en	EyeColor		Hazel			Hazel			2
+	en	EyeColor		Brown			Brown			3
+	en	EyeColor		Green			Green			4
+	en	EyeColor		Blue			Blue			5
+	en	EyeColor		Gray			Gray			6
+	en	EyeColor		Red				Red				7
+
+	en	HairColor		Brunette		Brunette		1
+	en	HairColor		Blonde			Blonde			2
+	en	HairColor		Scarlett		Scarlett		3
+	en	HairColor		Chestnut		Chestnut		4
+
+	en	Smokes			Smokes			Smokes			1
+	en	Smokes			DoesntSmoke	Don't Smoke			2
+
+	en	Alcohol			No				No				1
+	en	Alcohol			Sometimes		Sometimes		2
+	en	Alcohol			Yes				Yes				3
+
+	en	Test	test1			t t ten1			1
+	ru	Test	test1			t t tru1			2
+	ru	Test	test2			t t try2			3
+	en	Test	test2			t t ten2			4
+	ru	Test	test3			t t tru3			5
+	tr	Test	test1			t t ttr1			6
+	ru	Test	test4			t t tru4			78
+	en	Test	test3			t t ten3			8
+	tr	Test	test2			t t ttr2			9
+	en	Test	test4			t t ten4			10
+	tr	Test	test3			t t ttr3			45
+	tr	Test	test4			t t ttr4			2
+
+
+	en	Religion		Christian		Christian		1
+	en	Religion		Muslim			Muslim			2
+	en	Religion		Jewish			Jewish			3
+	en	Religion		Hindu			Hindu			4
+	en	Religion		Buddhist		Buddhist		5
+	en	Religion		Atheist			Atheist			6
+	en	Religion		Agnostic		Agnostic		7
+	en	Religion		Deist			Deist			8
+	en	Religion		Other			Other			9
+
+	en	LookingFor		Friend			Friend			1
+	en	LookingFor		Sex				Sex				2
+	en	LookingFor		OneNight		One night stand	3
+	en	LookingFor		LongTimeRelationship	Long time relationship	4
+
+	en	MailType		MailConfirm		Mail Confirm		1
+	en	MailType		PasswordChanged	Password Changed	2
+	en	MailType		YouveGotMessage	You've Got Message	3
+
+	en	KatushaMembershipCreateStatus	Success				Success				1
+	en	KatushaMembershipCreateStatus	DuplicateUserName	Duplicate User Name	2
+	en	KatushaMembershipCreateStatus	DuplicateEmail		Duplicate Email		3
+	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password		4
+	en	KatushaMembershipCreateStatus	InvalidEmail		Invalid Email		5
+	en	KatushaMembershipCreateStatus	InvalidAnswer		Invalid Answer		6
+	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question		7
+	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName		8
+	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10
+	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9
+

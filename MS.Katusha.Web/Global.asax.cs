@@ -1,11 +1,12 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Web.Helpers;
-
+using MS.Katusha.Web.Models.Entities;
 
 namespace MS.Katusha.Web
 {
@@ -39,14 +40,13 @@ namespace MS.Katusha.Web
         protected void Application_Start()
         {
             Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
-
+            ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
             MapperHelper.HandleMappings();
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
             //BundleTable.Bundles.RegisterTemplateBundles();
             BundleTable.Bundles.EnableDefaultBundles();
         }

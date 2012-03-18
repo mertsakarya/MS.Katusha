@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 
 namespace MS.Katusha.Attributes
@@ -13,43 +11,56 @@ namespace MS.Katusha.Attributes
     public class KatushaStringLengthAttribute : StringLengthAttribute, IClientValidatable
     {
         private readonly IResourceManager _resourceManager;
-        private string _errorMessage;
+        private const string ErrorMessageKeyName = "StringLengthErrorMessage";
+        private const string MaximumLengthName = "MaximumLength";
+        private const string MinimumLengthName = "MinimumLength";
 
-        public KatushaStringLengthAttribute(int maximumLength) 
-            : base(maximumLength)
+        public KatushaStringLengthAttribute(string PropertyName)
+            : base(0)
         {
+            this.PropertyName = PropertyName;
             _resourceManager = new ResourceManager();
-            
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null) return null;
             var length = value.ToString().Length;
             if (length < MinimumLength || length > MaximumLength)
                 return new ValidationResult(ErrorMessage);
             return null;
         }
 
-        public Language Language { get; set; }
+        public string PropertyName { get; private set; }
 
-        public new string ErrorMessage
+        public new int MaximumLength
         {
             get
             {
-                var errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
-                if (String.IsNullOrEmpty(errorMessage))
-                    errorMessage = _errorMessage;
-                return errorMessage;
+                int i;
+                return int.TryParse(_resourceManager._C(PropertyName, MaximumLengthName), out i) ? i : int.MaxValue;
             }
-            set { _errorMessage = value; }
+        }
+
+        public new int MinimumLength
+        {
+            get
+            {
+                int i;
+                return int.TryParse(_resourceManager._C(PropertyName, MinimumLengthName), out i) ? i : int.MinValue;
+            }
+        }
+
+        public new string ErrorMessage
+        {
+            get {
+                return String.Format(_resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
+            }
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            yield return new ModelClientValidationRangeRule(ErrorMessage, base.MinimumLength, base.MaximumLength)
-            {
-                ValidationType = "range"
-            };
+            yield return new ModelClientValidationStringLengthRule(ErrorMessage, MinimumLength, MaximumLength);
         }
     }
 }

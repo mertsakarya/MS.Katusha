@@ -13,13 +13,12 @@
     @Html.DisplayDetailFor(Model.Height <= 0, _ => Model.Height)
     @Html.DisplayDetailFor(Model.BirthYear != 0, _ => Model.BirthYear)
     @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
-
     <div class="display-label">Searches</div>
     <div class="display-field">
         @(Model.Searches == null ? "None" : Model.Searches.Count.ToString())
     </div>
 
-    <div class="display-label">Photos</div>
+@*    <div class="display-label">Photos</div>
     <div class="display-field">@(Model.Photos == null ? "None" : Model.Photos.Count.ToString())</div>
 
     <div class="display-label">CountriesToVisit</div>
@@ -38,7 +37,7 @@
     <div class="display-field">@(Model.WhoVisited == null ? "None" : Model.WhoVisited.Count.ToString())</div>
 
     <div class="display-label">Visited</div>
-    <div class="display-field">@(Model.Visited == null ? "None" : Model.Visited.Count.ToString())</div>
+    <div class="display-field">@(Model.Visited == null ? "None" : Model.Visited.Count.ToString())</div>*@
 
 
 

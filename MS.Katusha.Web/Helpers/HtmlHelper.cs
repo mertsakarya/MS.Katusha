@@ -18,27 +18,17 @@ namespace MS.Katusha.Web.Helpers
         private static Type GetNonNullableModelType(ModelMetadata modelMetadata)
         {
             Type realModelType = modelMetadata.ModelType;
-
             Type underlyingType = Nullable.GetUnderlyingType(realModelType);
             if (underlyingType != null)
-            {
                 realModelType = underlyingType;
-            }
             return realModelType;
         }
-
-        private static readonly SelectListItem[] SingleEmptyItem = new[] { new SelectListItem { Text = CultureHelper._R("EmptyText"), Value = "0" } };
 
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
-
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-            if ((attributes != null) && (attributes.Length > 0))
-                return attributes[0].Description;
-            else
-                return value.ToString();
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return attributes.Length > 0 ? attributes[0].Description : value.ToString();
         }
 
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false)
@@ -49,22 +39,35 @@ namespace MS.Katusha.Web.Helpers
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional, object htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            Type enumType = GetNonNullableModelType(metadata);
-            IEnumerable<TEnum> values = Enum.GetValues(enumType).Cast<TEnum>();
-            
-            IEnumerable<SelectListItem> items = from value in values
-                                                select new SelectListItem
-                                                {
-                                                    Text = GetEnumDescription(value),
-                                                    Value = value.ToString(),
-                                                    Selected = value.Equals(metadata.Model)
-                                                };
-
-            // If the enum is nullable, add an 'empty' item to the collection
+            Type type = GetNonNullableModelType(metadata);
+            IResourceManager rm = new ResourceManager();
+            var dict = rm._L(type.Name);
+            var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
-                items = SingleEmptyItem.Concat(items);
+                list.Add(new SelectListItem { Text = CultureHelper._R("EmptyText"), Value = "0" });
+            list.AddRange(dict.Select(item => new SelectListItem {Text = item.Value, Value = item.Key, Selected = item.Key.Equals(metadata.Model)}));
+            return htmlHelper.DropDownListFor(expression, list, htmlAttributes);
+            //Type enumType = GetNonNullableModelType(metadata);
+            //IEnumerable<TEnum> values = Enum.GetValues(enumType).Cast<TEnum>();
+            //IEnumerable<SelectListItem> items = from value in values
+            //                                    select new SelectListItem
+            //                                    {
+            //                                        Text = GetEnumDescription(value),
+            //                                        Value = value.ToString(),
+            //                                        Selected = value.Equals(metadata.Model)
+            //                                    };
 
-            return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
+            //// If the enum is nullable, add an 'empty' item to the collection
+            //if (optional || metadata.IsNullableValueType) {
+            //    items = new[] {
+            //              new SelectListItem {
+            //                                     Text = CultureHelper._R("EmptyText"),
+            //                                     Value = "0"
+            //                                 }
+            //          }.Concat(items);
+            //}
+
+            //return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
         }
 
         public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
@@ -81,10 +84,23 @@ namespace MS.Katusha.Web.Helpers
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
         {
-            if (condition)
-                return  htmlHelper.Raw(
-                        String.Format("<div class=\"display-label\">{0}</div><div class=\"display-field\">{1}</div>",
-                                     htmlHelper.DisplayNameFor(expression), htmlHelper.DisplayTextFor(expression)));
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            if (condition) {
+                var label = new TagBuilder("div");
+                label.AddCssClass("display-label");
+                label.InnerHtml = String.Format("<b>{0}</b>", htmlHelper.DisplayNameFor(expression).ToHtmlString());
+                var text = new TagBuilder("div");
+                text.AddCssClass("display-field");
+                text.InnerHtml = htmlHelper.DisplayTextFor(expression).ToHtmlString();
+                var container = new TagBuilder("div");
+                container.Attributes.Add("title", metadata.Description);
+                container.InnerHtml = label.ToString() + text.ToString();
+                var result = htmlHelper.Raw(container.ToString());
+                return result;
+            }
+            //return htmlHelper.Raw(
+            //        String.Format("<div class=\"display-label\"><b>{0}</b></div><div class=\"display-field\">{1}</div><span title=\"{2}\">?</span><br />",
+            //                      , htmlHelper.DisplayTextFor(expression), metadata.Description));
             return htmlHelper.Raw("");
         }
     }

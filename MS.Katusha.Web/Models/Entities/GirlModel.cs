@@ -1,11 +1,13 @@
 using System;
+using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Web.Models.Entities
 {
     public class GirlModel : ProfileModel
     {
-        public BreastSize BreastSize { get; set; }
+        [KatushaField("Girl.BreastSize")]
+        public BreastSize? BreastSize { get; set; }
 
 
         public override string ToString()

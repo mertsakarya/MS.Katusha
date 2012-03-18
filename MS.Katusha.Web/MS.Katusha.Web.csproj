@@ -182,6 +182,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="KatushaMetadataProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />
@@ -248,7 +249,9 @@
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.Template.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -284,6 +287,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_code\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -394,8 +398,7 @@
     <Content Include="Views\Shared\KatushaError.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\ResourceLookup.csv" />
-    <None Include="Content\Resource.csv" />
+    <None Include="Content\ConfigurationData.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

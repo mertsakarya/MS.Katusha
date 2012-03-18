@@ -12,62 +12,49 @@ namespace MS.Katusha.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class KatushaRangeAttribute : RangeAttribute, IClientValidatable
     {
-        IResourceManager _resourceManager;
-        private string _errorMessage;
+        private readonly IResourceManager _resourceManager;
+        private const string ErrorMessageKeyName = "RangeErrorMessage";
+        private const string MaximumName = "Maximum";
+        private const string MinimumName = "Minimum";
 
-        public KatushaRangeAttribute(double minimum, double maximum) 
-            : base(minimum, maximum)
+        public KatushaRangeAttribute(string PropertyName)
+            : base(0,1)
         {
             _resourceManager = new ResourceManager();
+            this.PropertyName = PropertyName;
+        }
+
+        public new int Maximum
+        {
+            get
+            {
+                int i;
+                return int.TryParse(_resourceManager._C(PropertyName, MaximumName), out i) ? i : int.MaxValue;
+            }
+        }
+
+        public new int Minimum
+        {
+            get
+            {
+                int i;
+                return int.TryParse(_resourceManager._C(PropertyName, MinimumName), out i) ? i : int.MinValue;
+            }
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            //ValidationResult validationResult = base.IsValid(value, validationContext);
-
-            ValidationResult validationResult = null;
-
-            if (double.Parse(value.ToString()) < double.Parse(Minimum.ToString()) ||
-                double.Parse(value.ToString()) > double.Parse(Maximum.ToString()))
-            {
-                validationResult = new ValidationResult(ErrorMessage);
-            }
-
-            //if (validationResult != null && !string.IsNullOrEmpty(validationResult.ErrorMessage))
-            //{
-            //    validationResult.ErrorMessage = ErrorMessageResourceName;
-            //}
-
-            return validationResult;
+            int i;
+            return int.TryParse(value.ToString(), out i) ? (i >= Minimum && i <= Maximum ? null : new ValidationResult(ErrorMessage)) : new ValidationResult(ErrorMessage);
         }
 
-        public new Language Language { get; set; }
-        public new string ErrorMessage
-        {
-            get
-            {
-                string errorMessage = string.Empty;
-                errorMessage = _resourceManager._R(ErrorMessageResourceName, (byte)Language);
+        public string PropertyName { get; private set; }
 
-                if (String.IsNullOrEmpty(errorMessage))
-                {
-                    errorMessage = _errorMessage;
-                }
-
-                return errorMessage;
-            }
-            set
-            {
-                _errorMessage = value;
-            }
-        }
+        public new string ErrorMessage { get { return String.Format(_resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            yield return new ModelClientValidationRangeRule(ErrorMessage, base.Minimum, base.Maximum)
-            {
-                ValidationType = "range"
-            };
+            yield return new ModelClientValidationRangeRule(ErrorMessage, Minimum, Maximum);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Services;
@@ -53,7 +54,8 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult Init()
         {
-            return View("KatushaError", new KatushaException("", _configurationService.ResetDatabaseResources()));
+            string result = _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
+            return View("KatushaError", new KatushaException("", result));
         }
     }
 }

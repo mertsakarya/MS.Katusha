@@ -7,6 +7,7 @@ using MS.Katusha.Domain;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Test
@@ -65,6 +66,7 @@ namespace MS.Katusha.Test
                 DickSize = (byte)DickSize.Medium,
                 DickThickness = (byte)DickThickness.Thick,
                 Height = 170,
+                BirthYear = 1970,
                 FriendlyName = "mertiko" + id.ToString(CultureInfo.InvariantCulture),
                 City = "Istanbul" + id.ToString(CultureInfo.InvariantCulture),
                 From = (byte)Country.Turkey,
@@ -122,6 +124,7 @@ namespace MS.Katusha.Test
                 Description = "TestGirl" + id.ToString(CultureInfo.InvariantCulture),
                 BreastSize = (byte)BreastSize.Large,
                 Height = 170,
+                BirthYear = 1980,
                 ModifiedDate = now,
                 FriendlyName = "girl_mertiko" + id.ToString(CultureInfo.InvariantCulture),
                 City = "Ankara" + id.ToString(CultureInfo.InvariantCulture),
@@ -162,8 +165,8 @@ namespace MS.Katusha.Test
 
         public void CreateSampleData()
         {
-            SetResources();
-            SetResourceLookups();
+            var result = ReloadResources.Set(_dbContext);
+            if (result != null) foreach(var line in result) Debug.WriteLine(line);
             CreateSampleUser(Sex.Male);
             CreateSampleUser(Sex.Male);
             CreateSampleUser(Sex.Male);
@@ -171,111 +174,6 @@ namespace MS.Katusha.Test
             CreateSampleUser(Sex.Female);
             CreateSampleUser(Sex.Female);
             Debug.WriteLine("Created Sample Data");
-        }
-
-        private void SetResourceLookups()
-        {
-            var repository = new ResourceLookupRepositoryDB(_dbContext);
-            using (var stream = new StreamReader(@"..\..\..\MS.Katusha.Web\Content\ResourceLookup.csv")) {
-                while (!stream.EndOfStream) {
-                    string text = stream.ReadLine();
-                    if (!String.IsNullOrWhiteSpace(text)) {
-                        var arr = text.Trim().Split('\t');
-                        var values = new List<string>();
-                        foreach (string t in arr) {
-                            var item = t.Trim();
-                            if (!String.IsNullOrWhiteSpace(item))
-                                values.Add(item.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n"));
-                            if (values.Count == 5) {
-                                AddResourceLookup(repository, values);
-                                break;
-                            }
-                        }
-                        if (values.Count == 4) {
-                            AddResourceLookup(repository, values, false);
-                        }
-                        Debug.WriteLineIf((values.Count > 0 && values.Count < 4), "ERROR! \t" + text);
-                    }
-                }
-            }
-            _dbContext.SaveChanges();
-        }
-
-        private void SetResources()
-        {
-            var repository = new ResourceRepositoryDB(_dbContext);
-            using (var stream = new StreamReader(@"..\..\..\MS.Katusha.Web\Content\Resource.csv"))
-            {
-                while (!stream.EndOfStream)
-                {
-                    string text = stream.ReadLine();
-                    if (!String.IsNullOrWhiteSpace(text))
-                    {
-                        var arr = text.Trim().Split('\t');
-                        var values = new List<string>();
-                        foreach (string t in arr)
-                        {
-                            var item = t.Trim();
-                            if (!String.IsNullOrWhiteSpace(item))
-                                values.Add(item.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n"));
-                            if (values.Count == 3)
-                            {
-                                AddResource(repository, values);
-                                break;
-                            }
-                        }
-                        Debug.WriteLineIf((values.Count > 0 && values.Count != 3), "ERROR! \t" + text);
-                    }
-                }
-            }
-            _dbContext.SaveChanges();
-        }
-
-        private static void AddResourceLookup(ResourceLookupRepositoryDB repository, List<string> values, bool hasOrder = true)
-        {
-            byte language;
-            byte order;
-            if (GetLanguage(values, out language)) return;
-            if (!hasOrder)
-                order = 0;
-            else
-            {
-                if (!Byte.TryParse(values[4], out order))
-                {
-                    Debug.WriteLine(String.Format("ORDER ERROR: {0} {1} {2} {3} {4}", values[0], values[1], values[2],
-                                                  values[3], values[4]));
-                    return;
-                }
-            }
-            repository.Add(new ResourceLookup { LookupName = values[1], ResourceKey = values[2], Language = language, Value = values[3], Order = order});
-        }
-
-        private static bool GetLanguage(List<string> values, out byte language)
-        {
-            Language ll = 0;
-            byte lb = 0;
-            if (!Byte.TryParse(values[0], out lb))
-            {
-                if (!Enum.TryParse(values[0], true, out ll))
-                {
-                    Debug.WriteLine(String.Format("LANGUAGE ERROR: {0} {1} {2}", values[0], values[1], values[2]));
-                    language = 255;
-                    return true;
-                }
-            }
-            language = (byte)(lb + (byte) ll);
-            if (language < 0 || language > (byte)Language.MaxLanguage) {
-                Debug.WriteLine(String.Format("LANGUAGE ERROR: {0} {1} {2}", values[0], values[1], values[2]));
-                return true;
-            }
-            return false;
-        }
-
-        private static void AddResource(ResourceRepositoryDB repository, List<string> values)
-        {
-            byte language;
-            if (GetLanguage(values, out language)) return;
-            repository.Add(new Resource { ResourceKey = values[1], Language = language, Value = values[2] });
         }
     }
 

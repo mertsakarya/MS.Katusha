@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigParser.cs" />
     <Compile Include="KatushaContextInitializer.cs" />
     <Compile Include="ReloadResources.cs" />
     <Compile Include="ResourceManager.cs" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Exceptions\MS.Katusha.Exceptions.csproj">
+      <Project>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</Project>
+      <Name>MS.Katusha.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
@@ -22,36 +21,62 @@ namespace MS.Katusha.Web.Models.Entities
             Visited = new List<VisitModel>();
         }
 
-        //[Required]
-        //public long UserId { get; set; }
-        
+
         public UserModel User { get; set; }
 
-        // public long StateId { get; set; }
         public StateModel State { get; set; }
 
+        [KatushaRegularExpression("Profile.Name")]
+        [KatushaStringLength("Profile.Name")]
+        [KatushaField("Profile.Name")]
         public string Name { get; set; }
 
-        public Country From { get; set; }
+        [KatushaField("Profile.From")]
+        public Country? From { get; set; }
 
+        [KatushaStringLength("Profile.City")]
+        [KatushaField("Profile.City")]
         public string City { get; set; }
-        public BodyBuild BodyBuild { get; set; }
-        public EyeColor EyeColor { get; set; }
-        public HairColor HairColor { get; set; }
-        public Smokes Smokes { get; set; }
-        public Alcohol Alcohol { get; set; }
-        public Religion Religion { get; set; }
 
+        [KatushaField("Profile.BodyBuild")]
+        public BodyBuild? BodyBuild { get; set; }
+
+        [KatushaField("Profile.EyeColor")]
+        public EyeColor? EyeColor { get; set; }
+
+        [KatushaField("Profile.HairColor")]
+        public HairColor? HairColor { get; set; }
+
+        [KatushaField("Profile.Smokes")]
+        public Smokes? Smokes { get; set; }
+
+        [KatushaField("Profile.Alcohol")]
+        public Alcohol? Alcohol { get; set; }
+
+        [KatushaField("Profile.Religion")]
+        public Religion? Religion { get; set; }
+
+        [KatushaRange("Profile.Height")]
+        [KatushaField("Profile.Height")]
         public int? Height { get; set; }
-        public int BirthYear { get; set; }
 
-        [KatushaRequired(AllowEmptyStrings = false, ErrorMessageResourceName = "DescriptionEmptyError")]
+        [KatushaRange("Profile.BirthYear")]
+        [KatushaField("Profile.BirthYear")]
+        public int? BirthYear { get; set; }
+
+        [KatushaRequired("Profile.Description")]
+        [KatushaStringLength("Profile.Description")]
+        [KatushaField("Profile.Description")]
         public string Description { get; set; }
 
+        [KatushaField("Profile.Searches")]
         public IList<SearchingForModel> Searches { get; set; }
-        public IList<PhotoModel> Photos { get; set; }
+        [KatushaField("Profile.CountriesToVisit")]
         public IList<CountriesToVisitModel> CountriesToVisit { get; set; }
+        [KatushaField("Profile.LanguagesSpoken")]
         public IList<LanguagesSpokenModel> LanguagesSpoken { get; set; }
+
+        public IList<PhotoModel> Photos { get; set; }
 
         public IList<ConversationModel> SentMessages { get; set; }
         public IList<ConversationModel> RecievedMessages { get; set; }

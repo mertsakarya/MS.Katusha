@@ -51,30 +51,6 @@
         <th>
             Description
         </th>
-        <th>
-            Searches
-        </th>
-        <th>
-            Photos
-        </th>
-        <th>
-            CountriesToVisit
-        </th>
-        <th>
-            LanguagesSpoken
-        </th>
-        <th>
-            SentMessages
-        </th>
-        <th>
-            RecievedMessages
-        </th>
-        <th>
-            WhoVisited
-        </th>
-        <th>
-            Visited
-        </th>
     </tr>
 
 @foreach (var item in Model.List)
@@ -121,30 +97,9 @@
         <td>
 			@item.Description
         </td>
-        <td>
+@*        <td>
 			@(item.Searches == null ? "None" : item.Searches.Count.ToString())
-        </td>
-        <td>
-			@(item.Photos == null ? "None" : item.Photos.Count.ToString())
-        </td>
-        <td>
-			@(item.CountriesToVisit == null ? "None" : item.CountriesToVisit.Count.ToString())
-        </td>
-        <td>
-			@(item.LanguagesSpoken == null ? "None" : item.LanguagesSpoken.Count.ToString())
-        </td>
-        <td>
-			@(item.SentMessages == null ? "None" : item.SentMessages.Count.ToString())
-        </td>
-        <td>
-			@(item.RecievedMessages == null ? "None" : item.RecievedMessages.Count.ToString())
-        </td>
-        <td>
-			@(item.WhoVisited == null ? "None" : item.WhoVisited.Count.ToString())
-        </td>
-        <td>
-			@(item.Visited == null ? "None" : item.Visited.Count.ToString())
-        </td>
+        </td>*@
     </tr>
 }
 

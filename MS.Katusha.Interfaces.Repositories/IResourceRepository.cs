@@ -3,8 +3,7 @@ using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Interfaces.Repositories
 {
-    public interface IResourceRepository : IRepository<Resource>
+    public interface IResourceRepository : IConfigurationRepository<Resource>
     {
-        List<Resource> GetActiveResources();
     }
 }

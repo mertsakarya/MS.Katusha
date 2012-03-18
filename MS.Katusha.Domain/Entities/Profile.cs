@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
@@ -24,13 +25,14 @@ namespace MS.Katusha.Domain.Entities
         
         public User User { get; set; }
 
-        // public long StateId { get; set; }
         public State State { get; set; }
 
+        [StringLength(64)]
         public string Name { get; set; }
 
         public byte From { get; set; }
 
+        [StringLength(64)]
         public string City { get; set; }
         public byte BodyBuild { get; set; }
         public byte EyeColor { get; set; }
@@ -39,9 +41,13 @@ namespace MS.Katusha.Domain.Entities
         public byte Alcohol { get; set; }
         public byte Religion { get; set; }
 
+        [Range(100, 250)]
         public int Height { get; set; }
+
+        [Range(1920, 2000)]
         public int BirthYear { get; set; }
 
+        [StringLength(8000, MinimumLength = 3)]
         public string Description { get; set; }
 
         public IList<SearchingFor> Searches { get; set; }

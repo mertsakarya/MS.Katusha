@@ -7,7 +7,6 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface IConfigurationService
     {
-        string InitializeDB();
-        string ResetDatabaseResources();
+        string[] ResetDatabaseResources();
     }
 }

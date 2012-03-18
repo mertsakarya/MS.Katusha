@@ -12,9 +12,9 @@ namespace MS.Katusha.Web.Models.Entities.BaseEntities
     public abstract class BaseFriendlyModel : BaseGuidModel, IValidatableObject
     {
 
-        //[RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Date is not valid must be like (dd/mm/jjjj)")]
-        [DisplayName("FriendlyNameDisplayName")]
-        [KatushaRegularExpression("FriendlyNameRegularExpression", Language = Language.English, ErrorMessageResourceName = "FriendlyNameRegularExpressionError")]
+        //[Display("FriendlyName")]
+        [KatushaRegularExpression("FriendlyName")]
+        [KatushaField("FriendlyName")]
         public String FriendlyName { get; set; }
 
         public override string ToString()
@@ -24,8 +24,10 @@ namespace MS.Katusha.Web.Models.Entities.BaseEntities
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+
             if(false)
                 yield return new ValidationResult("POP");
+
         }
 
     }

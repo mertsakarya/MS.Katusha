@@ -16,38 +16,6 @@ namespace MS.Katusha.Test
     public class KatushaRepositoryTest
     {
         private KatushaDbContext _dbContext;
-
-        [AssemblyInitialize()]
-        public static void AssemblyInit(TestContext context)
-        {
-
-        }
-
-        //[ClassInitialize()]
-        //public static void ClassInit(TestContext context)
-        //{
-        //    Debug.WriteLine("ClassInit");
-        //}
-
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            _dbContext.Dispose();
-        }
-
-        [ClassCleanup()]
-        public static void ClassCleanup()
-        {
-            Debug.WriteLine("ClassCleanup");
-        }
-
-        [AssemblyCleanup()]
-        public static void AssemblyCleanup()
-        {
-            Debug.WriteLine("AssemblyCleanup");
-        }
-
         [TestInitialize]
         public void TestInitialize()
         {
