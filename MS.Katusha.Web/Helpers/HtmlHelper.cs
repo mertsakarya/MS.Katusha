@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -148,6 +149,53 @@ namespace MS.Katusha.Web.Helpers
             return htmlHelper.Raw(sb.ToString());
         }
 
+        public static IHtmlString FacebookListFor<TModel, TColl, TProp>(
+            this HtmlHelper<TModel> htmlHelper, 
+            string resourceName,
+            TModel model,
+            IList<TColl> collection,
+            Type enumType, 
+            Expression<Func<TModel, IList<TColl>>> modelPropertyExpression,
+            Expression<Func<TColl, TProp>> propertyPropertyExpression 
+            )
+        {
+            var name = typeof(TColl).Name;
+            var label = new TagBuilder("div");
+            var edit = new TagBuilder("div");
+            var select = new TagBuilder("select");
+            var script = new TagBuilder("script");
 
+            label.AddCssClass("editor-label");
+            label.InnerHtml = (htmlHelper.LabelFor(modelPropertyExpression).ToHtmlString());
+            select.Attributes.Add("id", name + "Selection");
+            select.Attributes.Add("name", name + "Selection[]");
+            script.Attributes.Add("type", "text/javascript");
+            var message = htmlHelper._R(resourceName + ".Message");
+            var tmp = htmlHelper._R(resourceName + ".MaxItems");
+            int maxItems;
+            if(!int.TryParse(tmp, out maxItems)) maxItems = 0;
+            var maxItemsText = (maxItems > 0) ? maxItems.ToString(CultureInfo.InvariantCulture) : String.Format("_FCBK{0}.length", name);
+            script.InnerHtml = String.Format(
+@"      var _FCBK{0}={1};
+        var _FCBK{0}SelectedList={2};
+        $('#{0}Selection').fcbkcomplete({{
+            json_url:_FCBK{0},
+            cache: true,
+            json_cache:true,
+            filter_case:false,
+            filter_hide:false,
+            firstselected:false,
+            filter_selected:true,
+            maxitems:{4},
+            delay:10,
+            complete_text:'{3}'
+        }});
+        for (var i = 0; i < _FCBK{0}SelectedList.length; i++) {{  
+            $('#{0}Selection').trigger('addItem',_FCBK{0}SelectedList[i]);  
+        }}
+", name, htmlHelper.ToJson(enumType), htmlHelper.ToJson(collection, propertyPropertyExpression), message.Replace("\'", "\\'"), maxItemsText);
+            edit.InnerHtml = select.ToString() + htmlHelper.ValidationMessageFor(modelPropertyExpression);  
+            return htmlHelper.Raw( String.Format("{0}{1}{2}", label,edit,script));
+        }
     }
 }

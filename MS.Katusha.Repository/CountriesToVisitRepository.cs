@@ -14,13 +14,15 @@ namespace MS.Katusha.Repositories.DB
         public void DeleteByProfileId(long profileId, Country country)
         {
             var entity = Single(p => p.ProfileId == profileId && p.Country == (byte) country);
-            Delete(entity);
+            if(entity != null)
+                Delete(entity);
         }
 
         public void AddByProfileId(long profileId, Country country)
         {
-            var entity = new CountriesToVisit() {Country = (byte) country, ProfileId = profileId};
-            Add(entity);
+            var exist = Single(p => p.ProfileId == profileId && p.Country == (byte)country);
+            if(exist == null)
+                Add(new CountriesToVisit() { Country = (byte)country, ProfileId = profileId });
         }
     }
 }

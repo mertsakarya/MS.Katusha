@@ -13,13 +13,14 @@ namespace MS.Katusha.Repositories.DB
         public void DeleteByProfileId(long profileId, Language language)
         {
             var entity = Single(p => p.ProfileId == profileId && p.Language == (byte) language);
-            Delete(entity);
+            if(entity != null)
+                Delete(entity);
         }
 
         public void AddByProfileId(long profileId, Language language)
         {
-            var entity = new LanguagesSpoken() {Language = (byte) language, ProfileId = profileId};
-            Add(entity);
+            if (Single(p => p.ProfileId == profileId && p.Language == (byte)language) == null) ;
+                Add(new LanguagesSpoken() {Language = (byte) language, ProfileId = profileId});
         }
     }
 }

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BoyService.cs" />
     <Compile Include="ConfigurationService.cs" />
+    <Compile Include="PhotoService.cs" />
     <Compile Include="GirlService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="ProfileService.cs" />

@@ -88,7 +88,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         public ActionResult Edit(string key)
         {
             try {
-                var profile = _profileService.GetProfile(key, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches);
+                var profile = _profileService.GetProfile(key, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p=> p.Photos);
                 var model = MapToModel(profile);
                 return View(model);
             } catch (KatushaFriendlyNameNotFoundException ex) {
@@ -102,42 +102,35 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
             try {
                 if (!ModelState.IsValid) return View(model);
-                var profileModel = _profileService.GetProfile(key, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches);
+                var profileModel = _profileService.GetProfile(key, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);                
                 var llp = new LookupListProcessor<TModel, T, CountriesToVisitModel, CountriesToVisit, Country>(
+                    p => p.CountriesToVisit,
                     p => p.CountriesToVisit,
                     p => (Country)p.Country,
                     (modelData, country) => _profileService.DeleteCountriesToVisit(modelData.Id, country),
-                    (modelData, country) => _profileService.AddCountriesToVisit(modelData.Id, country),
-                    modelData => model.CountriesToVisit.Add(modelData),
-                    () => model.CountriesToVisit.Clear()
+                    (modelData, country) => _profileService.AddCountriesToVisit(modelData.Id, country)
                     );
+
                 var llp2 = new LookupListProcessor<TModel, T, LanguagesSpokenModel, LanguagesSpoken, Language>(
+                    p => p.LanguagesSpoken,
                     p => p.LanguagesSpoken,
                     p => (Language)p.Language,
                     (modelData, language) => _profileService.DeleteLanguagesSpoken(modelData.Id, language),
-                    (modelData, language) => _profileService.AddLanguagesSpoken(modelData.Id, language),
-                    modelData => model.LanguagesSpoken.Add(modelData),
-                    () => model.LanguagesSpoken.Clear()
+                    (modelData, language) => _profileService.AddLanguagesSpoken(modelData.Id, language)
                 );
+
                 var llp3 = new LookupListProcessor<TModel, T, SearchingForModel, SearchingFor, LookingFor>(
+                    p => p.Searches,
                     p => p.Searches,
                     p => (LookingFor)p.Search,
                     (modelData, search) => _profileService.DeleteSearches(modelData.Id, search),
-                    (modelData, search) => _profileService.AddSearches(modelData.Id, search),
-                    modelData => model.Searches.Add(modelData),
-                    () => model.Searches.Clear()
+                    (modelData, search) => _profileService.AddSearches(modelData.Id, search)
                 );
-                if (!llp.Process(Request, ModelState, model, profileModel)) {
-                    return View(model);
-                }
 
-                if (!llp2.Process(Request, ModelState, model, profileModel)) {
-                    return View(model);
-                }
-
-                if (!llp3.Process(Request, ModelState, model, profileModel)) {
-                    return View(model);
-                }
+                llp.Process(Request, ModelState, model, profileModel);
+                llp2.Process(Request, ModelState, model, profileModel);
+                llp3.Process(Request, ModelState, model, profileModel);
+                if(!ModelState.IsValid) return View(model);
 
                 T profile = MapToEntity(model);
                 profile.Id = profileModel.Id;
@@ -194,17 +187,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             return result;
         }
 
-        public JsonResult GetSelectedCountriesToVisit(string key)
-        {
-
-            var list = new List<dynamic>();
-            foreach (var item in _profileService.GetSelectedCountriesToVisit(key)) {
-                list.Add(new {key = _resourceManager._LText("Country", item), value = item});
-            }
-            var result = Json(list);
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            return result;
-        }
 
         private T MapToEntity(TModel model)
         {

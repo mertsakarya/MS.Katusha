@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
@@ -67,6 +68,7 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaRequired("Profile.Description")]
         [KatushaStringLength("Profile.Description")]
         [KatushaField("Profile.Description")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [KatushaField("Profile.Searches")]

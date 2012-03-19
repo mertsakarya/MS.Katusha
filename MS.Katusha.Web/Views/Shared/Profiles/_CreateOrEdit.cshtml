@@ -103,7 +103,7 @@
     @Html.LabelFor(model => model.Description)
 </div>
 <div class="editor-field">
-    @Html.TextAreaFor(model => model.Description)
+    @Html.EditorFor(model => model.Description)
     @Html.ValidationMessageFor(model => model.Description)
 </div>
 @if(Model is BoyModel) {
@@ -113,84 +113,9 @@
 } else {
     @Html.Label("OH NO!")
 }
-<div class="editor-label">
-    @Html.LabelFor(model => model.CountriesToVisit)
-</div>
-<div class="editor-field">
-    <select id="CountriesToVisitSelection" name="CountriesToVisitSelection[]"> </select>
-    @Html.ValidationMessageFor(model => model.CountriesToVisit)
-</div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.LanguagesSpoken)
-</div>
-<div class="editor-field">
-    <select id="LanguagesSpokenSelection" name="LanguagesSpokenSelection[]"> </select>
-    @Html.ValidationMessageFor(model => model.LanguagesSpoken)
-</div>
+@Html.FacebookListFor( "Profile.CountriesToVisit", Model, Model.CountriesToVisit, typeof(Country), p => p.CountriesToVisit, p => p.Country)
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.Searches)
-</div>
-<div class="editor-field">
-    <select id="SearchingForSelection" name="SearchingForSelection[]"> </select>
-    @Html.ValidationMessageFor(model => model.Searches)
-</div>
+@Html.FacebookListFor( "Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, typeof(Language), p => p.LanguagesSpoken, p => p.Language)
 
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var countries =@Html.ToJson(typeof(Country));
-        var countriesVisited =@Html.ToJson(Model.CountriesToVisit, p=>p.Country);
-        $("#CountriesToVisitSelection").fcbkcomplete({
-            json_url: countries,
-            cache: true,
-            json_cache: true,
-            filter_case: false,
-            filter_hide: false,
-            firstselected: false,
-            filter_selected: true,
-            maxitems: 3,
-            delay: 1,
-            complete_text: "Enter Countries..."
-        });
-        for (var i = 0; i < countriesVisited.length; i++) {  
-            $("#CountriesToVisitSelection").trigger("addItem", countriesVisited[i]);  
-        }
-
-        var languages =@Html.ToJson(typeof(Language));
-        var languagesSpoken =@Html.ToJson(Model.LanguagesSpoken, p=>p.Language);
-        $("#LanguagesSpokenSelection").fcbkcomplete({
-            json_url: languages,
-            cache: true,
-            json_cache: true,
-            filter_case: false,
-            filter_hide: false,
-            firstselected: false,
-            filter_selected: true,
-            delay: 1,
-            complete_text: "Enter Languages..."
-        });
-        for (var i = 0; i < languagesSpoken.length; i++) {  
-            $("#LanguagesSpokenSelection").trigger("addItem", languagesSpoken[i]);  
-        }
-        
-        var searches =@Html.ToJson(typeof(LookingFor));
-        var imsearchingfor =@Html.ToJson(Model.Searches, p=>p.Search);
-        $("#SearchingForSelection").fcbkcomplete({
-            json_url: searches,
-            cache: true,
-            json_cache: true,
-            filter_case: false,
-            filter_hide: false,
-            firstselected: false,
-            filter_selected: true,
-            delay: 1,
-            complete_text: "Enter what you are searching for..."
-        });
-        for (var i = 0; i < imsearchingfor.length; i++) {  
-            $("#SearchingForSelection").trigger("addItem", imsearchingfor[i]);  
-        }
-    });
-
-</script>
+@Html.FacebookListFor( "Profile.Searches", Model, Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)

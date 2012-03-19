@@ -11,46 +11,37 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
     {
 
         public delegate void DeleteEvent(TModelData modelData, TEnum enumValue);
-
         public delegate void AddEvent(TModelData modelData, TEnum enumValue);
 
-        public delegate void ModelAddEvent(TProp prop);
-
-        public delegate void ModelClearEvent();
-
-        private readonly Type _propType;
         private readonly string _propertyName;
 
         private readonly Func<TPropData, TEnum> _compiledItemEnumExpression;
-        private readonly Func<TModelData, IList<TPropData>> _compiledListModelExpression;
+        private readonly Func<TModelData, IList<TPropData>> _compiledListDataExpression;
+        private  Func<TModel,IList<TProp>> _compiledListModelExpression;
         private AddEvent _add;
         private DeleteEvent _delete;
-        private ModelAddEvent _modelAdd;
-        private ModelClearEvent _modelClear;
 
         public LookupListProcessor(
-            Expression<Func<TModelData, IList<TPropData>>> listModelExpression,
+            Expression<Func<TModelData, IList<TPropData>>> listDataExpression,
+            Expression<Func<TModel, IList<TProp>>> listModelExpression,
             Expression<Func<TPropData, TEnum>> itemEnumExpression,
             DeleteEvent delete,
-            AddEvent add,
-            ModelAddEvent modelAdd,
-            ModelClearEvent modelClear
+            AddEvent add
             )
         {
 
+            _compiledListDataExpression = listDataExpression.Compile();
             _compiledListModelExpression = listModelExpression.Compile();
             _compiledItemEnumExpression = itemEnumExpression.Compile();
-            _propType = typeof (TPropData);
-            _propertyName = _propType.Name;
+            _propertyName = typeof (TProp).Name;
             _add = add;
             _delete = delete;
-            _modelAdd = modelAdd;
-            _modelClear = modelClear;
         }
 
-        public bool Process(HttpRequestBase request, ModelStateDictionary ModelState, TModel viewModel, TModelData dataModel)
+        public void Process(HttpRequestBase request, ModelStateDictionary modelState, TModel viewModel, TModelData dataModel)
         {
-            IList<TPropData> prop = _compiledListModelExpression.Invoke(dataModel);
+            var listData = _compiledListDataExpression.Invoke(dataModel);
+            var listModel = _compiledListModelExpression.Invoke(viewModel);
             IList<string> validationResults = new List<string>();
             try {
                 var formValue = request.Form[_propertyName + "Selection[]"];
@@ -67,7 +58,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 }
 
                 var setData = new HashSet<TEnum>();
-                foreach (var line in prop) {
+                foreach (var line in listData) {
                     var item = _compiledItemEnumExpression.Invoke(line);
                     setData.Add(item);
                     if (!setForm.Contains(item)) {
@@ -90,16 +81,12 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             } catch (Exception ex) {
                 validationResults.Add(ex.Message);
             }
-            if (validationResults.Count > 0) {
-                foreach (var item in validationResults)
-                    ModelState.AddModelError(_propertyName, item);
-                _modelClear();
-                foreach (var ctv in prop) {
-                    var ctvModel = Mapper.Map<TProp>(ctv);
-                    _modelAdd(ctvModel);
-                }
-            }
-            return (validationResults.Count == 0);
+            if (validationResults.Count <= 0) return;
+            foreach (var item in validationResults)
+                modelState.AddModelError(_propertyName, item);
+            listModel.Clear();
+            foreach (var ctv in listData)
+                listModel.Add(Mapper.Map<TProp>(ctv));
         }
 
     }

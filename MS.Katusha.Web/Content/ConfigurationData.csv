@@ -218,16 +218,20 @@
  	[Resource]
  		en	Profile.Searches.DisplayName	Relationship you're looking for
  		en	Profile.Searches.Description	What are looking for here?
+ 		en	Profile.Searches.MaxItems	10
+ 		en	Profile.Searches.Message	Type what are looking for here.
 
 *	Profile.CountriesToVisit
  	[Resource]
  		en	Profile.CountriesToVisit.DisplayName	Countries you want to go
  		en	Profile.CountriesToVisit.Description	Tell us about where you want to go.
+ 		en	Profile.CountriesToVisit.Message	Type countres where would you like to visit. 
 
 *	Profile.LanguagesSpoken
  	[Resource]
  		en	Profile.LanguagesSpoken.DisplayName	Languages you speak
  		en	Profile.LanguagesSpoken.Description	Which languages do you speak? Well, we have google translator now...
+ 		en	Profile.LanguagesSpoken.Message	Type which languages you can speak. 
 
 *	Boy.DickThickness
  	[Resource]

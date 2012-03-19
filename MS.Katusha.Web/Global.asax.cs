@@ -35,6 +35,7 @@ namespace MS.Katusha.Web
                 url: "{controller}/{action}/{key}",
                 defaults: new { controller = "Home", action = "Index", key = UrlParameter.Optional }
             );
+            routes.MapRoute(name: "ImageDisplay", url: "Image/Display/{key}/{size}", defaults: new { size = UrlParameter.Optional });
         }
 
         protected void Application_Start()

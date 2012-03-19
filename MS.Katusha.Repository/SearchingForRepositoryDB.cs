@@ -14,13 +14,16 @@ namespace MS.Katusha.Repositories.DB
         public void DeleteByProfileId(long profileId, LookingFor lookingFor)
         {
             var entity = Single(p => p.ProfileId == profileId && p.Search == (byte) lookingFor);
-            Delete(entity);
+            if(entity != null)
+                Delete(entity);
         }
 
         public void AddByProfileId(long profileId, LookingFor lookingFor)
         {
-            var entity = new SearchingFor {Search = (byte) lookingFor, ProfileId = profileId};
-            Add(entity);
+            var exist = Single(p => p.ProfileId == profileId && p.Search == (byte)lookingFor);
+            if (exist == null)
+                Add(new SearchingFor {Search = (byte) lookingFor, ProfileId = profileId});
+
         }
     }
 

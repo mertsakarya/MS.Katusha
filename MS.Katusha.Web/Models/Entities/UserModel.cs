@@ -15,6 +15,7 @@ namespace MS.Katusha.Web.Models.Entities
 
         [Required]
         [MinLength(7), MaxLength(64)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         public bool EmailValidated { get; set; }
