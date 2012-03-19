@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
+using System.Web.Script.Serialization;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -82,6 +84,12 @@ namespace MS.Katusha.Web.Helpers
             return rm._R(resourceName, (byte)language);
         }
 
+        public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
+        {
+            IResourceManager rm = new ResourceManager();
+            return rm._L(resourceName, (byte)language);
+        }
+
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
@@ -103,5 +111,43 @@ namespace MS.Katusha.Web.Helpers
             //                      , htmlHelper.DisplayTextFor(expression), metadata.Description));
             return htmlHelper.Raw("");
         }
+
+        public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, Type enumType )
+        {
+            IDictionary<string, string> keyValues = htmlHelper._L(enumType.Name);
+            var sb = new StringBuilder();
+            sb.Append("[");
+            var i = 0;
+            foreach (var item in keyValues) {
+                sb.Append(Append(item.Key, item.Value));
+                if (i != keyValues.Count - 1) sb.Append(",");
+                i++;
+            }
+            sb.Append("]");
+            return htmlHelper.Raw(sb.ToString());
+        }
+
+        private static string Append(string key, string value, string keyName = "key") { return String.Format("{{{0}:\"{1}\",value:\"{2}\"}}", keyName, key, value.Replace("\n", "\\n").Replace("\t", "\\t").Replace("\r", "\\r").Replace("'", "\\'").Replace("\"", "\\\"")); }
+
+        public static IHtmlString ToJson<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, IList<TColl> list,  Expression<Func<TColl, TProp>> expression)
+        {
+            var sb = new StringBuilder();
+            sb.Append("[");
+
+            IResourceManager rm = new ResourceManager();
+            var compiledExpression = expression.Compile();
+            var enumType = typeof(TProp);
+            var firstTime = true;
+            foreach (var item in list) {
+                if (!firstTime) sb.Append(',');
+                var v = Enum.GetName(enumType, compiledExpression.Invoke(item));
+                sb.Append(Append(rm._LText(enumType.Name, v), v, "title"));
+                firstTime = false;
+            }
+            sb.Append("]");
+            return htmlHelper.Raw(sb.ToString());
+        }
+
+
     }
 }

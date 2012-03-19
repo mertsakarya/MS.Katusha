@@ -7,6 +7,6 @@ namespace MS.Katusha.Repositories.DB
 {
     public class ConversationRepositoryDB : BaseGuidRepositoryDB<Conversation>, IConversationRepositoryDB
     {
-        public ConversationRepositoryDB(KatushaDbContext dbContext) : base(dbContext) { }
+        public ConversationRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }

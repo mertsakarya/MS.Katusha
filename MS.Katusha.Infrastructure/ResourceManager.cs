@@ -19,6 +19,7 @@ namespace MS.Katusha.Infrastructure
         string _R(string resourceName, byte language = 0);
         string _R(string propertyName, string key, bool mustFind = false, byte language = 0);
         Dictionary<string, string> _L(string resourceName, byte language = 0);
+        string _LText(string resourceName, string name, byte language = 0);
         //List<string> GetValuesFromCodeList(List<string> resourceCodeList);
     }
 
@@ -126,7 +127,7 @@ namespace MS.Katusha.Infrastructure
                             lookupName = item.LookupName;
                             language = item.Language;
                             list = new List<LookupItem>();
-                            list.Add(new LookupItem {Key = item.Key, Value = item.Value, Order = item.Order});
+                            list.Add(new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order});
                         }
                     }
                     //list.Sort(CompareLookupItem);
@@ -202,6 +203,25 @@ namespace MS.Katusha.Infrastructure
             }
 
             return resourceValue;
+        }
+
+        public string _LText(string resourceName, string name, byte language = 0) {
+            language = GetLanguage(language);
+            string key = String.Format("{0}{1}", resourceName, language);
+            if (!string.IsNullOrEmpty(key)) {
+                ListLock.EnterReadLock();
+                try {
+                    if (_resourceLookupList.ContainsKey(key)) {
+                        var resourceValue = _resourceLookupList[key];
+                        if (resourceValue.ContainsKey(name))
+                            return resourceValue[name];
+                    }
+                } finally {
+                    ListLock.ExitReadLock();
+                }
+            }
+
+            return key + "." + name;
         }
 
         private static byte GetLanguage(byte language)

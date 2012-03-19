@@ -8,6 +8,6 @@ namespace MS.Katusha.Repositories.DB
 {
     public class StateRepositoryDB : BaseRepositoryDB<State>, IStateRepositoryDB
     {
-        public StateRepositoryDB(KatushaDbContext dbContext) : base(dbContext) { }
+        public StateRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }

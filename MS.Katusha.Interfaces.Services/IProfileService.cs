@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {
@@ -17,5 +18,14 @@ namespace MS.Katusha.Interfaces.Services
         void DeleteProfile(Guid guid, bool force = false);
         void DeleteProfile(string friendlyName, bool softDelete = true);
         void UpdateProfile(T profile);
+
+        IDictionary<string, string> GetCountriesToVisit();
+        IList<string> GetSelectedCountriesToVisit(string key);
+        void  DeleteCountriesToVisit(long profileId, Country country);
+        void AddCountriesToVisit(long profileId, Country country);
+        void DeleteLanguagesSpoken(long profileId, Language language);
+        void AddLanguagesSpoken(long profileId, Language language);
+        void DeleteSearches(long profileId, LookingFor lookingFor);
+        void AddSearches(long profileId, LookingFor lookingFor);
     }
 }

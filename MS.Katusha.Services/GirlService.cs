@@ -10,9 +10,11 @@ namespace MS.Katusha.Services
     public class GirlService : ProfileService<Girl>, IGirlService
     {
 
-        public GirlService(IGirlRepositoryDB repository, IUserRepositoryDB userRepository)  : base(repository, userRepository)
-        {
-        }
+        public GirlService(IGirlRepositoryDB repository, IUserRepositoryDB userRepository,
+            ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository)
+            : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository) { }
+
 
         public override Girl GetProfile(Guid guid, params Expression<Func<Girl, object>>[] includeExpressionParams)
         {
@@ -36,7 +38,7 @@ namespace MS.Katusha.Services
             var dataProfile = base.GetProfile(profile.Guid);
             SetData(dataProfile, profile);
             dataProfile.BreastSize = profile.BreastSize;
-            Repository.FullUpdate(dataProfile);
+            _profileRepository.FullUpdate(dataProfile);
         }
     }
 }

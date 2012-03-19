@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Models;
@@ -15,8 +16,8 @@ namespace MS.Katusha.Web.Controllers
     public class BoysController :  ProfileController<Boy, BoyModel>
     {
 
-        public BoysController(IBoyService boyService, IUserService userService)
-            : base(boyService, userService)
+        public BoysController(IBoyService boyService, IUserService userService, IResourceManager resourceManager)
+            : base(boyService, userService, resourceManager)
         {
 
         }

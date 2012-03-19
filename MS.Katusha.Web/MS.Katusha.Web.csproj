@@ -171,6 +171,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
+    <Compile Include="Controllers\BaseControllers\LookupListProcessor.cs" />
     <Compile Include="Controllers\BaseControllers\ProfileController.cs" />
     <Compile Include="Controllers\BoysController.cs" />
     <Compile Include="Controllers\GirlsController.cs" />
@@ -203,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Fcbk.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -232,6 +234,9 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Content\close.gif" />
+    <Content Include="Scripts\Fbck\jquery.fcbkcomplete.js" />
+    <Content Include="Scripts\Fbck\jquery.fcbkcomplete.min.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js" />
@@ -289,6 +294,7 @@
   <ItemGroup>
     <Folder Include="App_code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Fcbk\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

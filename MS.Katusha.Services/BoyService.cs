@@ -9,9 +9,10 @@ namespace MS.Katusha.Services
 
     public class BoyService : ProfileService<Boy>, IBoyService
     {
-        public BoyService(IBoyRepositoryDB repository, IUserRepositoryDB userRepository) : base(repository, userRepository)
-        {
-        }
+        public BoyService(IBoyRepositoryDB repository, IUserRepositoryDB userRepository, 
+            ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository) 
+            : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository) { }
 
         public override Boy GetProfile(Guid guid, params Expression<Func<Boy, object>>[] includeExpressionParams)
         {
@@ -36,7 +37,7 @@ namespace MS.Katusha.Services
             base.SetData(dataProfile, profile);
             dataProfile.DickSize = profile.DickSize;
             dataProfile.DickThickness = profile.DickThickness;
-            Repository.FullUpdate(dataProfile);
+            _profileRepository.FullUpdate(dataProfile);
         }
     }
 }

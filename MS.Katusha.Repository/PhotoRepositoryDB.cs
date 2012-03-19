@@ -7,6 +7,6 @@ namespace MS.Katusha.Repositories.DB
 {
     public class PhotoRepositoryDB : BaseGuidRepositoryDB<Photo>, IPhotoRepositoryDB
     {
-        public PhotoRepositoryDB(KatushaDbContext dbContext) : base(dbContext) { }
+        public PhotoRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }

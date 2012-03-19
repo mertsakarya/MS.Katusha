@@ -1,30 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Exceptions.Services;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Services
 {
-    public abstract class ProfileService<T> : IProfileService<T> where T : BaseFriendlyModel
+    public abstract class ProfileService<T> : IProfileService<T> where T : Profile
     {
 
-        protected readonly IFriendlyNameRepository<T> Repository;
+        protected readonly IFriendlyNameRepository<T> _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
+        private ICountriesToVisitRepositoryDB _countriesToVisitRepository;
 
-        protected ProfileService(IFriendlyNameRepository<T> repository, IUserRepositoryDB userRepository)
+        protected ProfileService(IFriendlyNameRepository<T> repository, IUserRepositoryDB userRepository, 
+            ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository)
         {
-            Repository = repository;
+            _profileRepository = repository;
             _userRepository = userRepository;
+            _countriesToVisitRepository = countriesToVisitRepository;
+            _photoRepositoryDB = photoRepositoryDB;
+            _languagesSpokenRepository = languagesSpokenRepository;
+            _searchingForRepository = searchingForRepository;
         }
 
         public IEnumerable<T> GetNewProfiles(int pageNo = 1, int pageSize = 20)
         {
-            var items = Repository.GetAll(pageNo, pageSize);
+            var items = _profileRepository.GetAll(pageNo, pageSize);
             return items;
         }
 
@@ -35,7 +44,7 @@ namespace MS.Katusha.Services
 
         public virtual T GetProfile(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            var item = Repository.GetByGuid(guid, includeExpressionParams);
+            var item = _profileRepository.GetByGuid(guid, includeExpressionParams);
             return item;
         }
 
@@ -49,8 +58,8 @@ namespace MS.Katusha.Services
         {
             Guid guid;
             if (Guid.TryParse(friendlyName, out guid))
-                return GetProfile(guid);
-            var item = Repository.GetByFriendlyName(friendlyName, includeExpressionParams);
+                return GetProfile(guid, includeExpressionParams);
+            var item = _profileRepository.GetByFriendlyName(friendlyName, includeExpressionParams);
             if (item == null)
                 throw new KatushaFriendlyNameNotFoundException(friendlyName);
             return item;
@@ -59,10 +68,10 @@ namespace MS.Katusha.Services
         public void CreateProfile(T profile)
         {
             if (!String.IsNullOrEmpty(profile.FriendlyName))
-                if (Repository.CheckIfFriendlyNameExists(profile.FriendlyName, profile.Id))
+                if (_profileRepository.CheckIfFriendlyNameExists(profile.FriendlyName, profile.Id))
                     throw new KatushaFriendlyNameExistsException(profile as Profile);
-            Repository.Add(profile);
-            Repository.Save();
+            _profileRepository.Add(profile);
+            _profileRepository.Save();
             var user = _userRepository.GetByGuid(profile.Guid);
             user.Gender = (profile is Boy) ? (byte) Sex.Male : (profile is Girl) ? (byte) Sex.Female : (byte) 0;
             _userRepository.FullUpdate(user);
@@ -70,7 +79,7 @@ namespace MS.Katusha.Services
 
         public void DeleteProfile(Guid guid, bool force = false)
         {
-            var profile = Repository.GetByGuid(guid);
+            var profile = _profileRepository.GetByGuid(guid);
             if (profile != null)
             {
                 ExecuteDeleteProfile(profile, force);
@@ -80,11 +89,11 @@ namespace MS.Katusha.Services
         private void ExecuteDeleteProfile(T profile, bool softDelete)
         {
             if (!softDelete)
-                Repository.Delete(profile);
+                _profileRepository.Delete(profile);
             else
-                Repository.SoftDelete(profile);
+                _profileRepository.SoftDelete(profile);
 
-            Repository.Save();
+            _profileRepository.Save();
             var user = _userRepository.GetByGuid(profile.Guid);
             user.Gender = (byte) 0;
             _userRepository.FullUpdate(user);
@@ -92,7 +101,7 @@ namespace MS.Katusha.Services
 
         public void DeleteProfile(string friendlyName, bool softDelete = true)
         {
-            var profile = Repository.GetByFriendlyName(friendlyName);
+            var profile = _profileRepository.GetByFriendlyName(friendlyName);
             if (profile != null)
             {
                 ExecuteDeleteProfile(profile, softDelete);
@@ -102,9 +111,31 @@ namespace MS.Katusha.Services
         public virtual void UpdateProfile(T profile)
         {
             if(profile != null && !String.IsNullOrEmpty(profile.FriendlyName))
-                if (Repository.CheckIfFriendlyNameExists(profile.FriendlyName, profile.Id))
+                if (_profileRepository.CheckIfFriendlyNameExists(profile.FriendlyName, profile.Id))
                     throw new KatushaFriendlyNameExistsException(profile as Profile);
         }
+
+        public IDictionary<string, string> GetCountriesToVisit() { 
+            IResourceManager rm = new ResourceManager();
+            return rm._L("Country");
+        }
+
+        public IList<string> GetSelectedCountriesToVisit(string friendlyName)
+        {
+            var profile = _profileRepository.GetByFriendlyName(friendlyName, p=>p.CountriesToVisit);
+            var list = new List<string>();
+            if (profile == null || profile.CountriesToVisit.Count == 0) return list;
+            list.AddRange(profile.CountriesToVisit.Select(item => Enum.GetName(typeof (Country), item.Country)));
+            return list;
+        }
+
+        public void DeleteCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.DeleteByProfileId(profileId, country); }
+
+        public void AddCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.AddByProfileId(profileId, country); }
+        public void DeleteLanguagesSpoken(long profileId, Language language) { _languagesSpokenRepository.DeleteByProfileId(profileId, language); }
+        public void AddLanguagesSpoken(long profileId, Language language) { _languagesSpokenRepository.AddByProfileId(profileId, language); }
+        public void DeleteSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.DeleteByProfileId(profileId, lookingFor); }
+        public void AddSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.AddByProfileId(profileId, lookingFor); }
 
         protected void SetData(Profile dataProfile, Profile profile)
         {
@@ -124,6 +155,12 @@ namespace MS.Katusha.Services
         }
 
 
+
+        public IPhotoRepositoryDB _photoRepositoryDB { get; set; }
+
+        public ILanguagesSpokenRepositoryDB _languagesSpokenRepository { get; set; }
+
+        public ISearchingForRepositoryDB _searchingForRepository { get; set; }
     }
 }
 

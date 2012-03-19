@@ -8,6 +8,6 @@ namespace MS.Katusha.Repositories.DB
 {
     public class VisitRepository : BaseGuidRepositoryDB<Visit>, IVisitRepositoryDB
     {
-        public VisitRepository(KatushaDbContext dbContext) : base(dbContext) { }
+        public VisitRepository(IKatushaDbContext dbContext) : base(dbContext) { }
     }
 }
