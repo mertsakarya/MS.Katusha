@@ -220,20 +220,23 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             return GetImage(key, size);
         }
 
-        [System.Web.Http.HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult UploadFiles(string key)
         {
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !IsKeyForProfile(key)) return View("KatushaError", new KatushaNotAllowedException(KatushaProfile, KatushaUser, key));
+            string description = Request.Form["description[]"];
+            if (String.IsNullOrWhiteSpace(description))
+                description = "";
             return new ContentResult {
-                Content = new JavaScriptSerializer {MaxJsonLength = Int32.MaxValue}.Serialize(((from string file in Request.Files select Request.Files[file] into hpf where hpf != null where hpf.ContentLength != 0 && hpf.FileName != null select ProcessPhoto(KatushaProfile, hpf)).ToList())),
+                Content = new JavaScriptSerializer {MaxJsonLength = Int32.MaxValue}.Serialize(((from string file in Request.Files select Request.Files[file] into hpf where hpf != null where hpf.ContentLength != 0 && hpf.FileName != null select ProcessPhoto(description, KatushaProfile, hpf)).ToList())),
                 ContentType = "application/json"
             };
         }
 
-        private ViewDataUploadFilesResult ProcessPhoto(Profile profile, HttpPostedFileBase hpf)
+        private ViewDataUploadFilesResult ProcessPhoto(string message, Profile profile, HttpPostedFileBase hpf)
         {
             var guid = Guid.NewGuid();
-            var photo = new Photo {ProfileId = profile.Id, FileName = hpf.FileName, ContentType = "image/jpeg" /*hpf.ContentType*/, Guid = guid};
+            var photo = new Photo {Description = message, ProfileId = profile.Id, FileName = hpf.FileName, ContentType = "image/jpeg" /*hpf.ContentType*/, Guid = guid};
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             var controllerName = RouteData.Values["Controller"];
             var image = Image.FromStream(hpf.InputStream);
