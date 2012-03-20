@@ -18,7 +18,10 @@
         </p>
     </fieldset>
 }
-
+<div class="editor-label">
+    @Html.LabelFor(model => model.Photos)
+</div>
+@Html.Partial("_Photo", Model)
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

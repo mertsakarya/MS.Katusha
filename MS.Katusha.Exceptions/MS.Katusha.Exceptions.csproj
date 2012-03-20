@@ -47,6 +47,7 @@
     <Compile Include="Resources\KatushaResourceLookupException.cs" />
     <Compile Include="Services\KatushaFriendlyNameNotFoundException.cs" />
     <Compile Include="Services\KatushaFriendlyNameExistsException.cs" />
+    <Compile Include="Web\KatushaNotAllowedException.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

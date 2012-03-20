@@ -12,12 +12,15 @@ using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
 using MS.Katusha.Domain.Entities;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers.BaseControllers
 {
     public class KatushaController : Controller
     {
         public User KatushaUser { get; set; }
+        public Profile KatushaProfile { get; set; }
+
         public Sex Gender { get; set; }
 
         public IUserService UserService { get; private set; }
@@ -27,11 +30,24 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             UserService = userService;
         }
 
+        protected bool IsKeyForProfile(string key)
+        {
+            if (KatushaUser == null) return false;
+            Guid guid;
+            if (Guid.TryParse(key, out guid))
+                return KatushaUser.Guid == guid;
+            if (KatushaProfile == null) return false;
+            return (KatushaProfile.FriendlyName == key);
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
+            if(KatushaUser != null)
+                KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid, (Sex)KatushaUser.Gender) : null;
             ViewBag.KatushaUser = KatushaUser;
+            ViewBag.KatushaProfile = KatushaProfile;
         }
 
 
@@ -47,7 +63,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             // Is it default culture? exit
             if (cultureName == CultureHelper.GetDefaultCulture())
                 return;
-
 
             // Are views implemented separately for this culture?  if not exit
             bool viewImplemented = CultureHelper.IsViewSeparate(cultureName);

@@ -1,4 +1,5 @@
-﻿@model MS.Katusha.Exceptions.KatushaException
+﻿@using MS.Katusha.Exceptions.Services
+@model MS.Katusha.Exceptions.KatushaException
 
 @{
     ViewBag.Title = "Web site error";
@@ -7,6 +8,15 @@
 <hgroup class="title">
     <h1 class="error">An error occurred while processing your request.</h1><br/>
     <h3 class="error">@Model.Id</h3><br/>
-    <pre>@Model.Message</pre>
+    <pre>@Model.Message
+    @if(Model is MS.Katusha.Exceptions.Services.KatushaNotAllowedException) {
+        var ex = Model as KatushaNotAllowedException;
+<text>
+User: @ex.User     
+Profile: @ex.Profile
+Key: @ex.Key     
+</text>
+    }
+    </pre>
 
 </hgroup>

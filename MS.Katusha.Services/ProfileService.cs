@@ -17,16 +17,19 @@ namespace MS.Katusha.Services
 
         protected readonly IFriendlyNameRepository<T> _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
-        private ICountriesToVisitRepositoryDB _countriesToVisitRepository;
+        private readonly ICountriesToVisitRepositoryDB _countriesToVisitRepository;
+        private readonly IPhotoRepositoryDB _photoRepository;
+        private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
+        private readonly ISearchingForRepositoryDB _searchingForRepository;
 
         protected ProfileService(IFriendlyNameRepository<T> repository, IUserRepositoryDB userRepository, 
-            ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
+            ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository)
         {
             _profileRepository = repository;
             _userRepository = userRepository;
             _countriesToVisitRepository = countriesToVisitRepository;
-            _photoRepositoryDB = photoRepositoryDB;
+            _photoRepository = photoRepository;
             _languagesSpokenRepository = languagesSpokenRepository;
             _searchingForRepository = searchingForRepository;
         }
@@ -155,12 +158,22 @@ namespace MS.Katusha.Services
         }
 
 
+        public void DeletePhoto(Guid guid)
+        {
+            var entity = _photoRepository.GetByGuid(guid);
+            if (entity != null) _photoRepository.Delete(entity);
+        }
 
-        public IPhotoRepositoryDB _photoRepositoryDB { get; set; }
+        public Photo GetPhotoByGuid(Guid guid)
+        {
+            return _photoRepository.GetByGuid(guid);
+        }
 
-        public ILanguagesSpokenRepositoryDB _languagesSpokenRepository { get; set; }
-
-        public ISearchingForRepositoryDB _searchingForRepository { get; set; }
+        public void AddPhoto(Photo photo)
+        {
+            _photoRepository.Add(photo, photo.Guid);
+            _photoRepository.Save();
+        }
     }
 }
 

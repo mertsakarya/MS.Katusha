@@ -13,5 +13,7 @@ namespace MS.Katusha.Interfaces.Services
         bool ChangePassword(string userName, string oldPassword, string newPassword);
         void SendConfirmationMail(User user);
         User ConfirmEMailAddresByGuid(Guid guid);
+
+        Profile GetProfile(Guid guid, Sex gender);
     }
 }

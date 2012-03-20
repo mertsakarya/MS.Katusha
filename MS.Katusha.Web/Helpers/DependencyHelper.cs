@@ -27,7 +27,6 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<GirlService>().As<IGirlService>().InstancePerHttpRequest();
             builder.RegisterType<BoyService>().As<IBoyService>().InstancePerHttpRequest();
-            builder.RegisterType<PhotoService>().As<IPhotoService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();

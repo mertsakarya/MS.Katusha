@@ -27,5 +27,9 @@ namespace MS.Katusha.Interfaces.Services
         void AddLanguagesSpoken(long profileId, Language language);
         void DeleteSearches(long profileId, LookingFor lookingFor);
         void AddSearches(long profileId, LookingFor lookingFor);
+
+        void DeletePhoto(Guid guid);
+        void AddPhoto(Photo photo);
+        Photo GetPhotoByGuid(Guid guid);
     }
 }

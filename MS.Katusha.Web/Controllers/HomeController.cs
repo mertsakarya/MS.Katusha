@@ -38,9 +38,9 @@ namespace MS.Katusha.Web.Controllers
         }
 
 
-        public ActionResult MailConfirm(string guid)
+        public ActionResult MailConfirm(string key)
         {
-            User user = UserService.ConfirmEMailAddresByGuid(Guid.Parse(guid));
+            User user = UserService.ConfirmEMailAddresByGuid(Guid.Parse(key));
             var model = new MailConfirmModel { UserName = user.UserName };
             return View(model);
         }

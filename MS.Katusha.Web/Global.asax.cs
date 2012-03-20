@@ -24,23 +24,27 @@ namespace MS.Katusha.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Photo",        "{controller}/Photo/{key}/{size}", new { action = "Photo" }); 
+            routes.MapRoute("DeletePhoto",  "{controller}/DeletePhoto/{key}/{photoGuid}", new { action = "DeletePhoto" });
+            routes.MapRoute("Download",     "{controller}/Download/{key}/{size}", new { action = "Download" });
+
+
             routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{key}",
                 defaults: new { guid = RouteParameter.Optional }
             );
-
+ 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{key}",
                 defaults: new { controller = "Home", action = "Index", key = UrlParameter.Optional }
             );
-            routes.MapRoute(name: "ImageDisplay", url: "Image/Display/{key}/{size}", defaults: new { size = UrlParameter.Optional });
         }
 
         protected void Application_Start()
         {
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
             MapperHelper.HandleMappings();
@@ -50,6 +54,16 @@ namespace MS.Katusha.Web
             RegisterRoutes(RouteTable.Routes);
             //BundleTable.Bundles.RegisterTemplateBundles();
             BundleTable.Bundles.EnableDefaultBundles();
+
+
+            //Bundle debugScripts = new Bundle("~/DebugScripts", new NoTransform("text/javascript"));
+            //debugScripts.AddDirectory("~/Scripts/Debug", "*.js");
+            //BundleTable.Bundles.Add(debugScripts);
+
+            //Bundle productionScripts = new Bundle("~/ProductionScripts", new NoTransform("text/javascript"));
+            //productionScripts.AddDirectory("~/Scripts/Minified", "*.js");
+            //BundleTable.Bundles.Add(productionScripts);
+
         }
     }
 }
