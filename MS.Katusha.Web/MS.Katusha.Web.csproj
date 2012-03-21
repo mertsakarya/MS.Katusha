@@ -25,6 +25,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PackageAsSingleFile>true</PackageAsSingleFile>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="DefaultConnection-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="dbFullSql">
+            <PreSource Path="Data Source=.\SQLEXPRESS%3bInitial Catalog=aspnet-MS.Katusha.Web-201232182133%3bIntegrated Security=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\DefaultConnection-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+        <ObjectGroup Name="KatushaRavenDB-Deployment" Order="2">
+          <Destination Path="" />
+          <Object Type="dbFullSql">
+            <PreSource Path="Url=http://localhost:8080/" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\KatushaRavenDB-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,6 +79,9 @@
     </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.0.10.0\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -386,9 +408,6 @@
     <Content Include="Views\Shared\DeleteProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Boys\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -425,7 +444,7 @@
     <Content Include="Views\Shared\_GirlDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Girls\Details.cshtml" />
+    <Content Include="Views\Shared\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\KatushaError.cshtml" />

@@ -66,6 +66,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         {
             try {
                 var profile = _profileService.GetProfile(key);
+                ViewBag.SameProfile = IsKeyForProfile(key);
                 var model = MapToModel(profile);
                 return View(model);
             } catch (KatushaFriendlyNameNotFoundException ex) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -30,14 +31,11 @@ namespace MS.Katusha.Web.Helpers
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
-            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof (DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : value.ToString();
         }
 
-        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false)
-        {
-            return EnumDropDownListFor(htmlHelper, expression, optional, null);
-        }
+        public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false) { return EnumDropDownListFor(htmlHelper, expression, optional, null); }
 
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional, object htmlAttributes)
         {
@@ -47,31 +45,24 @@ namespace MS.Katusha.Web.Helpers
             var dict = rm._L(type.Name);
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
-                list.Add(new SelectListItem { Text = CultureHelper._R("EmptyText"), Value = "0" });
+                list.Add(new SelectListItem {Text = CultureHelper._R("EmptyText"), Value = "0"});
             list.AddRange(dict.Select(item => new SelectListItem {Text = item.Value, Value = item.Key, Selected = item.Key.Equals(metadata.Model)}));
             return htmlHelper.DropDownListFor(expression, list, htmlAttributes);
-            //Type enumType = GetNonNullableModelType(metadata);
-            //IEnumerable<TEnum> values = Enum.GetValues(enumType).Cast<TEnum>();
-            //IEnumerable<SelectListItem> items = from value in values
-            //                                    select new SelectListItem
-            //                                    {
-            //                                        Text = GetEnumDescription(value),
-            //                                        Value = value.ToString(),
-            //                                        Selected = value.Equals(metadata.Model)
-            //                                    };
-
-            //// If the enum is nullable, add an 'empty' item to the collection
-            //if (optional || metadata.IsNullableValueType) {
-            //    items = new[] {
-            //              new SelectListItem {
-            //                                     Text = CultureHelper._R("EmptyText"),
-            //                                     Value = "0"
-            //                                 }
-            //          }.Concat(items);
-            //}
-
-            //return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
         }
+ 
+        /// <summary>
+        /// If there is a VirtualPath value in AppSettings it is used
+        /// else url.Scheme :// url.Host + : url.Port / is returned
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <returns></returns>
+        public static string Host<TModel>(this HtmlHelper<TModel> htmlHelper)
+        {
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["VirtualPath"])) return ConfigurationManager.AppSettings["VirtualPath"];
+            var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.Url;
+            var str = string.Format("{0}://{1}{2}/", url.Scheme, url.Host, ((url.Port == 80 || url.Port == 0) ? "" : ":" + url.Port));
+            return str;
+        } 
 
         public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
         {   

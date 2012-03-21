@@ -1,4 +1,4 @@
-@model GirlModel
+@model ProfileModel
 
 @{
     ViewBag.Title = "Details";
@@ -7,10 +7,19 @@
 <h2>Details</h2>
 
 <fieldset>
-    <legend>GirlModel</legend>
+    <legend>Profile</legend>
 
-@Html.Partial("Profiles/_Details", Model)
+    @Html.Partial("Profiles/_Details", Model)
 </fieldset>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Photos)
+</div>
+@Html.Partial("_Photo", Model)
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
 <p>
     @Html.ActionLink("Edit Profile", "Edit", new { key = Html.KeyFor(Model) }) |
     @Html.ActionLink("Edit User", "Edit", new { key = Html.KeyFor(Model) }) |

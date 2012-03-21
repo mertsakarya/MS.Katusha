@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Facebook;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
@@ -271,5 +272,13 @@ namespace MS.Katusha.Web.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult FacebookLogin(string accessToken)
+        {
+            var accessToken1 = Request["accessToken"];
+            Session["AccessToken"] = accessToken1;
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
