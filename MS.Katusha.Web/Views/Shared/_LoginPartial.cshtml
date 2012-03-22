@@ -1,7 +1,12 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@using MS.Katusha.Domain.Entities
+@if (Request.IsAuthenticated) {
+    var profile = ViewBag.KatushaProfile as Profile;
     <p>
         Hello, @Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
         @Html.ActionLink("Log off", "LogOff", "Account")
+        @if (profile != null) {
+            @Html.ActionLink("Edit", "Edit", ((profile is Boy) ? "Boys" : "Girls"),  new {key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName}, null)<br />
+        }
     </p>
 } else {
     @*

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Web.Caching;
 using System.IO;
 using System.Linq;
@@ -50,10 +51,11 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         }
 
+
         public ActionResult Photos(string key)
         {
             try {
-                var profile = _profileService.GetProfile(key, p => p.Photos);
+                var profile = GetProfile(key, p => p.Photos);
                 ViewBag.SameProfile = (IsKeyForProfile(key));
                 var model = MapToModel(profile);
                 return View(model);
@@ -65,7 +67,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         public ActionResult Details(string key)
         {
             try {
-                var profile = _profileService.GetProfile(key);
+                var profile = GetProfile(key);
                 ViewBag.SameProfile = IsKeyForProfile(key);
                 var model = MapToModel(profile);
                 return View(model);
@@ -96,7 +98,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 profile.UserId = KatushaUser.Id;
                 profile.Guid = KatushaUser.Guid;
                 _profileService.CreateProfile(profile);
-                KatushaProfile = _profileService.GetProfile(profile.Guid.ToString(), p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
+                KatushaProfile = GetProfile(profile.Guid.ToString(), p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
                 ValidateProfileCollections(model, (T) KatushaProfile);
                 if (!ModelState.IsValid) return View(model);
                 return RedirectToAction("Index");
@@ -131,6 +133,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 T profile = MapToEntity(model);
                 profile.Id = profileModel.Id;
                 profile.Guid = profileModel.Guid;
+                profile.ProfilePhotoGuid = profileModel.ProfilePhotoGuid;
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Index");
             } catch (KatushaException ex) {
@@ -188,7 +191,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         {
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !IsKeyForProfile(key)) return View("KatushaError", new KatushaNotAllowedException(KatushaProfile, KatushaUser, key));
             try {
-                _profileService.DeleteProfile(KatushaProfile.Guid);
+                _profileService.DeleteProfile(KatushaProfile.Id);
                 return RedirectToAction("Index");
             } catch (KatushaFriendlyNameNotFoundException ex) {
                 return View("KatushaError", ex);
@@ -201,7 +204,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
             var found = false;
             foreach (var photo in KatushaProfile.Photos.Where(photo => photo.Guid == Guid.Parse(photoGuid))) {
-                _profileService.DeletePhoto(photo.Guid);
+                _profileService.DeletePhoto(photo.ProfileId, photo.Guid);
                 found = true;
                 break;
             }
@@ -215,7 +218,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
             var found = false;
             foreach (var photo in KatushaProfile.Photos.Where(photo => photo.Guid == Guid.Parse(photoGuid))) {
-                _profileService.MakeProfilePhoto(KatushaProfile.Guid, photo.Guid);
+                _profileService.MakeProfilePhoto(KatushaProfile.Id, photo.Guid);
                 found = true;
                 break;
             }
@@ -247,6 +250,16 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 Content = new JavaScriptSerializer {MaxJsonLength = Int32.MaxValue}.Serialize(((from string file in Request.Files select Request.Files[file] into hpf where hpf != null where hpf.ContentLength != 0 && hpf.FileName != null select ProcessPhoto(description, KatushaProfile, hpf)).ToList())),
                 ContentType = "application/json"
             };
+        }
+
+        private T GetProfile(string key, params Expression<Func<T, object>>[] includeExpressionParams)
+        {
+            Guid guid;
+            long id;
+            id = Guid.TryParse(key, out guid) ? _profileService.GetProfileId(guid) : _profileService.GetProfileId(key);
+            if (id > 0)
+                return _profileService.GetProfile(id, includeExpressionParams);
+            return null;
         }
 
         private ViewDataUploadFilesResult ProcessPhoto(string message, Profile profile, HttpPostedFileBase hpf)
@@ -388,55 +401,3 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
     }
 
 }
-
-/*
-                try {
-                    if (Request.Form["CountriesToVisitSelection[]"] != null) {
-                        var list = Request.Form["CountriesToVisitSelection[]"].Split(',');
-                        HashSet<Country> setForm = new HashSet<Country>();
-                        foreach (var line in list) {
-                            Country c;
-                            if (Enum.TryParse(line, out c))
-                                setForm.Add(c);
-                            else
-                                validationResults.Add(line + " Can't Parse");
-                        }
-
-                        var setData = new HashSet<Country>();
-                        foreach (var line in countriesToVisit) {
-                            var country = (Country) line.Country;
-                            setData.Add(country);
-                            if (!setForm.Contains(country)) {
-                                try {
-                                    _profileService.DeleteCountriesToVisit(profileModel.Id, country);
-                                } catch(Exception ex) {
-                                    validationResults.Add(country.ToString() + " Can't Delete" );
-                                }
-                            }
-                        }
-                        foreach (var country in setForm) {
-                            if (!setData.Contains(country)) {
-                                try {
-                                    _profileService.AddCountriesToVisit(profileModel.Id, country);
-                                } catch (Exception ex) {
-                                    validationResults.Add(country.ToString() + " Can't Add" );
-                                }
-                            }
-                        }
-                    }
-
-                } catch(Exception ex) {
-                    validationResults.Add(ex.Message);
-                }
-                if(validationResults.Count > 0) {
-                    foreach(var item in validationResults)
-                        ModelState.AddModelError("CountriesToVisit", item);
-                    model.CountriesToVisit.Clear();
-                    foreach (var ctv in countriesToVisit) {
-                        var ctvModel = Mapper.Map<CountriesToVisitModel>(ctv);
-                        model.CountriesToVisit.Add(ctvModel);
-                    }
-                    return View(model);
-                }
- * 
- * * * */

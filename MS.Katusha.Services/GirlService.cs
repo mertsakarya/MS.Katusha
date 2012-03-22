@@ -12,11 +12,12 @@ namespace MS.Katusha.Services
 
         public GirlService(IGirlRepositoryDB repository, IUserRepositoryDB userRepository,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
-            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository)
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository
+            )
             : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository) { }
 
 
-        public override Girl GetProfile(Guid guid, params Expression<Func<Girl, object>>[] includeExpressionParams)
+        public override Girl GetProfile(long profileId, params Expression<Func<Girl, object>>[] includeExpressionParams)
         {
             if (includeExpressionParams == null || includeExpressionParams.Length == 0)
             {
@@ -28,17 +29,17 @@ namespace MS.Katusha.Services
                                               };
 
             }
-            var item = base.GetProfile(guid, includeExpressionParams);
+            var item = base.GetProfile(profileId, includeExpressionParams);
             return item;
         }
 
         public override void UpdateProfile(Girl profile)
         {
             base.UpdateProfile(profile);
-            var dataProfile = base.GetProfile(profile.Guid);
+            var dataProfile = base.GetProfile(profile.Id);
             SetData(dataProfile, profile);
             dataProfile.BreastSize = profile.BreastSize;
-            _profileRepository.FullUpdate(dataProfile);
+            ProfileRepository.FullUpdate(dataProfile);
         }
     }
 }

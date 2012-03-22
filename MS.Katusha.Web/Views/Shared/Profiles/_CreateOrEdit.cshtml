@@ -113,7 +113,7 @@
 } else {
     @Html.Label("OH NO!")
 }
-
+<script src="/Scripts/Fbck/jquery.fcbkcomplete.js"></script>
 @Html.FacebookListFor( "Profile.CountriesToVisit", Model, Model.CountriesToVisit, typeof(Country), p => p.CountriesToVisit, p => p.Country)
 
 @Html.FacebookListFor( "Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, typeof(Language), p => p.LanguagesSpoken, p => p.Language)

@@ -9,17 +9,18 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Models;
 
 namespace MS.Katusha.Web.Controllers
 {
 
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : KatushaController
     {
         private readonly IUserService _service;
 
-        public AccountController(IUserService service)
+        public AccountController(IUserService service) : base(service)
         {
             _service = service;
         }

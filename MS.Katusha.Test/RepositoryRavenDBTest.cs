@@ -27,10 +27,11 @@ namespace MS.Katusha.Test
         private IUserRepositoryDB _repositoryUserDb;
         private KatushaDbContext _dbContext;
 
-
-        [TestCleanup]
-        public void TestCleanup()
+        [ClassInitialize()]
+        public static void ClassInit(TestContext context)
         {
+            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+            Database.SetInitializer<KatushaDbContext>(new KatushaContextInitializerTest());
         }
 
         [TestInitialize]
@@ -55,6 +56,7 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void TestBoy()
         {
+
             var bs = _repositoryBoyDb.GetAll();
             foreach (var b in bs)
                 _repositoryBoyRavenDB.Add(b);
@@ -76,8 +78,8 @@ namespace MS.Katusha.Test
                     girl.Description = "DESCRIPTION";
                     _repositoryGirlRavenDB.FullUpdate(girl);
                 }
-                if (girl.Id == 4)
-                    _repositoryGirlRavenDB.Delete(girl);
+                //if (girl.Id == 4)
+                //    _repositoryGirlRavenDB.Delete(girl);
                 if (girl.Id == 6)
                     guid = girl.Guid;
             }

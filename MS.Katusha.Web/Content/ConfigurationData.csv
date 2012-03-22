@@ -152,6 +152,7 @@
  		en	Profile.Name.NullDisplayText	""
  		en	Profile.Name.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
  		en	Profile.Name.RegularExpressionErrorMessage	Sorry, only English characters, numbers and space characters are allowed.
+ 		en	Profile.Name.RequiredErrorMessage	What is your name? You don't have to write your last name but at least give us your name.
 
 *	Profile.From
  	[Resource]

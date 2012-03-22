@@ -75,20 +75,36 @@ namespace MS.Katusha.Web.Helpers
             return rm._R(resourceName, (byte)language);
         }
 
+        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, string name, Language language = 0)
+        {
+            IResourceManager rm = new ResourceManager();
+            return rm._LText(resourceName, name, (byte)language);
+        }
+
         public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
         {
             IResourceManager rm = new ResourceManager();
             return rm._L(resourceName, (byte)language);
         }
 
-        public static IHtmlString SmallPhoto<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender)
+        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "")
         {
             var tb = new TagBuilder("img");
             var sex = (gender == Sex.Male) ? "Boy" : "Girl";
-            tb.Attributes.Add("src", (photoGuid == Guid.Empty)? String.Format("/Images/{0}small.jpg", sex) : String.Format("/{0}s/Photo/{1}/small", sex, photoGuid));
+            var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
+            tb.Attributes.Add("src", (photoGuid == Guid.Empty) ? String.Format("/Images/{0}{1}.jpg", sex, size) : String.Format("/{0}s/Photo/{1}{2}", sex, photoGuid, "/" + size));
+            if (!String.IsNullOrWhiteSpace(description))
+                tb.Attributes.Add("title", description);
             return htmlHelper.Raw(tb.ToString());
         }
 
+        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original)
+        {
+            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
+            var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
+            var str = (photoGuid == Guid.Empty) ? String.Format("/Images/{0}{1}.jpg", sex, size) : String.Format("/{0}s/Photo/{1}{2}", sex, photoGuid, "/" + size);
+            return str;
+        }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
         {

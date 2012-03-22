@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
 
@@ -8,15 +7,11 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 {
     public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
-        public BaseFriendlyNameRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
-            : base(connectionStringName)
-        {
-        }
+        protected BaseFriendlyNameRepositoryRavenDB(string connectionStringName = "KatushaRavenDB") : base(connectionStringName) { }
 
-        public T GetByFriendlyName(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams)
-        {
-            return Single(p => p.FriendlyName == friendlyName);
-        }
+        public long GetProfileIdByFriendlyName(string friendlyName) { return Single(p => p.FriendlyName == friendlyName).Id; }
+
+        public long GetProfileIdByGuid(Guid guid) { return Single(p => p.Guid == guid).Id; }
 
         public bool CheckIfFriendlyNameExists(string friendlyName, long id = 0)
         {

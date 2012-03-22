@@ -16,15 +16,9 @@
     @Html.LabelFor(model => model.Photos)
 </div>
 @Html.Partial("_Photo", Model)
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 <p>
-    @Html.ActionLink("Edit Profile", "Edit", new { key = Html.KeyFor(Model) }) |
-    @Html.ActionLink("Edit User", "Edit", new { key = Html.KeyFor(Model) }) |
-    @Html.ActionLink("Edit State", "Edit", new { key = Html.KeyFor(Model) }) |
-    @Html.ActionLink("Photos", "Edit", new { key = Html.KeyFor(Model) }) |
+    @Html.ActionLink("SEND MESSAGE", "Send", "Message", new { key = Html.KeyFor(Model) }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

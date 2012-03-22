@@ -11,9 +11,15 @@ namespace MS.Katusha.Repositories.DB.Base
     {
         protected BaseFriendlyNameRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
         
-        public T GetByFriendlyName(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams)
+        public long GetProfileIdByFriendlyName(string friendlyName)
         {
-            return Query(p => p.FriendlyName == friendlyName, null, includeExpressionParams).FirstOrDefault();
+            var item = Query(p => p.FriendlyName == friendlyName, null, null).FirstOrDefault();
+            return item != null ? item.Id : 0;
+        }
+
+        public long GetProfileIdByGuid(Guid guid) {
+            var item = Query(p => p.Guid == guid, null, null).FirstOrDefault();
+            return item != null ? item.Id : 0;
         }
 
         public bool CheckIfFriendlyNameExists(string friendlyName, long id = 0)

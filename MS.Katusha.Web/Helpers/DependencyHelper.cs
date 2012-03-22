@@ -12,6 +12,7 @@ using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 
 namespace MS.Katusha.Web.Helpers
@@ -30,6 +31,8 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<GirlRepositoryRavenDB>().As<IGirlRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<BoyRepositoryRavenDB>().As<IBoyRepositoryRavenDB>().InstancePerHttpRequest();
             builder.RegisterType<GirlRepositoryDB>().As<IGirlRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<BoyRepositoryDB>().As<IBoyRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<CountriesToVisitRepositoryDB>().As<ICountriesToVisitRepositoryDB>().InstancePerHttpRequest();

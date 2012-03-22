@@ -6,7 +6,8 @@ namespace MS.Katusha.Interfaces.Repositories
 {
     public interface IFriendlyNameRepository<T>: IGuidRepository<T> where T : BaseFriendlyModel
     {
-        T GetByFriendlyName(string friendlyName, params Expression<Func<T, object>>[] includeExpressionParams);
+        long GetProfileIdByFriendlyName(string friendlyName);
+        long GetProfileIdByGuid(Guid guid);
         bool CheckIfFriendlyNameExists(string friendlyName, long id = 0);
     }
 }

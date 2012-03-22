@@ -8,8 +8,8 @@
     <ProjectGuid>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.Katusha.RepositoryRavenDB</RootNamespace>
-    <AssemblyName>MS.Katusha.RepositoryRavenDB</AssemblyName>
+    <RootNamespace>MS.Katusha.Repositories.RavenDB</RootNamespace>
+    <AssemblyName>MS.Katusha.Repositories.RavenDB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

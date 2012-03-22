@@ -1,3 +1,5 @@
+@using ClientDependency.Core
+@using ClientDependency.Core.Mvc
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,8 +9,45 @@
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
         <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js")"></script>
-        <script src="/Scripts/Fbck/jquery.fcbkcomplete.js"></script>
+        
         <meta name="viewport" content="width=device-width" />
+        @{
+            @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> {
+                                                                                               new BasicPath("Base", "~/Content/themes/base"),
+                                                                                               new BasicPath("Content", "~/Content")
+                                                                                           }))
+
+            @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> {
+                                                                                              new BasicPath("Scripts", "~/Scripts"),
+                                                                                              new BasicPath("googleCDN", "http://ajax.googleapis.com/ajax/libs/"),
+                                                                                              new BasicPath("Content", "~/Content")
+
+                                                                                          }))
+            Html.RequiresCss("Bootstrap/bootstrap.min.css", "Content", 2);
+            Html.RequiresCss("Bootstrap/bootstrap-responsive.min.css", "Content", 3);
+            Html.RequiresCss("Bootstrap/bootstrap-image-gallery.min.css", "Content", 4);
+
+            Html.RequiresCss("FileUpload/jquery.fileupload-ui.css", "Content", 5);
+
+
+            Html.RequiresJs("jquery/1.7.1/jquery.min.js", "googleCDN", 1);
+            Html.RequiresJs("jqueryui/1.8.18/jquery-ui.min.js", "googleCDN", 2);
+
+            Html.RequiresJs("FileUpload/tmpl.min.js", "Content", 5);
+            Html.RequiresJs("FileUpload/canvas-to-blob.min.js", "Content", 5);
+            Html.RequiresJs("FileUpload/load-image.min.js", "Content", 5);
+
+            Html.RequiresJs("Bootstrap/bootstrap-image-gallery.min.js", "Content", 6);
+            Html.RequiresJs("Bootstrap/bootstrap.min.js", "Content", 6);
+
+            Html.RequiresJs("FileUpload/jquery.iframe-transport.js", "Content", 10);
+            Html.RequiresJs("FileUpload/jquery.fileupload.js", "Content", 10);
+            Html.RequiresJs("FileUpload/jquery.fileupload-ip.js", "Content", 20);
+            Html.RequiresJs("FileUpload/jquery.fileupload-ui.js", "Content", 30);
+
+            Html.RequiresJs("FileUpload/locale.js", "Content", 90);
+            Html.RequiresJs("FileUpload/main.js", "Content", 99);
+        }
     </head>
     <body>
         <div id="fb-root"></div>

@@ -11,10 +11,11 @@ namespace MS.Katusha.Services
     {
         public BoyService(IBoyRepositoryDB repository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
-            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository) 
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository
+            ) 
             : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository) { }
 
-        public override Boy GetProfile(Guid guid, params Expression<Func<Boy, object>>[] includeExpressionParams)
+        public override Boy GetProfile(long profileId, params Expression<Func<Boy, object>>[] includeExpressionParams)
         {
             if (includeExpressionParams == null || includeExpressionParams.Length == 0)
             {
@@ -26,18 +27,18 @@ namespace MS.Katusha.Services
                                               };
 
             } 
-            var item = base.GetProfile(guid, includeExpressionParams);
+            var item = base.GetProfile(profileId, includeExpressionParams);
             return item;
         }
 
         public override void UpdateProfile(Boy profile)
         {
             base.UpdateProfile(profile);
-            var dataProfile = base.GetProfile(profile.Guid);
+            var dataProfile = base.GetProfile(profile.Id);
             base.SetData(dataProfile, profile);
             dataProfile.DickSize = profile.DickSize;
             dataProfile.DickThickness = profile.DickThickness;
-            _profileRepository.FullUpdate(dataProfile);
+            ProfileRepository.FullUpdate(dataProfile);
         }
     }
 }

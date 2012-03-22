@@ -30,6 +30,7 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaRegularExpression("Profile.Name")]
         [KatushaStringLength("Profile.Name")]
         [KatushaField("Profile.Name")]
+        [KatushaRequired("Profile.Name")]
         public string Name { get; set; }
 
         [KatushaField("Profile.From")]
