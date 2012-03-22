@@ -92,5 +92,11 @@ namespace MS.Katusha.Services
                 return _girlRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
             return null;
         }
+
+        public User GetUserByFacebookUId(string uid)
+        {
+            var user = _repository.Single(u => u.FacebookUid == uid);
+            return user;
+        }
     }
 }

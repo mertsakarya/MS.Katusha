@@ -12,6 +12,7 @@ namespace MS.Katusha.Web.Models.Entities
         [Required]
         [MinLength(3), MaxLength(64)]
         public string UserName { get; set; }
+        public string FacebookUid { get; set; }
 
         [Required]
         [MinLength(7), MaxLength(64)]

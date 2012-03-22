@@ -15,5 +15,6 @@ namespace MS.Katusha.Interfaces.Services
         User ConfirmEMailAddresByGuid(Guid guid);
 
         Profile GetProfile(Guid guid, Sex gender);
+        User GetUserByFacebookUId(string uid);
     }
 }

@@ -13,7 +13,6 @@ using System.Web.Mvc.Html;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
-using System.Web.Script.Serialization;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -81,6 +80,15 @@ namespace MS.Katusha.Web.Helpers
             IResourceManager rm = new ResourceManager();
             return rm._L(resourceName, (byte)language);
         }
+
+        public static IHtmlString SmallPhoto<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender)
+        {
+            var tb = new TagBuilder("img");
+            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
+            tb.Attributes.Add("src", (photoGuid == Guid.Empty)? String.Format("/Images/{0}small.jpg", sex) : String.Format("/{0}s/Photo/{1}/small", sex, photoGuid));
+            return htmlHelper.Raw(tb.ToString());
+        }
+
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
         {

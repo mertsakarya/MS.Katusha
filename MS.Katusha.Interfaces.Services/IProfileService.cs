@@ -31,5 +31,7 @@ namespace MS.Katusha.Interfaces.Services
         void DeletePhoto(Guid guid);
         void AddPhoto(Photo photo);
         Photo GetPhotoByGuid(Guid guid);
+
+        void MakeProfilePhoto(Guid guid, Guid guid_2);
     }
 }

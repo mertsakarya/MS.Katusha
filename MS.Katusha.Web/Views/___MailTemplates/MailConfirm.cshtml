@@ -3,4 +3,4 @@
 Dear @Model.UserName,<br />
 <br />
 Welcome to our site,<br />
-Please confirm your mail by clicking <a href="@(Html.Host())Home/MailConfirm/@Model.Guid">here</a> or navigating to this address, @(Html.Host())Home/MailConfirm/@Model.Guid
+Please confirm your mail by clicking <a href="@(ConfigurationManager.AppSettings["VirtualPath"])Home/MailConfirm/@Model.Guid">here</a> or navigating to this address, @(ConfigurationManager.AppSettings["VirtualPath"])Home/MailConfirm/@Model.Guid

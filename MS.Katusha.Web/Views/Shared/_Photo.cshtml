@@ -48,7 +48,8 @@
                 <img title="@photo.Description" src="/@(ViewContext.RouteData.Values["Controller"])/Photo/@photo.Guid/small" />
             </a>
             if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
-                         <a href="del">[X]</a>
+                <a href="del">[X]</a>
+                <a href="/@(ViewContext.RouteData.Values["Controller"])/MakeProfilePhoto/@Html.KeyFor(Model)/@photo.Guid">[P]</a>
             }
         }
     }

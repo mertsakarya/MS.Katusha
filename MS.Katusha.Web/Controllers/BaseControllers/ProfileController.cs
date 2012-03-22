@@ -209,6 +209,21 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 throw new HttpException(404, "Photo not found!");
         }
 
+        [HttpGet]
+        public void MakeProfilePhoto(string key, string photoGuid)
+        {
+            if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
+            var found = false;
+            foreach (var photo in KatushaProfile.Photos.Where(photo => photo.Guid == Guid.Parse(photoGuid))) {
+                _profileService.MakeProfilePhoto(KatushaProfile.Guid, photo.Guid);
+                found = true;
+                break;
+            }
+            if (!found)
+                throw new HttpException(404, "Photo not found!");
+        }
+                
+
         [System.Web.Http.HttpGet]
         public ActionResult Download(string key, string size)
         {

@@ -73,6 +73,8 @@ namespace MS.Katusha.Web.Models.Entities
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        public Guid ProfilePhotoGuid { get; set; }
+
         [KatushaField("Profile.Searches")]
         public IList<SearchingForModel> Searches { get; set; }
         [KatushaField("Profile.CountriesToVisit")]

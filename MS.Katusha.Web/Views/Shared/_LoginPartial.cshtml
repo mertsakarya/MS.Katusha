@@ -4,6 +4,46 @@
         @Html.ActionLink("Log off", "LogOff", "Account")
     </p>
 } else {
+    @*
+    https://developers.facebook.com/apps/405781396117619/auth
+    http://csharpsdk.org/docs/web/getting-started
+    *@
+    <script>
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '405781396117619', // App ID
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+
+            FB.getLoginStatus(function (response) {
+                if (response.status === 'connected') {
+                    var uid = response.authResponse.userID;
+                    var accessToken = response.authResponse.accessToken;
+                    @if(Session["AccessToken"] == null) {
+                        <text>$.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) { alert(textStatus);});</text>
+                    }
+                } else if (response.status === 'not_authorized') {
+                    // the user is logged in to Facebook, 
+                    // but has not authenticated your app
+                } else {
+                    // the user isn't logged in to Facebook.
+                }
+            });
+        };
+
+        // Load the SDK Asynchronously
+        (function (d) {
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        } (document));
+    </script>
+    
     <ul>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>

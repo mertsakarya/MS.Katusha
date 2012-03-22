@@ -247,5 +247,8 @@ namespace MS.Katusha.Infrastructure
                     return (byte) Language.DefaultLanguage;
             }
         }
+
+        private static IResourceManager _instance = null;
+        public static IResourceManager GetInstance() { return _instance ?? (_instance = new ResourceManager()); }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Security;
 using Facebook;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
 
@@ -92,7 +93,7 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-
+            Session["AccessToken"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -238,47 +239,53 @@ namespace MS.Katusha.Web.Controllers
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
+            IResourceManager resourceManager = ResourceManager.GetInstance();
             switch (createStatus)
             {
                 case KatushaMembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());                    
 
                 case KatushaMembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 case KatushaMembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus.ToString());
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return resourceManager._R("KatushaMembershipCreateStatus.Default");
             }
         }
         #endregion
 
         [HttpPost]
-        public ActionResult FacebookLogin(string accessToken)
+        public void FacebookLogin(string accessToken, string uid)
         {
             var accessToken1 = Request["accessToken"];
+            var uid1 = Request["uid"];
+            User user = _service.GetUserByFacebookUId(uid1);
+            if (user == null) {
+                //Create associated user
+            } else
+                FormsAuthentication.SetAuthCookie(user.UserName, false);
             Session["AccessToken"] = accessToken1;
-            return RedirectToAction("Index", "Home");
         }
     }
 }

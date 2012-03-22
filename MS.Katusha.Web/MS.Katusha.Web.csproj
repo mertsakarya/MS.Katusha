@@ -206,6 +206,7 @@
     <Compile Include="Controllers\BoysController.cs" />
     <Compile Include="Controllers\GirlsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
@@ -284,6 +285,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\close.gif" />
+    <Content Include="Images\Girl.jpg" />
+    <Content Include="Images\Girlsmall.jpg" />
+    <Content Include="Images\Boy.jpg" />
+    <Content Include="Images\Boysmall.jpg" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.js" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.min.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -408,9 +413,6 @@
     <Content Include="Views\Shared\DeleteProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_BoyCreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -426,10 +428,7 @@
     <Content Include="Views\Girls\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Girls\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Profiles\_Index.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\SendConfirmationMail.cshtml" />
@@ -453,7 +452,6 @@
     <None Include="Content\ConfigurationData.csv" />
     <Content Include="Views\Photo\Index.cshtml" />
     <Content Include="Views\Shared\_Photo.cshtml" />
-    <Content Include="Views\Boys\Photos.cshtml" />
     <Content Include="Views\Shared\Photos.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

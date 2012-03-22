@@ -143,6 +143,7 @@ namespace MS.Katusha.Services
         protected void SetData(Profile dataProfile, Profile profile)
         {
             dataProfile.FriendlyName = profile.FriendlyName;
+            dataProfile.Name = profile.Name; 
             dataProfile.Alcohol = profile.Alcohol;
             dataProfile.BirthYear = profile.BirthYear;
             dataProfile.BodyBuild = profile.BodyBuild;
@@ -155,6 +156,7 @@ namespace MS.Katusha.Services
             dataProfile.Name = profile.Name;
             dataProfile.Religion = profile.Religion;
             dataProfile.Smokes = profile.Smokes;
+            dataProfile.ProfilePhotoGuid = profile.ProfilePhotoGuid;
         }
 
 
@@ -169,10 +171,27 @@ namespace MS.Katusha.Services
             return _photoRepository.GetByGuid(guid);
         }
 
+        public void MakeProfilePhoto(Guid profileGuid, Guid photoGuid) {
+            var profile = _profileRepository.GetByGuid(profileGuid);
+            if (profile != null) {
+                profile.ProfilePhotoGuid = photoGuid;
+                _profileRepository.FullUpdate(profile); 
+                _profileRepository.Save();
+            }
+ 
+        }
+
         public void AddPhoto(Photo photo)
         {
+            var profile = _profileRepository.GetById(photo.ProfileId);
+            if (profile == null) return;
+            if(profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
+                profile.ProfilePhotoGuid = photo.Guid;
+                _profileRepository.Save();
+            }
             _photoRepository.Add(photo, photo.Guid);
             _photoRepository.Save();
+            
         }
     }
 }

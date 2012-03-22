@@ -47,8 +47,10 @@ namespace MS.Katusha.Domain.Entities
         [Range(1920, 2000)]
         public int BirthYear { get; set; }
 
-        [StringLength(8000, MinimumLength = 3)]
+        [StringLength(4000, MinimumLength = 3)]
         public string Description { get; set; }
+
+        public Guid ProfilePhotoGuid { get; set; }
 
         public IList<SearchingFor> Searches { get; set; }
         public IList<Photo> Photos { get; set; }
