@@ -38,7 +38,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         public ActionResult Index(int? page)
         {
-
             var pageIndex = (page ?? 1);
             const int pageSize = 2;
             int total; // will be set by call to GetAllUsers due to _out_ paramter :-|
@@ -48,19 +47,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             var profilesAsIPagedList = new StaticPagedList<TModel>(profilesModel, pageIndex, pageSize, total);
             var model = new PagedListModel<ProfileModel> {List = profilesAsIPagedList};
             return View(model);
-        }
-
-
-        public ActionResult Photos(string key)
-        {
-            try {
-                var profile = GetProfile(key, p => p.Photos);
-                ViewBag.SameProfile = (IsKeyForProfile(key));
-                var model = MapToModel(profile);
-                return View(model);
-            } catch (KatushaFriendlyNameNotFoundException ex) {
-                return View("KatushaError", ex);
-            }
         }
 
         public ActionResult MyMessages(int? pageNo = 1)
@@ -101,11 +87,20 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 var data = Mapper.Map<Conversation>(model);
                 data.ToId = to.Id;
                 data.FromId = KatushaProfile.Id;
+                data.ReadDate = new DateTime(1900, 1, 1, 0, 0, 0);
                 _profileService.SendMessage(data);
                 return RedirectToAction("MyMessages");
             } catch (KatushaFriendlyNameNotFoundException ex) {
                 return View("KatushaError", ex);
             }
+        }
+        
+        [HttpGet]
+        public void ReadMessage(string key)
+        {
+            Guid guid;
+            if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !Guid.TryParse(key, out guid)) throw new HttpException(404, "Message not found!");
+            _profileService.ReadMessage(KatushaProfile.Id, guid);
         }
 
         public ActionResult Details(string key)
@@ -269,7 +264,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             if (!found)
                 throw new HttpException(404, "Photo not found!");
         }
-                
 
         [System.Web.Http.HttpGet]
         public ActionResult Download(string key, string size)

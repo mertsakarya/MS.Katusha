@@ -37,5 +37,6 @@ namespace MS.Katusha.Interfaces.Services
 
 
         void SendMessage(Conversation data);
+        void ReadMessage(long id, Guid messageGuid);
     }
 }

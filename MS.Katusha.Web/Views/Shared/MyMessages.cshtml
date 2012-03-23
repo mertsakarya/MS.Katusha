@@ -1,17 +1,23 @@
 @model MS.Katusha.Web.Models.PagedListModel<ConversationModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Messages";
 }
 
 <h2>My messages</h2>
        
 <ul>
 @foreach (var item in Model.List) {
-    var from = item.From.Name;
-    var to = item.To.Name;
-    <pre>@String.Format("[{0}] {1} > {2}\r\n[{3}]\r\n{4}", item.CreationDate.ToLocalTime(), from, to, item.Subject, item.Message )</pre>
-    <hr />
+    if (item != null) {
+        var from = (item.From == null) ? "" : item.From.Name;
+        var to = (item.To == null) ? "" : item.To.Name;
+        var isRead = (item.FromId == ViewBag.KatushaProfile.Id) || (item.ReadDate != new DateTime(1900, 1, 1, 0, 0, 0));
+        <li >@item.CreationDate.ToLocalTime() @from > @to 
+        <a title="Read" href="#" onclick="@((isRead) ? "" : "$.getJSON('/" + (ViewContext.RouteData.Values["Controller"]) + "/ReadMessage/" + item.Guid + "', function(data) {$('#M" + item.Guid + "').slideDown('slow');})")">@item.Subject</a>
+        <div id="M@(item.Guid)" class="@((isRead) ? "" : "hide")"><pre>@(item.Message ?? "")</pre></div>
+        </li>
+    }
 }
+
 </ul>
 
 @Html.PagedListPager(Model.List, page => Url.Action("MyMessages", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)

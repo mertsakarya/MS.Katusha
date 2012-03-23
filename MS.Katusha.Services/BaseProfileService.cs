@@ -160,6 +160,15 @@ namespace MS.Katusha.Services
             _converstaionRepository.Save();
         }
 
+        public void ReadMessage(long profileId, Guid messageGuid)
+        {
+            var message = _converstaionRepository.Single(p => p.Guid == messageGuid && p.ToId == profileId);
+            if (message == null) return;
+            message.ReadDate = DateTime.Now.ToUniversalTime();
+            _converstaionRepository.FullUpdate(message);
+            _converstaionRepository.Save();
+        }
+
         public void MakeProfilePhoto(long profileId, Guid photoGuid) {
             var profile = ProfileRepository.GetById(profileId);
             if (profile != null) {
