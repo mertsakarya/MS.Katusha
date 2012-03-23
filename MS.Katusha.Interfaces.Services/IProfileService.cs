@@ -7,10 +7,10 @@ using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {
-    public interface IProfileService<T> where T : BaseFriendlyModel
+    public interface IProfileService<T> where T : Profile
     {
-        IEnumerable<T> GetNewProfiles(int pageNo = 1, int pageSize = 20);
-        IEnumerable<T> GetMostVisitedProfiles(int pageNo = 1, int pageSize = 20);
+        IEnumerable<T> GetNewProfiles(out int total, int pageNo = 1, int pageSize = 20);
+        IEnumerable<T> GetMostVisitedProfiles(out int total, int pageNo = 1, int pageSize = 20);
 
         long GetProfileId(Guid guid);
         long GetProfileId(string friendlyName);
@@ -32,5 +32,10 @@ namespace MS.Katusha.Interfaces.Services
         void DeletePhoto(long profileId, Guid guid);
         void AddPhoto(Photo photo);
         Photo GetPhotoByGuid(Guid guid);
+
+        IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20);
+
+
+        void SendMessage(Conversation data);
     }
 }

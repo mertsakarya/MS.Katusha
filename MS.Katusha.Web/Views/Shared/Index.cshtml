@@ -7,23 +7,22 @@
 }
 
 <h2>Index</h2>
-
-
-
        
+       <ul>
 @if (ViewBag.KatushaUser != null && !ViewBag.KatushaUser.EmailValidated) {
-        <h2>Please confirm your email first to create a profile!!! Resend @Html.ActionLink("Confirmation Mail", "SendConfirmationMail", "Home")</h2>
+    <li>Please confirm your email first to create a profile!!! Resend @Html.ActionLink("Confirmation Mail", "SendConfirmationMail", "Home")</li>
 } else if (ViewBag.KatushaUser != null && ViewBag.KatushaUser.Gender == 0) {
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
+    <li>@Html.ActionLink("Create New", "Create")</li>
 }
-
+@if(ViewBag.KatushaUser != null && ViewBag.KatushaUser.Gender != 0) {
+    <li>@Html.ActionLink("My Messages", "MyMessages", ViewContext.RouteData.Values["Controller"], new { pageNo=1 })</li>
+}
+</ul>
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 @foreach (var profile in Model.List) {
     var sex = (profile is BoyModel) ? Sex.Male : Sex.Female;
     var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-    <a title="@(profile.Name+" - "+(DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/@((profile is BoyModel) ? "Boys" : "Girls")/Details/@(val)" rel="gallery">
+    <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/@((profile is BoyModel) ? "Boys" : "Girls")/Details/@(val)" rel="gallery">
         @Html.Photo(profile.ProfilePhotoGuid, sex, PhotoType.Thumbnail)
     </a>    
 }

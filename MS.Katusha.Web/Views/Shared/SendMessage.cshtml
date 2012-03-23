@@ -1,0 +1,36 @@
+@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.Entities.ConversationModel
+
+@{
+    ViewBag.Title = "Send message";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Message To</legend>
+        @Html.Photo(Model.To.ProfilePhotoGuid, (Model.To is BoyModel) ? Sex.Male : Sex.Female, PhotoType.Thumbnail)
+        <div class="editor-label">
+                @Html.LabelFor(model => model.Subject)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Subject)
+                @Html.ValidationMessageFor(model => model.Subject)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Message)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Message)
+                @Html.ValidationMessageFor(model => model.Message)
+            </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+

@@ -98,5 +98,6 @@ namespace MS.Katusha.Services
             var user = _repository.Single(u => u.FacebookUid == uid);
             return user;
         }
+
     }
 }

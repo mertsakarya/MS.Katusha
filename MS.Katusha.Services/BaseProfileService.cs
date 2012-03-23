@@ -8,10 +8,11 @@ using MS.Katusha.Exceptions.Services;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Services
 {
-    public abstract class ProfileService<T> : IProfileService<T> where T : Profile
+    public abstract class BaseProfileService<T> : IProfileService<T> where T : Profile
     {
 
         protected readonly IFriendlyNameRepository<T> ProfileRepository;
@@ -20,10 +21,11 @@ namespace MS.Katusha.Services
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
         private readonly ISearchingForRepositoryDB _searchingForRepository;
+        private readonly IConversationRepositoryDB _converstaionRepository;
 
-        protected ProfileService(IFriendlyNameRepository<T> repository, IUserRepositoryDB userRepository, 
+        protected BaseProfileService(IFriendlyNameRepository<T> repository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepository,
-            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository)
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository, IConversationRepositoryDB converstaionRepository)
         {
             ProfileRepository = repository;
             _userRepository = userRepository;
@@ -31,15 +33,16 @@ namespace MS.Katusha.Services
             _photoRepository = photoRepository;
             _languagesSpokenRepository = languagesSpokenRepository;
             _searchingForRepository = searchingForRepository;
+            _converstaionRepository = converstaionRepository;
         }
 
-        public IEnumerable<T> GetNewProfiles(int pageNo = 1, int pageSize = 20)
+        public IEnumerable<T> GetNewProfiles(out int total, int pageNo = 1, int pageSize = 20)
         {
-            var items =  ProfileRepository.GetAll(1, 20);
+            var items = ProfileRepository.Query(p => p.Id > 0, pageNo, pageSize, out total, o => o.Id, p => p.Photos);
             return items;
         }
 
-        public IEnumerable<T> GetMostVisitedProfiles(int pageNo = 1, int pageSize = 20)
+        public IEnumerable<T> GetMostVisitedProfiles(out int total, int pageNo = 1, int pageSize = 20)
         {
             throw new NotImplementedException();
         }
@@ -146,6 +149,17 @@ namespace MS.Katusha.Services
             return _photoRepository.GetByGuid(photoGuid);
         }
 
+        public IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            return _converstaionRepository.Query(q => q.FromId == profileId || q.ToId == profileId, pageNo, pageSize, out total, o => o.CreationDate, p=>p.From, p=>p.To).ToList();
+        }
+        
+        public void SendMessage(Conversation message)
+        {
+            _converstaionRepository.Add(message);
+            _converstaionRepository.Save();
+        }
+
         public void MakeProfilePhoto(long profileId, Guid photoGuid) {
             var profile = ProfileRepository.GetById(profileId);
             if (profile != null) {
@@ -157,7 +171,7 @@ namespace MS.Katusha.Services
 
         public void AddPhoto(Photo photo)
         {
-            var profile = ProfileRepository.GetById(photo.ProfileId);
+            var profile = ProfileRepository.GetById(photo.ProfileId) as Profile;
             if (profile == null) return;
             if(profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
                 profile.ProfilePhotoGuid = photo.Guid;

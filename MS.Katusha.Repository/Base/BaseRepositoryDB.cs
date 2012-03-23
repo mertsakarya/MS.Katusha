@@ -51,10 +51,10 @@ namespace MS.Katusha.Repositories.DB.Base
             return q;
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> filter, int pageNo, int pageSize, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
-        {
-            
+        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        {           
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
+            total = q.Count(); 
             if (orderByClause != null) q = q.OrderBy(orderByClause);
             return q.Skip((pageNo - 1) * pageSize).Take( pageSize );
         }

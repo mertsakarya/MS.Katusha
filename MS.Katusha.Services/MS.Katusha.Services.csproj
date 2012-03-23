@@ -43,9 +43,10 @@
   <ItemGroup>
     <Compile Include="BoyService.cs" />
     <Compile Include="ConfigurationService.cs" />
+    <Compile Include="ConversationService.cs" />
     <Compile Include="GirlService.cs" />
     <Compile Include="UserService.cs" />
-    <Compile Include="ProfileService.cs" />
+    <Compile Include="BaseProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -206,7 +206,6 @@
     <Compile Include="Controllers\BoysController.cs" />
     <Compile Include="Controllers\GirlsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
@@ -458,6 +457,8 @@
     <Content Include="Views\Photo\Index.cshtml" />
     <Content Include="Views\Shared\_Photo.cshtml" />
     <Content Include="Views\Shared\Photos.cshtml" />
+    <Content Include="Views\Shared\MyMessages.cshtml" />
+    <Content Include="Views\Shared\SendMessage.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

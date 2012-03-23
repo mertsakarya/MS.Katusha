@@ -41,14 +41,13 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
             var pageIndex = (page ?? 1);
             const int pageSize = 2;
-            const int totalUserCount = 1000; // will be set by call to GetAllUsers due to _out_ paramter :-|
-            var profiles = _profileService.GetNewProfiles(pageIndex, pageSize);
+            int total; // will be set by call to GetAllUsers due to _out_ paramter :-|
+            var profiles = _profileService.GetNewProfiles(out total, pageIndex, pageSize);
             var profilesModel = Mapper.Map<IList<TModel>>(profiles);
 
-            var profilesAsIPagedList = new StaticPagedList<TModel>(profilesModel, pageIndex, pageSize, totalUserCount);
+            var profilesAsIPagedList = new StaticPagedList<TModel>(profilesModel, pageIndex, pageSize, total);
             var model = new PagedListModel<ProfileModel> {List = profilesAsIPagedList};
             return View(model);
-
         }
 
 
@@ -59,6 +58,51 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 ViewBag.SameProfile = (IsKeyForProfile(key));
                 var model = MapToModel(profile);
                 return View(model);
+            } catch (KatushaFriendlyNameNotFoundException ex) {
+                return View("KatushaError", ex);
+            }
+        }
+
+        public ActionResult MyMessages(int? pageNo = 1)
+        {
+            if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || KatushaProfile == null) return View("KatushaError", new KatushaNotAllowedException(KatushaProfile, KatushaUser, "MY MESSAGES"));
+            try {
+                int total;
+                var messages = _profileService.GetMessages(KatushaProfile.Id, out total, pageNo ?? 1, 20);
+                var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
+                var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageNo ?? 1, 20, total);
+                var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList };
+                return View(model);
+            } catch (KatushaFriendlyNameNotFoundException ex) {
+                return View("KatushaError", ex);
+            }
+        }
+
+        public ActionResult SendMessage(string key)
+        {
+            if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || KatushaProfile == null) return View("KatushaError", new KatushaNotAllowedException(KatushaProfile, KatushaUser, "SEND MESSAGE"));
+            try {
+                var to = Mapper.Map<ProfileModel>(GetProfile(key, p => p.Photos));
+                var from = Mapper.Map<ProfileModel>(KatushaProfile);
+                var model = new ConversationModel {To = to, ToId = to.Id, FromId = from.Id, From = from};
+                return View(model);
+            } catch (KatushaFriendlyNameNotFoundException ex) {
+                return View("KatushaError", ex);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(string key, ConversationModel model)
+        {
+            if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || KatushaProfile == null) return View("KatushaError", new KatushaNotAllowedException(KatushaProfile, KatushaUser, "SEND MESSAGE"));
+            try {
+                if (!ModelState.IsValid) return View(model);
+                var to = GetProfile(key);
+                var data = Mapper.Map<Conversation>(model);
+                data.ToId = to.Id;
+                data.FromId = KatushaProfile.Id;
+                _profileService.SendMessage(data);
+                return RedirectToAction("MyMessages");
             } catch (KatushaFriendlyNameNotFoundException ex) {
                 return View("KatushaError", ex);
             }

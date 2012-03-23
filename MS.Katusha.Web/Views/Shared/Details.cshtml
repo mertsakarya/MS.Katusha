@@ -18,7 +18,7 @@
 @Html.Partial("_Photo", Model)
 
 <p>
-    @Html.ActionLink("SEND MESSAGE", "Send", "Message", new { key = Html.KeyFor(Model) }, null) |
+    @Html.ActionLink("SEND MESSAGE", "SendMessage", new { key = Html.KeyFor(Model) }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

@@ -29,7 +29,9 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<GirlService>().As<IGirlService>().InstancePerHttpRequest();
             builder.RegisterType<BoyService>().As<IBoyService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
+//            builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerHttpRequest();
 
+            builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<GirlRepositoryRavenDB>().As<IGirlRepositoryRavenDB>().InstancePerHttpRequest();
             builder.RegisterType<BoyRepositoryRavenDB>().As<IBoyRepositoryRavenDB>().InstancePerHttpRequest();

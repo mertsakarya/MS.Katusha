@@ -1,0 +1,21 @@
+@model MS.Katusha.Web.Models.PagedListModel<ConversationModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My messages</h2>
+       
+<ul>
+@foreach (var item in Model.List) {
+    var from = item.From.Name;
+    var to = item.To.Name;
+    <pre>@String.Format("[{0}] {1} > {2}\r\n[{3}]\r\n{4}", item.CreationDate.ToLocalTime(), from, to, item.Subject, item.Message )</pre>
+    <hr />
+}
+</ul>
+
+@Html.PagedListPager(Model.List, page => Url.Action("MyMessages", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

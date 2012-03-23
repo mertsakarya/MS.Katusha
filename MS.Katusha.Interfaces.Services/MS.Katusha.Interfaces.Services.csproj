@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IBoyService.cs" />
     <Compile Include="IConfigurationService.cs" />
+    <Compile Include="IConversationService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IGirlService.cs" />
     <Compile Include="IProfileService.cs" />

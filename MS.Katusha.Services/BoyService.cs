@@ -7,13 +7,13 @@ using MS.Katusha.Interfaces.Services;
 namespace MS.Katusha.Services
 {
 
-    public class BoyService : ProfileService<Boy>, IBoyService
+    public class BoyService : BaseProfileService<Boy>, IBoyService
     {
         public BoyService(IBoyRepositoryDB repository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepositoryDB,
-            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository, IConversationRepositoryDB converstaionRepository
             ) 
-            : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository) { }
+            : base(repository, userRepository, countriesToVisitRepository, photoRepositoryDB, languagesSpokenRepository, searchingForRepository, converstaionRepository) { }
 
         public override Boy GetProfile(long profileId, params Expression<Func<Boy, object>>[] includeExpressionParams)
         {
