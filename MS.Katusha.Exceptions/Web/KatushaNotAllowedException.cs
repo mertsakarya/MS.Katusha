@@ -1,17 +1,18 @@
-﻿using MS.Katusha.Domain.Entities;
+﻿using AutoMapper;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
-namespace MS.Katusha.Exceptions.Services
+namespace MS.Katusha.Exceptions.Web
 {
     public class KatushaNotAllowedException : KatushaException
     {
 
-        public KatushaNotAllowedException(Profile profile, User user, string key)
-            : base("NotAllowed", "You cannot do this!", null)
+        public KatushaNotAllowedException(Profile profile, User user, string message)
+            : base("NotAllowed", message, null)
         {
             Profile = profile;
             User = user;
-            Key = key;
         }
 
         public BaseFriendlyModel Profile { get; private set; }

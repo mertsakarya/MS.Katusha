@@ -14,12 +14,16 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public new T Add(T entity)
         {
-            return RepositoryHelper.AddWithGuid(DbContext, entity);
+            var e = RepositoryHelper.AddWithGuid(DbContext, entity);
+            Save();
+            return e;
         }
 
         public T Add(T entity, Guid guid)
         {
-            return RepositoryHelper.AddWithGuid(DbContext, entity, guid);
+            var e = RepositoryHelper.AddWithGuid(DbContext, entity, guid);
+            Save();
+            return e;
         }
         
         public T GetByGuid(Guid guid, params Expression<Func<T, object>>[] includeExpressionParams)

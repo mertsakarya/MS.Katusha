@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
@@ -41,11 +39,10 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             base.OnActionExecuting(filterContext);
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if(KatushaUser != null)
-                KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid, (Sex)KatushaUser.Gender) : null;
+                KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
         }
-
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
@@ -67,7 +64,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
             string viewName = view.ViewName;
 
-            int i = 0;
+            int i;
 
             if (string.IsNullOrEmpty(viewName))
                 viewName = filterContext.RouteData.Values["action"] + "." + cultureName; // Index.en-US
@@ -84,26 +81,14 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             base.OnActionExecuted(filterContext);
         }
 
-
         protected override void ExecuteCore()
         {
-            string cultureName = null;
-            // Attempt to read the culture cookie from Request
-            HttpCookie cultureCookie = Request.Cookies["_culture"];
-            if (cultureCookie != null)
-                cultureName = cultureCookie.Value;
-            else
-                cultureName = Request.UserLanguages[0]; // obtain it from HTTP header AcceptLanguages
+            var cultureCookie = Request.Cookies["_culture"];
+            var cultureName = cultureCookie == null ? (Request.UserLanguages != null ? Request.UserLanguages[0] : null) : cultureCookie.Value;
+            cultureName = CultureHelper.GetValidCulture(cultureName);
 
-            // Validate culture name
-            cultureName = CultureHelper.GetValidCulture(cultureName); // This is safe
-
-
-
-            // Modify current thread's culture            
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureName);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(cultureName);
-
 
             base.ExecuteCore();
         }

@@ -15,10 +15,10 @@ namespace MS.Katusha.Attributes
         private const string MaximumLengthName = "MaximumLength";
         private const string MinimumLengthName = "MinimumLength";
 
-        public KatushaStringLengthAttribute(string PropertyName)
+        public KatushaStringLengthAttribute(string propertyName)
             : base(0)
         {
-            this.PropertyName = PropertyName;
+            PropertyName = propertyName;
             _resourceManager = new ResourceManager();
         }
 

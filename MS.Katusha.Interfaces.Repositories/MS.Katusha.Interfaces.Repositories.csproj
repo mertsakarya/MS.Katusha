@@ -45,10 +45,9 @@
     <Compile Include="IResourceLookupRepository.cs" />
     <Compile Include="IFrirendlyNameRepository.cs" />
     <Compile Include="IGuidRepository.cs" />
-    <Compile Include="IBoyRepository.cs" />
+    <Compile Include="IProfileRepository.cs" />
     <Compile Include="IConversationRepository.cs" />
     <Compile Include="ICountriesToVisitRepository.cs" />
-    <Compile Include="IGirlRepository.cs" />
     <Compile Include="ILanguagesSpokenRepository.cs" />
     <Compile Include="IPhotoRepository.cs" />
     <Compile Include="IResourceRepository.cs" />

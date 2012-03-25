@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
@@ -58,6 +59,15 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.Religion")]
         public Religion? Religion { get; set; }
 
+        [KatushaField("Boy.DickSize")]
+        public DickSize? DickSize { get; set; }
+
+        [KatushaField("Boy.DickThickness")]
+        public DickThickness? DickThickness { get; set; }
+
+        [KatushaField("Girl.BreastSize")]
+        public BreastSize? BreastSize { get; set; }
+        
         [KatushaRange("Profile.Height")]
         [KatushaField("Profile.Height")]
         [KatushaRequired("Profile.Height")]
@@ -73,6 +83,9 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.Description")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        [ReadOnly(true)]
+        public byte Gender { get; set; }
 
         public Guid ProfilePhotoGuid { get; set; }
 

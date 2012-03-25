@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -14,8 +13,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
     {
         private readonly DocumentStore _documentStore ;
 
-
-        public BaseRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
+        protected BaseRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
         {
             _documentStore = new DocumentStore { ConnectionStringName = connectionStringName };
             _documentStore.Initialize();
@@ -31,7 +29,6 @@ namespace MS.Katusha.Repositories.RavenDB.Base
                 }            
             }
         }
-
 
         public T GetById(long id, params Expression<Func<T, object>>[] includeExpressionParams)
         {
@@ -74,6 +71,12 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         public T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             return QueryHelper(filter).FirstOrDefault();
+        }
+
+        public T SingleAttached(Expression<Func<T, bool>> filter)
+        {
+            //TODO: implement correcting AsNoTracking issue
+            return Single(filter, null);
         }
 
         private T AddRavenDB(T entity)

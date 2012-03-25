@@ -63,10 +63,8 @@
     <Compile Include="Entities\ConfigurationData.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
-    <Compile Include="Entities\Boy.cs" />
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\CountriesToVisit.cs" />
-    <Compile Include="Entities\Girl.cs" />
     <Compile Include="Entities\LanguagesSpoken.cs" />
     <Compile Include="Entities\Resource.cs" />
     <Compile Include="Entities\User.cs" />

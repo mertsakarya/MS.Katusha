@@ -202,10 +202,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
     <Compile Include="Controllers\BaseControllers\LookupListProcessor.cs" />
-    <Compile Include="Controllers\BaseControllers\ProfileController.cs" />
-    <Compile Include="Controllers\BoysController.cs" />
-    <Compile Include="Controllers\GirlsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="Helpers\GenderHelper.cs" />
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
@@ -220,10 +219,8 @@
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseModel.cs" />
-    <Compile Include="Models\Entities\BoyModel.cs" />
     <Compile Include="Models\Entities\ConversationModel.cs" />
     <Compile Include="Models\Entities\CountriesToVisitModel.cs" />
-    <Compile Include="Models\Entities\GirlModel.cs" />
     <Compile Include="Models\Entities\LanguagesSpokenModel.cs" />
     <Compile Include="Models\Entities\PhotoModel.cs" />
     <Compile Include="Models\Entities\ProfileModel.cs" />
@@ -408,57 +405,29 @@
     <Content Include="Views\Home\MailConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\Create.cshtml" />
+    <Content Include="Views\Profiles\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Boys\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\DeleteProfile.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_BoyCreateOrEdit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Profiles\_CreateOrEdit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_GirlCreateOrEdit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Girls\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Girls\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Index.cshtml" />
+    <Content Include="Views\Shared\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\SendConfirmationMail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Profiles\_Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_BoyDetail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_GirlDetail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\KatushaError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\ConfigurationData.csv" />
-    <Content Include="Views\Photo\Index.cshtml" />
     <Content Include="Views\Shared\_Photo.cshtml" />
-    <Content Include="Views\Shared\Photos.cshtml" />
-    <Content Include="Views\Shared\MyMessages.cshtml" />
-    <Content Include="Views\Shared\SendMessage.cshtml" />
+    <Content Include="Views\Profiles\Photos.cshtml" />
+    <Content Include="Views\Profiles\MyMessages.cshtml" />
+    <Content Include="Views\Profiles\SendMessage.cshtml" />
+    <Content Include="Views\Profiles\Visitors.cshtml" />
+    <Content Include="Views\Profiles\Create.cshtml" />
+    <Content Include="Views\Profiles\Show.cshtml" />
+    <Content Include="Views\Profiles\Edit.cshtml" />
+    <Content Include="Views\Profiles\Index.cshtml" />
+    <Content Include="Views\Shared\_LeftPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

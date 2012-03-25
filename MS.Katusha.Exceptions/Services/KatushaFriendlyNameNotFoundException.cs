@@ -1,6 +1,4 @@
-﻿using MS.Katusha.Domain.Entities.BaseEntities;
-
-namespace MS.Katusha.Exceptions.Services
+﻿namespace MS.Katusha.Exceptions.Services
 {
     public class KatushaFriendlyNameNotFoundException : KatushaException
     {

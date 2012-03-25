@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Linq;
+﻿using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Repositories.DB;
 

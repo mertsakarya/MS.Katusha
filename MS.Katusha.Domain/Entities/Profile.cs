@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace MS.Katusha.Domain.Entities
         
         public User User { get; set; }
 
-        public State State { get; set; }
+        public State State { get; set; } 
 
         [StringLength(64)]
         public string Name { get; set; }
@@ -40,6 +41,10 @@ namespace MS.Katusha.Domain.Entities
         public byte Smokes { get; set; }
         public byte Alcohol { get; set; }
         public byte Religion { get; set; }
+        public byte Gender { get; set; }
+        public byte DickSize { get; set; }
+        public byte DickThickness { get; set; }
+        public byte BreastSize { get; set; }
 
         [Range(100, 250)]
         public int Height { get; set; }
@@ -71,7 +76,7 @@ namespace MS.Katusha.Domain.Entities
         {
             var str = base.ToString() +
                       String.Format(
-                          " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | Religion: {10} | Height: {11} | BirthYear: {12}",
+                          " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | DickSize: {13} | DickThickness: {14} | BreastSize: {15} | Religion: {10} | Height: {11} | BirthYear: {12}",
                           (User == null) ? 0 : User.Id, State, Name,
                           Enum.GetName(typeof (Country), From),
                           City,
@@ -80,7 +85,10 @@ namespace MS.Katusha.Domain.Entities
                           Enum.GetName(typeof (HairColor), HairColor),
                           Enum.GetName(typeof (Smokes), Smokes),
                           Enum.GetName(typeof (Alcohol), Alcohol),
-                          Enum.GetName(typeof (Religion), Religion),
+                          Enum.GetName(typeof(Religion), Religion),
+                          Enum.GetName(typeof(DickSize), DickSize),
+                          Enum.GetName(typeof(DickThickness), DickThickness),
+                          Enum.GetName(typeof(BreastSize), BreastSize),
                           Height,
                           BirthYear
                           );
@@ -88,32 +96,28 @@ namespace MS.Katusha.Domain.Entities
             if (Searches != null && Searches.Count > 0)
             {
                 str += "\r\nSearches: [\r\n";
-                foreach (var search in Searches)
-                    str += "\t" + search.ToString() + "\r\n";
+                str = Searches.Aggregate(str, (current, search) => current + ("\t" + search.ToString() + "\r\n"));
                 str += "]";
             }
 
             if (Photos != null && Photos.Count > 0)
             {
                 str += "\r\nPhotos: [\r\n";
-                foreach (var photo in Photos)
-                    str += "\t" + photo + "\r\n";
+                str = Photos.Aggregate(str, (current, photo) => current + ("\t" + photo + "\r\n"));
                 str += "]";
             }
 
             if (CountriesToVisit != null && CountriesToVisit.Count > 0)
             {
                 str += "\r\nCountriesToVisit: [\r\n";
-                foreach (var countriesToVisit in CountriesToVisit)
-                    str += "\t" + countriesToVisit + "\r\n";
+                str = CountriesToVisit.Aggregate(str, (current, countriesToVisit) => current + ("\t" + countriesToVisit + "\r\n"));
                 str += "]";
             }
 
             if (LanguagesSpoken != null && LanguagesSpoken.Count > 0)
             {
                 str += "\r\nLanguagesSpoken: [\r\n";
-                foreach (var languagesSpoken in LanguagesSpoken)
-                    str += "\t" + languagesSpoken + "\r\n";
+                str = LanguagesSpoken.Aggregate(str, (current, languagesSpoken) => current + ("\t" + languagesSpoken + "\r\n"));
                 str += "]";
             }
             return str;

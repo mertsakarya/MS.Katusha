@@ -2,10 +2,10 @@
 
 namespace MS.Katusha.Exceptions.Services
 {
-    public class KatushaFriendlyNameExistsException : KatushaException
+    public class KatushaGenderNotExistsException : KatushaException
     {
-        public KatushaFriendlyNameExistsException(BaseFriendlyModel profile)
-            : base("FriendlyNameExists", null)
+        public KatushaGenderNotExistsException(BaseFriendlyModel profile)
+            : base("GenderNotExists", "Must be male or female sorry!!!", null)
         {
             Profile = profile;
         }

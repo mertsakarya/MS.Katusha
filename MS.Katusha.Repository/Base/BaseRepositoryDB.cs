@@ -64,6 +64,11 @@ namespace MS.Katusha.Repositories.DB.Base
             return RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams).FirstOrDefault();
         }
 
+        public T SingleAttached(Expression<Func<T, bool>> filter)
+        {
+            return RepositoryHelper.Query(DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable(), filter, null).FirstOrDefault();
+        }
+
         public T Add(T entity)
         {
             var ent = RepositoryHelper.Add(DbContext, entity);

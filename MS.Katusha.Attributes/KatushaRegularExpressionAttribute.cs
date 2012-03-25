@@ -14,10 +14,10 @@ namespace MS.Katusha.Attributes
         private readonly IResourceManager _resourceManager;
         private const string ErrorMessageKeyName = "RegularExpressionErrorMessage";
         private const string PatternName = "RegularExpressionPattern";
-        public KatushaRegularExpressionAttribute(string PropertyName) : base(PropertyName)
+        public KatushaRegularExpressionAttribute(string propertyName) : base(propertyName)
         {
             _resourceManager = new ResourceManager();
-            this.PropertyName = PropertyName;
+            PropertyName = propertyName;
         }
 
         public string PropertyName { get; private set; }

@@ -1,4 +1,4 @@
-@model MS.Katusha.Web.Models.Entities.BoyModel
+@model MS.Katusha.Web.Models.Entities.ProfileModel
 
 @{
     ViewBag.Title = "Create";
@@ -11,7 +11,7 @@
     <fieldset>
         <legend>Profile</legend>
 
-		@Html.Partial("Profiles/_CreateOrEdit", Model)
+		@Html.Partial("_CreateOrEdit", Model)
 
         <p>
             <input type="submit" value="Create" />
@@ -23,7 +23,7 @@
 </div>
 @Html.Partial("_Photo", Model)
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Profile page", "Show", new {key = Model.Guid})
 </div>
 
 

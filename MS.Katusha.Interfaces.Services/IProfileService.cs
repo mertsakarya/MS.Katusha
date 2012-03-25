@@ -2,24 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {
-    public interface IProfileService<T> where T : Profile
+    public interface IProfileService
     {
-        IEnumerable<T> GetNewProfiles(out int total, int pageNo = 1, int pageSize = 20);
-        IEnumerable<T> GetMostVisitedProfiles(out int total, int pageNo = 1, int pageSize = 20);
+        IEnumerable<Profile> GetNewProfiles(Expression<Func<Profile, bool>> controllerFilter, out int total, int pageNo = 1, int pageSize = 20);
 
         long GetProfileId(Guid guid);
         long GetProfileId(string friendlyName);
 
-        T GetProfile(long profileId, params Expression<Func<T, object>>[] includeExpressionParams);
-        
-        void CreateProfile(T profile);
+        Profile GetProfile(long profileId, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams);
+
+        void CreateProfile(Profile profile);
         void DeleteProfile(long profileId, bool force = false);
-        void UpdateProfile(T profile);
+        void UpdateProfile(Profile profile);
 
         void DeleteCountriesToVisit(long profileId, Country country);
         void AddCountriesToVisit(long profileId, Country country);
@@ -34,9 +32,9 @@ namespace MS.Katusha.Interfaces.Services
         Photo GetPhotoByGuid(Guid guid);
 
         IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20);
-
-
         void SendMessage(Conversation data);
         void ReadMessage(long id, Guid messageGuid);
+
+        IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
     }
 }

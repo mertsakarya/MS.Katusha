@@ -9,14 +9,12 @@ namespace MS.Katusha.Services
     public class UserService : IUserService
     {
         private readonly IUserRepositoryDB _repository;
-        private readonly IGirlRepositoryDB _girlRepository;
-        private readonly IBoyRepository _boyRepository;
+        private readonly IProfileRepositoryDB _profileRepository;
 
-        public UserService(IUserRepositoryDB repository, IGirlRepositoryDB girlRepository, IBoyRepositoryDB boyRepository)
+        public UserService(IUserRepositoryDB repository, IProfileRepositoryDB profileRepository)
         {
             _repository = repository;
-            _girlRepository = girlRepository;
-            _boyRepository = boyRepository;
+            _profileRepository = profileRepository;
         }
 
         public bool ValidateUser(string userName, string password)
@@ -85,12 +83,8 @@ namespace MS.Katusha.Services
             return user;
         }
 
-        public Profile GetProfile(Guid guid, Sex gender) { 
-            if(gender == Sex.Male) {
-                return _boyRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
-            } else if(gender == Sex.Female)
-                return _girlRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
-            return null;
+        public Profile GetProfile(Guid guid) { 
+            return _profileRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State);
         }
 
         public User GetUserByFacebookUId(string uid)

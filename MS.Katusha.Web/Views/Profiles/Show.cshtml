@@ -1,0 +1,43 @@
+@using MS.Katusha.Enumerations
+@model ProfileModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Profile</legend>
+
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Name), _ => Model.Name)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.FriendlyName), _ => Model.FriendlyName)
+    @Html.DisplayDetailFor(Model.From != 0, _ => Model.From)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.City), _ => Model.City)
+    @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
+
+    @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
+    @Html.DisplayDetailFor(Model.BirthYear > 0, p => p.BirthYear)
+
+    @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
+    @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
+    @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
+    @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
+    @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
+    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
+    @if(Model.Gender == (byte)Sex.Male) {
+        @Html.DisplayDetailFor(Model.DickSize != 0, p => p.DickSize)
+        @Html.DisplayDetailFor(Model.DickThickness != 0, p => p.DickThickness)
+    } else if (Model.Gender == (byte)Sex.Female) {
+        @Html.DisplayDetailFor(Model.BreastSize != 0, _ => Model.BreastSize)
+    }
+    @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", typeof(Country), p => p.Country)
+    @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", typeof(Language), p => p.Language)
+    @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", typeof(LookingFor), p => p.Search)   
+    @Html.Partial("_Photo", Model)
+</fieldset>
+
+<p>
+    @Html.ActionLink("SEND MESSAGE", "SendMessage", new { key = Html.KeyFor(Model) }, null) |
+    @Html.ActionLink("Back to List", (Model.Gender == (byte)Sex.Male ? "Girls" : "Boys"))
+</p>
+

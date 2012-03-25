@@ -5,9 +5,7 @@ using System.IO;
 using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Infrastructure

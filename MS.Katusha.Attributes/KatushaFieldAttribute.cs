@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 
@@ -13,7 +9,7 @@ namespace MS.Katusha.Attributes
     {
         private static readonly IResourceManager ResourceManager = new ResourceManager();
 
-        public KatushaFieldAttribute(string PropertyName) { this.PropertyName = PropertyName; }
+        public KatushaFieldAttribute(string propertyName) { PropertyName = propertyName; }
         public string PropertyName { get; private set; }
         public string GetFromResource(string key, bool mustFind = false, Language language = 0)
         {

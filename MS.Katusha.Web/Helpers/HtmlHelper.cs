@@ -5,11 +5,11 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
@@ -29,7 +29,7 @@ namespace MS.Katusha.Web.Helpers
 
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            var fi = value.GetType().GetField(value.ToString());
             var attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof (DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : value.ToString();
         }
@@ -38,8 +38,8 @@ namespace MS.Katusha.Web.Helpers
 
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional, object htmlAttributes)
         {
-            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            Type type = GetNonNullableModelType(metadata);
+            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var type = GetNonNullableModelType(metadata);
             IResourceManager rm = new ResourceManager();
             var dict = rm._L(type.Name);
             var list = new List<SelectListItem>();
@@ -61,10 +61,15 @@ namespace MS.Katusha.Web.Helpers
             var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.Url;
             var str = string.Format("{0}://{1}{2}/", url.Scheme, url.Host, ((url.Port == 80 || url.Port == 0) ? "" : ":" + url.Port));
             return str;
-        } 
+        }
 
         public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
-        {   
+        {
+            return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
+        }
+
+        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, Profile model)
+        {
             return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
         }
 
@@ -90,9 +95,9 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "")
         {
             var tb = new TagBuilder("img");
-            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
             var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
-            tb.Attributes.Add("src", (photoGuid == Guid.Empty) ? String.Format("/Images/{0}{1}.jpg", sex, size) : String.Format("/{0}s/Photo/{1}{2}", sex, photoGuid, "/" + size));
+            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
+            tb.Attributes.Add("src", (photoGuid == Guid.Empty) ? String.Format("/Images/{1}{0}.jpg", size, sex) : String.Format("/Profiles/Photo/{0}/{1}", photoGuid, size));
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
             return htmlHelper.Raw(tb.ToString());
@@ -100,9 +105,9 @@ namespace MS.Katusha.Web.Helpers
 
         public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original)
         {
-            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
             var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
-            var str = (photoGuid == Guid.Empty) ? String.Format("/Images/{0}{1}.jpg", sex, size) : String.Format("/{0}s/Photo/{1}{2}", sex, photoGuid, "/" + size);
+            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
+            var str = (photoGuid == Guid.Empty) ? String.Format("/Images/{1}{0}.jpg", size, sex) : String.Format("/Profiles/Photo/{0}/{1}", photoGuid, size);
             return str;
         }
 
@@ -118,7 +123,7 @@ namespace MS.Katusha.Web.Helpers
                 text.InnerHtml = htmlHelper.DisplayTextFor(expression).ToHtmlString();
                 var container = new TagBuilder("div");
                 container.Attributes.Add("title", metadata.Description);
-                container.InnerHtml = label.ToString() + text.ToString();
+                container.InnerHtml = label + text.ToString();
                 var result = htmlHelper.Raw(container.ToString());
                 return result;
             }
@@ -130,7 +135,7 @@ namespace MS.Katusha.Web.Helpers
 
         public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, Type enumType )
         {
-            IDictionary<string, string> keyValues = htmlHelper._L(enumType.Name);
+            var keyValues = htmlHelper._L(enumType.Name);
             var sb = new StringBuilder();
             sb.Append("[");
             var i = 0;
@@ -212,5 +217,38 @@ namespace MS.Katusha.Web.Helpers
             edit.InnerHtml = select.ToString() + htmlHelper.ValidationMessageFor(modelPropertyExpression);  
             return htmlHelper.Raw( String.Format("{0}{1}{2}", label,edit,script));
         }
+
+
+        public static IHtmlString DisplayDetailForEnum<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, TModel model, Expression<Func<TModel, IList<TColl>>> expression,
+            string lookupName, Type enumType, Expression<Func<TColl, TProp>> collectionPropertyExpression)
+        {
+            var compiledExpression = expression.Compile();
+            var list = compiledExpression.Invoke(model);
+            if (list.Count > 0) {
+                var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+                var compiledPropertyExpression = collectionPropertyExpression.Compile();
+                IResourceManager rm = new ResourceManager();
+                var sb = new StringBuilder() ;
+                var first = true;
+                foreach (var item in list) {
+                    var val = compiledPropertyExpression.Invoke(item);
+                    if (!first) sb.Append(", "); else first = false;
+                    sb.Append(rm._LText(lookupName, val.ToString()));
+                }
+                
+                var label = new TagBuilder("div");
+                label.AddCssClass("display-label");
+                label.InnerHtml = String.Format("<b>{0}</b>", htmlHelper.DisplayNameFor(expression).ToHtmlString());
+                var text = new TagBuilder("div");
+                text.AddCssClass("display-field");
+                text.InnerHtml = sb.ToString();
+                var container = new TagBuilder("div");
+                container.Attributes.Add("title", metadata.Description);
+                container.InnerHtml = label + text.ToString();
+                return htmlHelper.Raw(container.ToString());
+            }
+
+            return htmlHelper.Raw("");
+        }    
     }
 }

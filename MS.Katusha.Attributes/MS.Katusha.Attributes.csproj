@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AspNetMvc.4.0.20126.16343\lib\net40\System.Web.Mvc.dll</HintPath>
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KatushaFilterAttribute.cs" />
     <Compile Include="KatushaLookupListAttribute.cs" />
     <Compile Include="KatushaFieldAttribute.cs" />
     <Compile Include="KatushaStringLengthAttribute.cs" />
@@ -55,9 +57,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+      <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
+      <Name>MS.Katusha.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Exceptions\MS.Katusha.Exceptions.csproj">
+      <Project>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</Project>
+      <Name>MS.Katusha.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
       <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>

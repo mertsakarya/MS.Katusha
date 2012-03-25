@@ -1,8 +1,5 @@
 @using MS.Katusha.Enumerations
-@model MS.Katusha.Web.Models.Entities.ProfileModel
-
-@* This partial view defines form fields that will appear when creating and editing entities *@
-
+@model ProfileModel
 <div class="editor-label">
     @Html.LabelFor(model => model.Name)
 </div>
@@ -106,17 +103,37 @@
     @Html.EditorFor(model => model.Description)
     @Html.ValidationMessageFor(model => model.Description)
 </div>
-@if(Model is BoyModel) {
-    @Html.Partial("_BoyCreateOrEdit", Model as BoyModel)
-} else if (Model is GirlModel) {
-    @Html.Partial("_GirlCreateOrEdit", Model as GirlModel)
-} else {
-    @Html.Label("OH NO!")
+
+@if (Model.Gender == (byte)Sex.Male) {
+    <div class="editor-label">
+        @Html.LabelFor(model => model.DickSize)
+    </div>
+    <div class="editor-field">
+        @Html.EnumDropDownListFor(model => model.DickSize, true)
+        @Html.ValidationMessageFor(model => model.DickSize)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.DickThickness)
+    </div>
+    <div class="editor-field">
+        @Html.EnumDropDownListFor(model => model.DickThickness)
+        @Html.ValidationMessageFor(model => model.DickThickness)
+    </div>
+} else if (Model.Gender == (byte)Sex.Female) {
+    <div class="editor-label">
+        @Html.LabelFor(model => model.BreastSize)
+    </div>
+    <div class="editor-field">
+        @Html.EnumDropDownListFor(model => model.BreastSize)
+        @Html.ValidationMessageFor(model => model.BreastSize)
+    </div>   
 }
+
 <script src="/Scripts/Fbck/jquery.fcbkcomplete.js"></script>
-@Html.FacebookListFor( "Profile.CountriesToVisit", Model, Model.CountriesToVisit, typeof(Country), p => p.CountriesToVisit, p => p.Country)
+@Html.FacebookListFor("Profile.CountriesToVisit", Model, Model.CountriesToVisit, typeof(Country), p => p.CountriesToVisit, p => p.Country)
 
-@Html.FacebookListFor( "Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, typeof(Language), p => p.LanguagesSpoken, p => p.Language)
+@Html.FacebookListFor("Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, typeof(Language), p => p.LanguagesSpoken, p => p.Language)
 
-@Html.FacebookListFor( "Profile.Searches", Model, Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
+@Html.FacebookListFor("Profile.Searches", Model, Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
 

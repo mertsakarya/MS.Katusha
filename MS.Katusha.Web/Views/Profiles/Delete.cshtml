@@ -1,4 +1,4 @@
-@model MS.Katusha.Web.Models.Entities.ProfileModel
+@model ProfileModel
 
 @{
     ViewBag.Title = "Delete";
@@ -11,7 +11,7 @@
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Profile page", "Show", new {key = Model.Guid})
     </p>
 }
 

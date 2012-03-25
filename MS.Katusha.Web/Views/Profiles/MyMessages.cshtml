@@ -1,3 +1,4 @@
+@using MS.Katusha.Enumerations
 @model MS.Katusha.Web.Models.PagedListModel<ConversationModel>
 @{
     ViewBag.Title = "My Messages";
@@ -23,5 +24,5 @@
 @Html.PagedListPager(Model.List, page => Url.Action("MyMessages", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", (ViewBag.KatushaProfile.Gender == (byte)Sex.Male ? "Girls" : "Boys"))
 </div>

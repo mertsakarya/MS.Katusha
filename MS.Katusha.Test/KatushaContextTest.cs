@@ -34,13 +34,13 @@ namespace MS.Katusha.Test
         public void ShouldBeAbleToFindBoy()
         {
 
-            var boy = _dbContext.Boys.Find(1);
+            var boy = _dbContext.Profiles.Find(1);
             var photos = (from photo in _dbContext.Photos where photo.ProfileId == boy.Id select photo);
             foreach (var photo in photos)
                 boy.Photos.Add(photo);
 
-            var boys = (_dbContext.Boys.Where(b => b.LanguagesSpoken.Count > 0));
-            var girls = (from b in _dbContext.Girls select b);
+            var boys = (_dbContext.Profiles.Where(b => b.LanguagesSpoken.Count > 0));
+            var girls = (from b in _dbContext.Profiles select b);
             Debug.WriteLine(String.Format("Found {0} boy and {1} photos, out of {2} boys and {3} girls.", boy.Id,
                                           boy.Photos.Count, boys.Count(), girls.Count()));
         }

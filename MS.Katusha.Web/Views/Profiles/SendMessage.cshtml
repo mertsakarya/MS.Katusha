@@ -1,5 +1,5 @@
 @using MS.Katusha.Enumerations
-@model MS.Katusha.Web.Models.Entities.ConversationModel
+@model ConversationModel
 
 @{
     ViewBag.Title = "Send message";
@@ -11,7 +11,7 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Message To</legend>
-        @Html.Photo(Model.To.ProfilePhotoGuid, (Model.To is BoyModel) ? Sex.Male : Sex.Female, PhotoType.Thumbnail)
+        @Html.Photo(Model.To.ProfilePhotoGuid, (Sex)Model.To.Gender, PhotoType.Thumbnail)
         <div class="editor-label">
                 @Html.LabelFor(model => model.Subject)
             </div>
@@ -27,7 +27,6 @@
                 @Html.EditorFor(model => model.Message)
                 @Html.ValidationMessageFor(model => model.Message)
             </div>
-
         <p>
             <input type="submit" value="Create" />
         </p>

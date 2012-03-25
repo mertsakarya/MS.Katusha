@@ -116,7 +116,7 @@
 ***							Global Declarations
  	[Configuration]
 		MinimumLength	0
-		MaximumLength	8000
+		MaximumLength	4000
  	[Resource]
  		en	EmptyText	""
 		en	KatushaMembershipCreateStatus.DuplicateUserName	User name already exists. Please enter a different user name.
@@ -129,6 +129,7 @@
 		en	KatushaMembershipCreateStatus.ProviderError		The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.
 		en	KatushaMembershipCreateStatus.UserRejected		The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.
 		en	KatushaMembershipCreateStatus.Default			An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.
+		en	FriendlyNameExists								Url friendly name already exists. Sorry. Can you try another one?
 
 ***							Field Declarations
 *	FriendlyName

@@ -6,6 +6,7 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Exceptions;
+using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -51,11 +52,10 @@ namespace MS.Katusha.Web.Controllers
             return View();
         }
 
-
+        [KatushaFilter]
         public ActionResult Init()
         {
-            string result = _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
-            return View("KatushaError", new KatushaException("", result));
+            throw new KatushaException("", _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n")));
         }
     }
 }

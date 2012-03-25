@@ -1,13 +1,11 @@
 ﻿using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
-using System.Linq;
 
 namespace MS.Katusha.Domain
 {
     public class KatushaDbContext : DbContext, IKatushaDbContext
     {
-        public DbSet<Girl> Girls { get; set; }
-        public DbSet<Boy> Boys { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
         public DbSet<User> Users { get; set; }
 
         public DbSet<State> States { get; set; }
@@ -50,8 +48,6 @@ namespace MS.Katusha.Domain
 
             modelBuilder.Entity<State>().HasRequired(x => x.Profile); //.WithOptional(s => s.State).Map( x => x.MapKey("StateId"));
             modelBuilder.Entity<Profile>().HasRequired(x => x.User); //.WithOptional(s=>s.Profile); //.Map(x => x.MapKey("UserId"));
-            //modelBuilder.Entity<CountriesToVisit>().HasRequired(p => p.Profile).WithMany(c => c.CountriesToVisit); //.Map(x => x.MapKey("ProfileId"));
-
 
             base.OnModelCreating(modelBuilder);
         }

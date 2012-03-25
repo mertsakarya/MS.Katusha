@@ -5,9 +5,9 @@ using MS.Katusha.Repositories.RavenDB.Base;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
-    public class BoyRepositoryRavenDB : BaseFriendlyNameRepositoryRavenDB<Boy>, IBoyRepositoryRavenDB
+    public class ProfileRepositoryRavenDB : BaseFriendlyNameRepositoryRavenDB<Profile>, IProfileRepositoryRavenDB
     {
-        public BoyRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
+        public ProfileRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
             : base(connectionStringName)
         {
         }

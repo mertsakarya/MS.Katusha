@@ -5,13 +5,12 @@
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
     @foreach (var photo in Model.Photos) { 
         if(!String.IsNullOrEmpty(photo.FileName)) {
-            var sex = (Model is BoyModel) ? Sex.Male : Sex.Female;
-            <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, sex, PhotoType.Original)" rel="gallery">
-                @Html.Photo(photo.Guid, sex, PhotoType.Thumbnail, photo.Description)
+            <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, (Sex)Model.Gender)" rel="gallery">
+                @Html.Photo(photo.Guid, (Sex)Model.Gender, PhotoType.Thumbnail, photo.Description)
             </a>
             if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
                 <a href="del">[X]</a>
-                <a title="Make this your profile picture" href="javascript:$.getJSON('/@(ViewContext.RouteData.Values["Controller"])/MakeProfilePhoto/@Html.KeyFor(Model)/@photo.Guid', function(data) {alert('You have changed your profile picture!')});">[P]</a>
+                <a title="Make this your profile picture" href="javascript:$.getJSON('@(Url.Action("MakeProfilePhoto","Profiles", new {key=Html.KeyFor(Model), photoGuid = photo.Guid}))', function(data) {alert('You have changed your profile picture!')});">[P]</a>
             }
         }
     }
@@ -50,8 +49,8 @@
 
 @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
 
-    <form id="fileupload" action="@Url.Action("UploadFiles")/@Html.KeyFor(Model)" method="POST" enctype="multipart/form-data">
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+    <form id="fileupload" action="@Url.Action("UploadFiles", "Profiles", new {key =  Html.KeyFor(Model)})" method="POST" enctype="multipart/form-data">
+        <!-- The} fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="span7">
                 <!-- The fileinput-button span is used to style the file input field as button -->
@@ -64,16 +63,15 @@
                     <i class="icon-upload icon-white"></i>
                     <span>Start upload</span>
                 </button>
-                    <button type="reset" class="btn btn-warning cancel">
-                        <i class="icon-ban-circle icon-white"></i>
-                        <span>Cancel upload</span>
-                    </button>
-                    <button type="button" class="btn btn-danger delete">
-                        <i class="icon-trash icon-white"></i>
-                        <span>Delete</span>
-                    </button>
-                    <input type="checkbox" class="toggle">
-
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="icon-trash icon-white"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" class="toggle">
             </div>
             <div class="span5">
                 <!-- The global progress bar -->

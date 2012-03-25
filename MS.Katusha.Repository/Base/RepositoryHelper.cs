@@ -48,35 +48,25 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public static TEntity Delete<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
         {
-            if (context.Entry(entity).State == EntityState.Detached)
-            {
+            if (context.Entry(entity).State == EntityState.Detached) {
                 context.Set<TEntity>().Attach(entity);
-            } 
+            }
             return context.Set<TEntity>().Remove(entity);
         }
 
         public static IQueryable<T> Query<T>(IQueryable<T> dbSet, Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams) where T : class
         {
             if (includeExpressionParams != null)
-            {
-                foreach (Expression<Func<T, object>> expression in includeExpressionParams)
-                {
-                    dbSet = dbSet.Include(expression);
-                }
-            }
+                dbSet = includeExpressionParams.Aggregate(dbSet, (current, expression) => current.Include(expression));
             if (filter != null)
-            {
                 dbSet = dbSet.Where(filter);
-            }
             return dbSet;
         }
 
         private static void AttachAndSetAsModified<TEntity>(DbContext context, TEntity entity, params Expression<Func<TEntity, object>>[] expressionParams) where TEntity : class
         {
             if (context.Entry(entity).State == EntityState.Detached)
-            {
                 context.Set<TEntity>().Attach(entity);
-            }
             SetAsModified(context, entity, expressionParams);
         }
 

@@ -1,0 +1,24 @@
+@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.PagedListModel<ProfileModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+       
+<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+@foreach (var profile in Model.List) {
+    var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+    var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), Html._LText("Country", Enum.GetName(typeof(Country), profile.From ?? 0)));
+    var url = Url.Action("Show", new { key = val });
+    <a title="@title" href="@url" rel="gallery">
+        @Html.Photo(profile.ProfilePhotoGuid, (Sex)profile.Gender, PhotoType.Thumbnail)
+    </a>    
+}
+</div>
+
+@Html.PagedListPager(Model.List, page => Url.Action(ViewContext.RouteData.Values["Action"].ToString(), new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+
+<div>
+    @Html.ActionLink("Back to List", ViewContext.RouteData.Values["Action"].ToString())
+</div>

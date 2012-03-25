@@ -1,4 +1,4 @@
-@model MS.Katusha.Web.Models.Entities.ProfileModel
+@model ProfileModel
 
 @{
     ViewBag.Title = "Photos Edit";
@@ -8,5 +8,5 @@
 </div>
 @Html.Partial("_Photo", Model)
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Show", new { key = Model.Guid });
 </div>

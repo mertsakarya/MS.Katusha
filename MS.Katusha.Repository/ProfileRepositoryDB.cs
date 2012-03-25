@@ -5,14 +5,10 @@ using MS.Katusha.Repositories.DB.Base;
 
 namespace MS.Katusha.Repositories.DB
 {
-    public class BoyRepositoryDB : BaseFriendlyNameRepositoryDB<Boy>, IBoyRepositoryDB
+    public class ProfileRepositoryDB : BaseFriendlyNameRepositoryDB<Profile>, IProfileRepositoryDB
     {
-        public BoyRepositoryDB(IKatushaDbContext dbContext) : base(dbContext)
+        public ProfileRepositoryDB(IKatushaDbContext dbContext) : base(dbContext)
         {
-            
-
         }
-
     }
-
 }

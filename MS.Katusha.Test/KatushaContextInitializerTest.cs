@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using MS.Katusha.Domain;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
@@ -28,7 +26,7 @@ namespace MS.Katusha.Test
             {
                 Gender = (byte) gender,
                 Email = "mertsakarya@bigmail.com",
-                UserName = "mertsakarya"+DateTime.Now.Millisecond.ToString(),
+                UserName = "mertsakarya"+DateTime.Now.Millisecond.ToString(CultureInfo.InvariantCulture),
                 Password = "690514",
                 EmailValidated = true,
                 Expires = DateTime.Now.AddYears(1)
@@ -36,31 +34,25 @@ namespace MS.Katusha.Test
             user = userRepository.Add(user);
             _dbContext.SaveChanges();
 
-            Profile profile;
-            if (gender == Sex.Male)
-            {
-                profile = CreateSampleBoy(user, user.Guid);
-                //profile.User = user;
-            } 
-            else
-                profile = CreateSampleGirl(user, user.Guid);
+            if (gender == Sex.Male) CreateSampleBoy(user, user.Guid);
+            else CreateSampleGirl(user, user.Guid);
             Debug.WriteLine(user);
         }
 
-        private Profile CreateSampleBoy(User user, Guid guid)
+        private void CreateSampleBoy(User user, Guid guid)
         {
             long id = user.Id;
             var now = DateTime.Now.ToUniversalTime();
-            var boyRepository = new BoyRepositoryDB(_dbContext);
+            var boyRepository = new ProfileRepositoryDB(_dbContext);
             var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
             var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
             var photoRepository = new PhotoRepositoryDB(_dbContext);
             var searchingForRepository = new SearchingForRepositoryDB(_dbContext);
 
-            var boy = new Boy
+            var boy = new Profile
             {
-                //User = user,
+                Gender = user.Gender,
                 UserId = user.Id,
                 Description = "TestBoy" + id.ToString(CultureInfo.InvariantCulture),
                 DickSize = (byte)DickSize.Medium,
@@ -104,22 +96,21 @@ namespace MS.Katusha.Test
 
             stateRepository.Add(state);
             _dbContext.SaveChanges();
-            return boy;
         }
 
-        private Profile CreateSampleGirl(User user, Guid guid)
+        private void CreateSampleGirl(User user, Guid guid)
         {
             long id = user.Id;
             var now = DateTime.Now.ToUniversalTime();
-            var girlRepository = new GirlRepositoryDB(_dbContext);
+            var girlRepository = new ProfileRepositoryDB(_dbContext);
             var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
             var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
             var photoRepository = new PhotoRepositoryDB(_dbContext);
 
-            var girl = new Girl
+            var girl = new Profile
             {
-                //User = user,
+                Gender = user.Gender,
                 UserId = id,
                 Description = "TestGirl" + id.ToString(CultureInfo.InvariantCulture),
                 BreastSize = (byte)BreastSize.Large,
@@ -158,8 +149,6 @@ namespace MS.Katusha.Test
             };
             stateRepository.Add(state);
             _dbContext.SaveChanges();
-
-            return girl;
         }
 
 

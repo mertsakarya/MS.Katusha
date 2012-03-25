@@ -1,0 +1,33 @@
+﻿@using MS.Katusha.Domain.Entities
+<div>SEARCH</div>
+@if (Request.IsAuthenticated) {
+    var profile = ViewBag.KatushaProfile as Profile;
+    var user = ViewBag.KatushaUser as User;
+    <ul>
+        @if (profile != null) {
+            
+            <li>@Html.ActionLink("My messages", "MyMessages", "Profiles", new { pageNo = 1 }, null)</li>
+            <li>@Html.ActionLink("My visitors", "Visitors", "Profiles", new { pageNo = 1 }, null)</li>
+            <li>@Html.ActionLink("View my profile", "Show", "Profiles", new { key = Html.KeyFor(profile) }, null)</li>
+            <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", new { key = Html.KeyFor(profile) }, null)</li>
+            <li>@Html.ActionLink("My Photos", "Photos", "Profiles")</li>
+            <li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>
+        } else {
+            if (user != null && !user.EmailValidated) {
+                  <li>Email not confirmed yet!<br />
+                      If you haven't receiver a mail from us.<br />
+                      You can @Html.ActionLink("resend the Confirmation Mail", "SendConfirmationMail", "Home") again.
+                      </li>
+            } else if (user != null && user.Gender == 0) {
+                 <li>Create New
+                     <ul>
+                         <li>@Html.ActionLink("Girl", "Create", "Profiles", new { key = "Girl" }, null)</li>
+                         <li>@Html.ActionLink("Boy", "Create", "Profiles", new { key = "Boy" }, null)</li>
+                     </ul>
+                 </li>
+            }
+        }
+    </ul>
+}
+
+<div>NEW GIRLS</div>

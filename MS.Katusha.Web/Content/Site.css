@@ -635,3 +635,31 @@ ul#social li {
             width: auto;
         }
 }
+
+
+#k_main_sidebar_left {
+	width: 220px;
+	float: left;
+	position: relative;
+	padding:  0px 10px 0px 0px;
+	min-height: 400px;
+}
+
+#k_content {
+	width: 729px; /*730*/
+	float: left;
+	background-repeat: repeat-x;
+	position: relative;
+    padding-top: 0px;
+	min-height: 300px;
+	background-color: #ffffff;
+	border: 0px;
+}
+
+#k_main {
+	/*background-color: blue;*/
+}
+
+.k_clearfix {
+	display: block;
+}

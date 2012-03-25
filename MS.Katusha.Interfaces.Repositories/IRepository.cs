@@ -18,6 +18,7 @@ namespace MS.Katusha.Interfaces.Repositories
         IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams);
 
         T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams);
+        T SingleAttached(Expression<Func<T, bool>> filter);
 
         T Add(T entity);
         T FullUpdate(T entity);

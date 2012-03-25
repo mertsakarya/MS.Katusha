@@ -5,7 +5,11 @@
         Hello, @Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
         @Html.ActionLink("Log off", "LogOff", "Account")
         @if (profile != null) {
-            @Html.ActionLink("Edit", "Edit", ((profile is Boy) ? "Boys" : "Girls"),  new {key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName}, null)<br />
+            @Html.ActionLink("Edit", "Edit", "Profiles", new {key = Html.KeyFor(profile)}, null)<br />
+        } else {
+            <text><br />Create New</text>
+            @Html.ActionLink("Girl", "Create", "Profiles", new { key = "Girl" }, null) <text> or </text>
+            @Html.ActionLink("Boy", "Create", "Profiles", new { key = "Boy" }, null)
         }
     </p>
 } else {
@@ -27,7 +31,7 @@
                 if (response.status === 'connected') {
                     var uid = response.authResponse.userID;
                     var accessToken = response.authResponse.accessToken;
-                    @if(Session["AccessToken"] == null) {
+                    @if (Session["AccessToken"] == null) {
                         <text>$.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) { alert(textStatus);});</text>
                     }
                 } else if (response.status === 'not_authorized') {

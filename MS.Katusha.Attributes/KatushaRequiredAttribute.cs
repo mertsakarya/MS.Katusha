@@ -12,9 +12,9 @@ namespace MS.Katusha.Attributes
         readonly IResourceManager _resourceManager;
         private const string ErrorMessageKeyName = "RequiredErrorMessage";
 
-        public KatushaRequiredAttribute(string PropertyName)
+        public KatushaRequiredAttribute(string propertyName)
         {
-            this.PropertyName = PropertyName;
+            PropertyName = propertyName;
             _resourceManager = new ResourceManager();
         }
 

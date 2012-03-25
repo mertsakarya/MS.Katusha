@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 
 namespace MS.Katusha.Attributes
@@ -17,11 +15,11 @@ namespace MS.Katusha.Attributes
         private const string MaximumName = "Maximum";
         private const string MinimumName = "Minimum";
 
-        public KatushaRangeAttribute(string PropertyName)
+        public KatushaRangeAttribute(string propertyName)
             : base(0,1)
         {
             _resourceManager = new ResourceManager();
-            this.PropertyName = PropertyName;
+            PropertyName = propertyName;
         }
 
         public new int Maximum

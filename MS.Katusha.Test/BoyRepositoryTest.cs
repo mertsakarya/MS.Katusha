@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using MS.Katusha.Domain;
@@ -17,8 +15,7 @@ namespace MS.Katusha.Test
     {
         private KatushaDbContext _dbContext;
 
-        private IBoyRepositoryDB _repositoryBoy;
-        private IGirlRepositoryDB _repositoryGirl;
+        private IProfileRepositoryDB _repositoryProfile;
         private IConversationRepositoryDB _repositoryConverstaion;
         private IPhotoRepositoryDB _repositoryPhoto;
         private IUserRepositoryDB _repositoryUser;
@@ -29,12 +26,11 @@ namespace MS.Katusha.Test
         {
             _dbContext = new KatushaDbContext();
 
-            _repositoryBoy = new BoyRepositoryDB(_dbContext);
-            _repositoryGirl = new GirlRepositoryDB(_dbContext);
+            _repositoryProfile = new ProfileRepositoryDB(_dbContext);
             _repositoryConverstaion = new ConversationRepositoryDB(_dbContext);
             _repositoryPhoto = new PhotoRepositoryDB(_dbContext);
             _repositoryUser = new UserRepositoryDB(_dbContext);
-            _repositoryVisit = new VisitRepository(_dbContext);
+            _repositoryVisit = new VisitRepositoryDB(_dbContext);
         }
 
 
@@ -48,9 +44,9 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void ShouldBeAbleToFindBoy2()
         {
-            var boy = _repositoryBoy.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
+            var boy = _repositoryProfile.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
-            var list = _repositoryBoy.Query(p => p.State.Status == (byte)Status.Online, null, p => p.Photos);
+            var list = _repositoryProfile.Query(p => p.State.Status == (byte)Status.Online, null, p => p.Photos);
             foreach (var b in list)
                 Debug.WriteLine(String.Format("Found boy with {0} photos.", b.Photos.Count));
         }
@@ -58,8 +54,8 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void ShouldBeAbleToFindBoy()
         {
-            var boys = (_repositoryBoy.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
-            var boys2 = _repositoryBoy.Query(null, null, b => b.Photos, b => b.User);
+            var boys = (_repositoryProfile.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
+            var boys2 = _repositoryProfile.Query(null, null, b => b.Photos, b => b.User);
             Debug.WriteLine(String.Format("Found {0} boys and {1} boys", boys.Count(), boys2.Count()));
         }
 
@@ -90,8 +86,8 @@ namespace MS.Katusha.Test
         public void TestVisitAndConversation()
         {
 
-            var boy = _repositoryBoy.GetById(1);
-            var girl = _repositoryGirl.GetById(4);
+            var boy = _repositoryProfile.GetById(1);
+            var girl = _repositoryProfile.GetById(4);
             Conversation conversation = CreateConversation(boy, girl, "Hi", "I would \r\nLike to meet you");
             Visit visit = CreateVisit(boy, girl);
             Debug.WriteLine(visit);
@@ -106,12 +102,12 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void TestVisits()
         {
-            var boy1 = _repositoryBoy.GetById(1);
-            var boy2 = _repositoryBoy.GetById(2);
-            var boy3 = _repositoryBoy.GetById(3);
-            var girl1 = _repositoryGirl.GetById(4);
-            var girl2 = _repositoryGirl.GetById(5);
-            var girl3 = _repositoryGirl.GetById(6);
+            var boy1 = _repositoryProfile.GetById(1);
+            var boy2 = _repositoryProfile.GetById(2);
+            var boy3 = _repositoryProfile.GetById(3);
+            var girl1 = _repositoryProfile.GetById(4);
+            var girl2 = _repositoryProfile.GetById(5);
+            var girl3 = _repositoryProfile.GetById(6);
 
             Visit visit1 = CreateVisit(boy1, girl3);
             Visit visit3 = CreateVisit(boy3, girl2);
@@ -137,7 +133,7 @@ namespace MS.Katusha.Test
             Debug.WriteLine(visit8);
             Debug.WriteLine(visit9);
 
-            var c = _repositoryGirl.GetByGuid(girl1.Guid, p => p.Photos, p => p.Visited, p=> p.RecievedMessages, p=> p.SentMessages);
+            var c = _repositoryProfile.GetByGuid(girl1.Guid, p => p.Photos, p => p.Visited, p => p.RecievedMessages, p => p.SentMessages);
             Debug.WriteLine(c);
         }
 

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.1.265\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,7 @@
     <Compile Include="Resources\KatushaConfigurationException.cs" />
     <Compile Include="Resources\KatushaResourceException.cs" />
     <Compile Include="Resources\KatushaResourceLookupException.cs" />
+    <Compile Include="Services\KatushaGenderNotExistsException.cs" />
     <Compile Include="Services\KatushaFriendlyNameNotFoundException.cs" />
     <Compile Include="Services\KatushaFriendlyNameExistsException.cs" />
     <Compile Include="Web\KatushaNotAllowedException.cs" />

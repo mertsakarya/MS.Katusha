@@ -9,11 +9,12 @@ namespace MS.Katusha.Web.Helpers
     {
         public static void HandleMappings()
         {
-            Mapper.CreateMap<Girl, GirlModel>();
-            Mapper.CreateMap<GirlModel, Girl>();
-
-            Mapper.CreateMap<Boy, BoyModel>();
-            Mapper.CreateMap<BoyModel, Boy>();
+            Mapper.CreateMap<Profile, ProfileModel>();
+            Mapper.CreateMap<ProfileModel, Profile>()
+                .ForMember(dest => dest.BreastSize, opt => opt.MapFrom(src => (byte?) src.BreastSize))
+                .ForMember(dest => dest.DickSize, opt => opt.MapFrom(src => (byte?) src.DickSize))
+                .ForMember(dest => dest.DickThickness, opt => opt.MapFrom(src => (byte?) src.DickThickness));
+                
 
             Mapper.CreateMap<ConversationModel, Conversation>();
             Mapper.CreateMap<Conversation, ConversationModel>();
@@ -41,8 +42,6 @@ namespace MS.Katusha.Web.Helpers
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>();
-
-
         }
     }
 }

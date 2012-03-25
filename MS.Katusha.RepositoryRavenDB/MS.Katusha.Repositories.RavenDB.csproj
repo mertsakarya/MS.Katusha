@@ -71,9 +71,8 @@
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BoyRepositoryRavenDB.cs" />
+    <Compile Include="ProfileRepositoryRavenDB.cs" />
     <Compile Include="ConversationRepositoryRavenDB.cs" />
-    <Compile Include="GirlRepositoryRavenDB.cs" />
     <Compile Include="VisitRepositoryRavenDB.cs" />
   </ItemGroup>
   <ItemGroup>

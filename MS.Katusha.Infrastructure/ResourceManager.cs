@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using MS.Katusha.Domain;
-using MS.Katusha.Domain.Entities;
 using MS.Katusha.Exceptions.Resources;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
@@ -25,35 +23,33 @@ namespace MS.Katusha.Infrastructure
 
     public class ResourceManager : IResourceManager
     {
-        private static IDictionary<string, string> _configurationList;
-        private static IDictionary<string, string> _resourceList;
-        private static readonly IDictionary<string, Dictionary<string, string>> _resourceLookupList;
+        private static readonly IDictionary<string, string> ConfigurationList;
+        private static readonly IDictionary<string, string> ResourceList;
+        private static readonly IDictionary<string, Dictionary<string, string>> ResourceLookupList;
         private static readonly ReaderWriterLockSlim ListLock;
 
         static ResourceManager()
         {
-            _configurationList = new Dictionary<string, string>();
-            _resourceList = new Dictionary<string, string>();
-            _resourceLookupList = new Dictionary<string, Dictionary<string, string>>();
+            ConfigurationList = new Dictionary<string, string>();
+            ResourceList = new Dictionary<string, string>();
+            ResourceLookupList = new Dictionary<string, Dictionary<string, string>>();
             ListLock = new ReaderWriterLockSlim();
         }
 
         public ResourceManager()
         {
-            bool isEmpty;
-
             ListLock.EnterReadLock();
-            isEmpty = _resourceLookupList.Count <= 0;
+            var isEmpty = ResourceLookupList.Count <= 0;
             ListLock.ExitReadLock();
             if (isEmpty)  LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(new KatushaDbContext()));
             
             ListLock.EnterReadLock();
-            isEmpty = _resourceList.Count <= 0;
+            isEmpty = ResourceList.Count <= 0;
             ListLock.ExitReadLock();
             if (isEmpty) LoadResourceFromDb(new ResourceRepositoryDB(new KatushaDbContext()));
             
             ListLock.EnterReadLock();
-            isEmpty = _configurationList.Count <= 0;
+            isEmpty = ConfigurationList.Count <= 0;
             ListLock.ExitReadLock();
             if (isEmpty) LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(new KatushaDbContext()));
         }
@@ -62,10 +58,10 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterWriteLock();
             try {
-                _resourceList.Clear();
+                ResourceList.Clear();
                 foreach (var item in resourceRepository.GetActiveValues()) {
                     try {
-                        _resourceList.Add(item.Key, item.Value);
+                        ResourceList.Add(item.Key, item.Value);
                     } catch (Exception ex) {
                         throw new KatushaConfigurationException(item.Key, item.Value, ex);
                     }
@@ -79,10 +75,10 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterWriteLock();
             try {
-                _configurationList.Clear();
+                ConfigurationList.Clear();
                 foreach (var item in resourceRepository.GetActiveValues()) {
                     try {
-                        _configurationList.Add(item.Key, item.Value);
+                        ConfigurationList.Add(item.Key, item.Value);
                     } catch (Exception ex) {
                         throw new KatushaResourceException(item.Key, item.Value, ex);
                     }
@@ -108,7 +104,7 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterWriteLock();
             try {
-                _resourceLookupList.Clear();
+                ResourceLookupList.Clear();
                 var items = resourceLookupRepository.GetActiveValues();
                 if (items.Length > 0) {
                     var lookupName = items[0].LookupName;
@@ -120,14 +116,13 @@ namespace MS.Katusha.Infrastructure
                         else {
                             try {
                                 list.Sort(CompareLookupItem);
-                                _resourceLookupList.Add(lookupName+language, list.ToDictionary(r => r.Key, r => r.Value));
+                                ResourceLookupList.Add(lookupName+language, list.ToDictionary(r => r.Key, r => r.Value));
                             } catch (Exception ex) {
                                 throw new KatushaResourceLookupException(lookupName, ex);
                             }
                             lookupName = item.LookupName;
                             language = item.Language;
-                            list = new List<LookupItem>();
-                            list.Add(new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order});
+                            list = new List<LookupItem> {new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order}};
                         }
                     }
                     //list.Sort(CompareLookupItem);
@@ -142,7 +137,7 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterReadLock();
             try {
-                return _configurationList.ContainsKey(key) ? _configurationList[key] : String.Format("{0} Code not found", key);
+                return ConfigurationList.ContainsKey(key) ? ConfigurationList[key] : String.Format("{0} Code not found", key);
             } finally {
                 ListLock.ExitReadLock();
             }
@@ -152,8 +147,8 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterReadLock();
             try {
-                if (_configurationList.ContainsKey(propertyName + "." + key)) return _configurationList[propertyName + "." + key];
-                if (_configurationList.ContainsKey(key)) return _configurationList[key];
+                if (ConfigurationList.ContainsKey(propertyName + "." + key)) return ConfigurationList[propertyName + "." + key];
+                if (ConfigurationList.ContainsKey(key)) return ConfigurationList[key];
                 return (mustFind) ? String.Format("{0} Code not found", key) : null;
             } finally {
                 ListLock.ExitReadLock();
@@ -166,7 +161,7 @@ namespace MS.Katusha.Infrastructure
             var key = String.Format("{0}{1}",resourceName, language);
             ListLock.EnterReadLock();
             try {
-                return _resourceList.ContainsKey(key) ? _resourceList[key] : String.Format("{0} Code not found", key);
+                return ResourceList.ContainsKey(key) ? ResourceList[key] : String.Format("{0} Code not found", key);
             } finally {
                 ListLock.ExitReadLock();
             }
@@ -178,9 +173,9 @@ namespace MS.Katusha.Infrastructure
             var name = String.Format("{0}.{1}{2}", propertyName, key, language);
             ListLock.EnterReadLock();
             try {
-                if (_resourceList.ContainsKey(name)) return _resourceList[name];
+                if (ResourceList.ContainsKey(name)) return ResourceList[name];
                 name = String.Format("{0}{1}", key, language);
-                if (_resourceList.ContainsKey(name)) return _resourceList[name];
+                if (ResourceList.ContainsKey(name)) return ResourceList[name];
                 return (mustFind) ? String.Format("{0} Code not found", key) : null;
             } finally {
                 ListLock.ExitReadLock();
@@ -195,8 +190,8 @@ namespace MS.Katusha.Infrastructure
             if (!string.IsNullOrEmpty(key)) {
                 ListLock.EnterReadLock();
                 try {
-                    if (_resourceLookupList.ContainsKey(key)) 
-                        resourceValue = _resourceLookupList[key];
+                    if (ResourceLookupList.ContainsKey(key)) 
+                        resourceValue = ResourceLookupList[key];
                 } finally {
                     ListLock.ExitReadLock();
                 }
@@ -206,13 +201,14 @@ namespace MS.Katusha.Infrastructure
         }
 
         public string _LText(string resourceName, string name, byte language = 0) {
+            if (name == null) return "";
             language = GetLanguage(language);
             string key = String.Format("{0}{1}", resourceName, language);
             if (!string.IsNullOrEmpty(key)) {
                 ListLock.EnterReadLock();
                 try {
-                    if (_resourceLookupList.ContainsKey(key)) {
-                        var resourceValue = _resourceLookupList[key];
+                    if (ResourceLookupList.ContainsKey(key)) {
+                        var resourceValue = ResourceLookupList[key];
                         if (resourceValue.ContainsKey(name))
                             return resourceValue[name];
                     }
