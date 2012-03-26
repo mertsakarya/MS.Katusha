@@ -1,19 +1,29 @@
 @using MS.Katusha.Enumerations
 @model MS.Katusha.Web.Models.PagedListModel<VisitModel>
-@{
-    ViewBag.Title = "Visitors";
-}
+@{ViewBag.Title = "Visitors";}
 
 <h2>Visitors</h2>
 
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-@foreach (var visit in Model.List) {
-    var profile = visit.VisitorProfile;
-    var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-    <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
-        @Html.Photo(profile.ProfilePhotoGuid, (Sex)profile.Gender, PhotoType.Thumbnail)
-    </a>    
-}
+    @foreach (var visit in Model.List) {
+        var profile = visit.VisitorProfile;
+        var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+        var date = visit.ModifiedDate.ToLocalTime();
+        var now = DateTime.Now.ToLocalTime();
+        var dateString = "";
+        if (now.Day == date.Day && now.Month == date.Month && now.Year == date.Year) {
+            dateString = date.ToShortTimeString();
+        } else {
+            dateString = date.ToShortDateString();
+        }
+        <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
+            @Html.Photo(profile.ProfilePhotoGuid, (Sex)profile.Gender, PhotoType.Thumbnail)
+        </a>
+        <div style="border: 1 solid">
+            @(dateString)<br/>
+            @(visit.VisitCount) Time(s)
+        </div>
+    }
 </div>
 
 @Html.PagedListPager(Model.List, page => Url.Action(ViewContext.RouteData.Values["Action"].ToString(), new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)

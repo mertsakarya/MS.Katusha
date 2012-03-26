@@ -1,5 +1,7 @@
 ﻿@using MS.Katusha.Domain.Entities
+
 <div>SEARCH</div>
+
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
     var user = ViewBag.KatushaUser as User;
@@ -15,14 +17,13 @@
         } else {
             if (user != null && !user.EmailValidated) {
                   <li>Email not confirmed yet!<br />
-                      If you haven't receiver a mail from us.<br />
-                      You can @Html.ActionLink("resend the Confirmation Mail", "SendConfirmationMail", "Home") again.
+                      If you haven't received a mail from us, you can @Html.ActionLink("resend the Confirmation Mail", "SendConfirmationMail", "Home") again.
                       </li>
             } else if (user != null && user.Gender == 0) {
-                 <li>Create New
+                 <li>Create a new
                      <ul>
-                         <li>@Html.ActionLink("Girl", "Create", "Profiles", new { key = "Girl" }, null)</li>
-                         <li>@Html.ActionLink("Boy", "Create", "Profiles", new { key = "Boy" }, null)</li>
+                         <li>@Html.ActionLink("Girl profile", "Create", "Profiles", new { key = "Girl" }, null)</li>
+                         <li>@Html.ActionLink("Boy profile", "Create", "Profiles", new { key = "Boy" }, null)</li>
                      </ul>
                  </li>
             }

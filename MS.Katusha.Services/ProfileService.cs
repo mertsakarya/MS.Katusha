@@ -62,11 +62,22 @@ namespace MS.Katusha.Services
                     p => p.Photos
                 };
             }
-            var item = _profileRepository.GetById(profileId, includeExpressionParams);
-            if (visitorProfile != null && item.Id != visitorProfile.Id) {
-                _visitRepository.Add(new Visit { ProfileId = item.Id, VisitorProfileId = visitorProfile.Id });
-            } 
-            return item;
+            var profile = _profileRepository.GetById(profileId, includeExpressionParams);
+            Visit(visitorProfile, profile); 
+            return profile;
+        }
+
+        public void Visit(Profile visitorProfile, Profile profile)
+        {
+            if (visitorProfile != null && profile.Id != visitorProfile.Id) {
+                var visit = _visitRepository.Single(p => p.ProfileId == profile.Id);
+                if (visit == null) {
+                    _visitRepository.Add(new Visit {ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = 1});
+                }  else {
+                    visit.VisitCount++;
+                    _visitRepository.FullUpdate(visit);
+                }
+            }
         }
 
         public virtual void CreateProfile(Profile profile)
@@ -184,7 +195,7 @@ namespace MS.Katusha.Services
 
         public IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            var items = _visitRepository.Query(p => p.Id > 0, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
+            var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
             return items;
         }
 

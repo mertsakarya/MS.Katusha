@@ -6,7 +6,7 @@ using MS.Katusha.Repositories.DB.Base;
 
 namespace MS.Katusha.Repositories.DB
 {
-    public class VisitRepositoryDB : BaseGuidRepositoryDB<Visit>, IVisitRepositoryDB
+    public class VisitRepositoryDB : BaseRepositoryDB<Visit>, IVisitRepositoryDB
     {
         public VisitRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
     }

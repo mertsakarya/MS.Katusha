@@ -201,7 +201,9 @@ namespace MS.Katusha.Infrastructure
         }
 
         public string _LText(string resourceName, string name, byte language = 0) {
-            if (name == null) return "";
+            
+            if (String.IsNullOrWhiteSpace(name) || name == "0") return "";
+
             language = GetLanguage(language);
             string key = String.Format("{0}{1}", resourceName, language);
             if (!string.IsNullOrEmpty(key)) {

@@ -7,11 +7,13 @@ using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Services;
+using NLog;
 
 namespace MS.Katusha.Web.Helpers
 {
     public static class DependencyHelper
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public static void RegisterDependencies()
         {
             var builder = new ContainerBuilder();
@@ -34,6 +36,9 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+#if DEBUG
+            logger.Info("Dependencies resolved");
+#endif
         }
     }
 }
