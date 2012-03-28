@@ -214,9 +214,9 @@ namespace MS.Katusha.Web.Controllers
                 profile.Guid = profileModel.Guid;
                 profile.Gender = profileModel.Gender;
                 profile.ProfilePhotoGuid = profileModel.ProfilePhotoGuid;
-                _profileService.UpdateProfile(profile);
                 ValidateProfileCollections(model, profileModel);
                 if (!ModelState.IsValid) return View(model);
+                _profileService.UpdateProfile(profile);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException ex) {
                 ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
@@ -306,14 +306,7 @@ namespace MS.Katusha.Web.Controllers
         public void DeletePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            var found = false;
-            foreach (var photo in KatushaProfile.Photos.Where(photo => photo.Guid == Guid.Parse(photoGuid))) {
-                _profileService.DeletePhoto(photo.ProfileId, photo.Guid);
-                found = true;
-                break;
-            }
-            if (!found)
-                throw new HttpException(404, "Photo not found!");
+            _profileService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
         }
 
         [HttpGet]
@@ -321,14 +314,7 @@ namespace MS.Katusha.Web.Controllers
         public void MakeProfilePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            var found = false;
-            foreach (var photo in KatushaProfile.Photos.Where(photo => photo.Guid == Guid.Parse(photoGuid))) {
-                _profileService.MakeProfilePhoto(KatushaProfile.Id, photo.Guid);
-                found = true;
-                break;
-            }
-            if (!found)
-                throw new HttpException(404, "Photo not found!");
+            _profileService.MakeProfilePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
         }
 
         [System.Web.Http.HttpGet]

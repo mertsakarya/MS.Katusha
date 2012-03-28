@@ -8,7 +8,10 @@
 
 <fieldset>
     <legend>Profile</legend>
-
+    @if (Model.ProfilePhotoGuid != Guid.Empty) {
+        @Html.Photo(Model.ProfilePhotoGuid, (Sex) Model.Gender)
+    }
+    <hr />
     @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Name), _ => Model.Name)
     @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.FriendlyName), _ => Model.FriendlyName)
     @Html.DisplayDetailFor(Model.From != 0, _ => Model.From)

@@ -3,9 +3,11 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using NLog;
 
@@ -20,10 +22,15 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
+
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
+            builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
+            builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
+            
             builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<ProfileRepositoryDB>().As<IProfileRepositoryDB>().InstancePerHttpRequest();
@@ -34,6 +41,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 #if DEBUG

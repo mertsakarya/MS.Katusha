@@ -34,6 +34,7 @@
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +76,10 @@
     <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
+      <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
+      <Name>MS.Katusha.Repositories.RavenDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>

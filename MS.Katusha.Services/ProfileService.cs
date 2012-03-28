@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Exceptions.Services;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 
@@ -20,11 +22,15 @@ namespace MS.Katusha.Services
         private readonly ISearchingForRepositoryDB _searchingForRepository;
         private readonly IConversationRepositoryDB _converstaionRepository;
         private readonly IVisitRepositoryDB _visitRepository;
+        private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
+
+        private readonly KatushaRavenCacheContext _katushaCache
+;
 
         public ProfileService(IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
-            IConversationRepositoryDB converstaionRepository, IVisitRepositoryDB visitRepository)
+            IConversationRepositoryDB converstaionRepository, IVisitRepositoryDB visitRepository, IProfileRepositoryRavenDB profileRepositoryRaven)
         {
             _profileRepository = profileRepository;
             _userRepository = userRepository;
@@ -34,6 +40,8 @@ namespace MS.Katusha.Services
             _searchingForRepository = searchingForRepository;
             _converstaionRepository = converstaionRepository;
             _visitRepository = visitRepository;
+            _profileRepositoryRaven = profileRepositoryRaven;
+            _katushaCache = new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
         }
 
 
@@ -92,6 +100,9 @@ namespace MS.Katusha.Services
             var user = _userRepository.GetById(profile.UserId);
             user.Gender = profile.Gender;
             _userRepository.FullUpdate(user);
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
+            _katushaCache.Delete("U:" + user.UserName);
+            _profileRepositoryRaven.Add(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State));
         }
 
         public void DeleteProfile(long profileId, bool force = false)
@@ -112,6 +123,8 @@ namespace MS.Katusha.Services
             var user = _userRepository.GetByGuid(profile.Guid);
             user.Gender = 0;
             _userRepository.FullUpdate(user);
+            _katushaCache.Delete("P:"+profile.Guid.ToString());
+            _profileRepositoryRaven.Delete(profile);
         }
 
         public virtual void UpdateProfile(Profile profile)
@@ -144,6 +157,9 @@ namespace MS.Katusha.Services
             dataProfile.BreastSize = profile.BreastSize; 
 
             _profileRepository.FullUpdate(dataProfile);
+            _katushaCache.Delete("P:" + dataProfile.Guid.ToString());
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State));
+
         }
 
         public void DeleteCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.DeleteByProfileId(profileId, country); }
@@ -160,14 +176,17 @@ namespace MS.Katusha.Services
 
         public void DeletePhoto(long profileId, Guid photoGuid)
         {
+            var profile = _profileRepository.GetById(profileId, p => p.Photos);
+            if (profile == null) return;
+            if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
+                throw new HttpException(404, "Photo not found!");
             var entity = _photoRepository.GetByGuid(photoGuid);
             if (entity != null) _photoRepository.Delete(entity);
-            var profile = _profileRepository.GetById(profileId);
-            if (profile != null)
-                if (profile.ProfilePhotoGuid == photoGuid) {
-                    profile.ProfilePhotoGuid = Guid.Empty;
-                    _profileRepository.FullUpdate(profile);
-                }
+            if (profile.ProfilePhotoGuid == photoGuid) {
+                profile.ProfilePhotoGuid = Guid.Empty;
+                _profileRepository.FullUpdate(profile);
+                _katushaCache.Delete("P:" + profile.Guid.ToString());
+            }
         }
 
         public Photo GetPhotoByGuid(Guid photoGuid) //FROM DATABASE
@@ -201,11 +220,13 @@ namespace MS.Katusha.Services
 
         public void MakeProfilePhoto(long profileId, Guid photoGuid)
         {
-            var profile = _profileRepository.GetById(profileId);
-            if (profile != null) {
-                profile.ProfilePhotoGuid = photoGuid;
-                _profileRepository.FullUpdate(profile);
-            }
+            var profile = _profileRepository.GetById(profileId, p=>p.Photos);
+            if (profile == null) return;
+            if(!profile.Photos.Any(photo => photo.Guid == photoGuid))
+                throw new HttpException(404, "Photo not found!");
+            profile.ProfilePhotoGuid = photoGuid;
+            _profileRepository.FullUpdate(profile);
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
         }
 
         public void AddPhoto(Photo photo)
@@ -217,7 +238,7 @@ namespace MS.Katusha.Services
                 _profileRepository.FullUpdate(profile);
             }
             _photoRepository.Add(photo, photo.Guid);
-
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
         }
     }
 }

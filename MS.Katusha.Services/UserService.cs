@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 
@@ -10,11 +13,13 @@ namespace MS.Katusha.Services
     {
         private readonly IUserRepositoryDB _repository;
         private readonly IProfileRepositoryDB _profileRepository;
+        private KatushaRavenCacheContext _katushaCache;
 
         public UserService(IUserRepositoryDB repository, IProfileRepositoryDB profileRepository)
         {
             _repository = repository;
             _profileRepository = profileRepository;
+            _katushaCache = new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
         }
 
         public bool ValidateUser(string userName, string password)
@@ -53,13 +58,11 @@ namespace MS.Katusha.Services
 
         public User GetUser(string userName, bool userIsOnline = false)
         {
-            var user = _repository.Single(u => u.UserName == userName);
-            return user;
-        }
-
-        public User GetUserByGuid(Guid guid)
-        {
-            var user = _repository.Single(u => u.Guid == guid);
+            var user = _katushaCache.Get<User>("U:"+userName);
+            if (user == null) {
+                user = _repository.Single(u => u.UserName == userName);
+                _katushaCache.Add("U:" + userName, user);
+            }
             return user;
         }
 
@@ -80,11 +83,19 @@ namespace MS.Katusha.Services
             user.EmailValidated = true;
             _repository.FullUpdate(user);
             _repository.Save();
+            _katushaCache.Add("U:" + user.UserName, user);
             return user;
         }
 
-        public Profile GetProfile(Guid guid) { 
-            return _profileRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State);
+        public Profile GetProfile(Guid guid)
+        {
+            var strGuid = guid.ToString();
+            var profile = _katushaCache.Get<Profile>("P:" + strGuid);
+            if (profile == null) {
+                profile = _profileRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State);
+                _katushaCache.Add("P:" + strGuid, profile);
+            }
+            return profile;
         }
 
         public User GetUserByFacebookUId(string uid)

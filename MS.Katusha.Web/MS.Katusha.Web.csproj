@@ -250,6 +250,12 @@
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\loading.gif" />
     <Content Include="Content\img\progressbar.gif" />
+    <Content Include="Content\Mosaic\img\bg-black.png" />
+    <Content Include="Content\Mosaic\img\bg-grid.png" />
+    <Content Include="Content\Mosaic\img\hover-magnify.png" />
+    <Content Include="Content\Mosaic\img\progress.gif" />
+    <Content Include="Content\Mosaic\mosaic.1.0.1.js" />
+    <Content Include="Content\Mosaic\mosaic.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Fcbk.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

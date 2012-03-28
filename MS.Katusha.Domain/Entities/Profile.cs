@@ -58,17 +58,21 @@ namespace MS.Katusha.Domain.Entities
         public Guid ProfilePhotoGuid { get; set; }
 
         public IList<SearchingFor> Searches { get; set; }
-        public IList<Photo> Photos { get; set; }
         public IList<CountriesToVisit> CountriesToVisit { get; set; }
         public IList<LanguagesSpoken> LanguagesSpoken { get; set; }
 
         [JsonIgnore]
+        public IList<Photo> Photos { get; set; }
+
+        [JsonIgnore]
         public IList<Conversation> SentMessages { get; set; }
+
         [JsonIgnore]
         public IList<Conversation> RecievedMessages { get; set; }
 
         [JsonIgnore]
         public IList<Visit> WhoVisited { get; set; }
+        
         [JsonIgnore]
         public IList<Visit> Visited { get; set; }
 
