@@ -25,6 +25,7 @@ namespace MS.Katusha.Web.Helpers
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
+            builder.RegisterType<SearchService>().As<ISearchService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();

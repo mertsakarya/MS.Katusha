@@ -10,6 +10,7 @@ namespace MS.Katusha.Domain.Entities
         public byte Language { get; set; }
         public string LookupName { get; set; }
         public byte Order { get; set; }
+        public byte LookupValue { get; set; }
 
         [NotMapped]
         public string Key
@@ -18,7 +19,7 @@ namespace MS.Katusha.Domain.Entities
         }
         public override string ToString()
         {
-            return string.Format("{0} | LookupName: {4} | ResourceKey: {1} | Value: {2} | Language: {3} | Order: {5} | Key: {6}", base.ToString(), ResourceKey, Value, Language, LookupName, Order, Key);
+            return string.Format("{0} | LookupName: {4} | ResourceKey: {1} | Value: {2} | Language: {3} | Order: {5} | Key: {6} | LookupValue: {7}", base.ToString(), ResourceKey, Value, Language, LookupName, Order, Key, LookupValue);
         }
     }
 }

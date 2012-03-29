@@ -59,13 +59,13 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.Religion")]
         public Religion? Religion { get; set; }
 
-        [KatushaField("Boy.DickSize")]
+        [KatushaField("Profile.DickSize")]
         public DickSize? DickSize { get; set; }
 
-        [KatushaField("Boy.DickThickness")]
+        [KatushaField("Profile.DickThickness")]
         public DickThickness? DickThickness { get; set; }
 
-        [KatushaField("Girl.BreastSize")]
+        [KatushaField("Profile.BreastSize")]
         public BreastSize? BreastSize { get; set; }
         
         [KatushaRange("Profile.Height")]

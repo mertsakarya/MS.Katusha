@@ -11,19 +11,19 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 {
     public abstract class BaseRepositoryRavenDB<T> : IRepository<T> where T : BaseModel
     {
-        private readonly DocumentStore _documentStore ;
+        protected readonly DocumentStore DocumentStore ;
 
         protected BaseRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
         {
-            _documentStore = new DocumentStore { ConnectionStringName = connectionStringName };
-            _documentStore.Initialize();
+            DocumentStore = new DocumentStore { ConnectionStringName = connectionStringName };
+            DocumentStore.Initialize();
         }
         
         protected IQueryable<T> QueryableRepository
         {
             get
             {
-                using (var session = _documentStore.OpenSession())
+                using (var session = DocumentStore.OpenSession())
                 {
                     return session.Query<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking();
                 }            
@@ -81,7 +81,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         private T AddRavenDB(T entity)
         {
-            using (var session = _documentStore.OpenSession())
+            using (var session = DocumentStore.OpenSession())
             {
                 session.Store(entity);
                 session.SaveChanges();
@@ -103,7 +103,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         public T Delete(T entity)
         {
             var name = String.Format("{0}s/{1}", typeof (T).Name.ToLower(CultureInfo.CreateSpecificCulture("en-US")), entity.Id);
-            _documentStore.DatabaseCommands.Delete(name, null);
+            DocumentStore.DatabaseCommands.Delete(name, null);
             return entity;
         }
 

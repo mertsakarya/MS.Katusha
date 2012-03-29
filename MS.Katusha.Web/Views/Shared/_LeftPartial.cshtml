@@ -1,6 +1,5 @@
 ﻿@using MS.Katusha.Domain.Entities
-
-<div>SEARCH</div>
+@using Raven.Abstractions.Data
 
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
@@ -30,5 +29,38 @@
         }
     </ul>
 }
+<div class="search">
+@if (ViewBag.RequestFacet != null) {
+    var faceting = ViewBag.RequestFacet as IDictionary<string, string>;
+    <ul>
+        @foreach (var f in faceting) {
+            <li>
+                @Html._LText(f.Key, f.Value) <a class="removeFacet" href="remove f.Key">[X}</a>
+            </li>
+        }
+    </ul>
+    <hr />
+}         
+@if (ViewBag.Facets != null) {
+    var faceting = ViewBag.Facets as IDictionary<string, IEnumerable<FacetValue>>;
+    <ul>            
+        @foreach (var f in faceting) {
+            if(!(f.Key == "From" || f.Key == "City")) {
+                <li>
+                    @Html._R(String.Format("Profile.{0}.DisplayName", f.Key));<br />
+                    
+                    <ul>
+                        @foreach (var fv in f.Value) {
+                            var value = Html._LText(f.Key, Convert.ToByte(fv.Range));
+                            if (String.IsNullOrWhiteSpace(value)) {value = Html._R("NotFilled");}
+                            <li><a href="SetFacet('@f.Key', '@fv.Range')">@Html._LText(f.Key, Convert.ToByte(fv.Range))</a> <span>(@fv.Count)</span></li>
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>
+}
+</div>
 
 <div>NEW GIRLS</div>

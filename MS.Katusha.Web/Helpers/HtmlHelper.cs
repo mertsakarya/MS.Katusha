@@ -80,10 +80,17 @@ namespace MS.Katusha.Web.Helpers
             return rm._R(resourceName, (byte)language);
         }
 
-        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, string name, Language language = 0)
+        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, Language language = 0)
         {
             IResourceManager rm = new ResourceManager();
-            return rm._LText(resourceName, name, (byte)language);
+            return rm._LText(lookupName, name, (byte)language);
+        }
+
+        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, Language language = 0)
+        {
+            IResourceManager rm = new ResourceManager();
+            var key = rm._LKey(lookupName, value, (byte) language);
+            return rm._LText(lookupName, key, (byte)language);
         }
 
         public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)

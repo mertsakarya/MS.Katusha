@@ -119,6 +119,7 @@
 		MaximumLength	4000
  	[Resource]
  		en	EmptyText	""
+		en	NotFilled	Not selected
 		en	KatushaMembershipCreateStatus.DuplicateUserName	User name already exists. Please enter a different user name.
 		en	KatushaMembershipCreateStatus.DuplicateEmail	A user name for that e-mail address already exists. Please enter a different e-mail address.
 		en	KatushaMembershipCreateStatus.InvalidPassword	The password provided is invalid. Please enter a valid password value.
@@ -203,7 +204,7 @@
  		Profile.Height.Minimum	100
  		Profile.Height.Maximum	250
  	[Resource]
- 		en	Profile.Height.DisplayName	Height
+ 		en	Profile.Height.DisplayName		Height
  		en	Profile.Height.Description	How tall are you in centimeters?
  		en	Profile.Height.RangeErrorMessage	You can be between {0} and {1} cms.
 
@@ -245,131 +246,115 @@
  		en	Profile.LanguagesSpoken.Description	Which languages do you speak? Well, we have google translator now...
  		en	Profile.LanguagesSpoken.Message	Type which languages you can speak. 
 
-*	Boy.DickThickness
+*	Profile.DickThickness
  	[Resource]
- 		en	Boy.DickThickness.DisplayName	Penis thickness
- 		en	Boy.DickThickness.Description	How thick is your penis? Be honest.
+ 		en	Profile.DickThickness.DisplayName	Penis thickness
+ 		en	Profile.DickThickness.Description	How thick is your penis? Be honest.
 
-*	Boy.DickSize
+*	Profile.DickSize
  	[Resource]
- 		en	Boy.DickSize.DisplayName	Penis size
- 		en	Boy.DickSize.Description	How big is your penis? Be honest.
+ 		en	Profile.DickSize.DisplayName	Penis size
+ 		en	Profile.DickSize.Description	How big is your penis? Be honest.
 
-*	Girl.BreastSize
+*	Profile.BreastSize
  	[Resource]
- 		en	Girl.BreastSize.DisplayName	Breast size
- 		en	Girl.BreastSize.Description	What is your breast size. Be honest.
-
-
-
-
+ 		en	Profile.BreastSize.DisplayName	Breast size
+ 		en	Profile.BreastSize.Description	What is your breast size. Be honest.
 
 [ResourceLookup]
-	en	Sex				Male			Man				2
-	en	Sex				Female			Girl			1
+	en	Sex				Male			Man				2	1
+	en	Sex				Female			Girl			1	2
 
-	en	Language		Turkish			Turkish			3
-	en	Language		Russian			Russian			2
-	en	Language		English			English			1
+	en	Language		Turkish			Turkish			3	1
+	en	Language		Russian			Russian			2	2
+	en	Language		English			English			1	3
 
-	en	Country			Turkey			Turkey			3
-	en	Country			Ukraine			Ukraine			4
-	en	Country			Russia			Russia			2
-	en	Country			UnitedStates	United States	1
+	en	Country			Turkey			Turkey			3	1
+	en	Country			Ukraine			Ukraine			4	2
+	en	Country			Russia			Russia			2	3
+	en	Country			UnitedStates	United States	1	4
 
-	en	Status			Online			Online			1
-	en	Status			Away			Away			2
-	en	Status			Offline			Offline			3
+	en	Status			Online			Online			1	1
+	en	Status			Away			Away			2	2
+	en	Status			Offline			Offline			3	3
 
-	en	MembershipType	Normal			Normal			1
-	en	MembershipType	Gold			Gold			2
-	en	MembershipType	Platinium		Platinium		3
+	en	MembershipType	Normal			Normal			1	1
+	en	MembershipType	Gold			Gold			2	2
+	en	MembershipType	Platinium		Platinium		3	3
 
-	en	Existance		Active			Active			1
-	en	Existance		Expired			Expired			2
+	en	Existance		Active			Active			1	1
+	en	Existance		Expired			Expired			2	2
 
-	en	BreastSize		Small			Small			1
-	en	BreastSize		Medium			Medium			2
-	en	BreastSize		Large			Large			3
-	en	BreastSize		ExtraLarge		Extra Large		4
+	en	BreastSize		Small			Small			1	1
+	en	BreastSize		Medium			Medium			2	2
+	en	BreastSize		Large			Large			3	3
+	en	BreastSize		ExtraLarge		Extra Large		4	4
 
-	en	DickSize		Small			Small			1
-	en	DickSize		Medium			Medium			2
-	en	DickSize		Large			Large			3
-	en	DickSize		ExtraLarge		Extra Large		4
+	en	DickSize		Small			Small			1	1
+	en	DickSize		Medium			Medium			2	2
+	en	DickSize		Large			Large			3	3
+	en	DickSize		ExtraLarge		Extra Large		4	4
 
-	en	DickThickness	Narrow			Narrow			1
-	en	DickThickness	Wide			Wide			2
-	en	DickThickness	Thick			Thick			3
-	en	DickThickness	VeryThick		Very Thick		4
+	en	DickThickness	Narrow			Narrow			1	1
+	en	DickThickness	Wide			Wide			2	2
+	en	DickThickness	Thick			Thick			3	3	
+	en	DickThickness	VeryThick		Very Thick		4	4
 
-	en	BodyBuild		Thin			Thin			1
-	en	BodyBuild		Fit				Fit				2
-	en	BodyBuild		Average			Average			3
-	en	BodyBuild		AboveAverage	Above Average	4
-	en	BodyBuild		Overweight		Over weight		4
+	en	BodyBuild		Thin			Thin			1	1
+	en	BodyBuild		Fit				Fit				2	2
+	en	BodyBuild		Average			Average			3	3
+	en	BodyBuild		AboveAverage	Above Average	4	4
+	en	BodyBuild		Overweight		Over weight		5	5
 
-	en	EyeColor		Black			Black			1
-	en	EyeColor		Hazel			Hazel			2
-	en	EyeColor		Brown			Brown			3
-	en	EyeColor		Green			Green			4
-	en	EyeColor		Blue			Blue			5
-	en	EyeColor		Gray			Gray			6
-	en	EyeColor		Red				Red				7
+	en	EyeColor		Black			Black			1	1
+	en	EyeColor		Hazel			Hazel			2	2
+	en	EyeColor		Brown			Brown			3	3
+	en	EyeColor		Green			Green			4	4
+	en	EyeColor		Blue			Blue			5	5
+	en	EyeColor		Gray			Gray			6	6
+	en	EyeColor		Red				Red				7	7
 
-	en	HairColor		Brunette		Brunette		1
-	en	HairColor		Blonde			Blonde			2
-	en	HairColor		Scarlett		Scarlett		3
-	en	HairColor		Chestnut		Chestnut		4
+	en	HairColor		Brunette		Brunette		1	1
+	en	HairColor		Blonde			Blonde			2	2
+	en	HairColor		Scarlett		Scarlett		3	3
+	en	HairColor		Chestnut		Chestnut		4	4
 
-	en	Smokes			Smokes			Smokes			1
-	en	Smokes			DoesntSmoke	Don't Smoke			2
+	en	Smokes			Smokes			Smokes			1	1
+	en	Smokes			DoesntSmoke	Don't Smoke			2	2
 
-	en	Alcohol			No				No				1
-	en	Alcohol			Sometimes		Sometimes		2
-	en	Alcohol			Yes				Yes				3
+	en	Alcohol			No				No				1	1
+	en	Alcohol			Sometimes		Sometimes		2	2
+	en	Alcohol			Yes				Yes				3	3
 
-	en	Test	test1			t t ten1			1
-	ru	Test	test1			t t tru1			2
-	ru	Test	test2			t t try2			3
-	en	Test	test2			t t ten2			4
-	ru	Test	test3			t t tru3			5
-	tr	Test	test1			t t ttr1			6
-	ru	Test	test4			t t tru4			78
-	en	Test	test3			t t ten3			8
-	tr	Test	test2			t t ttr2			9
-	en	Test	test4			t t ten4			10
-	tr	Test	test3			t t ttr3			45
-	tr	Test	test4			t t ttr4			2
+	en	Religion		Christian		Christian		1	1
+	en	Religion		Muslim			Muslim			2	2
+	en	Religion		Jewish			Jewish			3	3
+	en	Religion		Hindu			Hindu			4	4
+	en	Religion		Buddhist		Buddhist		5	5
+	en	Religion		Atheist			Atheist			6	6
+	en	Religion		Agnostic		Agnostic		7	7
+	en	Religion		Deist			Deist			8	8
+	en	Religion		Other			Other			9	9
 
+	en	LookingFor		Friend			Friend			1	1
+	en	LookingFor		Sex				Sex				2	2
+	en	LookingFor		OneNight		One night stand	3	3
+	en	LookingFor		LongTimeRelationship	Long time relationship	4	4
 
-	en	Religion		Christian		Christian		1
-	en	Religion		Muslim			Muslim			2
-	en	Religion		Jewish			Jewish			3
-	en	Religion		Hindu			Hindu			4
-	en	Religion		Buddhist		Buddhist		5
-	en	Religion		Atheist			Atheist			6
-	en	Religion		Agnostic		Agnostic		7
-	en	Religion		Deist			Deist			8
-	en	Religion		Other			Other			9
+	en	MailType		MailConfirm		Mail Confirm		1	1
+	en	MailType		PasswordChanged	Password Changed	2	2
+	en	MailType		YouveGotMessage	You've Got Message	3	3
 
-	en	LookingFor		Friend			Friend			1
-	en	LookingFor		Sex				Sex				2
-	en	LookingFor		OneNight		One night stand	3
-	en	LookingFor		LongTimeRelationship	Long time relationship	4
+	en	KatushaMembershipCreateStatus	Success				Success				1	1
+	en	KatushaMembershipCreateStatus	DuplicateUserName	Duplicate User Name	2	2
+	en	KatushaMembershipCreateStatus	DuplicateEmail		Duplicate Email		3	3
+	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password		4	4
+	en	KatushaMembershipCreateStatus	InvalidEmail		Invalid Email		5	5
+	en	KatushaMembershipCreateStatus	InvalidAnswer		Invalid Answer		6	6
+	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question		7	7
+	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName		8	8
+	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10	9
+	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9	10
 
-	en	MailType		MailConfirm		Mail Confirm		1
-	en	MailType		PasswordChanged	Password Changed	2
-	en	MailType		YouveGotMessage	You've Got Message	3
-
-	en	KatushaMembershipCreateStatus	Success				Success				1
-	en	KatushaMembershipCreateStatus	DuplicateUserName	Duplicate User Name	2
-	en	KatushaMembershipCreateStatus	DuplicateEmail		Duplicate Email		3
-	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password		4
-	en	KatushaMembershipCreateStatus	InvalidEmail		Invalid Email		5
-	en	KatushaMembershipCreateStatus	InvalidAnswer		Invalid Answer		6
-	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question		7
-	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName		8
-	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10
-	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9
-
+	en	PhotoType		Original	Original			1	1
+	en	PhotoType		Thumbnail	Thumbnail			2	2

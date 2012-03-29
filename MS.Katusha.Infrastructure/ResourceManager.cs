@@ -17,7 +17,8 @@ namespace MS.Katusha.Infrastructure
         string _R(string resourceName, byte language = 0);
         string _R(string propertyName, string key, bool mustFind = false, byte language = 0);
         Dictionary<string, string> _L(string resourceName, byte language = 0);
-        string _LText(string resourceName, string name, byte language = 0);
+        string _LText(string lookupName, string name, byte language = 0);
+        string _LKey(string lookupName, byte value, byte language = 0);
         //List<string> GetValuesFromCodeList(List<string> resourceCodeList);
     }
 
@@ -26,6 +27,7 @@ namespace MS.Katusha.Infrastructure
         private static readonly IDictionary<string, string> ConfigurationList;
         private static readonly IDictionary<string, string> ResourceList;
         private static readonly IDictionary<string, Dictionary<string, string>> ResourceLookupList;
+        private static readonly IDictionary<string, Dictionary<string, byte>> ResourceLookupByteList;
         private static readonly ReaderWriterLockSlim ListLock;
 
         static ResourceManager()
@@ -33,6 +35,7 @@ namespace MS.Katusha.Infrastructure
             ConfigurationList = new Dictionary<string, string>();
             ResourceList = new Dictionary<string, string>();
             ResourceLookupList = new Dictionary<string, Dictionary<string, string>>();
+            ResourceLookupByteList = new Dictionary<string, Dictionary<string, byte>>();
             ListLock = new ReaderWriterLockSlim();
         }
 
@@ -93,6 +96,7 @@ namespace MS.Katusha.Infrastructure
             public string Key { get; set; }
             public string Value { get; set; }
             public byte Order { get; set; }
+            public byte ByteValue { get; set; }
         }
 
         private static int CompareLookupItem(LookupItem x, LookupItem y)
@@ -105,6 +109,7 @@ namespace MS.Katusha.Infrastructure
             ListLock.EnterWriteLock();
             try {
                 ResourceLookupList.Clear();
+                ResourceLookupByteList.Clear();
                 var items = resourceLookupRepository.GetActiveValues();
                 if (items.Length > 0) {
                     var lookupName = items[0].LookupName;
@@ -112,11 +117,12 @@ namespace MS.Katusha.Infrastructure
                     var list = new List<LookupItem>();
                     foreach (var item in items) {
                         if (item.LookupName == lookupName && item.Language == language)
-                            list.Add(new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order});
+                            list.Add(new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order, ByteValue = item.LookupValue});
                         else {
                             try {
                                 list.Sort(CompareLookupItem);
-                                ResourceLookupList.Add(lookupName+language, list.ToDictionary(r => r.Key, r => r.Value));
+                                ResourceLookupList.Add(lookupName + language, list.ToDictionary(r => r.Key, r => r.Value));
+                                ResourceLookupByteList.Add(lookupName + language, list.ToDictionary(r => r.Key, r => r.ByteValue));
                             } catch (Exception ex) {
                                 throw new KatushaResourceLookupException(lookupName, ex);
                             }
@@ -200,8 +206,33 @@ namespace MS.Katusha.Infrastructure
             return resourceValue;
         }
 
-        public string _LText(string resourceName, string name, byte language = 0) {
-            
+        public string _LKey(string lookupName, byte value, byte language = 0)
+        {
+
+            if (value == 0) return "";
+            language = GetLanguage(language);
+            string key = String.Format("{0}{1}", lookupName, language);
+            if (!string.IsNullOrEmpty(key)) {
+                ListLock.EnterReadLock();
+                try {
+                    if (ResourceLookupByteList.ContainsKey(key)) {
+                        var resourceValue = ResourceLookupByteList[key];
+                        foreach(var item in resourceValue) {
+                            if (item.Value == value)
+                                return item.Key;
+                        }
+                    }
+                } finally {
+                    ListLock.ExitReadLock();
+                }
+            }
+
+            return key + "." + value.ToString();
+        }
+
+        public string _LText(string resourceName, string name, byte language = 0)
+        {
+
             if (String.IsNullOrWhiteSpace(name) || name == "0") return "";
 
             language = GetLanguage(language);

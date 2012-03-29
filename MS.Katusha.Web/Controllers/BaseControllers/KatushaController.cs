@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading;
 using System.Web.Mvc;
@@ -7,6 +9,7 @@ using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Domain.Entities;
+using Raven.Abstractions.Data;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers.BaseControllers
@@ -43,6 +46,17 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
+            var qs = filterContext.RequestContext.HttpContext.Request.QueryString;
+            SetRequestFacets(qs);
+        }
+
+        private void SetRequestFacets(NameValueCollection qs) { 
+            IDictionary<string, string> list = new Dictionary<string, string>();
+            foreach (var v in qs.AllKeys) {
+                var values = qs.GetValues(v);
+                list.Add(v, values.ToString());
+            }
+            ViewBag.RequestFacet = list;
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

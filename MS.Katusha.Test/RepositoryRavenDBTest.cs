@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using MS.Katusha.Domain;
-using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
@@ -56,7 +53,7 @@ namespace MS.Katusha.Test
             foreach (var b in bs)
                 _repositoryProfileRavenDB.Add(b);
             var boy = _repositoryProfileDb.GetById(2, p => p.User, p => p.Photos, p => p.LanguagesSpoken, p => p.Searches,
-                                               p => p.CountriesToVisit);
+                                               p => p.CountriesToVisit, p=> p.User, p=>p.State);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
             var boyRavenDB = _repositoryProfileRavenDB.GetById(2);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", boyRavenDB));

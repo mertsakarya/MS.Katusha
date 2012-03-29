@@ -62,6 +62,10 @@ namespace MS.Katusha.Infrastructure
                 } else if (Section == Section.ResourceLookup) {
                     var resourceLookup = new ResourceLookup { Language = _language, LookupName = values[1], ResourceKey = values[2], Value = ((values[3] == "\"\"") ? "" : values[3]) };
                     if (_order > 0) resourceLookup.Order = _order;
+                    byte value;
+                    if (Byte.TryParse(values[5], out value)) {
+                        resourceLookup.LookupValue = value;
+                    }
                     var resourceLookupRepositoryDB = Repository as ResourceLookupRepositoryDB;
                     if (resourceLookupRepositoryDB != null) resourceLookupRepositoryDB.Add(resourceLookup);
                 }
@@ -126,8 +130,8 @@ namespace MS.Katusha.Infrastructure
 
             var resourceLookup = new ConfigurationType(Section.ResourceLookup) {
                 Repository = new ResourceLookupRepositoryDB(dbContext),
-                MinimumAllowed = 4,
-                MaximumAllowed = 5,
+                MinimumAllowed = 6,
+                MaximumAllowed = 6,
                 LanguageOrder = 0,
                 OrderOrder = 4
             };
