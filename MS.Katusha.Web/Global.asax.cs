@@ -25,8 +25,9 @@ namespace MS.Katusha.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Photo",            "{controller}/Photo/{key}/{size}", new { action = "Photo" });
-            routes.MapRoute("DeletePhoto",      "{controller}/DeletePhoto/{key}/{photoGuid}", new { action = "DeletePhoto" });
+            routes.MapRoute("Photo", "{controller}/Photo/{key}/{size}", new { action = "Photo" });
+            //routes.MapRoute("SetFacet", "{controller}/SetFacet/{key}/{value}", new { action = "SetFacet" });
+            routes.MapRoute("DeletePhoto", "{controller}/DeletePhoto/{key}/{photoGuid}", new { action = "DeletePhoto" });
             routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new { action = "MakeProfilePhoto" });
             routes.MapRoute("Download",         "{controller}/Download/{key}/{size}", new { action = "Download" });
 

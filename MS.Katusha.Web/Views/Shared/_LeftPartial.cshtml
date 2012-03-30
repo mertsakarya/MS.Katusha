@@ -1,4 +1,5 @@
-﻿@using MS.Katusha.Domain.Entities
+﻿@using System.Collections.Specialized
+@using MS.Katusha.Domain.Entities
 @using Raven.Abstractions.Data
 
 @if (Request.IsAuthenticated) {
@@ -30,34 +31,60 @@
     </ul>
 }
 <div class="search">
-@if (ViewBag.RequestFacet != null) {
-    var faceting = ViewBag.RequestFacet as IDictionary<string, string>;
+@if (ViewBag.KatushaSearch != null && ViewBag.KatushaSearch.Total >= 0) {
+    var filters = ViewBag.KatushaSearch.Filters as NameValueCollection;
+    var faceting = ViewBag.KatushaSearch.FacetValues as IDictionary<string, IEnumerable<FacetValue>>;
     <ul>
-        @foreach (var f in faceting) {
+        @foreach (var key in filters.AllKeys) {
             <li>
-                @Html._LText(f.Key, f.Value) <a class="removeFacet" href="remove f.Key">[X}</a>
+                @key
+                <ul>
+                    @foreach (var value in filters.GetValues(key)) {
+                        <li>
+                            @Html._LText(key, value) <a class="removeFacet" href="remove f.Key">[X]</a>
+                        </li>
+                    }
+                </ul>
             </li>
         }
     </ul>
     <hr />
-}         
-@if (ViewBag.Facets != null) {
-    var faceting = ViewBag.Facets as IDictionary<string, IEnumerable<FacetValue>>;
     <ul>            
         @foreach (var f in faceting) {
-            if(!(f.Key == "From" || f.Key == "City")) {
-                <li>
-                    @Html._R(String.Format("Profile.{0}.DisplayName", f.Key));<br />
-                    
-                    <ul>
-                        @foreach (var fv in f.Value) {
-                            var value = Html._LText(f.Key, Convert.ToByte(fv.Range));
-                            if (String.IsNullOrWhiteSpace(value)) {value = Html._R("NotFilled");}
-                            <li><a href="SetFacet('@f.Key', '@fv.Range')">@Html._LText(f.Key, Convert.ToByte(fv.Range))</a> <span>(@fv.Count)</span></li>
+            <li>
+                @if (!(f.Key == "From" || f.Key == "City")) {
+                    @Html._R(String.Format("Profile.{0}.DisplayName", f.Key))
+                    <br />
+                } else {
+                    @f.Key
+                }    
+                <ul>
+                    @foreach (var fv in f.Value) {
+                        string value;
+                        if (f.Key == "City") {
+                            value = fv.Range;
+                        } else {
+                            string key;
+
+                            if (f.Key == "From") {
+                                key = "Country";
+                            } else {
+                                key = f.Key;
+                            }
+                            var lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
+                            value = Html._LText(key, lookupKey);
                         }
-                    </ul>
-                </li>
-            }
+
+                        <li>
+                            <a href="@Html.SetFacet(f.Key, fv.Range)">
+                                @((String.IsNullOrWhiteSpace(value)) ? Html._R("NotFilled") : value)
+                            </a> 
+                            <span>(@fv.Count)</span>
+                        </li>
+                    }
+                </ul>
+               
+            </li>
         }
     </ul>
 }

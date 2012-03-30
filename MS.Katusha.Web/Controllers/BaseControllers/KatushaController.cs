@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Web.Mvc;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Domain.Entities;
 using Raven.Abstractions.Data;
@@ -16,15 +19,18 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 {
     public class KatushaController : Controller
     {
+        private readonly ISearchService _searchService;
         public User KatushaUser { get; set; }
+        public SearchResult KatushaSearch { get; set; }
         public Profile KatushaProfile { get; set; }
 
         public Sex Gender { get; set; }
 
         public IUserService UserService { get; private set; }
 
-        public KatushaController(IUserService userService)
+        public KatushaController(IUserService userService, ISearchService searchService)
         {
+            _searchService = searchService;
             UserService = userService;
         }
 
@@ -47,16 +53,9 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
             var qs = filterContext.RequestContext.HttpContext.Request.QueryString;
-            SetRequestFacets(qs);
-        }
-
-        private void SetRequestFacets(NameValueCollection qs) { 
-            IDictionary<string, string> list = new Dictionary<string, string>();
-            foreach (var v in qs.AllKeys) {
-                var values = qs.GetValues(v);
-                list.Add(v, values.ToString());
-            }
-            ViewBag.RequestFacet = list;
+            int total;
+            KatushaSearch = _searchService.Search(qs, 1, 20, out total);
+            ViewBag.KatushaSearch = KatushaSearch;
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -107,8 +106,5 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
             base.ExecuteCore();
         }
-
-
-
     }
 }

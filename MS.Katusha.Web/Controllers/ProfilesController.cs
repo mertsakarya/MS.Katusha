@@ -37,7 +37,7 @@ namespace MS.Katusha.Web.Controllers
         private const int PageSize = 1;
 
         public ProfilesController(IProfileService profileService, IUserService userService, ISearchService searchService, IResourceManager resourceManager)
-            : base(userService)
+            : base(userService, searchService)
         {
             _profileService = profileService;
             _searchService = searchService;
@@ -50,12 +50,13 @@ namespace MS.Katusha.Web.Controllers
         {
             var pageIndex = (page ?? 1);
             int total;
-            var profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
+            IEnumerable<Profile> profiles;
+            if (KatushaSearch.Total >= 0) {
+                profiles = KatushaSearch.Profiles;
+                total = KatushaSearch.Total;
+            } else
+                profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
             var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
-            var ss = _searchService.Search(p => p.Height > 100, 1, PageSize, out total);
-            var sfs = _searchService.FacetSearch(p => p.Height > 100);
-            ViewBag.SS = ss;
-            ViewBag.Facets = sfs;
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
             var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
             return View("Index", model);

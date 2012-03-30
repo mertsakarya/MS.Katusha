@@ -90,7 +90,7 @@ namespace MS.Katusha.Web.Helpers
         {
             IResourceManager rm = new ResourceManager();
             var key = rm._LKey(lookupName, value, (byte) language);
-            return rm._LText(lookupName, key, (byte)language);
+            return key;
         }
 
         public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
@@ -116,6 +116,12 @@ namespace MS.Katusha.Web.Helpers
             var sex = (gender == Sex.Male) ? "Boy" : "Girl";
             var str = (photoGuid == Guid.Empty) ? String.Format("/Images/{1}{0}.jpg", size, sex) : String.Format("/Profiles/Photo/{0}/{1}", photoGuid, size);
             return str;
+        }
+
+        public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)
+        {
+            var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.RawUrl;
+            return url + (((url.IndexOf('?')) >= 0) ? "&" : "?") + key + "=" + ((String.IsNullOrWhiteSpace(value))? "Empty" : value);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)

@@ -128,7 +128,7 @@ namespace MS.Katusha.Infrastructure
                             }
                             lookupName = item.LookupName;
                             language = item.Language;
-                            list = new List<LookupItem> {new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order}};
+                            list = new List<LookupItem> { new LookupItem { Key = item.ResourceKey, Value = item.Value, Order = item.Order, ByteValue = item.LookupValue } };
                         }
                     }
                     //list.Sort(CompareLookupItem);

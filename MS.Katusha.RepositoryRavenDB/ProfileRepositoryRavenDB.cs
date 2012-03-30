@@ -32,11 +32,10 @@ namespace MS.Katusha.Repositories.RavenDB
         public IList<Profile> Search(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
         {
             using (var session = DocumentStore.OpenSession()) {
-                var query = session.Query<Profile>().Where(filter);
                 RavenQueryStatistics stats;
-                query.Statistics(out stats).Take(0).ToList();
-                total =  stats.TotalResults;
-                return query.Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
+                var query = session.Query<Profile>().Statistics(out stats).Where(filter).Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
+                total = stats.TotalResults;
+                return query;
             }
         }
 

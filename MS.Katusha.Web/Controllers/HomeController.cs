@@ -14,7 +14,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IConfigurationService _configurationService;
 
-        public HomeController(IUserService service, IConfigurationService configurationService) : base(service)
+        public HomeController(IUserService service, IConfigurationService configurationService, ISearchService searchService)
+            : base(service, searchService)
         {
             _configurationService = configurationService;
         }
