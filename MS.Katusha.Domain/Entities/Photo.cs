@@ -13,12 +13,14 @@ namespace MS.Katusha.Domain.Entities
         public Profile Profile { get; set; }
         public string Description { get; set; }
 
-        //newFile.FileContents = System.IO.File.ReadAllBytes("TextFile1.txt");
-        //System.IO.File.WriteAllBytes(file.FileID + ".txt", file.FileContents);
-        [Column(TypeName = "varbinary(max)")]
-        public byte[] FileContents { get; set; }
-        [Column(TypeName = "varbinary(max)")]
-        public byte[] SmallFileContents { get; set; }
+        ////newFile.FileContents = System.IO.File.ReadAllBytes("TextFile1.txt");
+        ////System.IO.File.WriteAllBytes(file.FileID + ".txt", file.FileContents);
+        //[Column(TypeName = "varbinary(800000000)")]
+        ////[Column(TypeName = "image")]
+        //public byte[] FileContents { get; set; }
+        //[Column(TypeName = "varbinary(800000000)")]
+        ////[Column(TypeName = "image")]
+        //public byte[] SmallFileContents { get; set; }
 
         public string ContentType { get; set; }
 

@@ -13,13 +13,13 @@ namespace MS.Katusha.Services
     {
         private readonly IUserRepositoryDB _repository;
         private readonly IProfileRepositoryDB _profileRepository;
-        private KatushaRavenCacheContext _katushaCache;
+        private readonly IKatushaCacheContext _katushaCache;
 
-        public UserService(IUserRepositoryDB repository, IProfileRepositoryDB profileRepository)
+        public UserService(IUserRepositoryDB repository, IProfileRepositoryDB profileRepository, IKatushaCacheContext cacheContext)
         {
             _repository = repository;
             _profileRepository = profileRepository;
-            _katushaCache = new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
+            _katushaCache = cacheContext; // new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
         }
 
         public bool ValidateUser(string userName, string password)

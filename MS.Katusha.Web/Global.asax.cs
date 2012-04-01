@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using MS.Katusha.Domain;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models.Entities;
+using Raven.Client.Document;
+using Raven.Client.Embedded;
 
 namespace MS.Katusha.Web
 {
@@ -45,9 +50,14 @@ namespace MS.Katusha.Web
             );
         }
 
+
         protected void Application_Start()
         {
             //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
+            Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+            Database.SetInitializer(new KatushaContextInitializer());
+            DependencyHelper.RegisterRaven();
+
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
             MapperHelper.HandleMappings();
@@ -58,7 +68,7 @@ namespace MS.Katusha.Web
             //BundleTable.Bundles.RegisterTemplateBundles();
             BundleTable.Bundles.EnableDefaultBundles();
 
-            var raven = new ProfileRepositoryRavenDB();
+            var raven = new ProfileRepositoryRavenDB(DependencyHelper.RavenStore);
             raven.SetFaceting();
 
             //Bundle debugScripts = new Bundle("~/DebugScripts", new NoTransform("text/javascript"));

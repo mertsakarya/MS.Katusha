@@ -13,7 +13,7 @@ namespace MS.Katusha.Domain.Entities
         public Profile To { get; set; }
 
         [Required]
-        [MinLength(2), MaxLength(8000)]
+        [MinLength(2), MaxLength(4000)]
         public string Message { get; set; }
 
         [MaxLength(255)]

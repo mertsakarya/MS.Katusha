@@ -1,0 +1,18 @@
+{
+  "Name": "Temp/CacheObjects/ByDeletedAndKey",
+  "Map": "from doc in docs.CacheObjects\r\nselect new { Deleted = doc.Deleted, Key = doc.Key }",
+  "Maps": [
+    "from doc in docs.CacheObjects\r\nselect new { Deleted = doc.Deleted, Key = doc.Key }"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "IsTemp": true,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Type": "Temp"
+}

@@ -108,7 +108,7 @@ namespace MS.Katusha.Infrastructure
         }
 
         private readonly Dictionary<Section, ConfigurationType> _dependencies;
-        private static readonly string ConfigurationFilename = ConfigurationManager.AppSettings["Root_Folder"] + @"MS.Katusha.Web\Content\ConfigurationData.csv";
+        private static readonly string ConfigurationFilename = ConfigurationManager.AppSettings["RootFolder"] + @"Content\ConfigurationData.csv";
 
         public ConfigParser(KatushaDbContext dbContext)
         {

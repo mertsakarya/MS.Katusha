@@ -12,15 +12,15 @@ using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Linq;
 
+
 namespace MS.Katusha.Repositories.RavenDB
 {
 
     public class ProfileRepositoryRavenDB : BaseFriendlyNameRepositoryRavenDB<Profile>, IProfileRepositoryRavenDB
     {
-        public ProfileRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
-            : base(connectionStringName)
-        {
-        }
+        public ProfileRepositoryRavenDB(IDocumentStore documentStore): base(documentStore)
+        { }
+
 
         public IDictionary<string, IEnumerable<FacetValue>> FacetSearch(Expression<Func<Profile, bool>> filter)
         {

@@ -2,12 +2,16 @@ using System;
 using System.Linq;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
+using Raven.Client;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
     public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
-        protected BaseFriendlyNameRepositoryRavenDB(string connectionStringName = "KatushaRavenDB") : base(connectionStringName) { }
+
+        protected BaseFriendlyNameRepositoryRavenDB(IDocumentStore documentStore)
+            : base(documentStore)
+        { }
 
         public long GetProfileIdByFriendlyName(string friendlyName) { return Single(p => p.FriendlyName == friendlyName).Id; }
 

@@ -1,24 +1,25 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
+using Raven.Client;
 using Raven.Client.Document;
+using Raven.Client.Embedded;
+using Raven.Client.Indexes;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
     public abstract class BaseRepositoryRavenDB<T> : IRepository<T> where T : BaseModel
     {
-        protected readonly DocumentStore DocumentStore ;
+        protected BaseRepositoryRavenDB(IDocumentStore documentStore) { DocumentStore = documentStore; }
 
-        protected BaseRepositoryRavenDB(string connectionStringName = "KatushaRavenDB")
-        {
-            DocumentStore = new DocumentStore { ConnectionStringName = connectionStringName };
-            DocumentStore.Initialize();
-        }
-        
+        protected IDocumentStore DocumentStore { get; private set; }
+
         protected IQueryable<T> QueryableRepository
         {
             get

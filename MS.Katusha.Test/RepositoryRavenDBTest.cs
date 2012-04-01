@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,7 @@ using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using Raven.Client.Embedded;
 
 namespace MS.Katusha.Test
 {
@@ -32,7 +33,9 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            _repositoryProfileRavenDB = new ProfileRepositoryRavenDB();
+            var RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["RootFolder"] + "\\MS.Katusha.Web\\App_Data\\MS.Katusha.RavenDB" };
+            RavenStore.Initialize();
+            _repositoryProfileRavenDB = new ProfileRepositoryRavenDB(RavenStore);
 
             _dbContext = new KatushaDbContext();
             _repositoryProfileDb = new ProfileRepositoryDB(_dbContext);

@@ -312,7 +312,9 @@ namespace MS.Katusha.Web.Controllers
         public void DeletePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
+            //TODO: Delete files on service layer.
             _profileService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
+
         }
 
         [HttpGet]
@@ -383,11 +385,13 @@ namespace MS.Katusha.Web.Controllers
             var compressedImage = CompressImage(resizedImage, compressRatio);
             var thumbnailImage = ResizeImage(resizedImage, thumbWidth, thumbHeight);
             var compressedThumbnailImage = CompressImage(thumbnailImage, compressRatio);
-            photo.FileContents = ToBytes(compressedImage);
-            photo.SmallFileContents = ToBytes(compressedThumbnailImage);
+            //photo.FileContents = ToBytes(compressedImage);
+            //photo.SmallFileContents = ToBytes(compressedThumbnailImage);
+            var smallFileContents = ToBytes(compressedThumbnailImage);
 
             _profileService.AddPhoto(photo);
-
+            compressedImage.Save(Server.MapPath("~/Photos/o-") + photo.Guid.ToString() + ".jpg");
+            compressedThumbnailImage.Save(Server.MapPath("~/Photos/t-") + photo.Guid.ToString() + ".jpg");
             return new ViewDataUploadFilesResult {
                 name = hpf.FileName,
                 size = hpf.ContentLength,
@@ -395,7 +399,7 @@ namespace MS.Katusha.Web.Controllers
                 url = String.Format("/{0}/Download/{1}/{2}", controllerName, id, guid),
                 delete_url = String.Format("/{0}/DeletePhoto/{1}/{2}", controllerName, id, guid),
                 delete_type = "GET",
-                thumbnail_url = @"data:" + ((!String.IsNullOrEmpty(photo.ContentType)) ? photo.ContentType : "image/jpeg") + ";base64," + EncodeBytes(photo.SmallFileContents)
+                thumbnail_url = @"data:" + ((!String.IsNullOrEmpty(photo.ContentType)) ? photo.ContentType : "image/jpeg") + ";base64," + EncodeBytes(smallFileContents)
             };
         }
 
@@ -414,11 +418,11 @@ namespace MS.Katusha.Web.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                var response = context.RequestContext.HttpContext.Response;
+                var response = context.HttpContext.Response;
                 response.Clear();
                 response.ContentType = _photo.ContentType;
-                var bytes = (_type == PhotoType.Original) ? _photo.FileContents : _photo.SmallFileContents;
-                response.AddHeader("Content-Length", bytes.Length.ToString(CultureInfo.InvariantCulture));
+                //var bytes = (_type == PhotoType.Original) ? _photo.FileContents : _photo.SmallFileContents;
+                //response.AddHeader("Content-Length", bytes.Length.ToString(CultureInfo.InvariantCulture));
                 if (_download) {
                     response.AddHeader("Content-Disposition", String.Format("attachment; filename=\"{0}\"", _photo.FileName));
                     response.ContentType = "application/octet-stream";
@@ -429,7 +433,9 @@ namespace MS.Katusha.Web.Controllers
                     response.Cache.SetLastModified(_photo.ModifiedDate);
                     response.ContentType = _photo.ContentType;
                 }
-                response.BinaryWrite(bytes);
+                //response.BinaryWrite(bytes);
+
+                response.WriteFile(context.HttpContext.Server.MapPath("~/Photos/") + ((_type == PhotoType.Original) ? "o-" : "t-") + _photo.Guid.ToString() + ".jpg");
                 response.Flush();
                 response.End();
             }

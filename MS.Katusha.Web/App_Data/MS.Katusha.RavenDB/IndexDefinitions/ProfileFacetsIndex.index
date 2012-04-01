@@ -1,0 +1,18 @@
+{
+  "Name": "ProfileFacetsIndex",
+  "Map": "from profile in docs.Profiles \r\n                                    select new \r\n                                    { \r\n                                        profile.From,\r\n                                        profile.City,\r\n                                        profile.BodyBuild,\r\n                                        profile.HairColor,\r\n                                        profile.Smokes,\r\n                                        profile.Alcohol,\r\n                                        profile.Religion,\r\n                                        profile.DickSize,\r\n                                        profile.DickThickness,\r\n                                        profile.BreastSize,\r\n                                        profile.Height,\r\n                                        profile.BirthYear,\r\n                                        profile.Searches,\r\n                                        profile.LanguagesSpoken,\r\n                                        profile.CountriesToVisit\r\n                                    }",
+  "Maps": [
+    "from profile in docs.Profiles \r\n                                    select new \r\n                                    { \r\n                                        profile.From,\r\n                                        profile.City,\r\n                                        profile.BodyBuild,\r\n                                        profile.HairColor,\r\n                                        profile.Smokes,\r\n                                        profile.Alcohol,\r\n                                        profile.Religion,\r\n                                        profile.DickSize,\r\n                                        profile.DickThickness,\r\n                                        profile.BreastSize,\r\n                                        profile.Height,\r\n                                        profile.BirthYear,\r\n                                        profile.Searches,\r\n                                        profile.LanguagesSpoken,\r\n                                        profile.CountriesToVisit\r\n                                    }"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "IsTemp": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Type": "Map"
+}

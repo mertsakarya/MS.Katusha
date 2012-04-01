@@ -12,11 +12,11 @@ namespace MS.Katusha.Web.Models.Entities
         public ProfileModel Profile { get; set; }
         public string Description { get; set; }
 
-        [JsonIgnore]
-        public byte[] FileContents { get; set; }
+        //[JsonIgnore]
+        //public byte[] FileContents { get; set; }
 
-        [JsonIgnore]
-        public byte[] SmallFileContents { get; set; }
+        //[JsonIgnore]
+        //public byte[] SmallFileContents { get; set; }
 
         public string ContentType { get; set; }
 

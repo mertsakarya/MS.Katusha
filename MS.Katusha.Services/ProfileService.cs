@@ -24,13 +24,13 @@ namespace MS.Katusha.Services
         private readonly IVisitRepositoryDB _visitRepository;
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        private readonly KatushaRavenCacheContext _katushaCache
+        private readonly IKatushaCacheContext _katushaCache
 ;
 
         public ProfileService(IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
-            IConversationRepositoryDB converstaionRepository, IVisitRepositoryDB visitRepository, IProfileRepositoryRavenDB profileRepositoryRaven)
+            IConversationRepositoryDB converstaionRepository, IVisitRepositoryDB visitRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaCacheContext cacheContext)
         {
             _profileRepository = profileRepository;
             _userRepository = userRepository;
@@ -41,7 +41,7 @@ namespace MS.Katusha.Services
             _converstaionRepository = converstaionRepository;
             _visitRepository = visitRepository;
             _profileRepositoryRaven = profileRepositoryRaven;
-            _katushaCache = new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
+            _katushaCache = cacheContext; 
         }
 
 
@@ -187,6 +187,8 @@ namespace MS.Katusha.Services
                 _profileRepository.FullUpdate(profile);
                 _katushaCache.Delete("P:" + profile.Guid.ToString());
             }
+            //TODO:DELETE files  Original and thumbnail           System.IO.File.Delete(HttpContext.Server.MapPath("~/Photos/") + ((_type == PhotoType.Original) ? "O" : "T") + _photo.Guid.ToString() + ".jpg");
+
         }
 
         public Photo GetPhotoByGuid(Guid photoGuid) //FROM DATABASE
