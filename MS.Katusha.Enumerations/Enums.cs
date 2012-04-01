@@ -23,5 +23,5 @@ namespace MS.Katusha.Enumerations
 
     public enum MailType: byte { MailConfirm = 1, PasswordChanged, YouveGotMessage }
 
-    public enum PhotoType : byte  { Original = 1, Thumbnail }
+    public enum PhotoType : byte  { Original = 0, Thumbnail = 1, Medium = 2, Large = 3, MaxPhotoType = 3 }
 }

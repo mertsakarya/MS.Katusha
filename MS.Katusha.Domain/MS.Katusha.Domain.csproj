@@ -72,6 +72,7 @@
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\SearchingFor.cs" />
     <Compile Include="Entities\State.cs" />
+    <Compile Include="Entities\ViewDataUploadFilesResult.cs" />
     <Compile Include="Entities\Visit.cs" />
     <Compile Include="IKatushaDbContext.cs" />
     <Compile Include="KatushaDbContext.cs" />

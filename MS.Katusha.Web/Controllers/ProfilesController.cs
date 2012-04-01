@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -11,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
+using ImageResizer;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Exceptions;
 using MS.Katusha.Exceptions.Services;
@@ -34,7 +36,7 @@ namespace MS.Katusha.Web.Controllers
         private readonly IProfileService _profileService;
         private readonly ISearchService _searchService;
         private readonly IResourceManager _resourceManager;
-        private const int PageSize = 1;
+        private const int PageSize = 20;
 
         public ProfilesController(IProfileService profileService, IUserService userService, ISearchService searchService, IResourceManager resourceManager)
             : base(userService, searchService)
@@ -44,8 +46,8 @@ namespace MS.Katusha.Web.Controllers
             _resourceManager = resourceManager;
         }
 
-        public ActionResult Boys(int? page) { return LIndex(p => p.Gender == (byte)Sex.Male, page); }
-        public ActionResult Girls(int? page) { return LIndex(p => p.Gender == (byte)Sex.Female, page); }
+        public ActionResult Men(int? key) { return LIndex(p => p.Gender == (byte)Sex.Male, key); }
+        public ActionResult Girls(int? key) { return LIndex(p => p.Gender == (byte)Sex.Female, key); }
         private ActionResult LIndex(Expression<Func<Profile, bool>> controllerFilter, int? page = 1)
         {
             var pageIndex = (page ?? 1);
@@ -147,12 +149,16 @@ namespace MS.Katusha.Web.Controllers
             if(key == null)
                 throw new KatushaGenderNotExistsException(null);
             var genderValue = key.ToLowerInvariant();
-            if (genderValue == "girl")
-                model.Gender = (byte)Sex.Female;
-            else if (genderValue == "boy")
-                model.Gender = (byte) Sex.Male;
-            else 
-                throw new KatushaGenderNotExistsException(null);
+            switch (genderValue) {
+                case "girl":
+                    model.Gender = Sex.Female;
+                    break;
+                case "man":
+                    model.Gender =  Sex.Male;
+                    break;
+                default:
+                    throw new KatushaGenderNotExistsException(null);
+            }
             return View(model);
         }
 
@@ -164,12 +170,15 @@ namespace MS.Katusha.Web.Controllers
             try {
                 if (!ModelState.IsValid) return View(model);
                 var genderValue = key.ToLowerInvariant();
-                if (genderValue == "girl") {
-                    model.Gender = (byte) Sex.Female;
-                } else if (genderValue == "boy") {
-                    model.Gender = (byte)Sex.Male;
-                } else {
-                    throw new KatushaGenderNotExistsException(null);
+                switch (genderValue) {
+                    case "girl":
+                        model.Gender = Sex.Female;
+                        break;
+                    case "man":
+                        model.Gender = Sex.Male;
+                        break;
+                    default:
+                        throw new KatushaGenderNotExistsException(null);
                 }
                 var profile = Mapper.Map<Profile>(model);
                 profile.UserId = KatushaUser.Id;
@@ -184,7 +193,7 @@ namespace MS.Katusha.Web.Controllers
                 KatushaProfile = GetProfile(profile.Guid.ToString(), null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
                 ValidateProfileCollections(model, KatushaProfile);
                 if (!ModelState.IsValid) return View(key, model);
-                return RedirectToAction((model.Gender == (byte)Sex.Male)? "Girls": "Boys");
+                return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException ex) {
                 ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
                 return View(model);
@@ -232,6 +241,60 @@ namespace MS.Katusha.Web.Controllers
             } catch {
                 return View();
             }
+        }
+
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Delete(string key)
+        {
+            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
+            var profile = KatushaProfile;
+            var model = Mapper.Map<ProfileModel>(profile);
+            return View("Delete", model);
+        }
+
+        [HttpPost]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Delete(string key, FormCollection collection)
+        {
+            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
+            _profileService.DeleteProfile(KatushaProfile.Id);
+            return RedirectToAction("Index");
+        }
+
+        [System.Web.Http.HttpGet]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public void DeletePhoto(string key, string photoGuid)
+        {
+            if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
+            _profileService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid), Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]));
+        }
+
+        [HttpGet]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public void MakeProfilePhoto(string key, string photoGuid)
+        {
+            if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
+            _profileService.MakeProfilePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
+        }
+
+        [HttpPost, ValidateInput(false)]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult UploadFiles(string key)
+        {
+            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
+            string description = Request.Form["description[]"];
+            if (String.IsNullOrWhiteSpace(description))
+                description = "";
+            var list = new List<ViewDataUploadFilesResult>();
+            foreach (string file in Request.Files) {
+                var hpf = Request.Files[file];
+                var viewDataUploadResult = _profileService.AddPhoto(KatushaProfile.Id, description, Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]), hpf);
+                if (hpf != null) if (hpf.ContentLength != 0 && hpf.FileName != null) list.Add(viewDataUploadResult);
+            }
+            return new ContentResult {
+                Content = new JavaScriptSerializer {MaxJsonLength = Int32.MaxValue}.Serialize(list),
+                ContentType = "application/json"
+            };
         }
 
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
@@ -289,69 +352,7 @@ namespace MS.Katusha.Web.Controllers
             llp3.Process(Request, ModelState, profileModel, model, performDataOperation);
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Delete(string key)
-        {
-            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
-            var profile = KatushaProfile;
-            var model = Mapper.Map<ProfileModel>(profile);
-            return View("Delete", model);
-        }
-
-        [HttpPost]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Delete(string key, FormCollection collection)
-        {
-            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
-            _profileService.DeleteProfile(KatushaProfile.Id);
-            return RedirectToAction("Index");
-        }
-
-        [System.Web.Http.HttpGet]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public void DeletePhoto(string key, string photoGuid)
-        {
-            if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            //TODO: Delete files on service layer.
-            _profileService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
-
-        }
-
-        [HttpGet]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public void MakeProfilePhoto(string key, string photoGuid)
-        {
-            if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            _profileService.MakeProfilePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
-        }
-
-        [System.Web.Http.HttpGet]
-        public ActionResult Download(string key, string size)
-        {
-            return GetImage(key, size, true);
-        }
-
-        [System.Web.Http.HttpGet]
-        public ActionResult Photo(string key, string size)
-        {
-            return GetImage(key, size);
-        }
-
-        [HttpPost, ValidateInput(false)]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult UploadFiles(string key)
-        {
-            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
-            string description = Request.Form["description[]"];
-            if (String.IsNullOrWhiteSpace(description))
-                description = "";
-            return new ContentResult {
-                Content = new JavaScriptSerializer {MaxJsonLength = Int32.MaxValue}.Serialize(((from string file in Request.Files select Request.Files[file] into hpf where hpf != null where hpf.ContentLength != 0 && hpf.FileName != null select ProcessPhoto(description, KatushaProfile, hpf)).ToList())),
-                ContentType = "application/json"
-            };
-        }
-
-        private Profile GetProfile(string key, Profile visitorProfile = null,  params Expression<Func<Profile, object>>[] includeExpressionParams)
+        private Profile GetProfile(string key, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams)
         {
             Guid guid;
             long id = Guid.TryParse(key, out guid) ? _profileService.GetProfileId(guid) : _profileService.GetProfileId(key);
@@ -359,131 +360,6 @@ namespace MS.Katusha.Web.Controllers
                 return _profileService.GetProfile(id, visitorProfile, includeExpressionParams);
             }
             return null;
-        }
-
-        private ViewDataUploadFilesResult ProcessPhoto(string message, Profile profile, HttpPostedFileBase hpf)
-        {
-            var guid = Guid.NewGuid();
-            var photo = new Photo {Description = message, ProfileId = profile.Id, FileName = hpf.FileName, ContentType = "image/jpeg" /*hpf.ContentType*/, Guid = guid};
-            var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
-            var controllerName = GenderHelper.GetControllerName(profile);
-            var image = Image.FromStream(hpf.InputStream);
-
-            const int width = 400;
-            const int height = 530;
-            const int thumbWidth = 80;
-            const int thumbHeight = 106;
-            const int compressRatio = 90;
-
-            var scaleWidth = (width/(float) image.Width);
-            var scaleHeight = (height/(float) image.Height);
-            var scale = scaleHeight < scaleWidth ? scaleHeight : scaleWidth;
-            var destWidth = (int) ((image.Width*scale) + 0.5);
-            var destHeight = (int) ((image.Height*scale) + 0.5);
-
-            var resizedImage = ResizeImage(image, destWidth, destHeight);
-            var compressedImage = CompressImage(resizedImage, compressRatio);
-            var thumbnailImage = ResizeImage(resizedImage, thumbWidth, thumbHeight);
-            var compressedThumbnailImage = CompressImage(thumbnailImage, compressRatio);
-            //photo.FileContents = ToBytes(compressedImage);
-            //photo.SmallFileContents = ToBytes(compressedThumbnailImage);
-            var smallFileContents = ToBytes(compressedThumbnailImage);
-
-            _profileService.AddPhoto(photo);
-            compressedImage.Save(Server.MapPath("~/Photos/o-") + photo.Guid.ToString() + ".jpg");
-            compressedThumbnailImage.Save(Server.MapPath("~/Photos/t-") + photo.Guid.ToString() + ".jpg");
-            return new ViewDataUploadFilesResult {
-                name = hpf.FileName,
-                size = hpf.ContentLength,
-                type = hpf.ContentType,
-                url = String.Format("/{0}/Download/{1}/{2}", controllerName, id, guid),
-                delete_url = String.Format("/{0}/DeletePhoto/{1}/{2}", controllerName, id, guid),
-                delete_type = "GET",
-                thumbnail_url = @"data:" + ((!String.IsNullOrEmpty(photo.ContentType)) ? photo.ContentType : "image/jpeg") + ";base64," + EncodeBytes(smallFileContents)
-            };
-        }
-
-        private class PhotoResult : ActionResult
-        {
-            private readonly Photo _photo;
-            private readonly PhotoType _type;
-            private readonly bool _download;
-
-            public PhotoResult(Photo photo, PhotoType type, bool download = false)
-            {
-                _photo = photo;
-                _type = type;
-                _download = download;
-            }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var response = context.HttpContext.Response;
-                response.Clear();
-                response.ContentType = _photo.ContentType;
-                //var bytes = (_type == PhotoType.Original) ? _photo.FileContents : _photo.SmallFileContents;
-                //response.AddHeader("Content-Length", bytes.Length.ToString(CultureInfo.InvariantCulture));
-                if (_download) {
-                    response.AddHeader("Content-Disposition", String.Format("attachment; filename=\"{0}\"", _photo.FileName));
-                    response.ContentType = "application/octet-stream";
-                } else {
-                    response.Cache.SetCacheability(HttpCacheability.Public);
-                    response.Cache.SetExpires(Cache.NoAbsoluteExpiration);
-                    response.AddFileDependency(_photo.Guid.ToString());
-                    response.Cache.SetLastModified(_photo.ModifiedDate);
-                    response.ContentType = _photo.ContentType;
-                }
-                //response.BinaryWrite(bytes);
-
-                response.WriteFile(context.HttpContext.Server.MapPath("~/Photos/") + ((_type == PhotoType.Original) ? "o-" : "t-") + _photo.Guid.ToString() + ".jpg");
-                response.Flush();
-                response.End();
-            }
-        }
-
-        private ActionResult GetImage(string key, string size, bool download = false)
-        {
-            Guid guid;
-            if (Guid.TryParse(key, out guid)) {
-                var photo = _profileService.GetPhotoByGuid(guid);
-                if (photo != null) {
-                    var smallSize = (!String.IsNullOrEmpty(size) && size.ToLowerInvariant() == "small");
-                    var type = (smallSize) ? PhotoType.Thumbnail : PhotoType.Original;
-                    return new PhotoResult(photo, type, download);
-                }
-            }
-            throw new HttpException(404, "Photo not found!");
-        }
-
-        private static byte[] ToBytes(Image image)
-        {
-            var converter = new ImageConverter();
-            return (byte[])converter.ConvertTo(image, typeof(byte[]));
-        }
-
-        private static Image ResizeImage(Image image, int width, int height)
-        {
-            Image thumbnail = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
-            return thumbnail;
-        }
-
-        private static Image CompressImage(Image image, int ratio = 80)
-        {
-            var codecs = ImageCodecInfo.GetImageEncoders();
-            ImageCodecInfo ici = null;
-            var stream = new MemoryStream();
-            foreach (var codec in codecs.Where(codec => codec.MimeType == "image/jpeg")) ici = codec;
-            if (ici != null) {
-                var ep = new EncoderParameters();
-                ep.Param[0] = new EncoderParameter(Encoder.Quality, ratio);
-                image.Save(stream, ici, ep);
-            }
-            return Image.FromStream(stream);
-        }
-
-        private static string EncodeBytes(byte[] bytes)
-        {
-            return Convert.ToBase64String(bytes);
         }
     }
 }

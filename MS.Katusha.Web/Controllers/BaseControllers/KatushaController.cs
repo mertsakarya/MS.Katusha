@@ -6,12 +6,14 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Web.Mvc;
+using AutoMapper;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Web.Models.Entities;
 using Raven.Abstractions.Data;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -48,14 +50,28 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         {
             base.OnActionExecuting(filterContext);
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
-            if(KatushaUser != null)
+            if (KatushaUser != null)
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
-            var qs = filterContext.RequestContext.HttpContext.Request.QueryString;
+            var queryString = filterContext.RequestContext.HttpContext.Request.QueryString;
+            var isNewSearch = (queryString.Get("NewSearch") != null);
+            var qs = new NameValueCollection();
+            foreach (var key in queryString.AllKeys) {
+                if (key == "NewSearch") continue;
+                var value = queryString[key];
+                if (isNewSearch) {
+                    if (!(String.IsNullOrEmpty(value) || value == "0"))
+                        qs.Add(key, value);
+                } else {
+                    qs.Add(key, value);
+                }
+            }
+            var sex = RouteData.Values["action"].ToString().ToLowerInvariant() == "girls" ? Sex.Female : Sex.Male;
             int total;
-            KatushaSearch = _searchService.Search(qs, 1, 20, out total);
+            KatushaSearch = _searchService.Search(qs, sex, 1, 20, out total);
             ViewBag.KatushaSearch = KatushaSearch;
+            ViewBag.KatushaSearchModel = (total >= 0) ? Mapper.Map<ProfileModel>(KatushaSearch.SearchProfile) : null;
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

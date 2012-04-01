@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MS.Katusha.Test
 {
     [TestClass]
-    public class BoyRepositoryTest
+    public class ManRepositoryTest
     {
         private KatushaDbContext _dbContext;
 
@@ -42,21 +42,21 @@ namespace MS.Katusha.Test
         }
 
         [TestMethod]
-        public void ShouldBeAbleToFindBoy2()
+        public void ShouldBeAbleToFindMan2()
         {
-            var boy = _repositoryProfile.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
-            Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
+            var man = _repositoryProfile.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
+            Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
             var list = _repositoryProfile.Query(p => p.State.Status == (byte)Status.Online, null, p => p.Photos);
             foreach (var b in list)
-                Debug.WriteLine(String.Format("Found boy with {0} photos.", b.Photos.Count));
+                Debug.WriteLine(String.Format("Found man with {0} photos.", b.Photos.Count));
         }
 
         [TestMethod]
-        public void ShouldBeAbleToFindBoy()
+        public void ShouldBeAbleToFindMan()
         {
-            var boys = (_repositoryProfile.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
-            var boys2 = _repositoryProfile.Query(null, null, b => b.Photos, b => b.User);
-            Debug.WriteLine(String.Format("Found {0} boys and {1} boys", boys.Count(), boys2.Count()));
+            var men = (_repositoryProfile.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
+            var men2 = _repositoryProfile.Query(null, null, b => b.Photos, b => b.User);
+            Debug.WriteLine(String.Format("Found {0} men and {1} men", men.Count(), men2.Count()));
         }
 
         [TestMethod]
@@ -86,10 +86,10 @@ namespace MS.Katusha.Test
         public void TestVisitAndConversation()
         {
 
-            var boy = _repositoryProfile.GetById(1);
+            var man = _repositoryProfile.GetById(1);
             var girl = _repositoryProfile.GetById(4);
-            Conversation conversation = CreateConversation(boy, girl, "Hi", "I would \r\nLike to meet you");
-            Visit visit = CreateVisit(boy, girl);
+            Conversation conversation = CreateConversation(man, girl, "Hi", "I would \r\nLike to meet you");
+            Visit visit = CreateVisit(man, girl);
             Debug.WriteLine(visit);
 
             DeleteVisit(visit);
@@ -102,26 +102,26 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void TestVisits()
         {
-            var boy1 = _repositoryProfile.GetById(1);
-            var boy2 = _repositoryProfile.GetById(2);
-            var boy3 = _repositoryProfile.GetById(3);
+            var man1 = _repositoryProfile.GetById(1);
+            var man2 = _repositoryProfile.GetById(2);
+            var man3 = _repositoryProfile.GetById(3);
             var girl1 = _repositoryProfile.GetById(4);
             var girl2 = _repositoryProfile.GetById(5);
             var girl3 = _repositoryProfile.GetById(6);
 
-            Visit visit1 = CreateVisit(boy1, girl3);
-            Visit visit3 = CreateVisit(boy3, girl2);
-            Visit visit4 = CreateVisit(boy1, girl2);
-            Visit visit5 = CreateVisit(boy1, girl2);
-            Visit visit6 = CreateVisit(boy2, girl1);
-            Visit visit7 = CreateVisit(boy3, girl1);
-            Visit visit8 = CreateVisit(boy1, girl1);
+            Visit visit1 = CreateVisit(man1, girl3);
+            Visit visit3 = CreateVisit(man3, girl2);
+            Visit visit4 = CreateVisit(man1, girl2);
+            Visit visit5 = CreateVisit(man1, girl2);
+            Visit visit6 = CreateVisit(man2, girl1);
+            Visit visit7 = CreateVisit(man3, girl1);
+            Visit visit8 = CreateVisit(man1, girl1);
             Visit visit9 = CreateVisit(girl1, girl2);
-            Visit visit10 = CreateVisit(girl1, boy1);
-            Visit visit11 = CreateVisit(girl1, boy2);
-            Visit visit12 = CreateVisit(girl1, boy3);
-            Visit visit13 = CreateVisit(girl2, boy3);
-            Visit visit14 = CreateVisit(girl2, boy1);
+            Visit visit10 = CreateVisit(girl1, man1);
+            Visit visit11 = CreateVisit(girl1, man2);
+            Visit visit12 = CreateVisit(girl1, man3);
+            Visit visit13 = CreateVisit(girl2, man3);
+            Visit visit14 = CreateVisit(girl2, man1);
             _dbContext.SaveChanges();
 
             Debug.WriteLine(visit1);

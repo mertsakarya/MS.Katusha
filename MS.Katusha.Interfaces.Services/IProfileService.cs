@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Web;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 
@@ -27,14 +28,12 @@ namespace MS.Katusha.Interfaces.Services
         void AddSearches(long profileId, LookingFor lookingFor);
 
         void MakeProfilePhoto(long profileId, Guid photoGuid);
-        void DeletePhoto(long profileId, Guid guid);
-        void AddPhoto(Photo photo);
-        Photo GetPhotoByGuid(Guid guid);
+        void DeletePhoto(long profileId, Guid guid, string pathToPhotos);
+        ViewDataUploadFilesResult AddPhoto(long profileId, string description, string pathToPhotos, HttpPostedFileBase hpf);
 
         IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20);
         void SendMessage(Conversation data);
         void ReadMessage(long id, Guid messageGuid);
-
         IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
     }
 }

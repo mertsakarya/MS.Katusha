@@ -34,9 +34,6 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<State, StateModel>();
             Mapper.CreateMap<StateModel, State>();
 
-            Mapper.CreateMap<User, UserModel>();
-            Mapper.CreateMap<UserModel, User>();
-
             Mapper.CreateMap<Visit, VisitModel>();
             Mapper.CreateMap<VisitModel, Visit>();
 

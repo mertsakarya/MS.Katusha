@@ -23,7 +23,7 @@
                  <li>Create a new
                      <ul>
                          <li>@Html.ActionLink("Girl profile", "Create", "Profiles", new { key = "Girl" }, null)</li>
-                         <li>@Html.ActionLink("Boy profile", "Create", "Profiles", new { key = "Boy" }, null)</li>
+                         <li>@Html.ActionLink("Man profile", "Create", "Profiles", new { key = "Man" }, null)</li>
                      </ul>
                  </li>
             }
@@ -31,63 +31,111 @@
     </ul>
 }
 <div class="search">
-@if (ViewBag.KatushaSearch != null && ViewBag.KatushaSearch.Total >= 0) {
-    var filters = ViewBag.KatushaSearch.Filters as NameValueCollection;
-    var faceting = ViewBag.KatushaSearch.FacetValues as IDictionary<string, IEnumerable<FacetValue>>;
-    <ul>
-        @foreach (var key in filters.AllKeys) {
-            <li>
-                @key
-                <ul>
-                    @foreach (var value in filters.GetValues(key)) {
-                        <li>
-                            @Html._LText(key, value) <a class="removeFacet" href="remove f.Key">[X]</a>
-                        </li>
+    @{
+        var model = ViewBag.KatushaSearchModel as ProfileModel ?? new ProfileModel();
+    }
+    <form id="searchForm" action="/Profiles/Men" method="get"> 
+        
+        <a href="#" onclick="document.getElementById('searchForm').action='/Profiles/Girls';document.getElementById('whereToSearch').innerText='Search in Girls';">Girls</a>
+        <a href="#" onclick="document.getElementById('searchForm').action='/Profiles/Men';document.getElementById('whereToSearch').innerText='Search in Men';">Men</a>
+        <h3 id="whereToSearch">Search in Men</h3>
+        <fieldset>
+            <div class="editor-label">@Html.LabelFor(_ => model.City)</div><div class="editor-field">@Html.EditorFor(_ => model.City)</div>
+            <div class="editor-label">@Html.LabelFor(_ => model.From)</div><div class="editor-field">@Html.EnumDropDownListFor(_ => model.From)</div>
+            <div class="editor-label">@Html.LabelFor(_ => model.EyeColor)</div><div class="editor-field">@Html.EnumDropDownListFor(_ => model.EyeColor)</div>
+            <input type="hidden" name="NewSearch" value="1"/>
+            <p>
+                <input type="submit" value="Search" />
+            </p>
+        </fieldset>
+    </form>
+    @if (ViewBag.KatushaSearch != null && ViewBag.KatushaSearch.Total >= 0) {
+        var filters = ViewBag.KatushaSearch.Filters as NameValueCollection;
+        var faceting = ViewBag.KatushaSearch.FacetValues as IDictionary<string, IEnumerable<FacetValue>>;
+        <script type="text/javascript">
+        
+            function RemoveSearchKey(key, value) {
+                var urlParams = {};
+                (function () {
+                    var e,
+                        a = /\+/g,  // Regex for replacing addition symbol with a space
+                        r = /([^&=]+)=?([^&]*)/g,
+                        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                        q = window.location.search.substring(1);
+                    while (e = r.exec(q))
+                        urlParams[d(e[1])] = d(e[2]);
+                })();
+                var qs = [];
+                for(var o in urlParams) {
+                    if (o != key && urlParams[o] != value) {
+                        qs.push(encodeURIComponent(o) + "=" + encodeURIComponent(urlParams[o]));
                     }
-                </ul>
-            </li>
-        }
-    </ul>
-    <hr />
-    <ul>            
-        @foreach (var f in faceting) {
-            <li>
-                @if (!(f.Key == "From" || f.Key == "City")) {
-                    @Html._R(String.Format("Profile.{0}.DisplayName", f.Key))
-                    <br />
-                } else {
-                    @f.Key
-                }    
-                <ul>
-                    @foreach (var fv in f.Value) {
-                        string value;
-                        if (f.Key == "City") {
-                            value = fv.Range;
-                        } else {
-                            string key;
-
-                            if (f.Key == "From") {
-                                key = "Country";
-                            } else {
-                                key = f.Key;
-                            }
-                            var lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
-                            value = Html._LText(key, lookupKey);
+                }
+                var queryString = qs.join("&");
+                if (queryString.length >= 0) {
+                    var i = location.href.indexOf("?");
+                    var l = location.href.substr(0, i);
+                    location = l + "?" + queryString;
+                }
+            }
+        </script>
+        <hr />
+        <ul>
+            @foreach (var key in filters.AllKeys) {
+                <li>
+                    @key
+                    <ul>
+                        @foreach (var value in filters.GetValues(key)) {
+                            byte constant;
+                            var result = !Byte.TryParse(value, out constant) ? Html._LText(key, value) : Html._LText(key, constant);
+                            <li>
+                                @result <a class="removeFacet" href="#" onclick="RemoveSearchKey('@key', '@value');">[X]</a>
+                            </li>
                         }
+                    </ul>
+                </li>
+            }
+        </ul>
+        <hr />
+        <ul>            
+            @foreach(var f in faceting) {
+                if (filters.Get(f.Key) == null) {
+                    <li>
+                        @if (!(f.Key == "From" || f.Key == "City")) {
+                            @Html._R(String.Format("Profile.{0}.DisplayName", f.Key))
+                            <br />
+                        } else {
+                            @f.Key
+                        }    
+                        <ul>
+                            @foreach (var fv in f.Value) {
+                                string value;
+                                if (f.Key == "City") {
+                                    value = fv.Range;
+                                } else {
+                                    string key;
 
-                        <li>
-                            <a href="@Html.SetFacet(f.Key, fv.Range)">
-                                @((String.IsNullOrWhiteSpace(value)) ? Html._R("NotFilled") : value)
-                            </a> 
-                            <span>(@fv.Count)</span>
-                        </li>
-                    }
-                </ul>
-               
-            </li>
-        }
-    </ul>
-}
+                                    if (f.Key == "From") {
+                                        key = "Country";
+                                    } else {
+                                        key = f.Key;
+                                    }
+                                    var lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
+                                    value = Html._LText(key, lookupKey);
+                                }
+                                <li>
+                                    <a href="@Html.SetFacet(f.Key, fv.Range)">
+                                        @((String.IsNullOrWhiteSpace(value)) ? Html._R("NotFilled") : value)
+                                    </a> 
+                                    <span>(@fv.Count)</span>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    }
 </div>
 
 <div>NEW GIRLS</div>

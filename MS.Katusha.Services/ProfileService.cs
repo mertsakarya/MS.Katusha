@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
+using ImageResizer;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Exceptions.Services;
@@ -102,7 +105,7 @@ namespace MS.Katusha.Services
             _userRepository.FullUpdate(user);
             _katushaCache.Delete("P:" + profile.Guid.ToString());
             _katushaCache.Delete("U:" + user.UserName);
-            _profileRepositoryRaven.Add(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State));
+            _profileRepositoryRaven.Add(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p=> p.Photos));
         }
 
         public void DeleteProfile(long profileId, bool force = false)
@@ -158,8 +161,7 @@ namespace MS.Katusha.Services
 
             _profileRepository.FullUpdate(dataProfile);
             _katushaCache.Delete("P:" + dataProfile.Guid.ToString());
-            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State));
-
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
         }
 
         public void DeleteCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.DeleteByProfileId(profileId, country); }
@@ -174,26 +176,79 @@ namespace MS.Katusha.Services
 
         public void AddSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.AddByProfileId(profileId, lookingFor); }
 
-        public void DeletePhoto(long profileId, Guid photoGuid)
+        public void MakeProfilePhoto(long profileId, Guid photoGuid)
+        {
+            var profile = _profileRepository.GetById(profileId, p => p.Photos);
+            if (profile == null) return;
+            if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
+                throw new HttpException(404, "Photo not found!");
+            profile.ProfilePhotoGuid = photoGuid;
+            _profileRepository.FullUpdate(profile);
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+        }
+
+        public ViewDataUploadFilesResult AddPhoto(long profileId, string description, string pathToPhotos, HttpPostedFileBase hpf)
+        {
+            if (hpf.ContentLength <= 0) return null;
+
+            var profile = _profileRepository.GetById(profileId);
+            if (profile == null) return null;
+            var guid = Guid.NewGuid();
+            var photo = new Photo { Description = description, ProfileId = profileId, FileName = hpf.FileName, ContentType = "image/png", Guid = guid };
+
+            if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
+                profile.ProfilePhotoGuid = photo.Guid;
+                _profileRepository.FullUpdate(profile);
+            }
+            _photoRepository.Add(photo, photo.Guid);
+
+            var versions = new Dictionary<byte, string> {
+                {(byte)PhotoType.Thumbnail, "width=80&height=106&crop=auto&format=png"}, 
+                {(byte)PhotoType.Medium, "maxwidth=400&maxheight=530&format=png"},
+                {(byte)PhotoType.Large, "maxwidth=800&maxheight=1060&format=png"},
+                {(byte)PhotoType.Original, "format=png"}
+            };
+
+            if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
+
+            foreach (var suffix in versions.Keys) {
+                var fileName = Path.Combine(pathToPhotos, suffix.ToString() + "-" + guid.ToString());
+                ImageBuilder.Current.Build(hpf, fileName, new ResizeSettings(versions[suffix]), false, true);
+            }
+
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+
+            var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
+            return new ViewDataUploadFilesResult {
+                name = hpf.FileName,
+                size = hpf.ContentLength,
+                type = hpf.ContentType,
+                url = String.Format("/Photos/{1}-{0}.png", guid, (byte)PhotoType.Large),
+                delete_url = String.Format("/Profiles/DeletePhoto/{0}/{1}", id, guid),
+                delete_type = "GET",
+                thumbnail_url = String.Format("/Photos/{1}-{0}.png", guid, (byte)PhotoType.Thumbnail) //@"data:image/png;base64," + EncodeBytes(smallFileContents)
+            };
+        }
+        public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
             var profile = _profileRepository.GetById(profileId, p => p.Photos);
             if (profile == null) return;
             if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
                 throw new HttpException(404, "Photo not found!");
             var entity = _photoRepository.GetByGuid(photoGuid);
-            if (entity != null) _photoRepository.Delete(entity);
+            if (entity != null) {
+                _photoRepository.Delete(entity);
+                for (byte i = 0; i < (byte)PhotoType.MaxPhotoType; i++)
+                    File.Delete(String.Format("{0}{1}-{2}.png", pathToPhotos, i, photoGuid));
+            }
             if (profile.ProfilePhotoGuid == photoGuid) {
                 profile.ProfilePhotoGuid = Guid.Empty;
                 _profileRepository.FullUpdate(profile);
-                _katushaCache.Delete("P:" + profile.Guid.ToString());
             }
-            //TODO:DELETE files  Original and thumbnail           System.IO.File.Delete(HttpContext.Server.MapPath("~/Photos/") + ((_type == PhotoType.Original) ? "O" : "T") + _photo.Guid.ToString() + ".jpg");
-
-        }
-
-        public Photo GetPhotoByGuid(Guid photoGuid) //FROM DATABASE
-        {
-            return _photoRepository.GetByGuid(photoGuid);
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
         }
 
         public IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
@@ -220,27 +275,5 @@ namespace MS.Katusha.Services
             return items;
         }
 
-        public void MakeProfilePhoto(long profileId, Guid photoGuid)
-        {
-            var profile = _profileRepository.GetById(profileId, p=>p.Photos);
-            if (profile == null) return;
-            if(!profile.Photos.Any(photo => photo.Guid == photoGuid))
-                throw new HttpException(404, "Photo not found!");
-            profile.ProfilePhotoGuid = photoGuid;
-            _profileRepository.FullUpdate(profile);
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-        }
-
-        public void AddPhoto(Photo photo)
-        {
-            var profile = _profileRepository.GetById(photo.ProfileId);
-            if (profile == null) return;
-            if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
-                profile.ProfilePhotoGuid = photo.Guid;
-                _profileRepository.FullUpdate(profile);
-            }
-            _photoRepository.Add(photo, photo.Guid);
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-        }
     }
 }

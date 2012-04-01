@@ -33,7 +33,7 @@ namespace MS.Katusha.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            var RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["RootFolder"] + "\\MS.Katusha.Web\\App_Data\\MS.Katusha.RavenDB" };
+            var RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["Root_Folder"] + @"App_Data\MS.Katusha.RavenDB" };
             RavenStore.Initialize();
             _repositoryProfileRavenDB = new ProfileRepositoryRavenDB(RavenStore);
 
@@ -50,16 +50,16 @@ namespace MS.Katusha.Test
         }
 
         [TestMethod]
-        public void TestBoy()
+        public void TestMan()
         {
             var bs = _repositoryProfileDb.GetAll();
             foreach (var b in bs)
                 _repositoryProfileRavenDB.Add(b);
-            var boy = _repositoryProfileDb.GetById(2, p => p.User, p => p.Photos, p => p.LanguagesSpoken, p => p.Searches,
+            var man = _repositoryProfileDb.GetById(2, p => p.User, p => p.Photos, p => p.LanguagesSpoken, p => p.Searches,
                                                p => p.CountriesToVisit, p=> p.User, p=>p.State);
-            Debug.WriteLine(String.Format("Found User:\r\n {0}", boy.User));
-            var boyRavenDB = _repositoryProfileRavenDB.GetById(2);
-            Debug.WriteLine(String.Format("Found User:\r\n {0}", boyRavenDB));
+            Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
+            var manRavenDB = _repositoryProfileRavenDB.GetById(2);
+            Debug.WriteLine(String.Format("Found User:\r\n {0}", manRavenDB));
             var girls = _repositoryProfileRavenDB.Query(g => g.BreastSize == (byte)BreastSize.Large, null, p => p.Name).ToArray();
             Guid guid = Guid.Empty;
             foreach (var girl in girls)

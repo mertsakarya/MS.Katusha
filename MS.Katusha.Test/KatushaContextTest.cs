@@ -31,18 +31,18 @@ namespace MS.Katusha.Test
         }
 
         [TestMethod]
-        public void ShouldBeAbleToFindBoy()
+        public void ShouldBeAbleToFindMan()
         {
 
-            var boy = _dbContext.Profiles.Find(1);
-            var photos = (from photo in _dbContext.Photos where photo.ProfileId == boy.Id select photo);
+            var man = _dbContext.Profiles.Find(1);
+            var photos = (from photo in _dbContext.Photos where photo.ProfileId == man.Id select photo);
             foreach (var photo in photos)
-                boy.Photos.Add(photo);
+                man.Photos.Add(photo);
 
-            var boys = (_dbContext.Profiles.Where(b => b.LanguagesSpoken.Count > 0));
+            var men = (_dbContext.Profiles.Where(b => b.LanguagesSpoken.Count > 0));
             var girls = (from b in _dbContext.Profiles select b);
-            Debug.WriteLine(String.Format("Found {0} boy and {1} photos, out of {2} boys and {3} girls.", boy.Id,
-                                          boy.Photos.Count, boys.Count(), girls.Count()));
+            Debug.WriteLine(String.Format("Found {0} man and {1} photos, out of {2} men and {3} girls.", man.Id,
+                                          man.Photos.Count, men.Count(), girls.Count()));
         }
     }
 }

@@ -20,6 +20,7 @@
             @Html.Photo(profile.ProfilePhotoGuid, (Sex)profile.Gender, PhotoType.Thumbnail)
         </a>
         <div style="border: 1 solid">
+            @profile.Name<br/>
             @(dateString)<br/>
             @(visit.VisitCount) Time(s)
         </div>

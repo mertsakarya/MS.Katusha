@@ -356,5 +356,7 @@
 	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10	9
 	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9	10
 
-	en	PhotoType		Original	Original			1	1
-	en	PhotoType		Thumbnail	Thumbnail			2	2
+	en	PhotoType		Original	Original			1	0
+	en	PhotoType		Thumbnail	Thumbnail			2	1
+	en	PhotoType		Medium		Medium				3	2
+	en	PhotoType		Large		Large				4	3

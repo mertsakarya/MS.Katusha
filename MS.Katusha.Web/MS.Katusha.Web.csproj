@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PackageAsSingleFile>true</PackageAsSingleFile>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
     <PublishDatabaseSettings>
       <Objects>
         <ObjectGroup Name="DefaultConnection-Deployment" Order="1">
@@ -44,6 +44,7 @@
       </Objects>
     </PublishDatabaseSettings>
     <PublishDatabases>false</PublishDatabases>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -91,6 +92,12 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>..\packages\RavenDB-Embedded.1.0.726-Unstable\lib\net40\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\packages\ImageResizer.Mvc.3.1.5\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\packages\RavenDB-Embedded.1.0.726-Unstable\lib\net40\Lucene.Net.dll</HintPath>
@@ -246,8 +253,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Helpers\GenderHelper.cs" />
-    <Compile Include="Models\PageModel.cs" />
-    <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
@@ -267,7 +272,6 @@
     <Compile Include="Models\Entities\ProfileModel.cs" />
     <Compile Include="Models\Entities\SearchingForModel.cs" />
     <Compile Include="Models\Entities\StateModel.cs" />
-    <Compile Include="Models\Entities\UserModel.cs" />
     <Compile Include="Models\Entities\VisitModel.cs" />
     <Compile Include="Models\PagedListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -331,13 +335,13 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\close.gif" />
+    <Content Include="Images\close.gif" />
     <Content Include="Images\Girl.jpg" />
     <Content Include="Images\Girlsmall.jpg" />
-    <Content Include="Images\Boy.jpg" />
-    <Content Include="Images\Boysmall.jpg" />
-    <Content Include="Raven.Studio.xap">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Images\Man.jpg" />
+    <Content Include="Images\Mansmall.jpg" />
+    <Content Include="Images\profile.gif" />
+    <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.js" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.min.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -398,7 +402,6 @@
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\MS.Katusha.RavenDB\IndexDefinitions\TemporaryIndexDefinitionsAsSource\" />
     <Folder Include="App_Data\MS.Katusha.RavenDB\temp\" />
-    <Folder Include="Images\Fcbk\" />
     <Folder Include="Photos\" />
   </ItemGroup>
   <ItemGroup>
@@ -480,7 +483,7 @@
     <None Include="App_Data\MS.Katusha.RavenDB\logs\RVNres00001.jrs" />
     <None Include="App_Data\MS.Katusha.RavenDB\logs\RVNres00002.jrs" />
     <None Include="App_Data\MS.Katusha.RavenDB\system\RVN.chk" />
-    <None Include="Content\ConfigurationData.csv" />
+    <Content Include="ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
     <Content Include="Views\Profiles\Photos.cshtml" />
     <Content Include="Views\Profiles\MyMessages.cshtml" />

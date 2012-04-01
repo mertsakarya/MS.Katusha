@@ -45,7 +45,12 @@ namespace MS.Katusha.Web.Helpers
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
                 list.Add(new SelectListItem {Text = CultureHelper._R("EmptyText"), Value = "0"});
-            list.AddRange(dict.Select(item => new SelectListItem {Text = item.Value, Value = item.Key, Selected = item.Key.Equals(metadata.Model)}));
+            foreach(var item in dict) {
+                var sli = new SelectListItem() {Text = item.Value, Value = item.Key};
+                if (metadata.Model != null && item.Key == metadata.Model.ToString())
+                    sli.Selected = true;
+                list.Add(sli);
+            }
             return htmlHelper.DropDownListFor(expression, list, htmlAttributes);
         }
  
@@ -102,20 +107,24 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "")
         {
             var tb = new TagBuilder("img");
-            var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
-            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
-            tb.Attributes.Add("src", (photoGuid == Guid.Empty) ? String.Format("/Images/{1}{0}.jpg", size, sex) : String.Format("/Profiles/Photo/{0}/{1}", photoGuid, size));
+            var str = GetPhotoPath(photoGuid, photoType, gender);
+            tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
             return htmlHelper.Raw(tb.ToString());
         }
 
-        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original)
+        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Large)
         {
-            var size = (photoType == PhotoType.Thumbnail) ? "small" : "";
-            var sex = (gender == Sex.Male) ? "Boy" : "Girl";
-            var str = (photoGuid == Guid.Empty) ? String.Format("/Images/{1}{0}.jpg", size, sex) : String.Format("/Profiles/Photo/{0}/{1}", photoGuid, size);
-            return str;
+            return GetPhotoPath(photoGuid, photoType, gender);
+        }
+
+        private static string GetPhotoPath(Guid photoGuid, PhotoType photoType, Sex gender)
+        {
+            var sex = (gender == Sex.Male) ? "Man" : "Girl";
+            if (photoGuid == Guid.Empty)
+                return String.Format("/Images/{1}{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""), sex);
+            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte)photoType);
         }
 
         public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)

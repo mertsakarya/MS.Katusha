@@ -1,5 +1,7 @@
+using System;
 using System.Configuration;
 using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -24,10 +26,13 @@ namespace MS.Katusha.Web.Helpers
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
         public static DocumentStore RavenStore;
+        public static string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
 
         public static void RegisterRaven()
         {
-            RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["RootFolder"] + "App_Data\\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true};
+            //RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["Root_Folder"] + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
+            //RavenStore = new EmbeddableDocumentStore { DataDirectory = Environment.GetEnvironmentVariable("MS.KATUSHA_HOME") + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
+            RavenStore = new EmbeddableDocumentStore { DataDirectory = RootFolder + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
             RavenStore.Initialize();
             //IndexCreation.CreateIndexes(Assembly.GetCallingAssembly(), RavenStore);
 
@@ -49,7 +54,8 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<SearchService>().As<ISearchService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
 
-            builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
+            builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
+            //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
             builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IRepository<CacheObject>>().InstancePerHttpRequest();
             builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
             

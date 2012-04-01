@@ -78,7 +78,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoyRepositoryTest.cs" />
+    <Compile Include="ManRepositoryTest.cs" />
     <Compile Include="RepositoryRavenDBTest.cs" />
     <Compile Include="KatushaContextInitializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

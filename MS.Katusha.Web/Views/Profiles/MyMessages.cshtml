@@ -24,5 +24,5 @@
 @Html.PagedListPager(Model.List, page => Url.Action("MyMessages", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 
 <div>
-    @Html.ActionLink("Back to List", (ViewBag.KatushaProfile.Gender == (byte)Sex.Male ? "Girls" : "Boys"))
+    @Html.ActionLink("Back to List", (ViewBag.KatushaProfile.Gender == (byte)Sex.Male ? "Girls" : "Men"))
 </div>

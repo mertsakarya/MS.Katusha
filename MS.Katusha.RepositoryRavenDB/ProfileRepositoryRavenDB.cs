@@ -45,8 +45,10 @@ namespace MS.Katusha.Repositories.RavenDB
                 var facets = new List<Facet> {
                                                  new Facet {Name = "From"},
                                                  new Facet {Name = "City"},
+                                                 new Facet {Name = "Gender"},
                                                  new Facet {Name = "BodyBuild"},
                                                  new Facet {Name = "HairColor"},
+                                                 new Facet {Name = "EyeColor"},
                                                  new Facet {Name = "Smokes"},
                                                  new Facet {Name = "Alcohol"},
                                                  new Facet {Name = "Religion"},
@@ -102,8 +104,10 @@ namespace MS.Katusha.Repositories.RavenDB
                                     { 
                                         profile.From,
                                         profile.City,
+                                        profile.Gender,
                                         profile.BodyBuild,
                                         profile.HairColor,
+                                        profile.EyeColor,
                                         profile.Smokes,
                                         profile.Alcohol,
                                         profile.Religion,
@@ -116,7 +120,7 @@ namespace MS.Katusha.Repositories.RavenDB
                                         profile.LanguagesSpoken,
                                         profile.CountriesToVisit
                                     }"
-                                                                            });
+                                                        });
                 //var facetResults = s.Query<Profile>("ProfileFacetsIndex") 
                 //.Where(x => x.Cost >= 100 && x.Cost <= 300 ) 
                 //.ToFacets("facets/CameraFacets");

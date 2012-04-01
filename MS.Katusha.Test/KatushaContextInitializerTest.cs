@@ -34,27 +34,27 @@ namespace MS.Katusha.Test
             user = userRepository.Add(user);
             _dbContext.SaveChanges();
 
-            if (gender == Sex.Male) CreateSampleBoy(user, user.Guid);
+            if (gender == Sex.Male) CreateSampleMan(user, user.Guid);
             else CreateSampleGirl(user, user.Guid);
             Debug.WriteLine(user);
         }
 
-        private void CreateSampleBoy(User user, Guid guid)
+        private void CreateSampleMan(User user, Guid guid)
         {
             long id = user.Id;
             var now = DateTime.Now.ToUniversalTime();
-            var boyRepository = new ProfileRepositoryDB(_dbContext);
+            var manRepository = new ProfileRepositoryDB(_dbContext);
             var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
             var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
             var photoRepository = new PhotoRepositoryDB(_dbContext);
             var searchingForRepository = new SearchingForRepositoryDB(_dbContext);
 
-            var boy = new Profile
+            var man = new Profile
             {
                 Gender = user.Gender,
                 UserId = user.Id,
-                Description = "TestBoy" + id.ToString(CultureInfo.InvariantCulture),
+                Description = "TestMan" + id.ToString(CultureInfo.InvariantCulture),
                 DickSize = (byte)DickSize.Medium,
                 DickThickness = (byte)DickThickness.Thick,
                 Height = 170,
@@ -64,23 +64,23 @@ namespace MS.Katusha.Test
                 From = (byte)Country.Turkey,
             };
 
-            boy = boyRepository.Add(boy, guid);
+            man = manRepository.Add(man, guid);
             _dbContext.SaveChanges();
 
-            boy.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = boy.Id, Language = (byte)Language.English }));
-            boy.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = boy.Id, Language = (byte)Language.Russian }));
-            boy.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = boy.Id, Language = (byte)Language.Turkish }));
-            boy.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = boy.Id, Search = (byte)LookingFor.LongTimeRelationship }));
-            boy.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = boy.Id, Search = (byte)LookingFor.Friend }));
-            boy.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = boy.Id, Search = (byte)LookingFor.OneNight }));
-            boy.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = boy.Id, Search = (byte)LookingFor.Sex }));
-            var photo = photoRepository.Add(new Photo { ProfileId = boy.Id, Description = "Açıklama" + id.ToString(CultureInfo.InvariantCulture) });
-            var photo2 = photoRepository.Add(new Photo { ProfileId = boy.Id, Description = "Açıklama2" + id.ToString(CultureInfo.InvariantCulture) });
-            boy.Photos.Add(photo);
-            boy.Photos.Add(photo2);
+            man.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = man.Id, Language = (byte)Language.English }));
+            man.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = man.Id, Language = (byte)Language.Russian }));
+            man.LanguagesSpoken.Add(languagesSpokenRepository.Add(new LanguagesSpoken { ProfileId = man.Id, Language = (byte)Language.Turkish }));
+            man.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = man.Id, Search = (byte)LookingFor.LongTimeRelationship }));
+            man.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = man.Id, Search = (byte)LookingFor.Friend }));
+            man.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = man.Id, Search = (byte)LookingFor.OneNight }));
+            man.Searches.Add(searchingForRepository.Add(new SearchingFor { ProfileId = man.Id, Search = (byte)LookingFor.Sex }));
+            var photo = photoRepository.Add(new Photo { ProfileId = man.Id, Description = "Açıklama" + id.ToString(CultureInfo.InvariantCulture) });
+            var photo2 = photoRepository.Add(new Photo { ProfileId = man.Id, Description = "Açıklama2" + id.ToString(CultureInfo.InvariantCulture) });
+            man.Photos.Add(photo);
+            man.Photos.Add(photo2);
 
-            boy.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = boy.Id, Country = (byte)Country.Turkey }));
-            boy.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = boy.Id, Country = (byte)Country.Ukraine }));
+            man.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = man.Id, Country = (byte)Country.Turkey }));
+            man.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = man.Id, Country = (byte)Country.Ukraine }));
             _dbContext.SaveChanges();
 
             var state = new State
@@ -90,8 +90,8 @@ namespace MS.Katusha.Test
                 Status = (byte)Status.Online,
                 MembershipType = (byte)MembershipType.Normal,
                 ModifiedDate = now,
-                Profile = boy,
-                ProfileId = boy.Id
+                Profile = man,
+                ProfileId = man.Id
             };
 
             stateRepository.Add(state);

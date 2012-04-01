@@ -43,7 +43,7 @@ namespace MS.Katusha.Services
             //    status = KatushaMembershipCreateStatus.DuplicateEmail;
             //    return null;
             //}
-            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100).ToUniversalTime()};
+            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100).ToUniversalTime(), EmailValidated = isApproved};
             _repository.Add(user);
             _repository.Save();
             SendConfirmationMail(user);

@@ -1,4 +1,4 @@
-namespace MS.Katusha.Web.Models
+namespace MS.Katusha.Domain.Entities
 {
     public class ViewDataUploadFilesResult
     {
