@@ -109,19 +109,32 @@
                         }    
                         <ul>
                             @foreach (var fv in f.Value) {
-                                string value;
-                                if (f.Key == "City") {
-                                    value = fv.Range;
-                                } else {
-                                    string key;
-
-                                    if (f.Key == "From") {
-                                        key = "Country";
-                                    } else {
-                                        key = f.Key;
-                                    }
-                                    var lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
-                                    value = Html._LText(key, lookupKey);
+                                string value = "";
+                                switch (f.Key) {
+                                    case "City": 
+                                        value = fv.Range; 
+                                        break;
+                                    case "From":
+                                    case "Gender":
+                                    case "BodyBuild":
+                                    case "HairColor":
+                                    case "EyeColor":
+                                    case "Smokes":
+                                    case "Alcohol":
+                                    case "Religion":
+                                    case "DickSize":
+                                    case "DickThickness":
+                                    case "BreastSize":
+                                        string key = (f.Key == "From") ? "Country" : f.Key;
+                                        var lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
+                                        value = Html._LText(key, lookupKey);
+                                        break;
+                                    case "Searches":
+                                    case "LanguagesSpoken":
+                                    case "CountriesToVisit":
+                                        break;
+                                    default:
+                                        break;
                                 }
                                 <li>
                                     <a href="@Html.SetFacet(f.Key, fv.Range)">

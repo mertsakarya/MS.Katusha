@@ -21,6 +21,7 @@ using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
+using MS.Katusha.Web.Helpers.Generators;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
@@ -275,6 +276,17 @@ namespace MS.Katusha.Web.Controllers
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
             _profileService.MakeProfilePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
+        }
+
+        [HttpGet]
+        public void Generate(string key)
+        {
+            int count;
+            if (int.TryParse(key, out count)) {
+                var generator = new SampleGenerator(_profileService, UserService);
+                generator.CreateSamples(count);
+            }
+            Response.Write("DONE!");
         }
 
         [HttpPost, ValidateInput(false)]

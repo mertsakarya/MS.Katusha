@@ -54,7 +54,6 @@ namespace MS.Katusha.Repositories.RavenDB
                                                  new Facet {Name = "Religion"},
                                                  new Facet {Name = "DickSize"},
                                                  new Facet {Name = "DickThickness"},
-                                                 new Facet {Name = "Alcohol"},
                                                  new Facet {Name = "BreastSize"},
                                                  new Facet {Name = "Searches"},
                                                  new Facet {Name = "LanguagesSpoken"},

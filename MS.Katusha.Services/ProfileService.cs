@@ -81,7 +81,7 @@ namespace MS.Katusha.Services
         public void Visit(Profile visitorProfile, Profile profile)
         {
             if (visitorProfile != null && profile.Id != visitorProfile.Id) {
-                var visit = _visitRepository.Single(p => p.ProfileId == profile.Id);
+                var visit = _visitRepository.SingleAttached(p => p.ProfileId == profile.Id);
                 if (visit == null) {
                     _visitRepository.Add(new Visit {ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = 1});
                 }  else {
@@ -100,7 +100,8 @@ namespace MS.Katusha.Services
                 throw new KatushaGenderNotExistsException(profile);
             _profileRepository.Add(profile);
             _profileRepository.Save();
-            var user = _userRepository.GetById(profile.UserId);
+            
+            var user = _userRepository.SingleAttached(p => p.Id == profile.UserId);
             user.Gender = profile.Gender;
             _userRepository.FullUpdate(user);
             _katushaCache.Delete("P:" + profile.Guid.ToString());
@@ -123,7 +124,7 @@ namespace MS.Katusha.Services
             } else {
                 _profileRepository.SoftDelete(profile);
             }
-            var user = _userRepository.GetByGuid(profile.Guid);
+            var user = _userRepository.SingleAttached(p=> p.Guid == profile.Guid);
             user.Gender = 0;
             _userRepository.FullUpdate(user);
             _katushaCache.Delete("P:"+profile.Guid.ToString());
@@ -192,7 +193,7 @@ namespace MS.Katusha.Services
         {
             if (hpf.ContentLength <= 0) return null;
 
-            var profile = _profileRepository.GetById(profileId);
+            var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
             if (profile == null) return null;
             var guid = Guid.NewGuid();
             var photo = new Photo { Description = description, ProfileId = profileId, FileName = hpf.FileName, ContentType = "image/png", Guid = guid };
@@ -231,6 +232,39 @@ namespace MS.Katusha.Services
                 thumbnail_url = String.Format("/Photos/{1}-{0}.png", guid, (byte)PhotoType.Thumbnail) //@"data:image/png;base64," + EncodeBytes(smallFileContents)
             };
         }
+
+        public void AddSamplePhoto(long profileId, string description, string pathToPhotos, string fileName, string filePath)
+        {
+            ///// INTERNAL USE /////
+            var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
+            if (profile == null) return;
+            var guid = Guid.NewGuid();
+            var photo = new Photo { Description = description, ProfileId = profileId, FileName = fileName, ContentType = "image/png", Guid = guid };
+
+            if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
+                profile.ProfilePhotoGuid = photo.Guid;
+                _profileRepository.FullUpdate(profile);
+            }
+            _photoRepository.Add(photo, photo.Guid);
+
+            var versions = new Dictionary<byte, string> {
+                {(byte)PhotoType.Thumbnail, "width=80&height=106&crop=auto&format=png"}, 
+                {(byte)PhotoType.Medium, "maxwidth=400&maxheight=530&format=png"},
+                {(byte)PhotoType.Large, "maxwidth=800&maxheight=1060&format=png"},
+                {(byte)PhotoType.Original, "format=png"}
+            };
+
+            if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
+
+            foreach (var suffix in versions.Keys) {
+                var fn = Path.Combine(pathToPhotos, suffix.ToString() + "-" + guid.ToString());
+                ImageBuilder.Current.Build(filePath, fn, new ResizeSettings(versions[suffix]), false, true);
+            }
+
+            _katushaCache.Delete("P:" + profile.Guid.ToString());
+            _profileRepositoryRaven.FullUpdate(GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+        }
+
         public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
             var profile = _profileRepository.GetById(profileId, p => p.Photos);
@@ -263,7 +297,7 @@ namespace MS.Katusha.Services
 
         public void ReadMessage(long profileId, Guid messageGuid)
         {
-            var message = _converstaionRepository.Single(p => p.Guid == messageGuid && p.ToId == profileId);
+            var message = _converstaionRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (message == null) return;
             message.ReadDate = DateTime.Now.ToUniversalTime();
             _converstaionRepository.FullUpdate(message);

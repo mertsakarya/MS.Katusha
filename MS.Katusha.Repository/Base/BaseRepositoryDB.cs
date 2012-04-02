@@ -107,6 +107,7 @@ namespace MS.Katusha.Repositories.DB.Base
             logger.Info(String.Format("FullUpdate<{0}>({1})", typeof(T).Name, entity));
 #endif
             DbContext.Entry(entity).State = EntityState.Modified;
+            //DbContext.Entry(oldEntity).CurrentValues.SetValues(newEntity);
             var ent = RepositoryHelper.Update(DbContext, entity);
             Save();
             return ent;

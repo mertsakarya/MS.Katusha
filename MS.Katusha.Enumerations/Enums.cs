@@ -1,23 +1,23 @@
 namespace MS.Katusha.Enumerations
 {
-    public enum Sex : byte { Male = 1, Female }
+    public enum Sex : byte { Male = 1, Female = 2, MAX = 2 }
     public enum Status : byte { Online = 1, Away, Offline }
     public enum MembershipType : byte { Normal = 1, Gold = 2, Platinium = 3 }
     public enum Existance : byte { Active = 1, Expired = 2 }
-    public enum BreastSize : byte { Small = 1, Medium, Large, ExtraLarge }
-    public enum DickSize : byte { Small = 1, Medium, Large, ExtraLarge }
-    public enum DickThickness : byte { Narrow = 1, Wide, Thick, VeryThick }
-    public enum Language : byte { Turkish = 1, Russian, English, MaxLanguage = 3, DefaultLanguage = English }
-    public enum Country : byte { Turkey = 1, Ukraine, Russia, UnitedStates }
+    public enum BreastSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
+    public enum DickSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
+    public enum DickThickness : byte { Narrow = 1, Wide = 2, Thick = 3, VeryThick = 4, MAX = 4 }
+    public enum Language : byte { Turkish = 1, Russian = 2, English = 3, MAX = 3, DefaultLanguage = English }
+    public enum Country : byte { Turkey = 1, Ukraine = 1, Russia = 2, UnitedStates = 3, MAX = 3 }
 
-    public enum BodyBuild : byte { Thin = 1, Fit, Average, AboveAverage, Overweight }
-    public enum EyeColor : byte { Black = 1, Hazel, Brown, Green, Blue, Gray, Red }
-    public enum HairColor : byte { Brunette = 1, Blonde, Scarlett, Chestnut }
-    public enum Smokes : byte { Smokes = 1, DoesntSmoke }
-    public enum Alcohol : byte { No = 1, Sometimes, Yes }
-    public enum Religion : byte { Christian = 1, Muslim, Jewish, Hindu, Buddhist, Atheist, Agnostic, Deist, Other }
+    public enum BodyBuild : byte { Thin = 1, Fit = 2, Average = 3, AboveAverage = 4, Overweight = 5, MAX = 5 }
+    public enum EyeColor : byte { Black = 1, Hazel = 2, Brown = 3, Green = 4, Blue = 5, Gray = 6, Red = 7, MAX = 7 }
+    public enum HairColor : byte { Brunette = 1, Blonde = 2, Scarlett = 3, Chestnut = 4, MAX = 4 }
+    public enum Smokes : byte { Smokes = 1, DoesntSmoke = 2, MAX = 2 }
+    public enum Alcohol : byte { No = 1, Sometimes = 2, Yes = 3, MAX = 3 }
+    public enum Religion : byte { Christian = 1, Muslim = 2, Jewish = 3, Hindu = 4, Buddhist = 5, Atheist = 6, Agnostic = 7, Deist = 8, Other = 9, MAX = 9 }
 
-    public enum LookingFor : byte { Friend = 1, Sex, OneNight, LongTimeRelationship }
+    public enum LookingFor : byte { Friend = 1, Sex = 2, OneNight = 3, LongTimeRelationship = 4, MAX = 4 }
 
     public enum KatushaMembershipCreateStatus : byte { Success = 1, DuplicateUserName, DuplicateEmail, InvalidPassword, InvalidEmail, InvalidAnswer, InvalidQuestion, InvalidUserName, ProviderError, UserRejected }
 

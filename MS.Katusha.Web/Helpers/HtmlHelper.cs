@@ -130,7 +130,19 @@ namespace MS.Katusha.Web.Helpers
         public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)
         {
             var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.RawUrl;
-            return url + (((url.IndexOf('?')) >= 0) ? "&" : "?") + key + "=" + ((String.IsNullOrWhiteSpace(value))? "Empty" : value);
+            var qs = htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString;
+            var ns = "&NewSearch=1";
+            var i = url.IndexOf('?');
+            if (i >= 0)
+                url = url.Substring(0, i + 1);
+            foreach(var k in qs.AllKeys) {
+                if (k != "NewSearch") {
+                    var v = qs.Get(k);
+                    if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
+                        url += k + "=" + v + "&";
+                }
+            }
+            return url + key + "=" + ((String.IsNullOrWhiteSpace(value))? "Empty" : value);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)

@@ -99,7 +99,7 @@ namespace MS.Katusha.Infrastructure
                     }
                 }
                 language = (byte)(lb + (byte)ll);
-                if (language <= 0 || language > (byte)Language.MaxLanguage) {
+                if (language <= 0 || language > (byte)Language.MAX) {
                     language = 255;
                     return String.Format("LANGUAGE ERROR: {0} {1} {2}", values[0], values[1], values[2]);
                 }

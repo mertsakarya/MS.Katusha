@@ -254,6 +254,8 @@
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Helpers\GenderHelper.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\Generators\GeneratorHelper.cs" />
+    <Compile Include="Helpers\Generators\UserGenerator.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\DependencyHelper.cs" />

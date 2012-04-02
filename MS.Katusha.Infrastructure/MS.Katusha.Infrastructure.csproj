@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -74,6 +78,10 @@
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
       <Name>MS.Katusha.Interfaces.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
+      <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
+      <Name>MS.Katusha.Interfaces.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
       <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
