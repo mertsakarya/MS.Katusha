@@ -17,6 +17,9 @@ namespace MS.Katusha.Enumerations
     public enum Alcohol : byte { No = 1, Sometimes = 2, Yes = 3, MAX = 3 }
     public enum Religion : byte { Christian = 1, Muslim = 2, Jewish = 3, Hindu = 4, Buddhist = 5, Atheist = 6, Agnostic = 7, Deist = 8, Other = 9, MAX = 9 }
 
+    public enum Age : byte {LessThan18 = 1, Between18And25 = 2, Between25And30 = 3, Between30And35 = 4, Between35And40 = 5, Between40And45 = 6, Between45And50 = 7, Between50And55 = 8, Between55And60 = 9, Between60And70 = 10, After70 = 11, MAX = 11}
+    public enum Height : byte { LessThan140 = 1, Between140And150 = 2, Between150And160 = 3, Between160And170 = 4, etween170And180 = 5, Between180And190 = 6, Between190And200 = 7, Between200And210 = 8, After210 = 9, MAX = 9 }
+    
     public enum LookingFor : byte { Friend = 1, Sex = 2, OneNight = 3, LongTimeRelationship = 4, MAX = 4 }
 
     public enum KatushaMembershipCreateStatus : byte { Success = 1, DuplicateUserName, DuplicateEmail, InvalidPassword, InvalidEmail, InvalidAnswer, InvalidQuestion, InvalidUserName, ProviderError, UserRejected }

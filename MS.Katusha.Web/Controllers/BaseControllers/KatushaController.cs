@@ -17,7 +17,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
     {
         private readonly ISearchService _searchService;
         public User KatushaUser { get; set; }
-        public SearchResult KatushaSearch { get; set; }
         public Profile KatushaProfile { get; set; }
 
         public Sex Gender { get; set; }
@@ -48,24 +47,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
-            var queryString = filterContext.RequestContext.HttpContext.Request.QueryString;
-            var isNewSearch = (queryString.Get("NewSearch") != null);
-            var qs = new NameValueCollection();
-            foreach (var key in queryString.AllKeys) {
-                if (key == "NewSearch") continue;
-                var value = queryString[key];
-                if (isNewSearch) {
-                    if (!(String.IsNullOrEmpty(value) || value == "0"))
-                        qs.Add(key, value);
-                } else {
-                    qs.Add(key, value);
-                }
-            }
-            var sex = RouteData.Values["action"].ToString().ToLowerInvariant() == "girls" ? Sex.Female : Sex.Male;
-            int total;
-            KatushaSearch = _searchService.Search(qs, sex, 1, 20, out total);
-            ViewBag.KatushaSearch = KatushaSearch;
-            ViewBag.KatushaSearchModel = (total >= 0) ? Mapper.Map<ProfileModel>(KatushaSearch.SearchProfile) : null;
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

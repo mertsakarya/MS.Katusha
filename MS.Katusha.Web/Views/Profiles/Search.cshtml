@@ -1,0 +1,26 @@
+@using MS.Katusha.Enumerations
+@model SearchResultModel
+@{
+    ViewBag.Title = "Search";
+    var model = Model.Profiles;
+    var action  = ViewContext.RouteData.Values["Action"].ToString();
+}
+
+<h2>Search</h2>   
+@if (model != null) {
+    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        @foreach (var profile in model) {
+            var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), Html._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
+            var url = Url.Action("Show", new {key = val});
+            <a title="@title" href="@url" rel="gallery">
+                @Html.Photo(profile.ProfilePhotoGuid, profile.Gender, PhotoType.Thumbnail)
+            </a>
+        }
+
+    </div>
+    @Html.PagedListPager(model, page => Url.Action(action, new {page}), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
+<div>
+    @Html.ActionLink("Back to List",action)
+</div>

@@ -1,0 +1,102 @@
+@using MS.Katusha.Enumerations
+@model SearchResultModel
+<div class="search">
+    @if (Model != null && Model.Total >= 0) {
+        var criteria = Model.SearchCriteria;
+        var selectedFieldsList = criteria.GetSelectedFieldsList();
+        <script type="text/javascript">
+            function RemoveSearchKey(key, value) {
+                var urlParams = {};
+                (function () {
+                    var e,
+                        a = /\+/g,  // Regex for replacing addition symbol with a space
+                        r = /([^&=]+)=?([^&]*)/g,
+                        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                        q = window.location.search.substring(1);
+                    while (e = r.exec(q))
+                        urlParams[d(e[1])] = d(e[2]);
+                })();
+                var qs = [];
+                for (var o in urlParams) {
+                    if (o != key && urlParams[o] != value) {
+                        qs.push(encodeURIComponent(o) + "=" + encodeURIComponent(urlParams[o]));
+                    }
+                }
+                var queryString = qs.join("&");
+                if (queryString.length >= 0) {
+                    var i = location.href.indexOf("?");
+                    var l = location.href.substr(0, i);
+                    location = l + "?" + queryString;
+                }
+            }
+        </script>
+        <hr />
+        <ul>
+            @Html.CriteriaItem("BodyBuild", criteria.BodyBuild)
+            @Html.CriteriaItem("EyeColor", criteria.EyeColor)
+            @Html.CriteriaItem("From", criteria.From)
+            @Html.CriteriaItem("HairColor", criteria.HairColor)
+            @Html.CriteriaItem("Religion", criteria.Religion)
+            @Html.CriteriaItem("Smokes", criteria.Smokes)
+            @Html.CriteriaItem("DickSize", criteria.DickSize)
+            @Html.CriteriaItem("DickThickness", criteria.DickThickness)
+            @Html.CriteriaItem("BreastSize", criteria.BreastSize)
+            @Html.CriteriaItem("City", criteria.City)
+
+        </ul>
+        <hr />
+        <ul>            
+            @foreach (var f in Model.FacetValues) {
+                if (f.Key == "Gender") { continue; }
+                if (Model.SearchCriteria.Gender == Sex.Female && (f.Key == "DickSize" || f.Key == "DickThickness")) { continue; }
+                if (Model.SearchCriteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
+                if (selectedFieldsList.Contains(f.Key)) { continue; }
+                <li>
+                    @if (!(f.Key == "From" || f.Key == "City")) {
+                        @Html._R(String.Format("Profile.{0}.DisplayName", f.Key))
+                        <br />
+                    } else {
+                        @f.Key
+                    }    
+                    <ul>
+                        @foreach (var fv in f.Value) {
+                            string value = "";
+                            string lookupKey = fv.Range;
+                            switch (f.Key) {
+                                case "City":
+                                    value = fv.Range;
+                                    break;
+                                case "From":
+                                case "BodyBuild":
+                                case "HairColor":
+                                case "EyeColor":
+                                case "Smokes":
+                                case "Alcohol":
+                                case "Religion":
+                                case "DickSize":
+                                case "DickThickness":
+                                case "BreastSize":
+                                    var key = (f.Key == "From") ? "Country" : f.Key;
+                                    lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
+                                    value = Html._LText(key, lookupKey);
+                                    break;
+                                case "Searches":
+                                case "LanguagesSpoken":
+                                case "CountriesToVisit":
+                                    break;
+                                default:
+                                    break;
+                            }
+                            <li>
+                                <a href="@Html.SetFacet(f.Key, lookupKey)">
+                                    @((String.IsNullOrWhiteSpace(value)) ? Html._R("NotFilled") : value)
+                                </a> 
+                                <span>(@fv.Count)</span>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+</div>

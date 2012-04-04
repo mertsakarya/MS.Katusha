@@ -273,9 +273,11 @@
     <Compile Include="Models\Entities\PhotoModel.cs" />
     <Compile Include="Models\Entities\ProfileModel.cs" />
     <Compile Include="Models\Entities\SearchingForModel.cs" />
+    <Compile Include="Models\Entities\SearchResultModel.cs" />
     <Compile Include="Models\Entities\StateModel.cs" />
     <Compile Include="Models\Entities\VisitModel.cs" />
     <Compile Include="Models\PagedListModel.cs" />
+    <Compile Include="Models\Entities\SearchCriteriaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -497,6 +499,9 @@
     <Content Include="Views\Profiles\Index.cshtml" />
     <Content Include="Views\Shared\_LeftPartial.cshtml" />
     <Content Include="NLog.config" />
+    <Content Include="Views\Shared\_Search.cshtml" />
+    <Content Include="Views\Profiles\Search.cshtml" />
+    <Content Include="Views\Shared\_SearchForm.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

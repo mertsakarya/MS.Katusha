@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MS.Katusha.Attributes\MS.Katusha.Attributes.csproj">
+      <Project>{29066C52-99D6-47AA-AEA2-245E0DAE833C}</Project>
+      <Name>MS.Katusha.Attributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>

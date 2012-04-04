@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Raven.Abstractions.Data;
@@ -23,110 +22,90 @@ namespace MS.Katusha.Services
         public IList<Profile> Search(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total) { return _profileRepositoryRaven.Search(filter, pageNo, pageSize, out total); }
         public IDictionary<string, IEnumerable<FacetValue>> FacetSearch(Expression<Func<Profile, bool>> filter) { return _profileRepositoryRaven.FacetSearch(filter); }
 
-        public SearchResult Search(NameValueCollection qs, Sex gender, int pageNo, int pageSize, out int total)
+        public SearchResult Search(SearchCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
         {
-            if (qs.HasKeys()) {
-                var searchProfile = new Profile();
-                Expression expression;
-                Expression ex = null;
-                var argParam = Expression.Parameter(typeof (Profile), "p");
-                var list = new NameValueCollection();
-                searchProfile.Gender = (byte)GetExpression(null, new[] { ((byte)gender).ToString() }, "Gender", typeof(Sex), argParam, out expression);
-                foreach (var key in qs.AllKeys) {
-                    var values = qs.GetValues(key);
-                    if (values == null) continue;
-                    switch (key) {
-                        case "From":
-                            searchProfile.From = (byte)GetExpression(list, values, key, typeof(Country), argParam, out ex);
-                            break;
-                        case "City":
-                            searchProfile.City = (string) GetExpression(list, values, key, null, argParam, out ex);
-                            break;
+            if (searchCriteria.CanSearch) {
+                var argParam = Expression.Parameter(typeof(Profile), "p");
+                var expression = GetExpression(new[] { (searchCriteria.Gender) }, Expression.Property(argParam, "Gender"));
 
-                        case "BodyBuild":
-                            searchProfile.BodyBuild = (byte)GetExpression(list, values, key, typeof(BodyBuild), argParam, out ex);
-                            break;
-                        case "EyeColor":
-                            searchProfile.EyeColor = (byte)GetExpression(list, values, key, typeof(EyeColor), argParam, out ex);
-                            break;
-                        case "HairColor":
-                            searchProfile.HairColor = (byte)GetExpression(list, values, key, typeof(HairColor), argParam, out ex);
-                            break;
-                        case "Smokes":
-                            searchProfile.Smokes = (byte)GetExpression(list, values, key, typeof(Smokes), argParam, out ex);
-                            break;
-                        case "Alcohol":
-                            searchProfile.Alcohol = (byte)GetExpression(list, values, key, typeof(Alcohol), argParam, out ex);
-                            break;
-                        case "Religion":
-                            searchProfile.Religion = (byte)GetExpression(list, values, key, typeof(Religion), argParam, out ex);
-                            break;
-                        case "DickSize":
-                            searchProfile.DickSize = (byte)GetExpression(list, values, key, typeof(DickSize), argParam, out ex);
-                            break;
-                        case "DickThickness":
-                            searchProfile.DickThickness = (byte)GetExpression(list, values, key, typeof(DickThickness), argParam, out ex);
-                            break;
-                        case "BreastSize":
-                            searchProfile.BreastSize = (byte)GetExpression(list, values, key, typeof(BreastSize), argParam, out ex);
-                            break;
-                    }
-                    //} else if (key == "Height") { } else if (key == "BirthYear") { } else if (key == "Searches") { } else if (key == "LanguagesSpoken") { } else if (key == "CountriesToVisit") { }
-                    if(ex != null) expression = (expression == null) ? ex : Expression.AndAlso(expression, ex);
-                }
-                if (expression != null) {
-                    var filter = Expression.Lambda<Func<Profile, bool>>(expression, argParam);
-                    var searchResult = Search(filter, pageNo, pageSize, out total);
-                    var searchFacet = FacetSearch(filter);
-                    return new SearchResult {Profiles = searchResult, FacetValues = searchFacet, Filters = qs, SearchProfile = searchProfile, Total = total};
-                }
+                expression = GetExpression(searchCriteria.From, Expression.Property(argParam, "From"), expression);
+                expression = GetExpression(searchCriteria.BodyBuild, Expression.Property(argParam, "BodyBuild"), expression);
+                expression = GetExpression(searchCriteria.EyeColor, Expression.Property(argParam, "EyeColor"), expression);
+                expression = GetExpression(searchCriteria.BreastSize, Expression.Property(argParam, "BreastSize"), expression);
+                expression = GetExpression(searchCriteria.DickThickness, Expression.Property(argParam, "DickThickness"), expression);
+                expression = GetExpression(searchCriteria.DickSize, Expression.Property(argParam, "DickSize"), expression);
+                expression = GetExpression(searchCriteria.Religion, Expression.Property(argParam, "Religion"), expression);
+                expression = GetExpression(searchCriteria.Alcohol, Expression.Property(argParam, "Alcohol"), expression);
+                expression = GetExpression(searchCriteria.Smokes, Expression.Property(argParam, "Smokes"), expression);
+                expression = GetExpression(searchCriteria.HairColor, Expression.Property(argParam, "HairColor"), expression);
+                
+                expression = GetExpressionString(searchCriteria.City, Expression.Property(argParam, "City"), expression);
+                expression = GetExpressionString(new[] { (searchCriteria.Name) }, Expression.Property(argParam, "Name"), expression);
+
+                expression = GetExpressionMinMax(searchCriteria.MinHeight, searchCriteria.MaxHeight, Expression.Property(argParam, "Height"), expression);
+                var maxBirthyear = (searchCriteria.MinAge == 0) ? 0 : DateTime.Now.Year - searchCriteria.MinAge;
+                var minBirthYear = (searchCriteria.MaxAge == 0) ? 0 : DateTime.Now.Year - searchCriteria.MaxAge;
+                expression = GetExpressionMinMax(minBirthYear, maxBirthyear, Expression.Property(argParam, "BirthYear"), expression);
+                expression = GetExpressionIn(searchCriteria.LanguagesSpoken, "Language", Expression.Property(argParam, "LanguagesSpoken"), expression);
+                expression = GetExpressionIn(searchCriteria.Searches, "LookingFor", Expression.Property(argParam, "Searches"), expression);
+                expression = GetExpressionIn(searchCriteria.CountriesToVisit, "Country", Expression.Property(argParam, "CountriesToVisit"), expression);
+
+                int total;
+                var filter = Expression.Lambda<Func<Profile, bool>>(expression, argParam);
+                return new SearchResult { 
+                    Profiles = Search(filter, pageNo, pageSize, out total), 
+                    FacetValues = FacetSearch(filter), 
+                    SearchCriteria = searchCriteria, 
+                    Total = total 
+                };
             }
-            total = -1;
-            return new SearchResult {Profiles = null, FacetValues = null, Filters = null, Total = total};
+            return new SearchResult { Profiles = null, FacetValues = null, SearchCriteria = null, Total = -1 };
         }
 
-        private static object GetExpression(NameValueCollection list, IEnumerable<string> values, string key, Type enumType, ParameterExpression argParam, out Expression ex)
+        private static Expression GetExpressionMinMax(int min, int max, Expression left, Expression expression = null)
         {
+            if (min == 0 &&  max == 0) return expression;
+            var minExpression = (min > 0) ? Expression.GreaterThanOrEqual(left, Expression.Constant(min)) : null;
+            var maxExpression = (max > 0) ? Expression.LessThanOrEqual(left, Expression.Constant(max)) : null;
+            var combinedExpression = (minExpression != null && maxExpression != null) ? Expression.AndAlso(minExpression, maxExpression) : null;
+            var pe = combinedExpression ?? (minExpression ?? maxExpression);
+            if(pe == null) return expression;
+            return expression == null ? pe : Expression.AndAlso(expression, pe);
+        }
+
+        private static Expression GetExpression<TEnum>(ICollection<TEnum> values, Expression left, Expression expression = null)
+        {
+            if (values.Count == 0) return expression;
+            IList<Expression> expressions = values.Where(p=> Convert.ToByte(p) > 0).Select(value => Expression.Constant(Convert.ToByte(value))).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
+            if (expressions.Count <= 0) return expression;
+            var pe = expressions[0];
+            for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
+            return expression == null ? pe : Expression.AndAlso(expression, pe);
+        }
+
+        private static Expression GetExpressionString(ICollection<string> values, Expression left, Expression expression = null)
+        {
+            if (values.Count == 0) return expression;
+            IList<Expression> expressions = values.Where(p=>!String.IsNullOrWhiteSpace(p)).Select(Expression.Constant).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
+            if (expressions.Count <= 0) return expression;
+            var pe = expressions[0];
+            for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
+            return expression == null ? pe : Expression.AndAlso(expression, pe);
+        }
+
+        private static Expression GetExpressionIn<TEnum>(ICollection<TEnum> values, string itemName, Expression left, Expression expression = null)
+        {
+            if(values.Count == 0) return expression;
             IList<Expression> expressions = new List<Expression>();
-            object parsedValue = null;
+            var item = Expression.Property(left, itemName);
             foreach (var value in values) {
-                var left = Expression.Property(argParam, key);
-                parsedValue = GetConstantValue(key, value, enumType);
-                Expression right = Expression.Constant(parsedValue);
-                var expression = Expression.Equal(left, right);
-                expressions.Add(expression);
-                if(list != null) list.Add(key, value);
+                var constant = Expression.Constant(Convert.ToByte(value));
+                expressions.Add(Expression.Equal(item, constant));
             }
-
-            Expression pe;
-            if (expressions.Count > 0) {
-                pe = expressions[0];
-                for (var i = 1; i < expressions.Count; i++) {
-                    pe = Expression.OrElse(pe, expressions[i]);
-                }
-            } else {
-                pe = expressions[0];
-            }
-
-            ex = pe;
-            return parsedValue;
+            var pe = expressions[0];
+            for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
+            return expression == null ? pe : Expression.AndAlso(expression, pe);
         }
 
-        private static object GetConstantValue(string key, string value, Type enumType)
-        {
-            if(key == "City") {
-                return value;
-            }
-            byte constant;
-            if(!Byte.TryParse(value, out constant)) {
-                try {
-                    var val = Enum.Parse(enumType, value);
-                    constant = (byte) val;
-                } catch {
-                    constant = 0;
-                }
-            }
-            return constant;
-        }
     }
 }

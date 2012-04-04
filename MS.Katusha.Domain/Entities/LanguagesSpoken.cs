@@ -15,7 +15,7 @@ namespace MS.Katusha.Domain.Entities
 
         public override string ToString()
         {
-            return base.ToString() + String.Format(" | ProfileId: {0} | Language: {1}", ProfileId, Enum.GetName(typeof(Language), Language));
+            return Enum.GetName(typeof(Language), Language);
         }
     }
 }

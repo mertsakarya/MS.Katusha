@@ -15,7 +15,7 @@ namespace MS.Katusha.Domain.Entities
 
         public override string ToString()
         {
-            return base.ToString() + String.Format(" | ProfileId: {0} | Search: {1}", ProfileId, Enum.GetName(typeof(LookingFor) , Search));
+            return Enum.GetName(typeof(LookingFor) , Search);
         }
     }
 }

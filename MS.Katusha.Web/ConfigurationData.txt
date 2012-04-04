@@ -210,12 +210,17 @@
 
 *	Profile.BirthYear
  	[Configuration]
- 		Profile.BirthYear.Minimum	1920
+ 		Profile.BirthYear.Minimum	1940
  		Profile.BirthYear.Maximum	2000
  	[Resource]
  		en	Profile.BirthYear.DisplayName	Birthyear
  		en	Profile.BirthYear.Description	This is how we understand your age? :)
  		en	Profile.BirthYear.RangeErrorMessage	You can be born between years {0} and {1}.
+
+*	Profile.Age
+ 	[Resource]
+ 		en	Profile.Age.DisplayName	Age
+ 		en	Profile.Age.Description	Yoru age...
 
 *	Profile.Description
  	[Configuration]
@@ -356,7 +361,29 @@
 	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10	9
 	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9	10
 
-	en	PhotoType		Original	Original			1	0
-	en	PhotoType		Thumbnail	Thumbnail			2	1
-	en	PhotoType		Medium		Medium				3	2
-	en	PhotoType		Large		Large				4	3
+	en	PhotoType		Original				Original			1	0
+	en	PhotoType		Thumbnail				Thumbnail			2	1
+	en	PhotoType		Medium					Medium				3	2
+	en	PhotoType		Large					Large				4	3
+
+	en	Age				LessThan18				<18			1	1
+	en	Age				Between18And25			18-25		2	2
+	en	Age				Between25And30			25-30		3	3
+	en	Age				Between30And35			30-35		4	4
+	en	Age				Between35And40			35-40		5	5
+	en	Age				Between40And45			40-45		6	6
+	en	Age				Between45And50			45-50		7	7
+	en	Age				Between50And55			50-55		8	8
+	en	Age				Between55And60			55-60		9	9
+	en	Age				Between60And70			60-70		10	10
+	en	Age				After70					70>			11	11
+
+	en	Height			LessThan140				<140		1	1
+	en	Height			Between140And150		140-150		2	2
+	en	Height			Between150And160		150-160		3	3
+	en	Height			Between160And170		160-170		4	4
+	en	Height			Between170And180		170-180		5	5
+	en	Height			Between180And190		180-190		6	6
+	en	Height			Between190And200		190-200		7	7
+	en	Height			Between200And210		200-210		8	8
+	en	Height			After210				210>		9	9

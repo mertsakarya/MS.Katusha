@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
 using System.Linq.Expressions;
-using System.Web.Caching;
-using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
-using ImageResizer;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Exceptions;
 using MS.Katusha.Exceptions.Services;
@@ -20,7 +13,6 @@ using MS.Katusha.Exceptions.Web;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
-using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Helpers.Generators;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
@@ -49,16 +41,35 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult Men(int? key) { return LIndex(p => p.Gender == (byte)Sex.Male, key); }
         public ActionResult Girls(int? key) { return LIndex(p => p.Gender == (byte)Sex.Female, key); }
+
+        public ActionResult SearchMen(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return SearchIndex(key, model); }
+        public ActionResult SearchGirls(int? key, SearchCriteriaModel model) { model.Gender = Sex.Female; return SearchIndex(key, model); }
+        private ActionResult SearchIndex(int? page, SearchCriteriaModel model)
+        {
+            var data = Mapper.Map<SearchCriteria>(model);
+            var pageIndex = (page ?? 1);
+            var searchResult = _searchService.Search(data, pageIndex, PageSize);
+            if (searchResult.Total > -1) {
+                var profiles = searchResult.Profiles;
+                var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
+                var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, searchResult.Total);
+                var searchResultModel = new SearchResultModel {
+                                                                  FacetValues = searchResult.FacetValues,
+                                                                  SearchCriteria = Mapper.Map<SearchCriteriaModel>(searchResult.SearchCriteria),
+                                                                  Total = searchResult.Total,
+                                                                  Profiles = profilesAsIPagedList
+                                                              };
+                ViewBag.KatushaSearchResult = searchResultModel;
+                return View("Search", searchResultModel);
+            }
+            return View("Search", new SearchResultModel {SearchCriteria = model});
+        }
+
         private ActionResult LIndex(Expression<Func<Profile, bool>> controllerFilter, int? page = 1)
         {
             var pageIndex = (page ?? 1);
             int total;
-            IEnumerable<Profile> profiles;
-            if (KatushaSearch.Total >= 0) {
-                profiles = KatushaSearch.Profiles;
-                total = KatushaSearch.Total;
-            } else
-                profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
+            IEnumerable<Profile> profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
             var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
             var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
@@ -373,5 +384,7 @@ namespace MS.Katusha.Web.Controllers
             }
             return null;
         }
+
+        public IList<Domain.Entities.Profile> search { get; set; }
     }
 }

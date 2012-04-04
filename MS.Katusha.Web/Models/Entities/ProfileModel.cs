@@ -67,13 +67,15 @@ namespace MS.Katusha.Web.Models.Entities
         
         [KatushaRange("Profile.Height")]
         [KatushaField("Profile.Height")]
-        [KatushaRequired("Profile.Height")]
         public int? Height { get; set; }
 
         [KatushaRange("Profile.BirthYear")]
         [KatushaField("Profile.BirthYear")]
-        [KatushaRequired("Profile.BirthYear")]
         public int? BirthYear { get; set; }
+
+        [KatushaField("Profile.Age")]
+        [ReadOnly(true)]
+        public int? Age { get { return DateTime.Now.Year - BirthYear; } }
 
         [KatushaRequired("Profile.Description")]
         [KatushaStringLength("Profile.Description")]

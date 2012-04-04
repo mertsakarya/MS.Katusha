@@ -1,6 +1,3 @@
-using System;
-using System.Configuration;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -17,14 +14,12 @@ using NLog;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
-using Raven.Client.Indexes;
-using Raven.Database.Server;
 
 namespace MS.Katusha.Web.Helpers
 {
     public static class DependencyHelper
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static DocumentStore RavenStore;
         public static string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
 
@@ -74,7 +69,7 @@ namespace MS.Katusha.Web.Helpers
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             
 #if DEBUG
-            logger.Info("Dependencies resolved");
+            Logger.Info("Dependencies resolved");
 #endif
         }
     }

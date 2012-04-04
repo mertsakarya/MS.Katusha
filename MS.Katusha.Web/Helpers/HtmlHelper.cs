@@ -45,15 +45,17 @@ namespace MS.Katusha.Web.Helpers
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
                 list.Add(new SelectListItem {Text = CultureHelper._R("EmptyText"), Value = "0"});
-            foreach(var item in dict) {
+            foreach (var item in dict) {
                 var sli = new SelectListItem() {Text = item.Value, Value = item.Key};
-                if (metadata.Model != null && item.Key == metadata.Model.ToString())
-                    sli.Selected = true;
+                try {
+                    if (metadata.Model != null && item.Key == metadata.Model.ToString())
+                        sli.Selected = true;
+                } catch {}
                 list.Add(sli);
             }
             return htmlHelper.DropDownListFor(expression, list, htmlAttributes);
         }
- 
+
         /// <summary>
         /// If there is a VirtualPath value in AppSettings it is used
         /// else url.Scheme :// url.Host + : url.Port / is returned
@@ -68,27 +70,21 @@ namespace MS.Katusha.Web.Helpers
             return str;
         }
 
-        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model)
-        {
-            return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
-        }
+        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, BaseFriendlyModel model) { return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName; }
 
-        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, Profile model)
-        {
-            return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName;
-        }
+        public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, Profile model) { return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName; }
 
 
         public static string _R<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
         {
             IResourceManager rm = new ResourceManager();
-            return rm._R(resourceName, (byte)language);
+            return rm._R(resourceName, (byte) language);
         }
 
         public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, Language language = 0)
         {
             IResourceManager rm = new ResourceManager();
-            return rm._LText(lookupName, name, (byte)language);
+            return rm._LText(lookupName, name, (byte) language);
         }
 
         public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, Language language = 0)
@@ -101,7 +97,7 @@ namespace MS.Katusha.Web.Helpers
         public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
         {
             IResourceManager rm = new ResourceManager();
-            return rm._L(resourceName, (byte)language);
+            return rm._L(resourceName, (byte) language);
         }
 
         public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "")
@@ -114,17 +110,14 @@ namespace MS.Katusha.Web.Helpers
             return htmlHelper.Raw(tb.ToString());
         }
 
-        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Large)
-        {
-            return GetPhotoPath(photoGuid, photoType, gender);
-        }
+        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Large) { return GetPhotoPath(photoGuid, photoType, gender); }
 
         private static string GetPhotoPath(Guid photoGuid, PhotoType photoType, Sex gender)
         {
             var sex = (gender == Sex.Male) ? "Man" : "Girl";
             if (photoGuid == Guid.Empty)
                 return String.Format("/Images/{1}{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""), sex);
-            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte)photoType);
+            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte) photoType);
         }
 
         public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)
@@ -135,14 +128,14 @@ namespace MS.Katusha.Web.Helpers
             var i = url.IndexOf('?');
             if (i >= 0)
                 url = url.Substring(0, i + 1);
-            foreach(var k in qs.AllKeys) {
+            foreach (var k in qs.AllKeys) {
                 if (k != "NewSearch") {
                     var v = qs.Get(k);
                     if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
                         url += k + "=" + v + "&";
                 }
             }
-            return url + key + "=" + ((String.IsNullOrWhiteSpace(value))? "Empty" : value);
+            return url + key + "=" + ((String.IsNullOrWhiteSpace(value)) ? "Empty" : value);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
@@ -167,7 +160,7 @@ namespace MS.Katusha.Web.Helpers
             return htmlHelper.Raw("");
         }
 
-        public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, Type enumType )
+        public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, Type enumType)
         {
             var keyValues = htmlHelper._L(enumType.Name);
             var sb = new StringBuilder();
@@ -184,14 +177,14 @@ namespace MS.Katusha.Web.Helpers
 
         private static string Append(string key, string value, string keyName = "key") { return String.Format("{{{0}:\"{1}\",value:\"{2}\"}}", keyName, key, value.Replace("\n", "\\n").Replace("\t", "\\t").Replace("\r", "\\r").Replace("'", "\\'").Replace("\"", "\\\"")); }
 
-        public static IHtmlString ToJson<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, IList<TColl> list,  Expression<Func<TColl, TProp>> expression)
+        public static IHtmlString ToJson<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, IList<TColl> list, Expression<Func<TColl, TProp>> expression)
         {
             var sb = new StringBuilder();
             sb.Append("[");
 
             IResourceManager rm = new ResourceManager();
             var compiledExpression = expression.Compile();
-            var enumType = typeof(TProp);
+            var enumType = typeof (TProp);
             var firstTime = true;
             foreach (var item in list) {
                 if (!firstTime) sb.Append(',');
@@ -204,16 +197,16 @@ namespace MS.Katusha.Web.Helpers
         }
 
         public static IHtmlString FacebookListFor<TModel, TColl, TProp>(
-            this HtmlHelper<TModel> htmlHelper, 
+            this HtmlHelper<TModel> htmlHelper,
             string resourceName,
             TModel model,
             IList<TColl> collection,
-            Type enumType, 
+            Type enumType,
             Expression<Func<TModel, IList<TColl>>> modelPropertyExpression,
-            Expression<Func<TColl, TProp>> propertyPropertyExpression 
+            Expression<Func<TColl, TProp>> propertyPropertyExpression
             )
         {
-            var name = typeof(TColl).Name;
+            var name = typeof (TColl).Name;
             var label = new TagBuilder("div");
             var edit = new TagBuilder("div");
             var select = new TagBuilder("select");
@@ -227,10 +220,10 @@ namespace MS.Katusha.Web.Helpers
             var message = htmlHelper._R(resourceName + ".Message");
             var tmp = htmlHelper._R(resourceName + ".MaxItems");
             int maxItems;
-            if(!int.TryParse(tmp, out maxItems)) maxItems = 0;
+            if (!int.TryParse(tmp, out maxItems)) maxItems = 0;
             var maxItemsText = (maxItems > 0) ? maxItems.ToString(CultureInfo.InvariantCulture) : String.Format("_FCBK{0}.length", name);
             script.InnerHtml = String.Format(
-@"      var _FCBK{0}={1};
+                @"      var _FCBK{0}={1};
         var _FCBK{0}SelectedList={2};
         $('#{0}Selection').fcbkcomplete({{
             json_url:_FCBK{0},
@@ -248,13 +241,13 @@ namespace MS.Katusha.Web.Helpers
             $('#{0}Selection').trigger('addItem',_FCBK{0}SelectedList[i]);  
         }}
 ", name, htmlHelper.ToJson(enumType), htmlHelper.ToJson(collection, propertyPropertyExpression), message.Replace("\'", "\\'"), maxItemsText);
-            edit.InnerHtml = select.ToString() + htmlHelper.ValidationMessageFor(modelPropertyExpression);  
-            return htmlHelper.Raw( String.Format("{0}{1}{2}", label,edit,script));
+            edit.InnerHtml = select.ToString() + htmlHelper.ValidationMessageFor(modelPropertyExpression);
+            return htmlHelper.Raw(String.Format("{0}{1}{2}", label, edit, script));
         }
 
 
         public static IHtmlString DisplayDetailForEnum<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, TModel model, Expression<Func<TModel, IList<TColl>>> expression,
-            string lookupName, Type enumType, Expression<Func<TColl, TProp>> collectionPropertyExpression)
+                                                                             string lookupName, Type enumType, Expression<Func<TColl, TProp>> collectionPropertyExpression)
         {
             var compiledExpression = expression.Compile();
             var list = compiledExpression.Invoke(model);
@@ -262,14 +255,15 @@ namespace MS.Katusha.Web.Helpers
                 var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
                 var compiledPropertyExpression = collectionPropertyExpression.Compile();
                 IResourceManager rm = new ResourceManager();
-                var sb = new StringBuilder() ;
+                var sb = new StringBuilder();
                 var first = true;
                 foreach (var item in list) {
                     var val = compiledPropertyExpression.Invoke(item);
-                    if (!first) sb.Append(", "); else first = false;
+                    if (!first) sb.Append(", ");
+                    else first = false;
                     sb.Append(rm._LText(lookupName, val.ToString()));
                 }
-                
+
                 var label = new TagBuilder("div");
                 label.AddCssClass("display-label");
                 label.InnerHtml = String.Format("<b>{0}</b>", htmlHelper.DisplayNameFor(expression).ToHtmlString());
@@ -283,6 +277,32 @@ namespace MS.Katusha.Web.Helpers
             }
 
             return htmlHelper.Raw("");
-        }    
+        }
+
+        public static IHtmlString CriteriaItem<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, string key, IList<TEnum> values)
+        {
+            if (values.Count > 0) {
+                var hasValue = false;
+                var enumType = typeof (TEnum);
+                var sb = new StringBuilder();
+                sb.AppendFormat("<li>{0}<ul>", key);
+                foreach (var value in values) {
+                    var result = "";
+                    if(enumType.IsEnum) {
+                        var val = Convert.ToByte(value);
+                        if (val > 0) hasValue = true;
+                        result = htmlHelper._LText(key =="From" ? "Country" : key, val);
+                    } else if (value is string) {
+                        var val = Convert.ToString(value);
+                        if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
+                        result = val;
+                    }
+                    sb.AppendFormat("<li>{0}<a class='removeFacet' href='#' onclick=\"RemoveSearchKey('{1}', '{2}');\">[X]</a></li>", result, key, value);
+                }
+                sb.Append("</ul></li>");
+                return htmlHelper.Raw(hasValue ? sb.ToString() : "");
+            }
+            return htmlHelper.Raw("");
+        }
     }
 }
