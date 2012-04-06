@@ -29,7 +29,7 @@ namespace MS.Katusha.Web.Controllers
         private readonly IProfileService _profileService;
         private readonly ISearchService _searchService;
         private readonly IResourceManager _resourceManager;
-        private const int PageSize = 20;
+        private const int PageSize = 2;
 
         public ProfilesController(IProfileService profileService, IUserService userService, ISearchService searchService, IResourceManager resourceManager)
             : base(userService, searchService)
@@ -41,9 +41,9 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult Men(int? key) { return LIndex(p => p.Gender == (byte)Sex.Male, key); }
         public ActionResult Girls(int? key) { return LIndex(p => p.Gender == (byte)Sex.Female, key); }
-
         public ActionResult SearchMen(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return SearchIndex(key, model); }
         public ActionResult SearchGirls(int? key, SearchCriteriaModel model) { model.Gender = Sex.Female; return SearchIndex(key, model); }
+
         private ActionResult SearchIndex(int? page, SearchCriteriaModel model)
         {
             var data = Mapper.Map<SearchCriteria>(model);

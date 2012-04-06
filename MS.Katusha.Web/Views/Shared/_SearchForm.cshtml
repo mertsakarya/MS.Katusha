@@ -1,16 +1,17 @@
 @model SearchCriteriaModel
 <form id="searchForm" action="/Profiles/SearchMen" method="get">
     <br /> 
-    <a href="#" onclick="document.getElementById('searchForm').action = '/Profiles/SearchGirls';document.getElementById('whereToSearch').innerText = 'Search in Girls'; ">Girls</a>
-    <a href="#" onclick=" document.getElementById('searchForm').action = '/Profiles/SearchMen';document.getElementById('whereToSearch').innerText = 'Search in Men';">Men</a>
-    <br/>
-    <h3 id="whereToSearch">Search in Men</h3>
+    <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Profiles/SearchGirls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
+    <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Profiles/SearchMen';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
+    <br/><br/>
+    <h3 id="whereToSearch">Searching Men</h3>
     
     <br />
     <fieldset>
-        <div class="editor-label">@Html.LabelFor(model => Model.City)</div><div class="editor-field"><input class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
+        <div class="editor-label">@Html.LabelFor(model => model.Age)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
         <div class="editor-label">@Html.LabelFor(model => model.From)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true)</div>
-        <div class="editor-label">@Html.LabelFor(model => model.EyeColor)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.EyeColor[0], true)</div>
+        <div class="editor-label">@Html.LabelFor(model => Model.City)</div><div class="editor-field"><input class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
+        <div class="editor-label">@Html.LabelFor(model => model.Height)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
         <p>
             <input type="submit" value="Search" />
         </p>

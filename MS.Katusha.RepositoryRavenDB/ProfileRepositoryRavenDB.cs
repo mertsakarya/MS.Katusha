@@ -1,31 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB.Base;
+using MS.Katusha.Repositories.RavenDB.Indexes;
 using Raven.Abstractions.Data;
-using Raven.Abstractions.Indexing;
 using Raven.Client;
-using Raven.Client.Document;
+using Raven.Client.Indexes;
 using Raven.Client.Linq;
-
 
 namespace MS.Katusha.Repositories.RavenDB
 {
-
     public class ProfileRepositoryRavenDB : BaseFriendlyNameRepositoryRavenDB<Profile>, IProfileRepositoryRavenDB
     {
         public ProfileRepositoryRavenDB(IDocumentStore documentStore): base(documentStore)
         { }
 
+        public void CreateIndexes()
+        {
+            IndexCreation.CreateIndexes(typeof(ProfileFacetsIndex).Assembly, DocumentStore);
+            IndexCreation.CreateIndexes(typeof(ProfileSearchFacetIndex).Assembly, DocumentStore);
+            IndexCreation.CreateIndexes(typeof(ProfileLanguageFacetIndex).Assembly, DocumentStore);
+            IndexCreation.CreateIndexes(typeof(ProfileCountryFacetIndex).Assembly, DocumentStore);
+        }
 
-        public IDictionary<string, IEnumerable<FacetValue>> FacetSearch(Expression<Func<Profile, bool>> filter)
+        public IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
         {
             using (var session = DocumentStore.OpenSession()) {
-                return session.Query<Profile>("ProfileFacetsIndex").Where(filter).ToFacets("facets/ProfileFacets");
+                return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
+                //.AsProjection<Profile>()
             }
         }
 
@@ -33,98 +39,42 @@ namespace MS.Katusha.Repositories.RavenDB
         {
             using (var session = DocumentStore.OpenSession()) {
                 RavenQueryStatistics stats;
-                var query = session.Query<Profile>().Statistics(out stats).Where(filter).Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
+                var query = Queryable.Skip(session.Query<Profile>().Statistics(out stats).Where(filter), (pageNo - 1)*pageSize).Take(pageSize).ToList();
                 total = stats.TotalResults;
                 return query;
             }
         }
 
-        public void SetFaceting()
+        public void CreateFacets()
         {
-            const string indexName = "ProfileFacetsIndex";
-                var facets = new List<Facet> {
-                                                 new Facet {Name = "From"},
-                                                 new Facet {Name = "City"},
-                                                 new Facet {Name = "Gender"},
-                                                 new Facet {Name = "BodyBuild"},
-                                                 new Facet {Name = "HairColor"},
-                                                 new Facet {Name = "EyeColor"},
-                                                 new Facet {Name = "Smokes"},
-                                                 new Facet {Name = "Alcohol"},
-                                                 new Facet {Name = "Religion"},
-                                                 new Facet {Name = "DickSize"},
-                                                 new Facet {Name = "DickThickness"},
-                                                 new Facet {Name = "BreastSize"},
-                                                 new Facet {Name = "Searches"},
-                                                 new Facet {Name = "LanguagesSpoken"},
-                                                 new Facet {Name = "CountriesToVisit"},
+            var searchFacet = new List<Facet> { new Facet { Name = "Search" } };
+            var languageFacet = new List<Facet> { new Facet { Name = "Language" } };
+            var countryFacet = new List<Facet> { new Facet { Name = "Country" } };
 
-                                                 new Facet {
-                                                               Name = "BirthYear",
-                                                               Mode = FacetMode.Ranges,
-                                                               Ranges = {
-                                                                            "[NULL TO Dx1940.0]",
-                                                                            "[Dx1940.0 TO Dx1960.0]",
-                                                                            "[Dx1960.0 TO Dx1965.0]",
-                                                                            "[Dx1965.0 TO Dx1970.0]",
-                                                                            "[Dx1970.0 TO Dx1975.0]",
-                                                                            "[Dx1975.0 TO Dx1980.0]",
-                                                                            "[Dx1980.0 TO Dx1985.0]",
-                                                                            "[Dx1985.0 TO Dx1990.0]",
-                                                                            "[Dx1990.0 TO Dx1995.0]",
-                                                                            "[Dx1995.0 TO NULL]",
-                                                                        }
-                                                           },
-                                                 new Facet {
-                                                               Name = "Height",
-                                                               Mode = FacetMode.Ranges,
-                                                               Ranges = {
-                                                                            "[NULL TO Dx160.0]",
-                                                                            "[Dx160.0 TO Dx170.0]",
-                                                                            "[Dx170.0 TO Dx180.0]",
-                                                                            "[Dx180.0 TO Dx190.0]",
-                                                                            "[Dx190.0 TO Dx200.0]",
-                                                                            "[Dx200.0 TO Dx210.0]",
-                                                                            "[Dx210.0 TO NULL]",
-                                                                        }
-                                                           }
-                                             };
-                using (var session = DocumentStore.OpenSession()) {
-                    var facet = new FacetSetup {Id = "facets/ProfileFacets", Facets = facets};
-                    session.Store(facet);
-                    session.SaveChanges();
-                }
-
-                if (DocumentStore.DatabaseCommands.GetIndex(indexName) == null) {
-                    DocumentStore.DatabaseCommands.PutIndex(indexName,
-                                                        new IndexDefinition {
-                                                                                Map = @"from profile in docs.Profiles 
-                                    select new 
-                                    { 
-                                        profile.From,
-                                        profile.City,
-                                        profile.Gender,
-                                        profile.BodyBuild,
-                                        profile.HairColor,
-                                        profile.EyeColor,
-                                        profile.Smokes,
-                                        profile.Alcohol,
-                                        profile.Religion,
-                                        profile.DickSize,
-                                        profile.DickThickness,
-                                        profile.BreastSize,
-                                        profile.Height,
-                                        profile.BirthYear,
-                                        profile.Searches,
-                                        profile.LanguagesSpoken,
-                                        profile.CountriesToVisit
-                                    }"
-                                                        });
-                //var facetResults = s.Query<Profile>("ProfileFacetsIndex") 
-                //.Where(x => x.Cost >= 100 && x.Cost <= 300 ) 
-                //.ToFacets("facets/CameraFacets");
-
+            var profilefacet = new List<Facet> {
+                new Facet {Name = "From"},
+                new Facet {Name = "City"},
+                new Facet {Name = "Gender"},
+                new Facet {Name = "BodyBuild"},
+                new Facet {Name = "HairColor"},
+                new Facet {Name = "EyeColor"},
+                new Facet {Name = "Smokes"},
+                new Facet {Name = "Alcohol"},
+                new Facet {Name = "Religion"},
+                new Facet {Name = "DickSize"},
+                new Facet {Name = "DickThickness"},
+                new Facet {Name = "BreastSize"},
+                new Facet {Name = "BirthYear", Mode = FacetMode.Ranges, Ranges = AgeHelper.Ranges, },
+                new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges }
+            };
+            using (var session = DocumentStore.OpenSession()) {
+                session.Store(new FacetSetup { Id = "facets/ProfileFacets", Facets = profilefacet });
+                session.Store(new FacetSetup { Id = "facets/ProfileCountryFacet", Facets = countryFacet });
+                session.Store(new FacetSetup { Id = "facets/ProfileSearchFacet", Facets = searchFacet });
+                session.Store(new FacetSetup { Id = "facets/ProfileLanguageFacet", Facets = languageFacet });
+                session.SaveChanges();
             }
         }
+
     }
 }

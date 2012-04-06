@@ -220,7 +220,7 @@
 *	Profile.Age
  	[Resource]
  		en	Profile.Age.DisplayName	Age
- 		en	Profile.Age.Description	Yoru age...
+ 		en	Profile.Age.Description	Your age...
 
 *	Profile.Description
  	[Configuration]
@@ -366,24 +366,26 @@
 	en	PhotoType		Medium					Medium				3	2
 	en	PhotoType		Large					Large				4	3
 
-	en	Age				LessThan18				<18			1	1
-	en	Age				Between18And25			18-25		2	2
-	en	Age				Between25And30			25-30		3	3
-	en	Age				Between30And35			30-35		4	4
-	en	Age				Between35And40			35-40		5	5
-	en	Age				Between40And45			40-45		6	6
-	en	Age				Between45And50			45-50		7	7
-	en	Age				Between50And55			50-55		8	8
-	en	Age				Between55And60			55-60		9	9
-	en	Age				Between60And70			60-70		10	10
-	en	Age				After70					70>			11	11
+	en	Age		LessThan18				<18			1	1
+	en	Age		Between18And24			18-24		2	2
+	en	Age		Between25And29			25-29		3	3
+	en	Age		Between30And34			30-34		4	4
+	en	Age		Between35And39			35-39		5	5
+	en	Age		Between40And44			40-44		6	6
+	en	Age		Between45And49			45-49		7	7
+	en	Age		Between50And54			50-54		8	8
+	en	Age		Between55And59			55-59		9	9
+	en	Age		Between60And69			60-69		10	10
+	en	Age		After70					70>			11	11
 
 	en	Height			LessThan140				<140		1	1
-	en	Height			Between140And150		140-150		2	2
-	en	Height			Between150And160		150-160		3	3
-	en	Height			Between160And170		160-170		4	4
-	en	Height			Between170And180		170-180		5	5
-	en	Height			Between180And190		180-190		6	6
-	en	Height			Between190And200		190-200		7	7
-	en	Height			Between200And210		200-210		8	8
+	en	Height			Between140And149		140-149		2	2
+	en	Height			Between150And159		150-159		3	3
+	en	Height			Between160And169		160-169		4	4
+	en	Height			Between170And179		170-179		5	5
+	en	Height			Between180And189		180-189		6	6
+	en	Height			Between190And199		190-199		7	7
+	en	Height			Between200And209		200-209		8	8
 	en	Height			After210				210>		9	9
+
+	en	Dummy			Dummy				Dummy		1	1

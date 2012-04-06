@@ -36,6 +36,7 @@
       <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
+    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -57,6 +58,10 @@
     <ProjectReference Include="..\MS.Katusha.Attributes\MS.Katusha.Attributes.csproj">
       <Project>{29066C52-99D6-47AA-AEA2-245E0DAE833C}</Project>
       <Name>MS.Katusha.Attributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
+      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
+      <Name>MS.Katusha.Domain.Raven</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>

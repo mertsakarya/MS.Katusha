@@ -50,22 +50,42 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.BreastSize")]
         public IList<BreastSize> BreastSize { get; set; }
 
-        [KatushaRange("Profile.Height")]
         [KatushaField("Profile.Height")]
-        public int MinHeight { get; set; }
-        public int MaxHeight { get; set; }
+        public IList<Height> Height  { get; set; }
 
-        [KatushaRange("Profile.BirthYear")]
-        [KatushaField("Profile.BirthYear")]
-        public int MinAge { get; set; }
-        public int MaxAge { get; set; }
+        [KatushaField("Profile.Age")]
+        public IList<Age> Age { get; set; }
 
         [KatushaField("Profile.Searches")]
-        public IList<LookingFor> Searches { get; set; }
+        public IList<LookingFor> LookingFor { get; set; }
         [KatushaField("Profile.CountriesToVisit")]
-        public IList<Country> CountriesToVisit { get; set; }
+        public IList<Country> Country { get; set; }
         [KatushaField("Profile.LanguagesSpoken")]
-        public IList<Language> LanguagesSpoken { get; set; }
+        public IList<Language> Language { get; set; }
+
+        public static SearchCriteriaModel Empty()
+        {
+            var scm = new SearchCriteriaModel {
+                Alcohol = new List<Alcohol>(), 
+                BodyBuild = new List<BodyBuild>(),
+                BreastSize = new List<BreastSize>(),
+                City = new List<string>(),
+                Country = new List<Country>(),
+                DickSize = new List<DickSize>(),
+                DickThickness = new List<DickThickness>(),
+                EyeColor = new List<EyeColor>(),
+                HairColor = new List<HairColor>(),
+                Height = new List<Height>(),
+                Age = new List<Age>(),
+                Language = new List<Language>(),
+                Religion = new List<Religion>(),
+                LookingFor = new List<LookingFor>(),
+                Smokes = new List<Smokes>(),
+                From = new List<Country>(),
+                Name = ""
+            };
+            return scm;
+        }
 
         public HashSet<string> GetSelectedFieldsList()
         {
@@ -81,13 +101,11 @@ namespace MS.Katusha.Web.Models.Entities
             if (DickSize.Count > 0 && DickSize.Any(p => p > 0)) hs.Add("DickSize");
             if (DickThickness.Count > 0 && DickThickness.Any(p => p > 0)) hs.Add("DickThickness");
             if (BreastSize.Count > 0 && BreastSize.Any(p => p > 0)) hs.Add("BreastSize");
-            if (MinHeight > 0) hs.Add("MinHeight");
-            if (MaxHeight > 0) hs.Add("MaxHeight");
-            if (MinAge > 0) hs.Add("MinAge");
-            if (MaxAge > 0) hs.Add("MaxAge");
-            if (Searches.Count > 0 && Searches.Any(p => p > 0)) hs.Add("Searches");
-            if (CountriesToVisit.Count > 0 && CountriesToVisit.Any(p => p > 0)) hs.Add("CountriesToVisit");
-            if (LanguagesSpoken.Count > 0 && LanguagesSpoken.Any(p => p > 0)) hs.Add("LanguagesSpoken");
+            if (Height.Count > 0 && Height.Any(p => p > 0)) hs.Add("Height");
+            if (Age.Count > 0 && Age.Any(p => p > 0)) hs.Add("Age");
+            if (LookingFor.Count > 0 && LookingFor.Any(p => p > 0)) hs.Add("LookingFor");
+            if (Country.Count > 0 && Country.Any(p => p > 0)) hs.Add("Country");
+            if (Language.Count > 0 && Language.Any(p => p > 0)) hs.Add("Language");
             return hs;
         }
 
@@ -97,8 +115,8 @@ namespace MS.Katusha.Web.Models.Entities
             {
                 if (!(Gender == Sex.Male || Gender == Sex.Female)) return false;
                 var result = (String.IsNullOrWhiteSpace(Name) && From.Count == 0 && City.Count == 0 && BodyBuild.Count == 0 && EyeColor.Count == 0 && HairColor.Count == 0 && Smokes.Count == 0
-                              && Alcohol.Count == 0 && Religion.Count == 0 && DickSize.Count == 0 && DickThickness.Count == 0 && BreastSize.Count == 0 && Searches.Count == 0 && CountriesToVisit.Count == 0 && LanguagesSpoken.Count == 0
-                              && MinAge == 0 && MaxAge == 0 && MinHeight == 0 && MaxHeight == 0);
+                              && Alcohol.Count == 0 && Religion.Count == 0 && DickSize.Count == 0 && DickThickness.Count == 0 && BreastSize.Count == 0 && LookingFor.Count == 0 && Country.Count == 0 && Language.Count == 0
+                              && Age.Count == 0 && Height.Count == 0);
                 return !result;
             }
         }

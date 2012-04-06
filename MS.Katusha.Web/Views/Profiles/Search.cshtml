@@ -6,8 +6,8 @@
     var action  = ViewContext.RouteData.Values["Action"].ToString();
 }
 
-<h2>Search</h2>   
 @if (model != null) {
+    <h2>Search - ( @Model.Total profiles found )</h2>   
     <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         @foreach (var profile in model) {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
@@ -19,7 +19,7 @@
         }
 
     </div>
-    @Html.PagedListPager(model, page => Url.Action(action, new {page}), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    @Html.PagedListPager(model, page => Url.Action(action, new {key=page})+"?"+Request.QueryString.ToString(), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 }
 <div>
     @Html.ActionLink("Back to List",action)

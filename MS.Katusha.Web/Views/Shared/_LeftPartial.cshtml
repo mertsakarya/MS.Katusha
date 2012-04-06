@@ -31,7 +31,7 @@
         }
     </ul>
     var searchResultModel = ViewBag.KatushaSearchResult as SearchResultModel;
-    Html.RenderPartial("_SearchForm", (searchResultModel != null) ? searchResultModel.SearchCriteria ?? new SearchCriteriaModel() : new SearchCriteriaModel());
+    Html.RenderPartial("_SearchForm", (searchResultModel != null) ? searchResultModel.SearchCriteria ?? SearchCriteriaModel.Empty()  : SearchCriteriaModel.Empty());
     if (searchResultModel != null) {
         if (controllerName == "profiles" && (actionName == "searchgirls" || actionName == "searchmen")) {
             Html.RenderPartial("_Search", searchResultModel);

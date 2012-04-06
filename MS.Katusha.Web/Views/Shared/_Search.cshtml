@@ -32,16 +32,26 @@
         </script>
         <hr />
         <ul>
+            @Html.CriteriaItem("From", criteria.From)
+
             @Html.CriteriaItem("BodyBuild", criteria.BodyBuild)
             @Html.CriteriaItem("EyeColor", criteria.EyeColor)
-            @Html.CriteriaItem("From", criteria.From)
             @Html.CriteriaItem("HairColor", criteria.HairColor)
             @Html.CriteriaItem("Religion", criteria.Religion)
             @Html.CriteriaItem("Smokes", criteria.Smokes)
+
             @Html.CriteriaItem("DickSize", criteria.DickSize)
             @Html.CriteriaItem("DickThickness", criteria.DickThickness)
             @Html.CriteriaItem("BreastSize", criteria.BreastSize)
+
             @Html.CriteriaItem("City", criteria.City)
+
+            @Html.CriteriaItem("Age", criteria.Age)
+            @Html.CriteriaItem("Height", criteria.Height)
+
+            @Html.CriteriaItem("LookingFor", criteria.LookingFor)
+            @Html.CriteriaItem("Country", criteria.Country)
+            @Html.CriteriaItem("Language", criteria.Language)
 
         </ul>
         <hr />
@@ -52,45 +62,14 @@
                 if (Model.SearchCriteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
                 if (selectedFieldsList.Contains(f.Key)) { continue; }
                 <li>
-                    @if (!(f.Key == "From" || f.Key == "City")) {
-                        @Html._R(String.Format("Profile.{0}.DisplayName", f.Key))
-                        <br />
-                    } else {
-                        @f.Key
-                    }    
+                    @Html.SearchCriteriaKeyText(f.Key)
+                    <br />
                     <ul>
                         @foreach (var fv in f.Value) {
-                            string value = "";
-                            string lookupKey = fv.Range;
-                            switch (f.Key) {
-                                case "City":
-                                    value = fv.Range;
-                                    break;
-                                case "From":
-                                case "BodyBuild":
-                                case "HairColor":
-                                case "EyeColor":
-                                case "Smokes":
-                                case "Alcohol":
-                                case "Religion":
-                                case "DickSize":
-                                case "DickThickness":
-                                case "BreastSize":
-                                    var key = (f.Key == "From") ? "Country" : f.Key;
-                                    lookupKey = Html._LText(key, Convert.ToByte(fv.Range));
-                                    value = Html._LText(key, lookupKey);
-                                    break;
-                                case "Searches":
-                                case "LanguagesSpoken":
-                                case "CountriesToVisit":
-                                    break;
-                                default:
-                                    break;
-                            }
+                            string lookupKey;
+                            var value = Html.SearchCriteriaValueText(f.Key, fv.Range, out lookupKey);
                             <li>
-                                <a href="@Html.SetFacet(f.Key, lookupKey)">
-                                    @((String.IsNullOrWhiteSpace(value)) ? Html._R("NotFilled") : value)
-                                </a> 
+                                <a href="@Html.SetFacet(f.Key, lookupKey)">@value</a> 
                                 <span>(@fv.Count)</span>
                             </li>
                         }

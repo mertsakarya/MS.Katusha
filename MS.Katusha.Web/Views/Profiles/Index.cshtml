@@ -17,7 +17,7 @@
 }
 </div>
 
-@Html.PagedListPager(Model.List, page => Url.Action(ViewContext.RouteData.Values["Action"].ToString(), new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@Html.PagedListPager(Model.List, page => Url.Action(ViewContext.RouteData.Values["Action"].ToString(), new {key=page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 
 <div>
     @Html.ActionLink("Back to List", ViewContext.RouteData.Values["Action"].ToString())

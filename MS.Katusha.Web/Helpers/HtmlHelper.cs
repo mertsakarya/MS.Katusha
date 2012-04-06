@@ -291,7 +291,8 @@ namespace MS.Katusha.Web.Helpers
                     if(enumType.IsEnum) {
                         var val = Convert.ToByte(value);
                         if (val > 0) hasValue = true;
-                        result = htmlHelper._LText(key =="From" ? "Country" : key, val);
+                        var lookupName = key == "From" ? "Country" : key;
+                        result = htmlHelper._LText(lookupName, htmlHelper._LText(lookupName, val));
                     } else if (value is string) {
                         var val = Convert.ToString(value);
                         if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
@@ -303,6 +304,68 @@ namespace MS.Katusha.Web.Helpers
                 return htmlHelper.Raw(hasValue ? sb.ToString() : "");
             }
             return htmlHelper.Raw("");
+        }
+
+        public static string SearchCriteriaValueText<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string range, out string lookupKey)
+        {
+            var value = "";
+            lookupKey = range;
+            string k;
+            switch (key) {
+                case "City":
+                    value = range;
+                    break;
+                case "From":
+                case "BodyBuild":
+                case "HairColor":
+                case "EyeColor":
+                case "Smokes":
+                case "Alcohol":
+                case "Religion":
+                case "DickSize":
+                case "DickThickness":
+                case "BreastSize":
+                    k = (key == "From") ? "Country" : key;
+                    lookupKey = htmlHelper._LText(k, Convert.ToByte(range));
+                    value = htmlHelper._LText(k, lookupKey);
+                    break;
+                case "Search":
+                case "Language":
+                case "Country":
+                    k = (key == "Search") ? "LookingFor" : key;
+                    lookupKey = htmlHelper._LText(k, Convert.ToByte(range));
+                    value = htmlHelper._LText(k, lookupKey);
+                    break;
+                case "BirthYear":
+                    k = "Age";
+                    var age = (byte)AgeHelper.GetEnum(range);
+                    lookupKey = htmlHelper._LText(k, age);
+                    value = htmlHelper._LText(key, lookupKey);
+                    break;
+                case "Height":
+                    var height = (byte)HeightHelper.GetEnum(range);
+                    lookupKey = htmlHelper._LText(key, height);
+                    value = htmlHelper._LText(key, lookupKey);
+                    break;
+            }
+            value = (String.IsNullOrWhiteSpace(value)) ? htmlHelper._R("NotFilled") : value;
+            return value;
+        }
+
+        public static string SearchCriteriaKeyText<TModel>(this HtmlHelper<TModel> htmlHelper, string key)
+        {
+            switch (key) {
+                case "Search":
+                    return htmlHelper._R("Profile.Searches.DisplayName");
+                case "Language":
+                    return htmlHelper._R("Profile.LanguagesSpoken.DisplayName");
+                case "Country":
+                    return htmlHelper._R("Profile.CountriesToVisit.DisplayName");
+                default:
+                    if (!(key == "From" || key == "City")) 
+                        return htmlHelper._R(String.Format("Profile.{0}.DisplayName", key));
+                    return key;
+            }
         }
     }
 }

@@ -43,7 +43,8 @@ namespace MS.Katusha.Attributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             int i;
-            return int.TryParse(value.ToString(), out i) ? (i >= Minimum && i <= Maximum ? null : new ValidationResult(ErrorMessage)) : new ValidationResult(ErrorMessage);
+            var v = (value == null) ? "" : value.ToString();
+            return int.TryParse(v, out i) ? (i >= Minimum && i <= Maximum ? null : new ValidationResult(ErrorMessage)) : new ValidationResult(ErrorMessage);
         }
 
         public string PropertyName { get; private set; }

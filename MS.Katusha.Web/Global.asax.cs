@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models.Entities;
@@ -68,8 +69,9 @@ namespace MS.Katusha.Web
             //BundleTable.Bundles.RegisterTemplateBundles();
             BundleTable.Bundles.EnableDefaultBundles();
 
-            var raven = new ProfileRepositoryRavenDB(DependencyHelper.RavenStore);
-            raven.SetFaceting();
+            IProfileRepositoryRavenDB raven = new ProfileRepositoryRavenDB(DependencyHelper.RavenStore);
+            raven.CreateIndexes();
+            raven.CreateFacets();
 
             //Bundle debugScripts = new Bundle("~/DebugScripts", new NoTransform("text/javascript"));
             //debugScripts.AddDirectory("~/Scripts/Debug", "*.js");

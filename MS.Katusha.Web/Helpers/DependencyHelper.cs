@@ -10,6 +10,7 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
+using MS.Katusha.Web.Models.Entities;
 using NLog;
 using Raven.Client;
 using Raven.Client.Document;
@@ -67,6 +68,7 @@ namespace MS.Katusha.Web.Helpers
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            ModelBinders.Binders[typeof(SearchCriteriaModel)] = new SearchCriteriaBinder();
             
 #if DEBUG
             Logger.Info("Dependencies resolved");
