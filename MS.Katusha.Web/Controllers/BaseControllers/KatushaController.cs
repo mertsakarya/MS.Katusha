@@ -15,7 +15,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 {
     public class KatushaController : Controller
     {
-        private readonly ISearchService _searchService;
         public User KatushaUser { get; set; }
         public Profile KatushaProfile { get; set; }
 
@@ -23,9 +22,8 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         public IUserService UserService { get; private set; }
 
-        public KatushaController(IUserService userService, ISearchService searchService)
+        public KatushaController(IUserService userService)
         {
-            _searchService = searchService;
             UserService = userService;
         }
 

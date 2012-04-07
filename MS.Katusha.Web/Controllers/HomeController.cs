@@ -14,8 +14,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IConfigurationService _configurationService;
 
-        public HomeController(IUserService service, IConfigurationService configurationService, ISearchService searchService)
-            : base(service, searchService)
+        public HomeController(IUserService service, IConfigurationService configurationService)
+            : base(service)
         {
             _configurationService = configurationService;
         }
@@ -60,36 +60,3 @@ namespace MS.Katusha.Web.Controllers
         }
     }
 }
-
-/*
- MENU
- * 
- * Find a girl
- * Find a man
- 
- LEFT MENU
- * Conversations
- * Profile Visitors
- * View my profile
- * Edit my profile
- * My Pictures
- * Membership
- * New Girls 
- * New Men
- 
- TOP MENU
- * Browse Members
- * Travel tps
- * Support
- 
- RIGHT MENU
- * Login
- * Logout
- * Register
- * Upgrade
-
- DISPLAY PAGE
- * Send Message
- * Browse Photos
- * Send Gift
- */

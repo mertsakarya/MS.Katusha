@@ -21,6 +21,7 @@ namespace MS.Katusha.Web.Helpers
     public static class DependencyHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public const int GlobalPageSize = 20;
         public static DocumentStore RavenStore;
         public static string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
 
@@ -48,7 +49,10 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
             builder.RegisterType<SearchService>().As<ISearchService>().InstancePerHttpRequest();
+            builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
+            builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerHttpRequest();
+            builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();

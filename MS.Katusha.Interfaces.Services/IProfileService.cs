@@ -14,7 +14,14 @@ namespace MS.Katusha.Interfaces.Services
         long GetProfileId(Guid guid);
         long GetProfileId(string friendlyName);
 
+        /// <summary>
+        /// Use this if you know profile.Id. MUCH FASTER!
+        /// </summary>
         Profile GetProfile(long profileId, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams);
+        /// <summary>
+        /// Use this if you don't know profile.Id, but want to get by Guid or FriendlyName. SLOWER!
+        /// </summary>
+        Profile GetProfile(string key, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams);
 
         void CreateProfile(Profile profile);
         void DeleteProfile(long profileId, bool force = false);
@@ -26,15 +33,5 @@ namespace MS.Katusha.Interfaces.Services
         void AddLanguagesSpoken(long profileId, Language language);
         void DeleteSearches(long profileId, LookingFor lookingFor);
         void AddSearches(long profileId, LookingFor lookingFor);
-
-        void MakeProfilePhoto(long profileId, Guid photoGuid);
-        void DeletePhoto(long profileId, Guid guid, string pathToPhotos);
-        ViewDataUploadFilesResult AddPhoto(long profileId, string description, string pathToPhotos, HttpPostedFileBase hpf);
-        void AddSamplePhoto(long profileId, string description, string pathToPhotos, string fileName, string filePath);
-
-        IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20);
-        void SendMessage(Conversation data);
-        void ReadMessage(long id, Guid messageGuid);
-        IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
     }
 }

@@ -20,7 +20,7 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IUserService _service;
 
-        public AccountController(IUserService service, ISearchService searchService) : base(service, searchService)
+        public AccountController(IUserService service) : base(service)
         {
             _service = service;
         }

@@ -254,6 +254,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
     <Compile Include="Controllers\BaseControllers\LookupListProcessor.cs" />
+    <Compile Include="Controllers\VisitorController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Helpers\GenderHelper.cs" />
@@ -497,10 +501,10 @@
     <None Include="App_Data\MS.Katusha.RavenDB\system\RVN.chk" />
     <Content Include="ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
-    <Content Include="Views\Profiles\Photos.cshtml" />
-    <Content Include="Views\Profiles\MyMessages.cshtml" />
-    <Content Include="Views\Profiles\SendMessage.cshtml" />
-    <Content Include="Views\Profiles\Visitors.cshtml" />
+    <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Messages\My.cshtml" />
+    <Content Include="Views\Messages\Send.cshtml" />
+    <Content Include="Views\Visitor\Index.cshtml" />
     <Content Include="Views\Profiles\Create.cshtml" />
     <Content Include="Views\Profiles\Show.cshtml" />
     <Content Include="Views\Profiles\Edit.cshtml" />
@@ -508,7 +512,7 @@
     <Content Include="Views\Shared\_LeftPartial.cshtml" />
     <Content Include="NLog.config" />
     <Content Include="Views\Shared\_Search.cshtml" />
-    <Content Include="Views\Profiles\Search.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Shared\_SearchForm.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

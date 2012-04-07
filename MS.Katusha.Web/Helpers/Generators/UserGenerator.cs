@@ -15,15 +15,17 @@ namespace MS.Katusha.Web.Helpers.Generators
     {
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
+        private readonly IPhotosService _photosService;
 
-        public SampleGenerator(IProfileService profileService, IUserService userService)
+        public SampleGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
         {
             _profileService = profileService;
             _userService = userService;
+            _photosService = photosService;
         }
         public void CreateSamples(int count)
         {
-            var generator = new ProfileGenerator(_profileService, _userService);
+            var generator = new ProfileGenerator(_profileService, _userService, _photosService);
             for(var i =0 ; i < count; i++) {
                 generator.Generate();
             }
@@ -53,12 +55,14 @@ namespace MS.Katusha.Web.Helpers.Generators
     public class ProfileGenerator : IGenerator<Profile> {
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
+        private readonly IPhotosService _photosService;
         private readonly static Logger Logger = LogManager.GetLogger("ProfileGenerator");
 
-        public ProfileGenerator(IProfileService profileService, IUserService userService)
+        public ProfileGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
         {
             _profileService = profileService;
             _userService = userService;
+            _photosService = photosService;
         }
 
         public User User { get; set; }
@@ -121,7 +125,7 @@ namespace MS.Katusha.Web.Helpers.Generators
                 for (var i = 1; i <= photoCount; i++) {
                     var filename = "me" + i.ToString() + ".jpg";
                     var filepath = samples + filename;
-                    _profileService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), root + "Photos\\", filename, filepath);
+                    _photosService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), root + "Photos\\", filename, filepath);
                 }
             }
 

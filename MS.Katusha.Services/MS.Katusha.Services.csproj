@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VisitService.cs" />
+    <Compile Include="PhotosService.cs" />
     <Compile Include="SearchService.cs" />
     <Compile Include="ProfileService.cs" />
     <Compile Include="ConfigurationService.cs" />

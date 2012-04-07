@@ -108,17 +108,5 @@ namespace MS.Katusha.Web.Models.Entities
             if (Language.Count > 0 && Language.Any(p => p > 0)) hs.Add("Language");
             return hs;
         }
-
-        public bool CanSearch
-        {
-            get
-            {
-                if (!(Gender == Sex.Male || Gender == Sex.Female)) return false;
-                var result = (String.IsNullOrWhiteSpace(Name) && From.Count == 0 && City.Count == 0 && BodyBuild.Count == 0 && EyeColor.Count == 0 && HairColor.Count == 0 && Smokes.Count == 0
-                              && Alcohol.Count == 0 && Religion.Count == 0 && DickSize.Count == 0 && DickThickness.Count == 0 && BreastSize.Count == 0 && LookingFor.Count == 0 && Country.Count == 0 && Language.Count == 0
-                              && Age.Count == 0 && Height.Count == 0);
-                return !result;
-            }
-        }
     }
 }
