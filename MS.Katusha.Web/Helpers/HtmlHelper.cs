@@ -124,16 +124,15 @@ namespace MS.Katusha.Web.Helpers
         {
             var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.RawUrl;
             var qs = htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString;
-            var ns = "&NewSearch=1";
+            if (key == "BirthYear") 
+                key = "Age";
             var i = url.IndexOf('?');
             if (i >= 0)
                 url = url.Substring(0, i + 1);
             foreach (var k in qs.AllKeys) {
-                if (k != "NewSearch") {
-                    var v = qs.Get(k);
-                    if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
-                        url += k + "=" + v + "&";
-                }
+                var v = qs.Get(k);
+                if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
+                    url += k + "=" + v + "&";
             }
             return url + key + "=" + ((String.IsNullOrWhiteSpace(value)) ? "Empty" : value);
         }
@@ -288,17 +287,26 @@ namespace MS.Katusha.Web.Helpers
                 sb.AppendFormat("<li>{0}<ul>", key);
                 foreach (var value in values) {
                     var result = "";
+                    var k = key;
                     if(enumType.IsEnum) {
+                        switch (key) {
+                            case "From":
+                                k = "Country";
+                                break;
+                            case "BirthYear":
+                                k = "Age";
+                                break;
+                        }
                         var val = Convert.ToByte(value);
                         if (val > 0) hasValue = true;
-                        var lookupName = key == "From" ? "Country" : key;
+                        var lookupName = k;
                         result = htmlHelper._LText(lookupName, htmlHelper._LText(lookupName, val));
                     } else if (value is string) {
                         var val = Convert.ToString(value);
                         if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
                         result = val;
                     }
-                    sb.AppendFormat("<li>{0}<a class='removeFacet' href='#' onclick=\"RemoveSearchKey('{1}', '{2}');\">[X]</a></li>", result, key, value);
+                    sb.AppendFormat("<li>{0}<a class='removeFacet' href='#' onclick=\"RemoveSearchKey('{1}', '{2}');\">[X]</a></li>", result, k, value);
                 }
                 sb.Append("</ul></li>");
                 return htmlHelper.Raw(hasValue ? sb.ToString() : "");
@@ -340,7 +348,7 @@ namespace MS.Katusha.Web.Helpers
                     k = "Age";
                     var age = (byte)AgeHelper.GetEnum(range);
                     lookupKey = htmlHelper._LText(k, age);
-                    value = htmlHelper._LText(key, lookupKey);
+                    value = htmlHelper._LText(k, lookupKey);
                     break;
                 case "Height":
                     var height = (byte)HeightHelper.GetEnum(range);
@@ -361,6 +369,8 @@ namespace MS.Katusha.Web.Helpers
                     return htmlHelper._R("Profile.LanguagesSpoken.DisplayName");
                 case "Country":
                     return htmlHelper._R("Profile.CountriesToVisit.DisplayName");
+                case "BirthYear":
+                    return htmlHelper._R("Profile.Age.DisplayName");
                 default:
                     if (!(key == "From" || key == "City")) 
                         return htmlHelper._R(String.Format("Profile.{0}.DisplayName", key));

@@ -102,7 +102,7 @@ namespace MS.Katusha.Web.Models.Entities
             if (DickThickness.Count > 0 && DickThickness.Any(p => p > 0)) hs.Add("DickThickness");
             if (BreastSize.Count > 0 && BreastSize.Any(p => p > 0)) hs.Add("BreastSize");
             if (Height.Count > 0 && Height.Any(p => p > 0)) hs.Add("Height");
-            if (Age.Count > 0 && Age.Any(p => p > 0)) hs.Add("Age");
+            if (Age.Count > 0 && Age.Any(p => p > 0)) { hs.Add("Age"); hs.Add("BirthYear"); }
             if (LookingFor.Count > 0 && LookingFor.Any(p => p > 0)) hs.Add("LookingFor");
             if (Country.Count > 0 && Country.Any(p => p > 0)) hs.Add("Country");
             if (Language.Count > 0 && Language.Any(p => p > 0)) hs.Add("Language");

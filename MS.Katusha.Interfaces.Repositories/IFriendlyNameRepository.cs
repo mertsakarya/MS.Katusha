@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Interfaces.Repositories

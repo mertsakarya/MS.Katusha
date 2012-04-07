@@ -42,7 +42,7 @@ namespace MS.Katusha.Test
         private void CreateSampleMan(User user, Guid guid)
         {
             long id = user.Id;
-            var now = DateTime.Now.ToUniversalTime();
+            var now = DateTime.UtcNow;
             var manRepository = new ProfileRepositoryDB(_dbContext);
             var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
@@ -101,7 +101,7 @@ namespace MS.Katusha.Test
         private void CreateSampleGirl(User user, Guid guid)
         {
             long id = user.Id;
-            var now = DateTime.Now.ToUniversalTime();
+            var now = DateTime.UtcNow;
             var girlRepository = new ProfileRepositoryDB(_dbContext);
             var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);

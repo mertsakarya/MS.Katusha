@@ -45,8 +45,11 @@
   <ItemGroup>
     <Compile Include="IConfigurationDataRepository.cs" />
     <Compile Include="IConfigurationRepository.cs" />
+    <Compile Include="IRavenFriendlyNameRepository.cs" />
+    <Compile Include="IRavenGuidRepository.cs" />
+    <Compile Include="IRavenRepository.cs" />
     <Compile Include="IResourceLookupRepository.cs" />
-    <Compile Include="IFrirendlyNameRepository.cs" />
+    <Compile Include="IFriendlyNameRepository.cs" />
     <Compile Include="IGuidRepository.cs" />
     <Compile Include="IProfileRepository.cs" />
     <Compile Include="IConversationRepository.cs" />

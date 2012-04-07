@@ -1,33 +1,26 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
+using Raven.Abstractions.Data;
 using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
-using Raven.Client.Indexes;
+
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
-    public abstract class BaseRepositoryRavenDB<T> : IRepository<T> where T : BaseModel
+    public abstract class BaseRepositoryRavenDB<T> : IRavenRepository<T> where T : BaseModel
     {
         protected BaseRepositoryRavenDB(IDocumentStore documentStore) { DocumentStore = documentStore; }
 
         protected IDocumentStore DocumentStore { get; private set; }
 
-        protected IQueryable<T> QueryableRepository
+        private IQueryable<T> QueryableRepository(bool withTracking = false)
         {
-            get
-            {
-                using (var session = DocumentStore.OpenSession())
-                {
-                    return session.Query<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking();
-                }            
+            using (var session = DocumentStore.OpenSession()) {
+                return withTracking ? session.Query<T>().Where(p => !p.Deleted).AsQueryable() : session.Query<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking();
             }
         }
 
@@ -38,18 +31,18 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public IQueryable<T> GetAll()
         {
-            return QueryableRepository;
+            return QueryableRepository();
         }
 
         public IQueryable<T> GetAll(int pageNo, int pageSize)
         {
             if (pageNo < 1) return GetAll();
-            return QueryableRepository.Skip((pageNo - 1) * pageSize).Take(pageSize);
+            return QueryableRepository().Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
-        private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter)
+        private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter, bool withTracking = false)
         {
-            var queryable = QueryableRepository;
+            var queryable = QueryableRepository(withTracking);
             if (filter != null) queryable = queryable.Where(filter);
             return queryable;
         }
@@ -76,8 +69,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public T SingleAttached(Expression<Func<T, bool>> filter)
         {
-            //TODO: implement correcting AsNoTracking issue
-            return Single(filter, null);
+            return QueryHelper(filter, true).FirstOrDefault();
         }
 
         private T AddRavenDB(T entity)
@@ -92,13 +84,17 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public T Add(T entity)
         {
-            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            entity.ModifiedDate = DateTime.UtcNow;
+            entity.CreationDate = entity.ModifiedDate;
+            entity.DeletionDate = new DateTime(1900, 1, 1, 0, 0, 0);
+            entity.Deleted = false;
             return AddRavenDB(entity);
         }
 
         public T FullUpdate(T entity)
         {
-            return Add(entity);
+            entity.ModifiedDate = DateTime.UtcNow;
+            return AddRavenDB(entity);
         }
 
         public T Delete(T entity)
@@ -111,12 +107,15 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         public T SoftDelete(T entity)
         {
             entity.Deleted = true;
-            entity.DeletionDate = DateTime.Now.ToUniversalTime();
+            entity.DeletionDate = DateTime.UtcNow;
             return Add(entity);
         }
 
         public void Save()
         {
         }
+
+
+        public void Patch(long id, PatchRequest[] patchRequests) { DocumentStore.DatabaseCommands.Patch(id.ToString(), patchRequests); }
     }
 }

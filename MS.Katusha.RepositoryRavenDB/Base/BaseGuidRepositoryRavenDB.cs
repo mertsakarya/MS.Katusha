@@ -6,7 +6,7 @@ using Raven.Client;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
-    public abstract class BaseGuidRepositoryRavenDB<T> : BaseRepositoryRavenDB<T>, IGuidRepository<T> where T : BaseGuidModel
+    public abstract class BaseGuidRepositoryRavenDB<T> : BaseRepositoryRavenDB<T>, IRavenGuidRepository<T> where T : BaseGuidModel
     {
         //protected BaseGuidRepositoryRavenDB(string connectionStringName = "KatushaRavenDB") //: base(connectionStringName)
         //{

@@ -17,7 +17,7 @@ namespace MS.Katusha.Repositories.DB.Base
 
         private static TEntity ExecuteAdd<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
         {
-            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            entity.ModifiedDate = DateTime.UtcNow;
             entity.CreationDate = entity.ModifiedDate;
             entity.DeletionDate = new DateTime(1900, 1, 1, 0, 0, 0);
             entity.Deleted = false;
@@ -39,7 +39,7 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public static TEntity Update<TEntity>(DbContext context, TEntity entity, params Expression<Func<TEntity, object>>[] expressionParams) where TEntity : BaseModel
         {
-            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            entity.ModifiedDate = DateTime.UtcNow;
             List<Expression<Func<TEntity, object>>> expressions = expressionParams.ToList();
             expressions.Add(p => p.ModifiedDate);
             AttachAndSetAsModified(context, entity, expressionParams);
@@ -78,7 +78,7 @@ namespace MS.Katusha.Repositories.DB.Base
         public static TEntity SoftDelete<TEntity>(DbContext context, TEntity entity) where TEntity : BaseModel
         {
             context.Entry(entity).State = EntityState.Modified;
-            entity.ModifiedDate = DateTime.Now.ToUniversalTime();
+            entity.ModifiedDate = DateTime.UtcNow;
             entity.DeletionDate= entity.ModifiedDate;
             entity.Deleted = true;
             var expressions = new Expression<Func<TEntity, object>>[]

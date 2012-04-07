@@ -8,7 +8,7 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IConversationRepositoryDB : IConversationRepository
     {
     }
-    public interface IConversationRepositoryRavenDB : IConversationRepository
+    public interface IConversationRepositoryRavenDB : IConversationRepositoryDB, IRavenGuidRepository<Conversation>
     {
     }
 }

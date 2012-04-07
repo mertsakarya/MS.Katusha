@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -23,9 +22,11 @@ namespace MS.Katusha.Services
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
         private readonly ISearchingForRepositoryDB _searchingForRepository;
-        private readonly IConversationRepositoryDB _converstaionRepository;
+        private readonly IConversationRepositoryDB _conversationRepository;
         private readonly IVisitRepositoryDB _visitRepository;
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
+        private readonly IVisitRepositoryRavenDB _visitRepositoryRaven;
+        private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
 
         private readonly IKatushaCacheContext _katushaCache
 ;
@@ -33,7 +34,10 @@ namespace MS.Katusha.Services
         public ProfileService(IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, 
             ICountriesToVisitRepositoryDB countriesToVisitRepository, IPhotoRepositoryDB photoRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
-            IConversationRepositoryDB converstaionRepository, IVisitRepositoryDB visitRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaCacheContext cacheContext)
+            IConversationRepositoryDB conversationRepository, IVisitRepositoryDB visitRepository,
+            IProfileRepositoryRavenDB profileRepositoryRaven, IVisitRepositoryRavenDB visitRepositoryRaven, 
+            IConversationRepositoryRavenDB conversationRepositoryRaven,
+            IKatushaCacheContext cacheContext)
         {
             _profileRepository = profileRepository;
             _userRepository = userRepository;
@@ -41,9 +45,11 @@ namespace MS.Katusha.Services
             _photoRepository = photoRepository;
             _languagesSpokenRepository = languagesSpokenRepository;
             _searchingForRepository = searchingForRepository;
-            _converstaionRepository = converstaionRepository;
+            _conversationRepository = conversationRepository;
             _visitRepository = visitRepository;
             _profileRepositoryRaven = profileRepositoryRaven;
+            _visitRepositoryRaven = visitRepositoryRaven;
+            _conversationRepositoryRaven = conversationRepositoryRaven;
             _katushaCache = cacheContext; 
         }
 
@@ -78,15 +84,25 @@ namespace MS.Katusha.Services
             return profile;
         }
 
-        public void Visit(Profile visitorProfile, Profile profile)
+        private void Visit(Profile visitorProfile, Profile profile)
         {
             if (visitorProfile != null && profile.Id != visitorProfile.Id) {
                 var visit = _visitRepository.SingleAttached(p => p.ProfileId == profile.Id);
+
                 if (visit == null) {
-                    _visitRepository.Add(new Visit {ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = 1});
-                }  else {
+                    _visitRepository.Add(new Visit { ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = 1 });
+                } else {
                     visit.VisitCount++;
                     _visitRepository.FullUpdate(visit);
+                }
+                //TODO: Modify this with PATCH method of Raven Repository. http://ravendb.net/docs/client-api/partial-document-updates
+                //_visitRepositoryRaven.Add(new Visit { ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = visit.VisitCount });
+                var visitRaven = _visitRepositoryRaven.SingleAttached(p => p.ProfileId == profile.Id);
+                if (visitRaven == null) {
+                    _visitRepositoryRaven.Add(new Visit { ProfileId = profile.Id, VisitorProfileId = visitorProfile.Id, VisitCount = 1 });
+                } else {
+                    visitRaven.VisitCount++;
+                    _visitRepositoryRaven.FullUpdate(visitRaven);
                 }
             }
         }
@@ -287,25 +303,31 @@ namespace MS.Katusha.Services
 
         public IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            return _converstaionRepository.Query(q => q.FromId == profileId || q.ToId == profileId, pageNo, pageSize, out total, o => o.CreationDate, p => p.From, p => p.To).ToList();
+            return _conversationRepository.Query(q => q.FromId == profileId || q.ToId == profileId, pageNo, pageSize, out total, o => o.CreationDate, p => p.From, p => p.To).ToList();
         }
 
         public void SendMessage(Conversation message)
         {
-            _converstaionRepository.Add(message);
+            _conversationRepository.Add(message);
+            _conversationRepositoryRaven.Add(message);
         }
 
         public void ReadMessage(long profileId, Guid messageGuid)
         {
-            var message = _converstaionRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
+            var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (message == null) return;
-            message.ReadDate = DateTime.Now.ToUniversalTime();
-            _converstaionRepository.FullUpdate(message);
+            message.ReadDate = DateTime.UtcNow;
+            _conversationRepository.FullUpdate(message);
+            var messageRaven = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
+            if (messageRaven == null) return;
+            messageRaven.ReadDate = DateTime.UtcNow;
+            _conversationRepositoryRaven.FullUpdate(messageRaven);
         }
 
         public IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
+            var items = _visitRepositoryRaven.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
+            //var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
             return items;
         }
 

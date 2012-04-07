@@ -6,7 +6,7 @@ using Raven.Client;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
-    public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IFriendlyNameRepository<T> where T : BaseFriendlyModel
+    public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IRavenFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
 
         protected BaseFriendlyNameRepositoryRavenDB(IDocumentStore documentStore)
