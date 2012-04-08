@@ -1,8 +1,8 @@
 @model SearchCriteriaModel
-<form id="searchForm" action="/Profiles/SearchMen" method="get">
+<form id="searchForm" action="/Search/Men" method="get">
     <br /> 
-    <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Profiles/SearchGirls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
-    <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Profiles/SearchMen';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
+    <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Search/Girls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
+    <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Search/Men';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
     <br/><br/>
     <h3 id="whereToSearch">Searching Men</h3>
     

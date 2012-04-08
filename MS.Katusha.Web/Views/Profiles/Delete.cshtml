@@ -1,17 +1,13 @@
 @model ProfileModel
-
-@{
-    ViewBag.Title = "Delete";
-}
+@{ ViewBag.Title = "Delete"; }
 
 <h2>Delete</h2>
-
 <h2>Are you sure you want to delete your profile?</h2>
 
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="Delete" /> |
-    @Html.ActionLink("Back to Profile page", "Show", new {key = Model.Guid})
+        @Html.ActionLink("Back to Profile page", "Show", "Profiles", new {key = Model.Guid}, null)
     </p>
 }
 

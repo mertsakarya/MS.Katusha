@@ -1,15 +1,13 @@
 @using MS.Katusha.Enumerations
 @model ProfileModel
-@{
-    ViewBag.Title = Model.Name + "'s Profile";
-}
+@{ ViewBag.Title = Model.Name + "'s Profile"; }
 
 <h2>@Model.Name</h2>
 <hr />
 <fieldset>
     <legend>Profile</legend>
     @if (Model.ProfilePhotoGuid != Guid.Empty) {
-        @Html.Photo(Model.ProfilePhotoGuid, (Sex) Model.Gender, PhotoType.Medium)
+        @Html.Photo(Model.ProfilePhotoGuid,  Model.Gender, PhotoType.Medium,"", true)
     }
     <hr />
 
@@ -39,7 +37,7 @@
 </fieldset>
 
 <p>
-    @Html.ActionLink("SEND MESSAGE", "SendMessage", new { key = Html.KeyFor(Model) }, null) |
-    @Html.ActionLink("Back to List", (Model.Gender == Sex.Male ? "Girls" : "Men"))
+    @Html.ActionLink("SEND MESSAGE", "Send", "Messages", new { key = Html.KeyFor(Model) }, null) |
+    @Html.ActionLink("Back to List", (Model.Gender == Sex.Male ? "Girls" : "Men"), "Profiles", null, null)
 </p>
 

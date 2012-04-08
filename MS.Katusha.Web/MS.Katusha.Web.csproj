@@ -501,7 +501,7 @@
     <None Include="App_Data\MS.Katusha.RavenDB\system\RVN.chk" />
     <Content Include="ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
-    <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Photos\List.cshtml" />
     <Content Include="Views\Messages\My.cshtml" />
     <Content Include="Views\Messages\Send.cshtml" />
     <Content Include="Views\Visitor\Index.cshtml" />

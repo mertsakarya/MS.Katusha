@@ -1,21 +1,25 @@
 ﻿@using MS.Katusha.Enumerations
 @model ProfileModel
 @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
+    var photoType = ((byte) PhotoType.Medium).ToString();        
     <script type="text/javascript">
         $(function() {
             $('.bar').mosaic({ animation: 'slide' });
         });
 
         function MakeProfilePhoto(key, guid) {
-            javascript: $.getJSON('/Profiles/MakeProfilePhoto/' + key + '/' + guid,
-                function() {
+            javascript:$.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
+                function () {
+                    var img = document.getElementById("ProfilePhoto");
+                    if (img != null)
+                        img.src = "/Photos/@(photoType)-" + guid + ".png";
                     alert('You have changed your profile picture!');
                 }
             );
         }
 
         function DeletePhoto(key, guid) {
-            $.getJSON('/Profiles/DeletePhoto/' + key + '/' + guid,
+            $.getJSON('/Photos/Delete/' + key + '/' + guid,
                 function() {
                     document.getElementById("Photo:" + guid).style.display = "none";
                     //$(document.getElementById("Photo:" + guid)).hide("slow");
@@ -27,30 +31,29 @@
 }
 <br />
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-    @foreach (var photo in Model.Photos) { 
-        if(!String.IsNullOrEmpty(photo.FileName)) {
-            <div id="Photo:@(photo.Guid)" class="gallery-item" style="display: inline; positon:relative;" data-href="@Html.PhotoLink(photo.Guid, (Sex)Model.Gender)" title="@photo.Description">
-                @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
-                    <div class="mosaic-block bar">
-                        <div class="mosaic-overlay">
-                            <div class="details">
-                                <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid')"><img src="/Images/close.gif" alt="Delete photo"/></a>
-                                <a title="Make this your profile picture" href="#" onclick=" MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid')">
-                                    <img src="/Images/profile.gif" alt="Delete photo"/>
-                                </a>
-                            </div>
+    @foreach (var photo in Model.Photos) {
+        if (String.IsNullOrEmpty(photo.FileName)) { continue; }
+        <div id="Photo:@photo.Guid" class="gallery-item" style="display: inline; positon:relative;" data-href="@Html.PhotoLink(photo.Guid, Model.Gender)" title="@photo.Description">
+            @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
+                <div class="mosaic-block bar">
+                    <div class="mosaic-overlay">
+                        <div class="details">
+                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid')"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                            <a title="Make this your profile picture" href="#" onclick=" MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid')">
+                                <img src="/Images/profile.gif" alt="Delete photo"/>
+                            </a>
                         </div>
-                        <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, (Sex) Model.Gender)" rel="gallery">
-                            <div class="mosaic-backdrop">@(Html.Photo(photo.Guid, (Sex) Model.Gender, PhotoType.Thumbnail, photo.Description))</div>
-                        </a>
                     </div>
-                } else {
-                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, (Sex)Model.Gender)" rel="gallery">
-                        @(Html.Photo(photo.Guid, (Sex)Model.Gender, PhotoType.Thumbnail, photo.Description))
+                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid,  Model.Gender)" rel="gallery">
+                        <div class="mosaic-backdrop">@Html.Photo(photo.Guid, Model.Gender, PhotoType.Thumbnail, photo.Description)</div>
                     </a>
-                }
-            </div>
-        }
+                </div>
+            } else {
+                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, Model.Gender)" rel="gallery">
+                    @Html.Photo(photo.Guid, Model.Gender, PhotoType.Thumbnail, photo.Description)
+                </a>
+            }
+        </div>
     }
 </div>
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
@@ -82,7 +85,7 @@
 @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
     <br/>
     <hr/>
-    <form id="fileupload" action="@Url.Action("UploadFiles", "Profiles", new { key = Html.KeyFor(Model) })" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="@Url.Action("UploadFiles", "Photos", new { key = Html.KeyFor(Model) })" method="POST" enctype="multipart/form-data">
         <!-- The} fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="span7">

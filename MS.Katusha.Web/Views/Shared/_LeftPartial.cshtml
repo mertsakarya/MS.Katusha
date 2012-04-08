@@ -1,24 +1,23 @@
 ﻿@using MS.Katusha.Domain.Entities
-
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
     var user = ViewBag.KatushaUser as User;
+    var searchResultModel = ViewBag.KatushaSearchResult as SearchResultModel;
     var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant();
     var actionName = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant();
-    var search = ViewBag.KatushaSearch as SearchResultModel;
     <ul>
         @if (profile != null) {
 
-            <li>@Html.ActionLink("My messages", "MyMessages", "Profiles", new {pageNo = 1}, null)</li>
-            <li>@Html.ActionLink("My visitors", "Visitors", "Profiles", new {pageNo = 1}, null)</li>
+            <li>@Html.ActionLink("My messages", "My", "Messages", new {pageNo = 1}, null)</li>
+            <li>@Html.ActionLink("My visitors", "Index", "Visitor", new {pageNo = 1}, null)</li>
             <li>@Html.ActionLink("View my profile", "Show", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
             <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
-            <li>@Html.ActionLink("My Photos", "Photos", "Profiles")</li>
+            <li>@Html.ActionLink("My Photos", "List", "Photos")</li>
             <li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>
         } else {
             if (user != null && !user.EmailValidated) {
                 <li>Email not confirmed yet!<br />
-                    If you haven't received a mail from us, you can @Html.ActionLink("resend the Confirmation Mail", "SendConfirmationMail", "Home") again.
+                    If you haven't received a mail from us, you can @Html.ActionLink("resend the Confirmation Mail", "SendConfirmation", "Mail") again.
                 </li>
             } else if (user != null && user.Gender == 0) {
                 <li>Create a new
@@ -30,12 +29,9 @@
             }
         }
     </ul>
-    var searchResultModel = ViewBag.KatushaSearchResult as SearchResultModel;
     Html.RenderPartial("_SearchForm", (searchResultModel != null) ? searchResultModel.SearchCriteria ?? SearchCriteriaModel.Empty()  : SearchCriteriaModel.Empty());
-    if (searchResultModel != null) {
-        if (controllerName == "profiles" && (actionName == "searchgirls" || actionName == "searchmen")) {
-            Html.RenderPartial("_Search", searchResultModel);
-        }
+    if (searchResultModel != null && (searchResultModel.Total >= 0 && controllerName == "search" && (actionName == "girls" || actionName == "men"))) {
+        Html.RenderPartial("_Search", searchResultModel);
     }
 }
 

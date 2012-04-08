@@ -69,7 +69,7 @@
                             string lookupKey;
                             var value = Html.SearchCriteriaValueText(f.Key, fv.Range, out lookupKey);
                             <li>
-                                <a href="@Html.SetFacet(f.Key, lookupKey)">@value</a> 
+                                <a href="@Html.SetFacet(((f.Key == "BirthYear") ? "Age" : f.Key), lookupKey)">@value</a> 
                                 <span>(@fv.Count)</span>
                             </li>
                         }

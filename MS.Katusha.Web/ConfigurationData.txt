@@ -160,6 +160,8 @@
  	[Resource]
  		en	Profile.From.DisplayName	Your country
  		en	Profile.From.Description	The country currently you are living in.
+ 		tr	Profile.From.DisplayName	Ülkeniz
+ 		tr	Profile.From.Description	Yaşadığınız ülke.
 
 *	Profile.City
  	[Configuration]

@@ -20,7 +20,7 @@ namespace MS.Katusha.Domain.Entities
         public string Email { get; set; }
 
         public bool EmailValidated { get; set; }
-
+        
         public string Phone { get; set; }
 
         [Required]

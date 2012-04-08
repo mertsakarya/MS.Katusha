@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web;
@@ -100,9 +99,12 @@ namespace MS.Katusha.Web.Helpers
             return rm._L(resourceName, (byte) language);
         }
 
-        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "")
+        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false )
         {
             var tb = new TagBuilder("img");
+            if(setId) {
+                tb.Attributes.Add("id", String.Format("ProfilePhoto"));
+            }
             var str = GetPhotoPath(photoGuid, photoType, gender);
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
@@ -114,27 +116,12 @@ namespace MS.Katusha.Web.Helpers
 
         private static string GetPhotoPath(Guid photoGuid, PhotoType photoType, Sex gender)
         {
-            var sex = (gender == Sex.Male) ? "Man" : "Girl";
-            if (photoGuid == Guid.Empty)
-                return String.Format("/Images/{1}{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""), sex);
-            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte) photoType);
-        }
 
-        public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)
-        {
-            var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.RawUrl;
-            var qs = htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString;
-            if (key == "BirthYear") 
-                key = "Age";
-            var i = url.IndexOf('?');
-            if (i >= 0)
-                url = url.Substring(0, i + 1);
-            foreach (var k in qs.AllKeys) {
-                var v = qs.Get(k);
-                if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
-                    url += k + "=" + v + "&";
+            if (photoGuid == Guid.Empty) {
+                var sex = (gender == Sex.Male) ? "Man" : "Girl";
+                return String.Format("/Images/{1}{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""), sex);
             }
-            return url + key + "=" + ((String.IsNullOrWhiteSpace(value)) ? "Empty" : value);
+            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte) photoType);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
@@ -276,6 +263,21 @@ namespace MS.Katusha.Web.Helpers
             }
 
             return htmlHelper.Raw("");
+        }
+
+        public static string SetFacet<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string value)
+        {
+            var url = htmlHelper.ViewContext.RequestContext.HttpContext.Request.RawUrl;
+            var qs = htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString;
+            var i = url.IndexOf('?');
+            if (i >= 0)
+                url = url.Substring(0, i + 1);
+            foreach (var k in qs.AllKeys) {
+                var v = qs.Get(k);
+                if (!(String.IsNullOrWhiteSpace(v) || v == "0"))
+                    url += k + "=" + v + "&";
+            }
+            return url + key + "=" + ((String.IsNullOrWhiteSpace(value)) ? "Empty" : value);
         }
 
         public static IHtmlString CriteriaItem<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, string key, IList<TEnum> values)

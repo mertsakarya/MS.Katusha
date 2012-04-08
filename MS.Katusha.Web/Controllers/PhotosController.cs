@@ -28,7 +28,7 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Index()
+        public ActionResult List()
         {
             var profile = _profileService.GetProfile(KatushaProfile.Id, null, p=>p.Photos);
             ViewBag.SameProfile = true;
@@ -38,7 +38,7 @@ namespace MS.Katusha.Web.Controllers
 
         [System.Web.Http.HttpGet]
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public void DeletePhoto(string key, string photoGuid)
+        public void Delete(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
             _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid), Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]));
