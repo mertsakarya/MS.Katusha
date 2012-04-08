@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Services
 {

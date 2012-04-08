@@ -1,23 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using MS.Katusha.Domain.Entities;
+﻿using System.Web.Mvc;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
-using MS.Katusha.Web.Models;
-using MS.Katusha.Exceptions;
-using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
 {
     public class HomeController : KatushaController
     {
-        private readonly IConfigurationService _configurationService;
-
-        public HomeController(IUserService service, IConfigurationService configurationService)
+        public HomeController(IUserService service)
             : base(service)
         {
-            _configurationService = configurationService;
         }
 
         public ActionResult Index()
@@ -37,26 +28,6 @@ namespace MS.Katusha.Web.Controllers
             ViewBag.Message = "Your quintessential contact page.";
 
             return View();
-        }
-
-
-        public ActionResult MailConfirm(string key)
-        {
-            User user = UserService.ConfirmEMailAddresByGuid(Guid.Parse(key));
-            var model = new MailConfirmModel { UserName = user.UserName };
-            return View(model);
-        }
-
-        public ActionResult SendConfirmationMail()
-        {
-            UserService.SendConfirmationMail(KatushaUser);
-            return View();
-        }
-
-        [KatushaFilter]
-        public ActionResult Init()
-        {
-            throw new KatushaException("", _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n")));
         }
     }
 }

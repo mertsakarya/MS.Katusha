@@ -35,9 +35,11 @@
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generators\GeneratorHelper.cs" />
+    <Compile Include="Generators\IGenerator.cs" />
+    <Compile Include="Generators\ProfileGenerator.cs" />
+    <Compile Include="Generators\SampleGenerator.cs" />
+    <Compile Include="Generators\UserGenerator.cs" />
     <Compile Include="VisitService.cs" />
     <Compile Include="PhotosService.cs" />
     <Compile Include="SearchService.cs" />

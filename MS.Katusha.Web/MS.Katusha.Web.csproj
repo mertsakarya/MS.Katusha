@@ -254,6 +254,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
     <Compile Include="Controllers\BaseControllers\LookupListProcessor.cs" />
+    <Compile Include="Controllers\UtilitiesController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\VisitorController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -262,8 +264,6 @@
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Helpers\GenderHelper.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
-    <Compile Include="Helpers\Generators\GeneratorHelper.cs" />
-    <Compile Include="Helpers\Generators\UserGenerator.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\DependencyHelper.cs" />
@@ -472,10 +472,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\___MailTemplates\MailConfirm.cshtml" />
+    <Content Include="Views\___MailTemplates\MailConfirm_en.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\MailConfirm.cshtml" />
+    <Content Include="Views\Mail\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Profiles\Delete.cshtml" />
@@ -484,7 +484,7 @@
     <Content Include="Views\Shared\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\SendConfirmationMail.cshtml" />
+    <Content Include="Views\Mail\SendConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\KatushaError.cshtml" />

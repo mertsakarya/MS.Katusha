@@ -41,7 +41,7 @@ namespace MS.Katusha.Web.Controllers
         {
             var pageIndex = (page ?? 1);
             int total;
-            IEnumerable<Profile> profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
+            var profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
             var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
             var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
@@ -104,16 +104,16 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(model);
 
                 _profileService.CreateProfile(profile);
-                ValidateProfileCollections(model, profile, true);
+                ValidateProfileCollections(model, profile);
                 //TODO: This is error prone. 
                 KatushaProfile = _profileService.GetProfile(profile.Guid.ToString(), null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
                 ValidateProfileCollections(model, KatushaProfile);
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
-            } catch (KatushaFriendlyNameExistsException ex) {
+            } catch (KatushaFriendlyNameExistsException) {
                 ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
                 return View(model);
-            } catch (KatushaException ex) {
+            } catch (KatushaException) {
                 throw;
             } catch {
                 return View();
@@ -149,10 +149,10 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(model);
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
-            } catch (KatushaFriendlyNameExistsException ex) {
+            } catch (KatushaFriendlyNameExistsException) {
                 ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
                 return View(model);
-            } catch (KatushaException ex) {
+            } catch (KatushaException) {
                 throw;
             } catch {
                 return View();
@@ -174,7 +174,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
             _profileService.DeleteProfile(KatushaProfile.Id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Girls");
         }
 
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
@@ -204,7 +204,7 @@ namespace MS.Katusha.Web.Controllers
                 p => p.CountriesToVisit,
                 p => p.CountriesToVisit,
                 p => (Country)p.Country,
-                p => (Country)p.Country,
+                p => p.Country,
                 (modelData, country) => _profileService.DeleteCountriesToVisit(modelData.Id, country),
                 (modelData, country) => _profileService.AddCountriesToVisit(modelData.Id, country)
                 );
@@ -213,7 +213,7 @@ namespace MS.Katusha.Web.Controllers
                 p => p.LanguagesSpoken,
                 p => p.LanguagesSpoken,
                 p => (Language)p.Language,
-                p => (Language)p.Language,
+                p => p.Language,
                 (modelData, language) => _profileService.DeleteLanguagesSpoken(modelData.Id, language),
                 (modelData, language) => _profileService.AddLanguagesSpoken(modelData.Id, language)
                 );
@@ -222,7 +222,7 @@ namespace MS.Katusha.Web.Controllers
                 p => p.Searches,
                 p => p.Searches,
                 p => (LookingFor)p.Search,
-                p => (LookingFor)p.Search,
+                p => p.Search,
                 (modelData, search) => _profileService.DeleteSearches(modelData.Id, search),
                 (modelData, search) => _profileService.AddSearches(modelData.Id, search)
                 );

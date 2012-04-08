@@ -1,7 +1,10 @@
-﻿namespace MS.Katusha.Interfaces.Services
+﻿using System.Collections.Generic;
+
+namespace MS.Katusha.Interfaces.Services
 {
     public interface IConfigurationService
     {
-        string[] ResetDatabaseResources();
+        IEnumerable<string> ResetDatabaseResources();
+        void GenerateRandomUserAndProfile(int count);
     }
 }

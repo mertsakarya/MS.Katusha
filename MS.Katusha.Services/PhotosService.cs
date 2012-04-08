@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -70,7 +71,7 @@ namespace MS.Katusha.Services
             if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
 
             foreach (var suffix in versions.Keys) {
-                var fileName = Path.Combine(pathToPhotos, suffix.ToString() + "-" + guid.ToString());
+                var fileName = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
                 ImageBuilder.Current.Build(hpf, fileName, new ResizeSettings(versions[suffix]), false, true);
             }
 
@@ -113,7 +114,7 @@ namespace MS.Katusha.Services
             if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
 
             foreach (var suffix in versions.Keys) {
-                var fn = Path.Combine(pathToPhotos, suffix.ToString() + "-" + guid.ToString());
+                var fn = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
                 ImageBuilder.Current.Build(filePath, fn, new ResizeSettings(versions[suffix]), false, true);
             }
 

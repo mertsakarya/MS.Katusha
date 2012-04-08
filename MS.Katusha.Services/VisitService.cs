@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 

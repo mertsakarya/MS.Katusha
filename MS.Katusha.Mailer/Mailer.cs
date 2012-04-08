@@ -15,14 +15,14 @@ namespace MS.Katusha.Mailer
         {
 
 
-            string @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mertsakarya@gmail.com";
+            var @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mertsakarya@gmail.com";
 
             //string templateFolder = ConfigurationManager.AppSettings["Root_Folder"] + @"Views\___MailTemplates\";// ?? @"~\___MailTemplates\";
             //string templateFolder = Environment.GetEnvironmentVariable("MS.KATUSHA_HOME") + @"Views\___MailTemplates\";// ?? @"~\___MailTemplates\";
             string templateFolder = HttpContext.Current.Server.MapPath(@"~\") + @"Views\___MailTemplates\";
             
             string templateText = null;
-            string result = "";
+            string result;
             if (!templateName.EndsWith(".cshtml")) templateText = templateName;
             if(templateText != null)
             {

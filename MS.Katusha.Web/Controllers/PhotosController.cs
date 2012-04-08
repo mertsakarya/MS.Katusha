@@ -9,7 +9,6 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Exceptions.Web;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
-using MS.Katusha.Web.Helpers.Generators;
 using MS.Katusha.Web.Models.Entities;
 using MS.Katusha.Attributes;
 
@@ -71,18 +70,6 @@ namespace MS.Katusha.Web.Controllers
                 Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(list),
                 ContentType = "application/json"
             };
-        }
-
-        
-        [HttpGet]
-        public void Generate(string key)
-        {
-            int count;
-            if (int.TryParse(key, out count)) {
-                var generator = new SampleGenerator(_profileService, UserService, _photosService);
-                generator.CreateSamples(count);
-            }
-            Response.Write("DONE!");
         }
     }
 }

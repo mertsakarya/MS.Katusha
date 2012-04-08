@@ -21,14 +21,14 @@ namespace MS.Katusha.Services
             _profileRepositoryRaven = profileRepositoryRaven;
         }
 
-        public IList<Profile> Search(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
+        private IEnumerable<Profile> Search(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
         {
             return _profileRepositoryRaven.Search(filter, pageNo, pageSize, out total);
         }
 
-        public IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
+        private IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
         {
-            return _profileRepositoryRaven.FacetSearch<T>(filter, facetName);
+            return _profileRepositoryRaven.FacetSearch(filter, facetName);
         }
 
         public SearchResult Search(SearchCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
@@ -78,9 +78,9 @@ namespace MS.Katusha.Services
             expression = GetExpressionMinMax(HeightHelper.GetArrayItems(searchCriteria.Height), Expression.Property(argParam, "Height"), expression);
             expression = GetExpressionMinMax(AgeHelper.GetArrayItems(searchCriteria.Age), Expression.Property(argParam, "BirthYear"), expression);
             if (!isFacet) {
-                expression = GetExpressionIn(searchCriteria.Language, "Language", Expression.PropertyOrField(argParam, "LanguagesSpoken"), expression);
-                expression = GetExpressionIn(searchCriteria.LookingFor, "Search", Expression.Property(argParam, "Searches"), expression);
-                expression = GetExpressionIn(searchCriteria.Country, "Country", Expression.Property(argParam, "CountriesToVisit"), expression);
+                expression = GetExpressionIn(searchCriteria.Language, "Language", expression);
+                expression = GetExpressionIn(searchCriteria.LookingFor, "Search", expression);
+                expression = GetExpressionIn(searchCriteria.Country, "Country", expression);
             } else {
                 if (type.Name == "ProfileLanguageFacet") expression = GetExpression(searchCriteria.Language, Expression.PropertyOrField(argParam, "Language"), expression);
                 if (type.Name == "ProfileSearchFacet") expression = GetExpression(searchCriteria.LookingFor, Expression.Property(argParam, "Search"), expression);
@@ -128,7 +128,7 @@ namespace MS.Katusha.Services
             return expression == null ? pe : Expression.AndAlso(expression, pe);
         }
 
-        private static Expression GetExpressionIn<TEnum>(ICollection<TEnum> values, string itemName, Expression left, Expression expression = null)
+        private static Expression GetExpressionIn<TEnum>(ICollection<TEnum> values, string itemName, Expression expression = null)
         {
             if(values.Count == 0) return expression;
             IList<Expression> expressions = new List<Expression>();
@@ -145,7 +145,6 @@ namespace MS.Katusha.Services
                     case "Country":
                         ex = profile => profile.CountriesToVisit.Any(p => p.Country == val);
                         break;
-
                 }
                 if (ex != null) expressions.Add(ex.Body);
             }

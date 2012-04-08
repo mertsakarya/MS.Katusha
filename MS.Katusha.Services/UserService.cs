@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -53,7 +51,7 @@ namespace MS.Katusha.Services
 
         public void SendConfirmationMail(User user)
         {
-            Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm.cshtml", user);
+            Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm_en.cshtml", user);
         }
 
         public User GetUser(string userName, bool userIsOnline = false)

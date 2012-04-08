@@ -21,9 +21,9 @@ namespace MS.Katusha.Web.Helpers
     public static class DependencyHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public const int GlobalPageSize = 20;
+        public const int GlobalPageSize = 15;
         public static DocumentStore RavenStore;
-        public static string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
+        public static readonly string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
 
         public static void RegisterRaven()
         {
