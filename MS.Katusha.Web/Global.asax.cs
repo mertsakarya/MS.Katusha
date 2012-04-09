@@ -51,13 +51,13 @@ namespace MS.Katusha.Web
             );
         }
 
-
         protected void Application_Start()
         {
             //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
             Database.SetInitializer(new KatushaContextInitializer());
-            DependencyHelper.RegisterRaven();
+            
+            RavenHelper.RegisterRaven();
 
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
@@ -68,10 +68,6 @@ namespace MS.Katusha.Web
             RegisterRoutes(RouteTable.Routes);
             //BundleTable.Bundles.RegisterTemplateBundles();
             BundleTable.Bundles.EnableDefaultBundles();
-
-            IProfileRepositoryRavenDB raven = new ProfileRepositoryRavenDB(DependencyHelper.RavenStore);
-            raven.CreateIndexes();
-            raven.CreateFacets();
 
             //Bundle debugScripts = new Bundle("~/DebugScripts", new NoTransform("text/javascript"));
             //debugScripts.AddDirectory("~/Scripts/Debug", "*.js");

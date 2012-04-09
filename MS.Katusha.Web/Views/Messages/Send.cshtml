@@ -11,7 +11,7 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Message To</legend>
-        @Html.Photo(Model.To.ProfilePhotoGuid, (Sex)Model.To.Gender, PhotoType.Thumbnail)
+        @Html.Photo(Model.To.ProfilePhotoGuid, Model.To.Gender, PhotoType.Thumbnail)
         <div class="editor-label">
                 @Html.LabelFor(model => model.Subject)
             </div>

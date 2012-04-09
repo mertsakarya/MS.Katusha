@@ -19,7 +19,7 @@ namespace MS.Katusha.Services.Generators
             _photosService = photosService;
         }
 
-        public Profile Generate()
+        public Profile Generate(int extra = 0)
         {
             IGenerator<User> generator = new UserGenerator(_userService);
             var user = generator.Generate();

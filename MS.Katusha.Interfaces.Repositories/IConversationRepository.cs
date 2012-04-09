@@ -1,4 +1,5 @@
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 
 namespace MS.Katusha.Interfaces.Repositories
 {
@@ -8,7 +9,7 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IConversationRepositoryDB : IConversationRepository
     {
     }
-    public interface IConversationRepositoryRavenDB : IConversationRepositoryDB, IRavenGuidRepository<Conversation>
+    public interface IConversationRepositoryRavenDB : IRavenGuidRepository<ConversationRaven>
     {
     }
 }

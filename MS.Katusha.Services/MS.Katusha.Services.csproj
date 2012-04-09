@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.1.266\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
@@ -49,11 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generators\VisitGenerator.cs" />
+    <Compile Include="SamplesService.cs" />
+    <Compile Include="Generators\ConversationGenerator.cs" />
     <Compile Include="Generators\GeneratorHelper.cs" />
     <Compile Include="Generators\IGenerator.cs" />
     <Compile Include="Generators\ProfileGenerator.cs" />
     <Compile Include="Generators\SampleGenerator.cs" />
     <Compile Include="Generators\UserGenerator.cs" />
+    <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="VisitService.cs" />
     <Compile Include="PhotosService.cs" />
     <Compile Include="SearchService.cs" />

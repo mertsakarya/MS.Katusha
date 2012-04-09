@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
-using MS.Katusha.Domain.Entities;
 using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
@@ -44,9 +44,10 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult Send(string key)
         {
             var to = _profileService.GetProfile(key);
-            var toModel = Mapper.Map<ProfileModel>(to);
-            var from = Mapper.Map<ProfileModel>(KatushaProfile);
-            var model = new ConversationModel {To = toModel, ToId = toModel.Id, FromId = from.Id, From = from};
+            var model = new ConversationModel {
+                                                ToId = to.Id, ToName = to.Name, ToPhotoGuid = to.ProfilePhotoGuid, ToGuid = to.Guid,
+                                                FromId = KatushaProfile.Id, FromName = KatushaProfile.Name, FromPhotoGuid = KatushaProfile.ProfilePhotoGuid, FromGuid = KatushaProfile.Guid
+            };
             return View(model);
         }
 
@@ -56,9 +57,18 @@ namespace MS.Katusha.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             var to = _profileService.GetProfile(key);
-            var data = Mapper.Map<Conversation>(model);
+            var data = Mapper.Map<ConversationRaven>(model);
+
             data.ToId = to.Id;
+            data.ToName = to.Name;
+            data.ToGuid = to.Guid;
+            data.ToPhotoGuid = to.ProfilePhotoGuid;
+
             data.FromId = KatushaProfile.Id;
+            data.FromName = KatushaProfile.Name;
+            data.FromGuid = KatushaProfile.Guid;
+            data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
+
             data.ReadDate = new DateTime(1900, 1, 1, 0, 0, 0);
             _conversationService.SendMessage(data);
             return RedirectToAction("My");

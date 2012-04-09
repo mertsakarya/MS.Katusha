@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 
-namespace MS.Katusha.Domain.Entities
+namespace MS.Katusha.Domain.Raven.Entities
 {
     public class SearchCriteria : BaseModel
     {

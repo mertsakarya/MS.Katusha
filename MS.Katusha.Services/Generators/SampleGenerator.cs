@@ -1,4 +1,5 @@
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Services.Generators
@@ -8,18 +9,39 @@ namespace MS.Katusha.Services.Generators
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
         private readonly IPhotosService _photosService;
+        private readonly IConversationService _conversationService;
+        private readonly IVisitService _visitService;
 
-        public SampleGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
+        public SampleGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService, IConversationService conversationService, IVisitService visitService)
         {
             _profileService = profileService;
             _userService = userService;
             _photosService = photosService;
+            _conversationService = conversationService;
+            _visitService = visitService;
         }
-        public void CreateSamples(int count)
+
+        public void CreateSamples(int count, int extra = 0)
         {
             IGenerator<Profile> generator = new ProfileGenerator(_profileService, _userService, _photosService);
-            for(var i =0 ; i < count; i++) {
-                generator.Generate();
+            for (var i = 0; i < count; i++) {
+                generator.Generate(extra);
+            }
+        }
+
+        public void CreateConversations(int count, int extra = 0)
+        {
+            IGenerator<ConversationRaven> generator = new ConversationGenerator(_profileService, _userService, _conversationService);
+            for (var i = 0; i < count; i++) {
+                generator.Generate(extra);
+            }
+        }
+
+        public void CreateVisit(int count, int extra = 0)
+        {
+            IGenerator<Visit> generator = new VisitGenerator(_profileService, _visitService);
+            for (var i = 0; i < count; i++) {
+                generator.Generate(extra);
             }
         }
     }

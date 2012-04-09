@@ -12,7 +12,7 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
             Map = docs => from doc in docs
                           select new {
                                          ProfileId = doc.VisitorProfileId,
-                                         Count = 1
+                                         Count = doc.VisitCount
                                      };
             Reduce = results => from result in results
                                 group result by result.ProfileId into g

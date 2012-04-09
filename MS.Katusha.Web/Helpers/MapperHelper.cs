@@ -1,5 +1,6 @@
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Web.Models.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -9,6 +10,8 @@ namespace MS.Katusha.Web.Helpers
     {
         public static void HandleMappings()
         {
+            MS.Katusha.Services.Helpers.MapperHelper.HandleMappings();
+
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>()
                 .ForMember(dest => dest.BreastSize, opt => opt.MapFrom(src => (byte?) src.BreastSize))
@@ -16,8 +19,8 @@ namespace MS.Katusha.Web.Helpers
                 .ForMember(dest => dest.DickThickness, opt => opt.MapFrom(src => (byte?) src.DickThickness));
                 
 
-            Mapper.CreateMap<ConversationModel, Conversation>();
-            Mapper.CreateMap<Conversation, ConversationModel>();
+            Mapper.CreateMap<ConversationModel, ConversationRaven>();
+            Mapper.CreateMap<ConversationRaven, ConversationModel>();
 
             Mapper.CreateMap<CountriesToVisit, CountriesToVisitModel>();
             Mapper.CreateMap<CountriesToVisitModel, CountriesToVisit>();
@@ -45,6 +48,7 @@ namespace MS.Katusha.Web.Helpers
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>();
+
         }
     }
 }

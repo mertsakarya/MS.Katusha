@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using Raven.Abstractions.Data;
 
-namespace MS.Katusha.Domain.Entities
+namespace MS.Katusha.Domain.Raven.Entities
 {
     public class SearchResult : BaseModel
     {

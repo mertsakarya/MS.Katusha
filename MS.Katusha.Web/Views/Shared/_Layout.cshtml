@@ -71,7 +71,9 @@
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li>@Html.ActionLink("Initialize Lookups", "InitConfiguration", "Utilities")</li>
-                            <li>@Html.ActionLink("Create a random user + profile", "GenerateProfiles", "Utilities", new {key = 1}, null)</li>
+                            <li>@Html.ActionLink("Create profiles", "GenerateProfiles", "Utilities", new {key = 1}, null)</li>
+                            <li>@Html.ActionLink("/ conversations", "GenerateConversations", "Utilities", new { key = 2, extra = 50 }, null)</li>
+                            <li>@Html.ActionLink("/ visits", "GenerateVisits", "Utilities", new { key = 2, extra = 50 }, null)</li>
                         </ul>
                     </nav>
                 </div>

@@ -103,6 +103,7 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
+    <Compile Include="Indexes\ConversationIndex.cs" />
     <Compile Include="Indexes\ProfileCountryFacetIndex.cs" />
     <Compile Include="Indexes\ProfileLanguageFacetIndex.cs" />
     <Compile Include="Indexes\ProfileFacetsIndex.cs" />

@@ -13,8 +13,6 @@ using MS.Katusha.Services;
 using MS.Katusha.Web.Models.Entities;
 using NLog;
 using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -22,23 +20,7 @@ namespace MS.Katusha.Web.Helpers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public const int GlobalPageSize = 15;
-        public static DocumentStore RavenStore;
         public static readonly string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
-
-        public static void RegisterRaven()
-        {
-            //RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["Root_Folder"] + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
-            //RavenStore = new EmbeddableDocumentStore { DataDirectory = Environment.GetEnvironmentVariable("MS.KATUSHA_HOME") + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
-            RavenStore = new EmbeddableDocumentStore { DataDirectory = RootFolder + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
-            RavenStore.Initialize();
-            //IndexCreation.CreateIndexes(Assembly.GetCallingAssembly(), RavenStore);
-
-            //// Start the HTTP server manually
-            //var server = new RavenDbHttpServer(RavenStore.Configuration, RavenStore.DocumentDatabase);
-            //server.Start();
-            //NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8080);
-        }
-
 
         public static void RegisterDependencies()
         {
@@ -53,13 +35,14 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
             builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerHttpRequest();
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
+            builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
-            builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IRepository<CacheObject>>().InstancePerHttpRequest();
-            builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
-            builder.RegisterType<VisitRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();
-            builder.RegisterType<ConversationRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenStore)).As<IConversationRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IRepository<CacheObject>>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<VisitRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<ConversationRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IConversationRepositoryRavenDB>().InstancePerHttpRequest();
             
             builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();

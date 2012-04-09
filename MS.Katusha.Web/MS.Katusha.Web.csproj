@@ -270,6 +270,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RavenHelper.cs" />
     <Compile Include="Helpers\SearchCriteriaBinder.cs" />
     <Compile Include="KatushaMetadataProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -429,6 +430,10 @@
     <ProjectReference Include="..\MS.Katusha.Attributes\MS.Katusha.Attributes.csproj">
       <Project>{29066C52-99D6-47AA-AEA2-245E0DAE833C}</Project>
       <Name>MS.Katusha.Attributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
+      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
+      <Name>MS.Katusha.Domain.Raven</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>

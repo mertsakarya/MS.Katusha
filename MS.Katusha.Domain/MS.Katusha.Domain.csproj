@@ -64,14 +64,12 @@
     <Compile Include="Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
     <Compile Include="Entities\ConfigurationData.cs" />
-    <Compile Include="Entities\SearchCriteria.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\CountriesToVisit.cs" />
     <Compile Include="Entities\LanguagesSpoken.cs" />
     <Compile Include="Entities\Resource.cs" />
-    <Compile Include="Entities\SearchResult.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Profile.cs" />
