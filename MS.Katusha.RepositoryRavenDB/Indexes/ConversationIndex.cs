@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 
 namespace MS.Katusha.Repositories.RavenDB.Indexes
 {
-    public class ConversationIndex : AbstractIndexCreationTask<ConversationRaven, ConversationResult>
+    public class ConversationIndex : AbstractIndexCreationTask<Conversation, ConversationResult>
     {
         public ConversationIndex()
         {

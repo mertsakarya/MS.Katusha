@@ -20,7 +20,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         private IQueryable<T> QueryableRepository(bool withTracking = false)
         {
             using (var session = DocumentStore.OpenSession()) {
-                return withTracking ? session.Query<T>().Where(p => !p.Deleted).AsQueryable() : session.Query<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking();
+                return withTracking ? session.Query<T>().Where(p => p.Deleted == false).AsQueryable() : session.Query<T>().Where(p => p.Deleted == false).AsQueryable().AsNoTracking();
             }
         }
 

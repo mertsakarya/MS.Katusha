@@ -57,7 +57,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             var to = _profileService.GetProfile(key);
-            var data = Mapper.Map<ConversationRaven>(model);
+            var data = Mapper.Map<Conversation>(model);
 
             data.ToId = to.Id;
             data.ToName = to.Name;

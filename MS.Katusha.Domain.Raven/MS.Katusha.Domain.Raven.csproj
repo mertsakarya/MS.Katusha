@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ConversationRaven.cs" />
+    <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\ConversationResult.cs" />
     <Compile Include="Entities\ProfileCountryFacet.cs" />
     <Compile Include="Entities\ProfileSearchFacet.cs" />

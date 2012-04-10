@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Services
 {
@@ -19,16 +18,16 @@ namespace MS.Katusha.Services
             _conversationRepositoryRaven = conversationRepositoryRaven;
         }
 
-        public IEnumerable<ConversationRaven> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        public IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
             return _conversationRepositoryRaven.Query(q => q.FromId == profileId || q.ToId == profileId, pageNo, pageSize, out total, o => o.CreationDate).ToList();
         }
 
-        public void SendMessage(ConversationRaven message)
+        public void SendMessage(Conversation message)
         {
-            var dbMessage = AutoMapper.Mapper.Map<Conversation>(message);
+            var dbMessage = AutoMapper.Mapper.Map<MS.Katusha.Domain.Entities.Conversation>(message);
             _conversationRepository.Add(dbMessage);
-            var ravenMessage = AutoMapper.Mapper.Map<ConversationRaven>(dbMessage);
+            var ravenMessage = AutoMapper.Mapper.Map<Conversation>(dbMessage);
             ravenMessage.FromGuid = message.FromGuid;
             ravenMessage.FromName = message.FromName;
             ravenMessage.FromPhotoGuid = message.FromPhotoGuid;

@@ -2,6 +2,7 @@ using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Web.Models.Entities;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Helpers
@@ -19,8 +20,8 @@ namespace MS.Katusha.Web.Helpers
                 .ForMember(dest => dest.DickThickness, opt => opt.MapFrom(src => (byte?) src.DickThickness));
                 
 
-            Mapper.CreateMap<ConversationModel, ConversationRaven>();
-            Mapper.CreateMap<ConversationRaven, ConversationModel>();
+            Mapper.CreateMap<ConversationModel, Conversation>();
+            Mapper.CreateMap<Conversation, ConversationModel>();
 
             Mapper.CreateMap<CountriesToVisit, CountriesToVisitModel>();
             Mapper.CreateMap<CountriesToVisitModel, CountriesToVisit>();

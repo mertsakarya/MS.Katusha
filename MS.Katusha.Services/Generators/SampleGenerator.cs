@@ -31,7 +31,7 @@ namespace MS.Katusha.Services.Generators
 
         public void CreateConversations(int count, int extra = 0)
         {
-            IGenerator<ConversationRaven> generator = new ConversationGenerator(_profileService, _userService, _conversationService);
+            IGenerator<MS.Katusha.Domain.Raven.Entities.Conversation> generator = new ConversationGenerator(_profileService, _userService, _conversationService);
             for (var i = 0; i < count; i++) {
                 generator.Generate(extra);
             }

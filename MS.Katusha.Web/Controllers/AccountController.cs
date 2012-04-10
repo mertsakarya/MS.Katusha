@@ -76,6 +76,24 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult LoginWithId(string key)
+        {
+            long uid;
+            if(long.TryParse(key, out uid)) {
+                var model = _service.GetUser(uid);
+                if(model != null) {
+                    if (_service.ValidateUser(model.UserName, model.Password)) {
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            // If we got this far, something failed, redisplay form
+            return View("Login", new LoginModel());
+        }
+
         //
         // GET: /Account/LogOff
 

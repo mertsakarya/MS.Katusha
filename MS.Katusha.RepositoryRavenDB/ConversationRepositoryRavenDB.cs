@@ -5,7 +5,7 @@ using Raven.Client;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
-    public class ConversationRepositoryRavenDB : BaseGuidRepositoryRavenDB<ConversationRaven>, IConversationRepositoryRavenDB
+    public class ConversationRepositoryRavenDB : BaseGuidRepositoryRavenDB<Conversation>, IConversationRepositoryRavenDB
     {
         public ConversationRepositoryRavenDB(IDocumentStore documentStore)
             : base(documentStore) { }

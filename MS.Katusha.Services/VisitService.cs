@@ -41,8 +41,8 @@ namespace MS.Katusha.Services
 
         public IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            var items = _visitRepositoryRaven.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
-            //var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
+            //var items = _visitRepositoryRaven.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.ModifiedDate);
+            var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.Id, p => p.VisitorProfile);
             return items;
         }
 

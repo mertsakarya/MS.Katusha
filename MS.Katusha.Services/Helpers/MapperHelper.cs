@@ -1,6 +1,4 @@
 using AutoMapper;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Raven.Entities;
 
 namespace MS.Katusha.Services.Helpers
 {
@@ -8,7 +6,7 @@ namespace MS.Katusha.Services.Helpers
     {
         public static void HandleMappings()
         {
-            Mapper.CreateMap<Conversation, ConversationRaven>()
+            Mapper.CreateMap<MS.Katusha.Domain.Entities.Conversation, MS.Katusha.Domain.Raven.Entities.Conversation>()
                 .ForMember(dest => dest.FromName, opt => opt.MapFrom(src => src.From.Name))
                 .ForMember(dest => dest.ToName, opt => opt.MapFrom(src => src.To.Name))
                 .ForMember(dest => dest.FromGuid, opt => opt.MapFrom(src => src.From.Guid))
@@ -16,7 +14,7 @@ namespace MS.Katusha.Services.Helpers
                 .ForMember(dest => dest.FromPhotoGuid, opt => opt.MapFrom(src => src.From.ProfilePhotoGuid))
                 .ForMember(dest => dest.ToPhotoGuid, opt => opt.MapFrom(src => src.To.ProfilePhotoGuid))
                 ;
-            Mapper.CreateMap<ConversationRaven, Conversation>();
+            Mapper.CreateMap<MS.Katusha.Domain.Raven.Entities.Conversation, MS.Katusha.Domain.Entities.Conversation>();
         }
     }
 }

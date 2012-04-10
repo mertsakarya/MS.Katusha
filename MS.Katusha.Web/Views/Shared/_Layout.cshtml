@@ -57,7 +57,9 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here.", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink("your logo here.", "Index", "Home")
+                    <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);"/>
+                    </p>
                 </div>
                 <div class="float-right">
                     <section id="login">

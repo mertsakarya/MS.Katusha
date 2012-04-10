@@ -54,6 +54,8 @@ namespace MS.Katusha.Services
             Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm_en.cshtml", user);
         }
 
+        public User GetUser(long id) { return _repository.Single(u => u.Id == id); }
+
         public User GetUser(string userName, bool userIsOnline = false)
         {
             var user = _katushaCache.Get<User>("U:"+userName);

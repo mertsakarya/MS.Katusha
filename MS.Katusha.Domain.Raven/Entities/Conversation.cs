@@ -4,7 +4,7 @@ using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Domain.Raven.Entities
 {
-    public class ConversationRaven : BaseGuidModel
+    public class Conversation : BaseGuidModel
     {
         public long FromId { get; set; }
         public long ToId { get; set; }

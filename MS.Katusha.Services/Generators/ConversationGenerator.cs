@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 using NLog;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Services.Generators
 {
-    public class ConversationGenerator : IGenerator<ConversationRaven>
+    public class ConversationGenerator : IGenerator<Conversation>
     {
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
@@ -25,10 +25,10 @@ namespace MS.Katusha.Services.Generators
             _total = _profiles.Count;
         }
 
-        public ConversationRaven Generate(int extra = 0)
+        public Conversation Generate(int extra = 0)
         {
             if (extra > 0) _total = extra;
-            var message = new ConversationRaven {Message = GeneratorHelper.RandomString(300, false), Subject = GeneratorHelper.RandomString(50, true)};
+            var message = new Conversation {Message = GeneratorHelper.RandomString(300, false), Subject = GeneratorHelper.RandomString(50, true)};
             if (GeneratorHelper.RND.Next(10) < 7)
                 message.ReadDate = DateTime.UtcNow;
             else {
