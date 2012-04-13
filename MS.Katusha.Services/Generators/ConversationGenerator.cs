@@ -15,6 +15,9 @@ namespace MS.Katusha.Services.Generators
         private readonly List<Profile> _profiles;
         private int _total;
 
+        private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.ConversationGenerator");
+
+
         public ConversationGenerator(IProfileService profileService, IUserService userService, IConversationService conversationService)
         {
             _profileService = profileService;
@@ -26,6 +29,9 @@ namespace MS.Katusha.Services.Generators
 
         public Conversation Generate(int extra = 0)
         {
+#if DEBUG
+            Logger.Info("Conversation START:");
+#endif
             if (extra > 0) _total = extra;
             var message = new Conversation {Message = GeneratorHelper.RandomString(300, false), Subject = GeneratorHelper.RandomString(50, true)};
             if (GeneratorHelper.RND.Next(10) < 7)
@@ -49,6 +55,9 @@ namespace MS.Katusha.Services.Generators
                 message.ToName = to.Name;
                 message.ToPhotoGuid = to.ProfilePhotoGuid;
                 _conversationService.SendMessage(message);
+#if DEBUG
+                Logger.Info("Conversation END:");
+#endif
                 return message;
             }
         }

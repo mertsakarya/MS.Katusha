@@ -22,6 +22,9 @@ namespace MS.Katusha.Services.Generators
 
         public Profile Generate(int extra = 0)
         {
+#if DEBUG
+            Logger.Info("Profile START:");
+#endif
             IGenerator<User> generator = new UserGenerator(_userService);
             var user = generator.Generate();
             var city = new[] { "Istanbul", "Ankara", "Kiev" };
@@ -84,7 +87,7 @@ namespace MS.Katusha.Services.Generators
             }
 
 #if DEBUG
-            Logger.Info("Profile generated: " + profile.Name);
+            Logger.Info("Profile END");
 #endif
             return profile;
 

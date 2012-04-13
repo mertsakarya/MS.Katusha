@@ -129,7 +129,6 @@ namespace MS.Katusha.Repositories.DB.Base
 
             DbContext.SaveChanges();
         }
-
     }
 }
 

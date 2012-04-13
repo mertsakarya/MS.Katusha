@@ -13,6 +13,8 @@ namespace MS.Katusha.Services.Generators
         private readonly List<Profile> _profiles;
         private int _total;
 
+        private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.VisitGenerator");
+
         public VisitGenerator(IProfileService profileService, IVisitService visitService)
         {
             _visitService = visitService;
@@ -21,7 +23,11 @@ namespace MS.Katusha.Services.Generators
 
         }
 
-        public Visit Generate(int extra = 0) { 
+        public Visit Generate(int extra = 0) {
+#if DEBUG
+            Logger.Info("Visit START:");
+#endif
+
             if (extra > 0) _total = extra;
             var num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var from = _profiles[num];
@@ -31,6 +37,10 @@ namespace MS.Katusha.Services.Generators
                 return Generate(_total);
             } else {
                 _visitService.Visit(from, to);
+#if DEBUG
+                Logger.Info("Visit END:");
+#endif
+
                 return null;
             }
         }
