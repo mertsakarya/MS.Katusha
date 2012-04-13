@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
@@ -80,13 +81,19 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult LoginWithId(string key)
         {
             long uid;
+            Guid guid;
+            User model = null;
             if(long.TryParse(key, out uid)) {
-                var model = _service.GetUser(uid);
-                if(model != null) {
-                    if (_service.ValidateUser(model.UserName, model.Password)) {
-                        FormsAuthentication.SetAuthCookie(model.UserName, false);
-                        return RedirectToAction("Index", "Home");
-                    }
+                model = _service.GetUser(uid);
+            } else  if(Guid.TryParse(key, out guid)) {
+                model = _service.GetUser(guid);
+            } else {
+                model = _service.GetUser(key);
+            }
+            if (model != null) {
+                if (_service.ValidateUser(model.UserName, model.Password)) {
+                    FormsAuthentication.SetAuthCookie(model.UserName, false);
+                    return RedirectToAction("Index", "Home");
                 }
             }
             ModelState.AddModelError("", "The user name or password provided is incorrect.");

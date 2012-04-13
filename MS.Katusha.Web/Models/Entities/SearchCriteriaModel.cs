@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MS.Katusha.Attributes;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Attributes;
 
 namespace MS.Katusha.Web.Models.Entities
 {

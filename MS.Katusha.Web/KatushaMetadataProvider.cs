@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MS.Katusha.Infrastructure.Attributes;
 
 namespace MS.Katusha.Web
 {
@@ -11,7 +12,7 @@ namespace MS.Katusha.Web
         protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
         {
             var modelMetadata = base.CreateMetadata(attributes, containerType, modelAccessor, modelType, propertyName);
-            var list = attributes.OfType<Attributes.KatushaFieldAttribute>().ToList();
+            var list = attributes.OfType<KatushaFieldAttribute>().ToList();
             foreach (var item in list) {
                 bool val;
                 modelMetadata.DisplayName = item.GetFromResource("DisplayName");

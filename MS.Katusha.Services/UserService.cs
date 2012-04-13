@@ -10,14 +10,14 @@ namespace MS.Katusha.Services
     public class UserService : IUserService
     {
         private readonly IUserRepositoryDB _repository;
-        private readonly IProfileRepositoryDB _profileRepository;
-        private readonly IKatushaCacheContext _katushaCache;
+        private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
+        private IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        public UserService(IUserRepositoryDB repository, IProfileRepositoryDB profileRepository, IKatushaCacheContext cacheContext)
+        public UserService(IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
         {
             _repository = repository;
-            _profileRepository = profileRepository;
-            _katushaCache = cacheContext; // new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
+            _profileRepositoryRaven = profileRepositoryRaven;
+            _katushaGlobalCache = globalCacheContext; // new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
         }
 
         public bool ValidateUser(string userName, string password)
@@ -55,13 +55,14 @@ namespace MS.Katusha.Services
         }
 
         public User GetUser(long id) { return _repository.Single(u => u.Id == id); }
+        public User GetUser(Guid guid) { return _repository.Single(u => u.Guid == guid); }
 
         public User GetUser(string userName, bool userIsOnline = false)
         {
-            var user = _katushaCache.Get<User>("U:"+userName);
+            var user = _katushaGlobalCache.Get<User>("U:"+userName);
             if (user == null) {
                 user = _repository.Single(u => u.UserName == userName);
-                _katushaCache.Add("U:" + userName, user);
+                _katushaGlobalCache.Add("U:" + userName, user);
             }
             return user;
         }
@@ -83,17 +84,17 @@ namespace MS.Katusha.Services
             user.EmailValidated = true;
             _repository.FullUpdate(user);
             _repository.Save();
-            _katushaCache.Add("U:" + user.UserName, user);
+            _katushaGlobalCache.Add("U:" + user.UserName, user);
             return user;
         }
 
         public Profile GetProfile(Guid guid)
         {
             var strGuid = guid.ToString();
-            var profile = _katushaCache.Get<Profile>("P:" + strGuid);
+            var profile = _katushaGlobalCache.Get<Profile>("P:" + strGuid);
             if (profile == null) {
-                profile = _profileRepository.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State);
-                _katushaCache.Add("P:" + strGuid, profile);
+                profile = _profileRepositoryRaven.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State, p=> p.Photos);
+                _katushaGlobalCache.Add("P:" + strGuid, profile);
             }
             return profile;
         }

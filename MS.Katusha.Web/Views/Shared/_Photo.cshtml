@@ -33,7 +33,7 @@
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
     @foreach (var photo in Model.Photos) {
         if (String.IsNullOrEmpty(photo.FileName)) { continue; }
-        <div id="Photo:@photo.Guid" class="gallery-item" style="display: inline; positon:relative;" data-href="@Html.PhotoLink(photo.Guid, Model.Gender)" title="@photo.Description">
+        <div id="Photo:@photo.Guid" class="gallery-item" style="display: inline;" data-href="@Html.PhotoLink(photo.Guid)" title="@photo.Description">
             @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
                 <div class="mosaic-block bar">
                     <div class="mosaic-overlay">
@@ -44,13 +44,13 @@
                             </a>
                         </div>
                     </div>
-                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid,  Model.Gender)" rel="gallery">
-                        <div class="mosaic-backdrop">@Html.Photo(photo.Guid, Model.Gender, PhotoType.Thumbnail, photo.Description)</div>
+                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
+                        <div class="mosaic-backdrop">@Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
                     </a>
                 </div>
             } else {
-                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid, Model.Gender)" rel="gallery">
-                    @Html.Photo(photo.Guid, Model.Gender, PhotoType.Thumbnail, photo.Description)
+                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
+                    @Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)
                 </a>
             }
         </div>

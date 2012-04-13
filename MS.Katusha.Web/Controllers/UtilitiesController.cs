@@ -23,7 +23,9 @@ namespace MS.Katusha.Web.Controllers
         public void InitConfiguration()
         {
             Response.ContentType = "text/plain";
-            Response.Write(_configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n")));
+            var result = _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
+            if (String.IsNullOrWhiteSpace(result)) result = "DONE!";
+            Response.Write(result);
         }
 
         [HttpGet]

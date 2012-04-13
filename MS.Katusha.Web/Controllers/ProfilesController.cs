@@ -4,10 +4,11 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Exceptions;
-using MS.Katusha.Exceptions.Services;
-using MS.Katusha.Exceptions.Web;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Infrastructure.Attributes;
+using MS.Katusha.Infrastructure.Exceptions;
+using MS.Katusha.Infrastructure.Exceptions.Services;
+using MS.Katusha.Infrastructure.Exceptions.Web;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
@@ -16,7 +17,6 @@ using MS.Katusha.Web.Models.Entities;
 using PagedList;
 using MS.Katusha.Domain.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
-using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
 {

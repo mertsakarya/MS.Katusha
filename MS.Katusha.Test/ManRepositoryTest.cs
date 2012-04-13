@@ -46,7 +46,7 @@ namespace MS.Katusha.Test
         {
             var man = _repositoryProfile.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
-            var list = _repositoryProfile.Query(p => p.State.Status == (byte)Status.Online, null, p => p.Photos);
+            var list = _repositoryProfile.Query(p => p.State.Status == (byte)Status.Online, null, true, p => p.Photos);
             foreach (var b in list)
                 Debug.WriteLine(String.Format("Found man with {0} photos.", b.Photos.Count));
         }
@@ -54,8 +54,8 @@ namespace MS.Katusha.Test
         [TestMethod]
         public void ShouldBeAbleToFindMan()
         {
-            var men = (_repositoryProfile.Query(b => b.LanguagesSpoken.Count > 0, null, b => b.Photos));
-            var men2 = _repositoryProfile.Query(null, null, b => b.Photos, b => b.User);
+            var men = (_repositoryProfile.Query(b => b.LanguagesSpoken.Count > 0, null, true, b => b.Photos));
+            var men2 = _repositoryProfile.Query(null, null, true, b => b.Photos, b => b.User);
             Debug.WriteLine(String.Format("Found {0} men and {1} men", men.Count(), men2.Count()));
         }
 

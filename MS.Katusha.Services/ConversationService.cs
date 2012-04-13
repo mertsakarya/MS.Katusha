@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
@@ -18,9 +19,14 @@ namespace MS.Katusha.Services
             _conversationRepositoryRaven = conversationRepositoryRaven;
         }
 
-        public IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        public IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            return _conversationRepositoryRaven.Query(q => q.FromId == profileId || q.ToId == profileId, pageNo, pageSize, out total, o => o.CreationDate).ToList();
+            return _conversationRepositoryRaven.MyConversations(profileId, out total, pageNo, pageSize);
+        }
+
+        public IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            return _conversationRepositoryRaven.Query(q => (q.FromId == fromId && q.ToId == profileId) || (q.ToId == fromId && q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
         }
 
         public void SendMessage(Conversation message)

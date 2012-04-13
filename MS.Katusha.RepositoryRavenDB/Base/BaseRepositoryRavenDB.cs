@@ -47,18 +47,18 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return queryable;
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
-            if (orderByClause != null) q = q.OrderBy(orderByClause);
+            if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
             return q;
         }
 
-        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             IQueryable<T> q = QueryHelper(filter);
             total = q.Count();
-            if (orderByClause != null) q = q.OrderBy(orderByClause);
+            if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
             return q.Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
@@ -67,7 +67,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return QueryHelper(filter).FirstOrDefault();
         }
 
-        public T SingleAttached(Expression<Func<T, bool>> filter)
+        public T SingleAttached(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             return QueryHelper(filter, true).FirstOrDefault();
         }

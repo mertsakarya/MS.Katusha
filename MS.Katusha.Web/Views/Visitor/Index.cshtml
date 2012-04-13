@@ -19,18 +19,22 @@
         } else {
             dateString = date.ToShortDateString();
         }
-        <a title="@(profile.Name + " - " + (DateTime.UtcNow.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
-            @Html.Photo(profile.ProfilePhotoGuid, profile.Gender, PhotoType.Thumbnail)
-        </a>
-        <div style="border: 1 solid">
-            @profile.Name<br/>
-            @(dateString)<br/>
-            @(visit.VisitCount) Time(s)
+        <div class="gallery-item" style="display: inline-block;" >
+            <div class="bar">
+                <a title="@(profile.Name + " - " + (DateTime.UtcNow.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
+                    @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
+                </a>
+                <div style="border: 1 solid">
+                    @profile.Name<br/>
+                    @(dateString)<br/>
+                    @(visit.VisitCount) Time(s)<br/><br/>
+                </div>
+            </div>
         </div>
     }
 </div>
 
-@Html.PagedListPager(Model.List, page => Url.Action(action, new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@Html.PagedListPager(Model.List, key => Url.Action(action, new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 
 <div>
     @Html.ActionLink("Back to List", action)

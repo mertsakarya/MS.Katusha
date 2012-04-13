@@ -10,8 +10,8 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure;
-using MS.Katusha.Web.Models.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Web.Models.Entities.BaseEntities;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -99,27 +99,26 @@ namespace MS.Katusha.Web.Helpers
             return rm._L(resourceName, (byte) language);
         }
 
-        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false )
+        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false )
         {
             var tb = new TagBuilder("img");
             if(setId) {
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
             }
-            var str = GetPhotoPath(photoGuid, photoType, gender);
+            var str = GetPhotoPath(photoGuid, photoType);
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
             return htmlHelper.Raw(tb.ToString());
         }
 
-        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, Sex gender, PhotoType photoType = PhotoType.Large) { return GetPhotoPath(photoGuid, photoType, gender); }
+        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Large) { return GetPhotoPath(photoGuid, photoType); }
 
-        private static string GetPhotoPath(Guid photoGuid, PhotoType photoType, Sex gender)
+        private static string GetPhotoPath(Guid photoGuid, PhotoType photoType)
         {
 
             if (photoGuid == Guid.Empty) {
-                var sex = (gender == Sex.Male) ? "Man" : "Girl";
-                return String.Format("/Images/{1}{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""), sex);
+                return String.Format("/Images/Man{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""));
             }
             return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte) photoType);
         }

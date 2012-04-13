@@ -20,8 +20,8 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         public bool CheckIfFriendlyNameExists(string friendlyName, long id = 0)
         {
             if(id <= 0)
-                return Query(p => p.FriendlyName == friendlyName, null).Any();
-            return Query(p => p.FriendlyName == friendlyName && p.Id != id, null).Any();
+                return Query(p => p.FriendlyName == friendlyName, null, false).Any();
+            return Query(p => p.FriendlyName == friendlyName && p.Id != id, null, false).Any();
         }
     }
 }

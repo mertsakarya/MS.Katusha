@@ -25,6 +25,8 @@ namespace MS.Katusha.Interfaces.Services
         void CreateProfile(Profile profile);
         void DeleteProfile(long profileId, bool force = false);
         void UpdateProfile(Profile profile);
+        void UpdateRavenProfile(long id);
+
 
         void DeleteCountriesToVisit(long profileId, Country country);
         void AddCountriesToVisit(long profileId, Country country);

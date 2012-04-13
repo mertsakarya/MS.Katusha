@@ -23,7 +23,8 @@ namespace MS.Katusha.Services.Generators
             var builder = new StringBuilder();
             //Random random = new Random();
             for (int i = 0; i < size; i++) {
-                var ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * RND.NextDouble() + 65)));
+                var ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * RND.NextDouble() + 66)));
+                if (ch == 91) ch = ' ';
                 builder.Append(ch);
             }
             return lowerCase ? builder.ToString().ToLower() : builder.ToString();

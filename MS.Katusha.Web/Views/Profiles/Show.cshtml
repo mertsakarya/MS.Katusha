@@ -7,7 +7,7 @@
 <fieldset>
     <legend>Profile</legend>
     @if (Model.ProfilePhotoGuid != Guid.Empty) {
-        @Html.Photo(Model.ProfilePhotoGuid,  Model.Gender, PhotoType.Medium,"", true)
+        @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium,"", true)
     }
     <hr />
 

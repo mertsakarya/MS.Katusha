@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using MS.Katusha.Attributes;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 
 

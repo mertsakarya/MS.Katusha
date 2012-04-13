@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Exceptions.Services;
+using MS.Katusha.Infrastructure.Exceptions.Services;
 using MS.Katusha.Web.Models.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 

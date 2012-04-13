@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using MS.Katusha.Attributes;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
-using MS.Katusha.Exceptions.Services;
+using MS.Katusha.Infrastructure.Attributes;
 
 namespace MS.Katusha.Web.Models.Entities.BaseEntities
 {

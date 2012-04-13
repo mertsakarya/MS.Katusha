@@ -13,20 +13,20 @@ namespace MS.Katusha.Repositories.DB.Base
         
         public long GetProfileIdByFriendlyName(string friendlyName)
         {
-            var item = Query(p => p.FriendlyName == friendlyName, null, null).FirstOrDefault();
+            var item = Query(p => p.FriendlyName == friendlyName, null, false, null).FirstOrDefault();
             return item != null ? item.Id : 0;
         }
 
         public long GetProfileIdByGuid(Guid guid) {
-            var item = Query(p => p.Guid == guid, null, null).FirstOrDefault();
+            var item = Query(p => p.Guid == guid, null, false, null).FirstOrDefault();
             return item != null ? item.Id : 0;
         }
 
         public bool CheckIfFriendlyNameExists(string friendlyName, long id = 0)
         {
             if(id <= 0)
-                return Query(p => p.FriendlyName == friendlyName, null).Any();
-            return Query(p => p.FriendlyName == friendlyName && p.Id != id, null).Any();
+                return Query(p => p.FriendlyName == friendlyName, null, false).Any();
+            return Query(p => p.FriendlyName == friendlyName && p.Id != id, null, false).Any();
         }
     }
 }

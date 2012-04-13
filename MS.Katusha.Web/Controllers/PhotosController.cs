@@ -6,11 +6,11 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Exceptions.Web;
+using MS.Katusha.Infrastructure.Attributes;
+using MS.Katusha.Infrastructure.Exceptions.Web;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Models.Entities;
-using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
 {

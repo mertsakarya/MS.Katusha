@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using MS.Katusha.Domain;
-using MS.Katusha.Exceptions.Resources;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Exceptions.Resources;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
 

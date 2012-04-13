@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
-using MS.Katusha.Attributes;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -24,9 +24,9 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? key)
         {
-            var pageIndex = (page ?? 1);
+            var pageIndex = (key ?? 1);
             int total;
 
             var visitors = _visitService.GetVisitors(KatushaProfile.Id, out total, pageIndex, PageSize);

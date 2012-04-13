@@ -71,10 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Attributes\MS.Katusha.Attributes.csproj">
-      <Project>{29066C52-99D6-47AA-AEA2-245E0DAE833C}</Project>
-      <Name>MS.Katusha.Attributes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
       <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
       <Name>MS.Katusha.Domain.Raven</Name>
@@ -86,10 +82,6 @@
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Exceptions\MS.Katusha.Exceptions.csproj">
-      <Project>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</Project>
-      <Name>MS.Katusha.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
       <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>

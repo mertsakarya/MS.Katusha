@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities;
 
 namespace MS.Katusha.Web.Helpers

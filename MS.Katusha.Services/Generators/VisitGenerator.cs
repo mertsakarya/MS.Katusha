@@ -26,10 +26,10 @@ namespace MS.Katusha.Services.Generators
             if (extra > 0) _total = extra;
             var num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var from = _profiles[num];
-            num = GeneratorHelper.RND.Next(_total - 1);
+            num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var to = _profiles[num];
             if (from.Id == to.Id) {
-                return Generate();
+                return Generate(_total);
             } else {
                 _visitService.Visit(from, to);
                 return null;

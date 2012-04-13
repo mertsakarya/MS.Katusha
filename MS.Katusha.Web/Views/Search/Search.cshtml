@@ -14,7 +14,7 @@
             var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.UtcNow.Year - profile.BirthYear), Html._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
             var url = Url.Action("Show", "Profiles", new {key = val});
             <a title="@title" href="@url" rel="gallery">
-                @Html.Photo(profile.ProfilePhotoGuid, profile.Gender, PhotoType.Thumbnail)
+                @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
             </a>
         }
 

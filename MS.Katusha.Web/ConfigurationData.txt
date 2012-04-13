@@ -1,4 +1,11 @@
-﻿***********************************************************************************************************************
+﻿* TODOs:
+*	Messages -> conversations
+*	Unread messages warning
+*	New profile visit warning
+*	Online status
+*	Membership implementation
+
+***********************************************************************************************************************
 *
 *	Author:		MERT SAKARYA
 *	Email:		mertsakarya@hotmail.com
@@ -19,10 +26,10 @@
 *		[Resource]
 *		[ResourceLookup]
 *
-*
 *	[Configuration] is two tab delimited line for, Key and Value
 *	[Resource]	is three tab delimited line for, Language, Key and Value
 *	[ResourceLookup] is five tab delimited line for, Language, LookupName, Key, Value and Order
+*	[START] All lines are ignored until this line. Parsing will start after this line. 
 *
 *	There cannot be more tabs for section lines unless it is empty and will be trimmed at the beginning anyhow.
 *	\r \n and \t are considered return, new line and tab on Value fields and will be replaced.
@@ -112,6 +119,10 @@
 *	AdditionalValues are in the following format splitted by '|' character a=1|b=2
 *
 ***********************************************************************************************************************
+
+
+
+[START]
 
 ***							Global Declarations
  	[Configuration]
@@ -390,4 +401,5 @@
 	en	Height			Between200And209		200-209		8	8
 	en	Height			After210				210>		9	9
 
+*	There is a bug in code... Last Lookup will not be parsed in DB.
 	en	Dummy			Dummy				Dummy		1	1

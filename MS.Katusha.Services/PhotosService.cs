@@ -20,30 +20,29 @@ namespace MS.Katusha.Services
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        private readonly IKatushaCacheContext _katushaCache
+        private readonly IKatushaGlobalCacheContext _katushaGlobalCache
 ;
 
         public PhotosService(IProfileService profileService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository,
             IProfileRepositoryRavenDB profileRepositoryRaven,
-            IKatushaCacheContext cacheContext)
+            IKatushaGlobalCacheContext globalCacheContext)
         {
             _profileService = profileService;
             _profileRepository = profileRepository;
             _photoRepository = photoRepository;
             _profileRepositoryRaven = profileRepositoryRaven;
-            _katushaCache = cacheContext; 
+            _katushaGlobalCache = globalCacheContext; 
         }
 
         public void MakeProfilePhoto(long profileId, Guid photoGuid)
         {
-            var profile = _profileRepository.GetById(profileId, p => p.Photos);
+            var profile = _profileRepository.SingleAttached(p => p.Id == profileId, p=> p.Photos);
             if (profile == null) return;
             if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
                 throw new HttpException(404, "Photo not found!");
             profile.ProfilePhotoGuid = photoGuid;
             _profileRepository.FullUpdate(profile);
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-            _profileRepositoryRaven.FullUpdate(_profileService.GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+            _profileService.UpdateRavenProfile(profile.Id);
         }
 
         public ViewDataUploadFilesResult AddPhoto(long profileId, string description, string pathToPhotos, HttpPostedFileBase hpf)
@@ -75,8 +74,7 @@ namespace MS.Katusha.Services
                 ImageBuilder.Current.Build(hpf, fileName, new ResizeSettings(versions[suffix]), false, true);
             }
 
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-            _profileRepositoryRaven.FullUpdate(_profileService.GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+            _profileService.UpdateRavenProfile(profile.Id);
 
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             return new ViewDataUploadFilesResult {
@@ -90,11 +88,11 @@ namespace MS.Katusha.Services
             };
         }
 
-        public void AddSamplePhoto(long profileId, string description, string pathToPhotos, string fileName, string filePath)
+        public Photo AddSamplePhoto(long profileId, string description, string pathToPhotos, string fileName, string filePath)
         {
             ///// INTERNAL USE /////
             var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
-            if (profile == null) return;
+            if (profile == null) return null;
             var guid = Guid.NewGuid();
             var photo = new Photo { Description = description, ProfileId = profileId, FileName = fileName, ContentType = "image/png", Guid = guid };
 
@@ -105,10 +103,10 @@ namespace MS.Katusha.Services
             _photoRepository.Add(photo, photo.Guid);
 
             var versions = new Dictionary<byte, string> {
-                {(byte)PhotoType.Thumbnail, "width=80&height=106&crop=auto&format=png"}, 
-                {(byte)PhotoType.Medium, "maxwidth=400&maxheight=530&format=png"},
-                {(byte)PhotoType.Large, "maxwidth=800&maxheight=1060&format=png"},
-                {(byte)PhotoType.Original, "format=png"}
+                {(byte) PhotoType.Thumbnail, "width=80&height=106&crop=auto&format=png"},
+                {(byte) PhotoType.Medium, "maxwidth=400&maxheight=530&format=png"},
+                {(byte) PhotoType.Large, "maxwidth=800&maxheight=1060&format=png"}
+                //,{(byte)PhotoType.Original, "format=png"}
             };
 
             if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
@@ -118,8 +116,8 @@ namespace MS.Katusha.Services
                 ImageBuilder.Current.Build(filePath, fn, new ResizeSettings(versions[suffix]), false, true);
             }
 
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-            _profileRepositoryRaven.FullUpdate(_profileService.GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+            _profileService.UpdateRavenProfile(profile.Id);
+            return _photoRepository.SingleAttached(p => p.Id == photo.Id);
         }
 
         public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
@@ -138,8 +136,7 @@ namespace MS.Katusha.Services
                 profile.ProfilePhotoGuid = Guid.Empty;
                 _profileRepository.FullUpdate(profile);
             }
-            _katushaCache.Delete("P:" + profile.Guid.ToString());
-            _profileRepositoryRaven.FullUpdate(_profileService.GetProfile(profile.Id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos));
+            _profileService.UpdateRavenProfile(profile.Id);
         }
     }
 }

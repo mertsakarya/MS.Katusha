@@ -6,7 +6,8 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface IConversationService
     {
-        IEnumerable<Conversation> GetMessages(long profileId, out int total, int pageNo = 1, int pageSize = 20);
+        IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20);
+        IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
         void SendMessage(Conversation data);
         void ReadMessage(long id, Guid messageGuid);
     }

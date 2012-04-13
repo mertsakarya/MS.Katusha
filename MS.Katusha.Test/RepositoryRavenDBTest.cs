@@ -60,7 +60,7 @@ namespace MS.Katusha.Test
             Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
             var manRavenDB = _repositoryProfileRavenDB.GetById(2);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", manRavenDB));
-            var girls = _repositoryProfileRavenDB.Query(g => g.BreastSize == (byte)BreastSize.Large, null, p => p.Name).ToArray();
+            var girls = _repositoryProfileRavenDB.Query(g => g.BreastSize == (byte)BreastSize.Large, null, true, p => p.Name).ToArray();
             Guid guid = Guid.Empty;
             foreach (var girl in girls)
             {

@@ -54,24 +54,24 @@ namespace MS.Katusha.Repositories.DB.Base
             return QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2})", typeof(T).Name, filter, orderByClause));
 #endif
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
-            if (orderByClause != null) q = q.OrderBy(orderByClause);
+            if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
             return q;
         }
 
-        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2}, {3}, {4})", typeof(T).Name, filter, pageNo, pageSize, orderByClause));
 #endif
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
-            total = q.Count(); 
-            if (orderByClause != null) q = q.OrderBy(orderByClause);
+            total = q.Count();
+            if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
             return q.Skip((pageNo - 1) * pageSize).Take( pageSize );
         }
 
@@ -83,12 +83,12 @@ namespace MS.Katusha.Repositories.DB.Base
             return RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams).FirstOrDefault();
         }
 
-        public T SingleAttached(Expression<Func<T, bool>> filter)
+        public T SingleAttached(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG
             logger.Info(String.Format("SingleAttached<{0}>({1})", typeof(T).Name, filter));
 #endif
-            return RepositoryHelper.Query(DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable(), filter, null).FirstOrDefault();
+            return RepositoryHelper.Query(DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable(), filter, includeExpressionParams).FirstOrDefault();
         }
 
         public T Add(T entity)

@@ -41,9 +41,12 @@
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,12 +54,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\KatushaFieldAttribute.cs" />
+    <Compile Include="Attributes\KatushaFilterAttribute.cs" />
+    <Compile Include="Attributes\KatushaLookupListAttribute.cs" />
+    <Compile Include="Attributes\KatushaRangeAttribute.cs" />
+    <Compile Include="Attributes\KatushaRegularExpressionAttribute.cs" />
+    <Compile Include="Attributes\KatushaRequiredAttribute.cs" />
+    <Compile Include="Attributes\KatushaStringLengthAttribute.cs" />
     <Compile Include="Cache\CacheObjectRepositoryRavenDB.cs" />
-    <Compile Include="Cache\IKatushaCacheContext.cs" />
-    <Compile Include="Cache\KatushaMemoryCacheContext.cs" />
-    <Compile Include="Cache\KatushaRavenCacheContext.cs" />
+    <Compile Include="Cache\IKatushaGlobalCacheContext.cs" />
+    <Compile Include="Cache\KatushaGlobalMemoryCacheContext.cs" />
+    <Compile Include="Cache\KatushaGlobalRavenCacheContext.cs" />
     <Compile Include="ConfigParser.cs" />
     <Compile Include="Cache\CacheObject.cs" />
+    <Compile Include="Exceptions\KatushaException.cs" />
+    <Compile Include="Exceptions\Resources\KatushaConfigurationException.cs" />
+    <Compile Include="Exceptions\Resources\KatushaResourceException.cs" />
+    <Compile Include="Exceptions\Resources\KatushaResourceLookupException.cs" />
+    <Compile Include="Exceptions\Services\KatushaFriendlyNameExistsException.cs" />
+    <Compile Include="Exceptions\Services\KatushaFriendlyNameNotFoundException.cs" />
+    <Compile Include="Exceptions\Services\KatushaGenderNotExistsException.cs" />
+    <Compile Include="Exceptions\Web\KatushaNotAllowedException.cs" />
     <Compile Include="KatushaContextInitializer.cs" />
     <Compile Include="ReloadResources.cs" />
     <Compile Include="ResourceManager.cs" />
@@ -70,10 +88,6 @@
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Exceptions\MS.Katusha.Exceptions.csproj">
-      <Project>{88D8960D-E493-4CCB-BFEA-CC3D8EE0EB9F}</Project>
-      <Name>MS.Katusha.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -18,7 +17,8 @@ namespace MS.Katusha.Infrastructure
             None = 0,
             Configuration,
             Resource,
-            ResourceLookup
+            ResourceLookup,
+            Start
         };
 
         protected class ConfigurationType {
@@ -150,35 +150,39 @@ namespace MS.Katusha.Infrastructure
 
         public string[] Parse()
         {
-            var mode = Section.None;
+            var mode = Section.Start;
             var result = new List<string>();
             var line = 0;
             using (var stream = new StreamReader(ConfigurationFilename)) {
                 while (!stream.EndOfStream) {
                     string text = stream.ReadLine();
                     line++;
-                    if (!String.IsNullOrWhiteSpace(text)) {
-                        text = text.Trim();
-                        char firstChar = text[0];
-                        if (firstChar == '[') {
-                            text = text.ToLowerInvariant();
-                            var i = text.IndexOf("]", StringComparison.Ordinal);
-                            if(i > 2) {
-                                if(!Enum.TryParse(text.Substring(1, i-1), true, out mode)) mode = Section.None;
+                    if (mode == Section.Start) {
+                        if(text == "[START]")
+                            mode = Section.None;
+                        continue;
+                    }
+                    if (String.IsNullOrWhiteSpace(text)) continue;
+                    text = text.Trim();
+                    var firstChar = text[0];
+                    if (firstChar == '[') {
+                        text = text.ToLowerInvariant();
+                        var i = text.IndexOf("]", StringComparison.Ordinal);
+                        if(i > 2) {
+                            if(!Enum.TryParse(text.Substring(1, i-1), true, out mode)) mode = Section.None;
                                 
-                            }
-                        } else if (firstChar != '*' && firstChar != '!' && firstChar != '#' && mode != Section.None) {
-                            var arr = text.Split('\t');
-                            var values = new List<string>();
-                            if (values.Count > 0 && values.Count < 2) {
-                                result.Add(String.Format("{2} ERROR at line ({1}) \t{0}", text, line, mode));
-                            } else {
-                                var dependency = _dependencies[mode];
-                                values.AddRange(from t in arr select t.Trim() into item where !String.IsNullOrWhiteSpace(item) select item.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n"));
-                                var retval = dependency.ParseLine(line, text, values);
-                                if(retval != null)
-                                    result.Add(retval);
-                            }
+                        }
+                    } else if (firstChar != '*' && firstChar != '!' && firstChar != '#' && mode != Section.None) {
+                        var arr = text.Split('\t');
+                        var values = new List<string>();
+                        if (values.Count > 0 && values.Count < 2) {
+                            result.Add(String.Format("{2} ERROR at line ({1}) \t{0}", text, line, mode));
+                        } else {
+                            var dependency = _dependencies[mode];
+                            values.AddRange(from t in arr select t.Trim() into item where !String.IsNullOrWhiteSpace(item) select item.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n"));
+                            var retval = dependency.ParseLine(line, text, values);
+                            if(retval != null)
+                                result.Add(retval);
                         }
                     }
                 }

@@ -37,7 +37,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
 
-            builder.RegisterType<KatushaMemoryCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
+            builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
             builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IRepository<CacheObject>>().InstancePerHttpRequest();
             builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
