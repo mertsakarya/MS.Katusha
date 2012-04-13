@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStateService.cs" />
     <Compile Include="ISamplesService.cs" />
     <Compile Include="IVisitService.cs" />
     <Compile Include="IPhotosService.cs" />

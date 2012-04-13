@@ -42,9 +42,7 @@ namespace MS.Katusha.Test
         private void CreateSampleMan(User user, Guid guid)
         {
             long id = user.Id;
-            var now = DateTime.UtcNow;
             var manRepository = new ProfileRepositoryDB(_dbContext);
-            var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
             var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
             var photoRepository = new PhotoRepositoryDB(_dbContext);
@@ -82,20 +80,6 @@ namespace MS.Katusha.Test
             man.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = man.Id, Country = (byte)Country.Turkey }));
             man.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = man.Id, Country = (byte)Country.Ukraine }));
             _dbContext.SaveChanges();
-
-            var state = new State
-            {
-                Existance = (byte)Existance.Active,
-                LastOnline = now.AddMinutes(-1),
-                Status = (byte)Status.Online,
-                MembershipType = (byte)MembershipType.Normal,
-                ModifiedDate = now,
-                Profile = man,
-                ProfileId = man.Id
-            };
-
-            stateRepository.Add(state);
-            _dbContext.SaveChanges();
         }
 
         private void CreateSampleGirl(User user, Guid guid)
@@ -103,7 +87,6 @@ namespace MS.Katusha.Test
             long id = user.Id;
             var now = DateTime.UtcNow;
             var girlRepository = new ProfileRepositoryDB(_dbContext);
-            var stateRepository = new StateRepositoryDB(_dbContext);
             var countriesToVisitRepository = new CountriesToVisitRepositoryDB(_dbContext);
             var languagesSpokenRepository = new LanguagesSpokenRepositoryDB(_dbContext);
             var photoRepository = new PhotoRepositoryDB(_dbContext);
@@ -137,17 +120,6 @@ namespace MS.Katusha.Test
             girl.CountriesToVisit.Add(countriesToVisitRepository.Add(new CountriesToVisit { ProfileId = girl.Id, Country = (byte)Country.Ukraine }));
             _dbContext.SaveChanges();
 
-            var state = new State
-            {
-                Existance = (byte)Existance.Active,
-                LastOnline = now.AddMinutes(-1),
-                Status = (byte)Status.Online,
-                MembershipType = (byte)MembershipType.Normal,
-                ModifiedDate = now,
-                Profile = girl,
-                ProfileId = girl.Id
-            };
-            stateRepository.Add(state);
             _dbContext.SaveChanges();
         }
 

@@ -12,7 +12,6 @@ namespace MS.Katusha.Services.Generators
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
         private readonly IConversationService _conversationService;
-        private static readonly Logger Logger = LogManager.GetLogger("ConversationGenerator");
         private readonly List<Profile> _profiles;
         private int _total;
 
@@ -50,9 +49,6 @@ namespace MS.Katusha.Services.Generators
                 message.ToName = to.Name;
                 message.ToPhotoGuid = to.ProfilePhotoGuid;
                 _conversationService.SendMessage(message);
-#if DEBUG
-                Logger.Info(message);
-#endif
                 return message;
             }
         }

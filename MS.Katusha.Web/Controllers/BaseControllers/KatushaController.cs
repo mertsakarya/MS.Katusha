@@ -21,10 +21,12 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         public Sex Gender { get; set; }
 
         public IUserService UserService { get; private set; }
+        public IStateService StateService { get; set; }
 
-        public KatushaController(IUserService userService)
+        public KatushaController(IUserService userService, IStateService stateService)
         {
             UserService = userService;
+            StateService = stateService;
         }
 
         protected bool IsKeyForProfile(string key)
@@ -45,6 +47,9 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
+            if(KatushaProfile != null) {
+                StateService.Ping(KatushaProfile.Id, (Sex) KatushaProfile.Gender);
+            }
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

@@ -8,9 +8,9 @@ namespace MS.Katusha.Domain
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public DbSet<State> States { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Visit> Visits { get; set; }
+        public DbSet<State> States { get; set; }
 
         public DbSet<ConfigurationData> ConfigurationDatas { get; set; }
         public DbSet<Resource> Resources { get; set; }
@@ -46,7 +46,6 @@ namespace MS.Katusha.Domain
                         .HasForeignKey(ul => ul.VisitorProfileId)
                         .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<State>().HasRequired(x => x.Profile); //.WithOptional(s => s.State).Map( x => x.MapKey("StateId"));
             modelBuilder.Entity<Profile>().HasRequired(x => x.User); //.WithOptional(s=>s.Profile); //.Map(x => x.MapKey("UserId"));
 
             base.OnModelCreating(modelBuilder);

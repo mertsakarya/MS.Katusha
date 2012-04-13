@@ -56,7 +56,7 @@ namespace MS.Katusha.Test
             foreach (var b in bs)
                 _repositoryProfileRavenDB.Add(b);
             var man = _repositoryProfileDb.GetById(2, p => p.User, p => p.Photos, p => p.LanguagesSpoken, p => p.Searches,
-                                               p => p.CountriesToVisit, p=> p.User, p=>p.State);
+                                               p => p.CountriesToVisit, p=> p.User);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
             var manRavenDB = _repositoryProfileRavenDB.GetById(2);
             Debug.WriteLine(String.Format("Found User:\r\n {0}", manRavenDB));

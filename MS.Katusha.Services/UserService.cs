@@ -93,7 +93,7 @@ namespace MS.Katusha.Services
             var strGuid = guid.ToString();
             var profile = _katushaGlobalCache.Get<Profile>("P:" + strGuid);
             if (profile == null) {
-                profile = _profileRepositoryRaven.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.State, p=> p.Photos);
+                profile = _profileRepositoryRaven.GetByGuid(guid, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos, p=> p.User, p=> p.Photos);
                 _katushaGlobalCache.Add("P:" + strGuid, profile);
             }
             return profile;

@@ -13,7 +13,7 @@ namespace MS.Katusha.Repositories.DB.Base
     public abstract class BaseRepositoryDB<T> : IRepository<T> where T : BaseModel
     {
         protected readonly DbContext DbContext;
-        private static Logger logger = LogManager.GetLogger("RepositoryDB");
+        private static Logger logger = LogManager.GetLogger("MS.Katusha.Repository.DB");
 
         protected IQueryable<T> QueryableRepository
         {
@@ -29,29 +29,17 @@ namespace MS.Katusha.Repositories.DB.Base
 
         public T GetById(long id, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-#if DEBUG
-            logger.Info(String.Format("GetById<{1}>({0})", id, typeof(T).Name));
-#endif
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
         public IQueryable<T> GetAll()
         {
-#if DEBUG
-            logger.Info(String.Format("GetAll<{0}>()", typeof(T)));
-#endif
             return QueryableRepository;
         }
 
         public IQueryable<T> GetAll(int pageNo, int pageSize)
         {
-#if DEBUG
-            logger.Info(String.Format("GetByAll<{0}>({1}, {2})", typeof(T).Name, pageNo, pageSize));
-#endif
-            if (pageNo < 1) return GetAll();
-
-            //TODO: IMPLEMENT ORDER BY ON BASE REPOSTORY GRACEFULLY
-            return QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize);
+            return pageNo < 1 ? GetAll() : QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
         public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)

@@ -9,7 +9,8 @@ namespace MS.Katusha.Web.Controllers
 {
     public class MailController : KatushaController
     {
-        public MailController(IUserService service) : base(service) { }
+        public MailController(IUserService service, IStateService stateService)
+            : base(service, stateService) { }
 
         public ActionResult Confirm(string key)
         {

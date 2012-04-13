@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateService.cs" />
     <Compile Include="Generators\VisitGenerator.cs" />
     <Compile Include="SamplesService.cs" />
     <Compile Include="Generators\ConversationGenerator.cs" />

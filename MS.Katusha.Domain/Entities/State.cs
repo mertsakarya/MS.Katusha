@@ -1,26 +1,12 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Domain.Entities.BaseEntities;
-using MS.Katusha.Enumerations;
-using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
 {
-    public class State : BaseModel
+    public class State : IdModel
     {
-        [Required]
         public long ProfileId { get; set; }
-        [JsonIgnore]
-        public Profile Profile { get; set; }
-
-        public byte MembershipType { get; set; }
-        public byte Status { get; set; }
-        public byte Existance { get; set; }
+        public byte Gender { get; set; }
         public DateTime LastOnline { get; set; }
-
-        public override string ToString()
-        {
-            return base.ToString() + String.Format("[ProfileId: {0} | MembershipType: {1} | Status: {2} | Existance: {3} | LastOnline: {4}]", ProfileId, Enum.GetName(typeof(MembershipType) , MembershipType), Enum.GetName(typeof(Status) , Status), Enum.GetName(typeof(Existance) , Existance), LastOnline);
-        }
     }
 }

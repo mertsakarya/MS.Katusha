@@ -41,15 +41,6 @@ namespace MS.Katusha.Test
             Debug.WriteLine(String.Format("Found User:\r\n {0}", user));
         }
 
-        [TestMethod]
-        public void ShouldBeAbleToFindMan2()
-        {
-            var man = _repositoryProfile.GetById(2, null); //p => p.Photos, p=> p.LanguagesSpoken, p=>p.Searches, p=>p.CountriesToVisit, p => p.State);
-            Debug.WriteLine(String.Format("Found User:\r\n {0}", man.User));
-            var list = _repositoryProfile.Query(p => p.State.Status == (byte)Status.Online, null, true, p => p.Photos);
-            foreach (var b in list)
-                Debug.WriteLine(String.Format("Found man with {0} photos.", b.Photos.Count));
-        }
 
         [TestMethod]
         public void ShouldBeAbleToFindMan()
@@ -95,7 +86,7 @@ namespace MS.Katusha.Test
             DeleteVisit(visit);
             Debug.WriteLine(conversation);
 
-            var c = _repositoryConverstaion.GetByGuid(conversation.Guid, p => p.From.State);
+            var c = _repositoryConverstaion.GetByGuid(conversation.Guid);
             Debug.WriteLine(c);
         }
 

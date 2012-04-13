@@ -78,9 +78,6 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<SearchResult, SearchResultModel>();
             Mapper.CreateMap<SearchResultModel, SearchResult>();
 
-            Mapper.CreateMap<State, StateModel>();
-            Mapper.CreateMap<StateModel, State>();
-
             Mapper.CreateMap<Visit, VisitModel>();
             Mapper.CreateMap<VisitModel, Visit>();
 

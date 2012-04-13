@@ -7,19 +7,19 @@ namespace MS.Katusha.Services.Generators
 {
     public class UserGenerator : IGenerator<User>
     {
-        private readonly IUserService _service;
-        private readonly static Logger Logger = LogManager.GetLogger("UserGenerator");
+        private readonly IUserService _userService;
+        private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.UserGenerator");
 
-        public UserGenerator(IUserService service) {
-            _service = service;
+        public UserGenerator(IUserService userService) {
+            _userService = userService;
         }
 
         public User Generate(int extra = 0) { 
             KatushaMembershipCreateStatus createStatus;
-            var user = _service.CreateUser(GeneratorHelper.RandomString(4, true), "123456", "mertsakarya@gmail.com", passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+            var user = _userService.CreateUser(GeneratorHelper.RandomString(4, true), "123456", "mertsakarya@gmail.com", passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
             
 #if DEBUG
-            Logger.Info(user);
+            Logger.Info("User Created: " + user.UserName);
 #endif
             return user;
         }

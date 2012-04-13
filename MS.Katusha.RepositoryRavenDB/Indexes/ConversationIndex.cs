@@ -9,9 +9,9 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
         public ConversationIndex()
         {
             Map = docs => from doc in docs
-                          select new {
-                                         doc.FromId,
-                                         doc.ToId,
+                          select new ConversationResult  {
+                                         FromId = doc.FromId,
+                                         ToId = doc.ToId,
                                          Count = 1,
                                          UnreadCount = (doc.ReadDate.Year < 2000) ? 1 : 0
                                      };
@@ -19,9 +19,9 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
             Reduce = results => from result in results
                                 group result by new {result.FromId, result.ToId}
                                 into g
-                                select new {
-                                               g.Key.FromId,
-                                               g.Key.ToId,
+                                    select new ConversationResult {
+                                               FromId = g.Key.FromId,
+                                               ToId = g.Key.ToId,
                                                Count = g.Sum(x => x.Count),
                                                UnreadCount = g.Sum(x => x.UnreadCount)
                                            };

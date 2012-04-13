@@ -8,8 +8,8 @@ namespace MS.Katusha.Domain
         DbSet<Profile> Profiles { get; set; }
         DbSet<User> Users { get; set; }
 
-        DbSet<State> States { get; set; }
         DbSet<Conversation> Conversations { get; set; }
+        DbSet<State> States { get; set; }
 
         DbSet<SearchingFor> Searches { get; set; }
         DbSet<Photo> Photos { get; set; }

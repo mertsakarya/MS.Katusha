@@ -10,8 +10,7 @@ namespace MS.Katusha.Services.Generators
     public class VisitGenerator : IGenerator<Visit>
     {
         private readonly IVisitService _visitService;
-        private static readonly Logger Logger = LogManager.GetLogger("VisitGenerator");
-        private List<Profile> _profiles;
+        private readonly List<Profile> _profiles;
         private int _total;
 
         public VisitGenerator(IProfileService profileService, IVisitService visitService)

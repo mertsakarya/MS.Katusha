@@ -63,6 +63,7 @@
     <Compile Include="Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
+    <Compile Include="Entities\BaseEntities\IdModel.cs" />
     <Compile Include="Entities\ConfigurationData.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
@@ -70,11 +71,11 @@
     <Compile Include="Entities\CountriesToVisit.cs" />
     <Compile Include="Entities\LanguagesSpoken.cs" />
     <Compile Include="Entities\Resource.cs" />
+    <Compile Include="Entities\State.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\SearchingFor.cs" />
-    <Compile Include="Entities\State.cs" />
     <Compile Include="Entities\ViewDataUploadFilesResult.cs" />
     <Compile Include="Entities\Visit.cs" />
     <Compile Include="IKatushaDbContext.cs" />

@@ -16,11 +16,9 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : KatushaController
     {
-        private readonly IUserService _service;
-
-        public AccountController(IUserService service) : base(service)
+        public AccountController(IUserService service, IStateService stateService)
+            : base(service, stateService)
         {
-            _service = service;
         }
         //
         // GET: /Account/Login
@@ -40,7 +38,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_service.ValidateUser(model.UserName, model.Password))
+                if (UserService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return Json(new { success = true, redirect = returnUrl });
@@ -61,7 +59,7 @@ namespace MS.Katusha.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_service.ValidateUser(model.UserName, model.Password))
+                if (UserService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
@@ -84,14 +82,14 @@ namespace MS.Katusha.Web.Controllers
             Guid guid;
             User model = null;
             if(long.TryParse(key, out uid)) {
-                model = _service.GetUser(uid);
+                model = UserService.GetUser(uid);
             } else  if(Guid.TryParse(key, out guid)) {
-                model = _service.GetUser(guid);
+                model = UserService.GetUser(guid);
             } else {
-                model = _service.GetUser(key);
+                model = UserService.GetUser(key);
             }
             if (model != null) {
-                if (_service.ValidateUser(model.UserName, model.Password)) {
+                if (UserService.ValidateUser(model.UserName, model.Password)) {
                     FormsAuthentication.SetAuthCookie(model.UserName, false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -131,7 +129,7 @@ namespace MS.Katusha.Web.Controllers
             {
                 // Attempt to register the user
                 KatushaMembershipCreateStatus createStatus;
-                _service.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
 
                 if (createStatus == KatushaMembershipCreateStatus.Success)
                 {
@@ -156,7 +154,7 @@ namespace MS.Katusha.Web.Controllers
             {
                 // Attempt to register the user
                 KatushaMembershipCreateStatus createStatus;
-                _service.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
 
                 if (createStatus == KatushaMembershipCreateStatus.Success)
                 {
@@ -192,8 +190,8 @@ namespace MS.Katusha.Web.Controllers
                 bool changePasswordSucceeded;
                 try
                 {
-                    //var currentUser = _service.GetUser(User.Identity.Name, userIsOnline: true);
-                    changePasswordSucceeded = _service.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                    //var currentUser = UserService.GetUser(User.Identity.Name, userIsOnline: true);
+                    changePasswordSucceeded = UserService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
                 }
                 catch (Exception)
                 {
@@ -280,7 +278,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public void FacebookLogin(string accessToken, string uid)
         {
-            var user = _service.GetUserByFacebookUId(uid);
+            var user = UserService.GetUserByFacebookUId(uid);
             if (user == null) {
                 //Create associated user
             } else

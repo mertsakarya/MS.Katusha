@@ -50,6 +50,7 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryDB.cs" />
     <Compile Include="Base\BaseRepositoryDB.cs" />
+    <Compile Include="StateRepository.cs" />
     <Compile Include="ProfileRepositoryDB.cs" />
     <Compile Include="ConfigurationDataRepositoryDB.cs" />
     <Compile Include="ResourceLookupRepositoryDB.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="PhotoRepositoryDB.cs" />
     <Compile Include="ResourceRepositoryDB.cs" />
     <Compile Include="SearchingForRepositoryDB.cs" />
-    <Compile Include="StateRepositoryDB.cs" />
     <Compile Include="UserRepositoryDB.cs" />
     <Compile Include="VisitRepository.cs" />
     <Compile Include="Base\RepositoryHelper.cs" />

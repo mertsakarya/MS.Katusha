@@ -27,8 +27,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IResourceManager _resourceManager;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public ProfilesController(IUserService userService, IProfileService profileService, IResourceManager resourceManager)
-            : base(userService)
+        public ProfilesController(IUserService userService, IProfileService profileService, IResourceManager resourceManager, IStateService stateService)
+            : base(userService, stateService)
         {
             _profileService = profileService;
             _resourceManager = resourceManager;

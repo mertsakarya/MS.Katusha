@@ -26,8 +26,6 @@ namespace MS.Katusha.Domain.Entities
         
         public User User { get; set; }
 
-        public State State { get; set; } 
-
         [StringLength(64)]
         public string Name { get; set; }
 
@@ -80,7 +78,7 @@ namespace MS.Katusha.Domain.Entities
             var str = base.ToString() +
                       String.Format(
                           " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | DickSize: {13} | DickThickness: {14} | BreastSize: {15} | Religion: {10} | Height: {11} | BirthYear: {12}",
-                          (User == null) ? 0 : User.Id, State, Name,
+                          (User == null) ? 0 : User.Id, "REMOVED", Name,
                           Enum.GetName(typeof (Country), From),
                           City,
                           Enum.GetName(typeof (BodyBuild), BodyBuild),

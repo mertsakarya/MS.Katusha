@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStateRepository.cs" />
     <Compile Include="IConfigurationDataRepository.cs" />
     <Compile Include="IConfigurationRepository.cs" />
     <Compile Include="IRavenFriendlyNameRepository.cs" />
@@ -58,7 +59,6 @@
     <Compile Include="IPhotoRepository.cs" />
     <Compile Include="IResourceRepository.cs" />
     <Compile Include="ISearchingForRepository.cs" />
-    <Compile Include="IStateRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="IVisitRepository.cs" />
     <Compile Include="IRepository.cs" />

@@ -151,7 +151,7 @@ namespace MS.Katusha.Services
 
         public void UpdateRavenProfile(long id)
         {
-            var profile = _profileRepository.GetById(id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.State, p => p.Photos);
+            var profile = _profileRepository.GetById(id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.Photos);
             _katushaGlobalCache.Delete("P:" + profile.Guid.ToString());
             _profileRepositoryRaven.FullUpdate(profile);
         }

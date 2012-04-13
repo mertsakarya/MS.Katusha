@@ -32,3 +32,5 @@ _ReSharper*/
 Log.txt
 /MS.Katusha.Web/Photos
 Log.txt
+*.log
+Logs/

@@ -11,7 +11,7 @@ namespace MS.Katusha.Services.Generators
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
         private readonly IPhotosService _photosService;
-        private readonly static Logger Logger = LogManager.GetLogger("ProfileGenerator");
+        private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.ProfileGenerator");
 
         public ProfileGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
         {
@@ -84,7 +84,7 @@ namespace MS.Katusha.Services.Generators
             }
 
 #if DEBUG
-            Logger.Info(profile);
+            Logger.Info("Profile generated: " + profile.Name);
 #endif
             return profile;
 

@@ -29,6 +29,8 @@ namespace MS.Katusha.Domain.Entities
         public string Password { get; set; }
 
         public DateTime Expires { get; set; }
+        public byte MembershipType { get; set; }
+
 
         public override string ToString()
         {

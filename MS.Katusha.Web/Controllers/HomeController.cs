@@ -6,8 +6,8 @@ namespace MS.Katusha.Web.Controllers
 {
     public class HomeController : KatushaController
     {
-        public HomeController(IUserService service)
-            : base(service)
+        public HomeController(IUserService service, IStateService stateService)
+            : base(service, stateService)
         {
         }
 
