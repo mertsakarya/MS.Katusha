@@ -15,7 +15,6 @@ namespace MS.Katusha.Infrastructure.Exceptions.Web
 
         public BaseFriendlyModel Profile { get; private set; }
         public User User { get; set; }
-        public string Key { get; set; }
     }
 
 }

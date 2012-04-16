@@ -5,7 +5,7 @@ namespace MS.Katusha.Enumerations
 {
     public class HeightHelper
     {
-        public static readonly int[][] Array = new int[9][] {
+        public static readonly int[][] Array = new [] {
                                                                 new[] {000, 139},
                                                                 new[] {140, 149},
                                                                 new[] {150, 159},
@@ -44,7 +44,7 @@ namespace MS.Katusha.Enumerations
                 i++;
                 if (range.Equals(val)) return (Height)i;
             }
-            return (byte)0;
+            return 0;
         }
 
         public static string GetRange(Height height)

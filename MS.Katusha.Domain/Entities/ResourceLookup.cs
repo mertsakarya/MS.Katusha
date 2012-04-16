@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Domain.Entities
@@ -15,7 +16,7 @@ namespace MS.Katusha.Domain.Entities
         [NotMapped]
         public string Key
         {
-            get { return LookupName + Language.ToString(); }
+            get { return LookupName + Language.ToString(CultureInfo.InvariantCulture); }
         }
         public override string ToString()
         {

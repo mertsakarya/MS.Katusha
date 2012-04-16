@@ -6,7 +6,8 @@ namespace MS.Katusha.Enumerations
     public class AgeHelper
     {
         private static readonly int Year = DateTime.UtcNow.Year;
-        public static int[][] Array = new int[11][] {
+
+        public static readonly int[][] Array = new [] {
                                                         new[] {00, 17},
                                                         new[] {18, 24},
                                                         new[] {25, 29},
@@ -17,7 +18,7 @@ namespace MS.Katusha.Enumerations
                                                         new[] {50, 54},
                                                         new[] {55, 59},
                                                         new[] {60, 69},
-                                                        new[] {70, 00},
+                                                        new[] {70, 00}
                                                     };
 
         public static readonly List<string> Ranges = new List<string> {
@@ -40,7 +41,7 @@ namespace MS.Katusha.Enumerations
                 i++;
                 if (range.Equals(val)) return (Age)i;
             }
-            return (byte)0;
+            return 0;
         }
 
         public static Age GetRangeFromAge(int age)
@@ -74,7 +75,7 @@ namespace MS.Katusha.Enumerations
                 foreach (var val in age) {
                     if ((byte) val == 0 || (byte) val >= Array.Length) continue;
                     var items = GetArrayItem((Age) val);
-                    result.Add(new int[] {(items[1] == 0)? 0 : Year - items[1], (items[0] == 0) ? 0 : Year - items[0]});
+                    result.Add(new [] {(items[1] == 0)? 0 : Year - items[1], (items[0] == 0) ? 0 : Year - items[0]});
                 }
             return result;
         }

@@ -12,8 +12,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IConfigurationService _configurationService;
         private readonly ISamplesService _samplesService;
 
-        public UtilitiesController(IUserService userService, IConfigurationService configurationService, ISamplesService samplesService, IStateService stateService)
-            : base(userService, stateService)
+        public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, ISamplesService samplesService, IStateService stateService)
+            : base(userService, profileService, stateService)
         {
             _configurationService = configurationService;
             _samplesService = samplesService;

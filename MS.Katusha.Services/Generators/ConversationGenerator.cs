@@ -43,23 +43,20 @@ namespace MS.Katusha.Services.Generators
             var from = _profiles[num];
             num = GeneratorHelper.RND.Next(_total - 1);
             var to = _profiles[num];
-            if (from.Id == to.Id) {
-                return Generate();
-            } else {
-                message.FromId = from.Id;
-                message.FromGuid = from.Guid;
-                message.FromName = from.Name;
-                message.FromPhotoGuid = from.ProfilePhotoGuid;
-                message.ToId = to.Id;
-                message.ToGuid = to.Guid;
-                message.ToName = to.Name;
-                message.ToPhotoGuid = to.ProfilePhotoGuid;
-                _conversationService.SendMessage(message);
+            if (from.Id == to.Id) return Generate();
+            message.FromId = @from.Id;
+            message.FromGuid = @from.Guid;
+            message.FromName = @from.Name;
+            message.FromPhotoGuid = @from.ProfilePhotoGuid;
+            message.ToId = to.Id;
+            message.ToGuid = to.Guid;
+            message.ToName = to.Name;
+            message.ToPhotoGuid = to.ProfilePhotoGuid;
+            _conversationService.SendMessage(message);
 #if DEBUG
-                Logger.Info("Conversation END:");
+            Logger.Info("Conversation END:");
 #endif
-                return message;
-            }
+            return message;
         }
     }
 }

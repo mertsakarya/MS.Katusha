@@ -67,20 +67,20 @@ namespace MS.Katusha.Services.Generators
             for(byte i = 1; i <= (byte)Country.MAX; i++)
                 if (GeneratorHelper.RND.Next(2) + 1 == 1)
                     _profileService.AddCountriesToVisit(profile.Id, (Country) i);
-
-            var photoCount = GeneratorHelper.RND.Next(4);
-            if (photoCount > 0) {
-                var root = ConfigurationManager.AppSettings["Root_Folder"];
-                var samples = root + "..\\SamplePhotos\\"+ ((Sex)profile.Gender).ToString() + "\\";
-                for (var i = 1; i <= photoCount; i++) {
-                    var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";
-                    var filepath = samples + filename;
-                    var photo = _photosService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), root + "Photos\\", filename, filepath);
-                    if (GeneratorHelper.RND.Next(3) + 1 == 1)
-                        _photosService.MakeProfilePhoto(profile.Id, photo.Guid);
+            if (extra == 0) {
+                var photoCount = GeneratorHelper.RND.Next(4);
+                if (photoCount > 0) {
+                    var root = ConfigurationManager.AppSettings["Root_Folder"];
+                    var samples = root + "..\\SamplePhotos\\" + ((Sex) profile.Gender).ToString() + "\\";
+                    for (var i = 1; i <= photoCount; i++) {
+                        var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";
+                        var filepath = samples + filename;
+                        var photo = _photosService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), root + "Photos\\", filename, filepath);
+                        if (GeneratorHelper.RND.Next(3) + 1 == 1)
+                            _photosService.MakeProfilePhoto(profile.Id, photo.Guid);
+                    }
                 }
             }
-
             var id = _profileService.GetProfileId(profile.Guid);
             if (id > 0) {
                 profile = _profileService.GetProfile(id, null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);

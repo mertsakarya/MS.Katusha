@@ -524,6 +524,10 @@
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Shared\_SearchForm.cshtml" />
     <Content Include="Views\Messages\Conversations.cshtml" />
+    <Content Include="Views\Shared\_New.cshtml" />
+    <Content Include="Views\Shared\_Online.cshtml" />
+    <Content Include="Views\Profiles\New.cshtml" />
+    <Content Include="Views\Profiles\Online.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

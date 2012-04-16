@@ -6,8 +6,10 @@
     var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant();
     var actionName = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant();
     <ul>
+        @Html.Partial("_New")<hr/>
+        @Html.Partial("_Online")
+        <hr/>
         @if (profile != null) {
-
             <li>@Html.ActionLink("My messages", "Conversations", "Messages", new {key = 1}, null)</li>
             <li>@Html.ActionLink("My visitors", "Index", "Visitor", new {key = 1}, null)</li>
             <li>@Html.ActionLink("View my profile", "Show", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
@@ -22,8 +24,8 @@
             } else if (user != null && user.Gender == 0) {
                 <li>Create a new
                     <ul>
-                        <li>@Html.ActionLink("Girl profile", "Create", "Profiles", new {key = "Girl"}, null)</li>
-                        <li>@Html.ActionLink("Man profile", "Create", "Profiles", new {key = "Man"}, null)</li>
+                        <li>@Html.ActionLink("Girl profile", "Create", "Profiles", new { key = "Girl" }, null)</li>
+                        <li>@Html.ActionLink("Man profile", "Create", "Profiles", new { key = "Man" }, null)</li>
                     </ul>
                 </li>
             }
@@ -34,5 +36,3 @@
         Html.RenderPartial("_Search", searchResultModel);
     }
 }
-
-<div>NEW GIRLS</div>

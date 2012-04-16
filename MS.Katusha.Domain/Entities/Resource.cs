@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Domain.Entities
@@ -12,7 +13,7 @@ namespace MS.Katusha.Domain.Entities
         [NotMapped]
         public string Key
         {
-            get { return ResourceKey + Language.ToString(); }
+            get { return ResourceKey + Language.ToString(CultureInfo.InvariantCulture); }
         }
     }
 }

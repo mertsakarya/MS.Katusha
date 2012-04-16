@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using AutoMapper;
@@ -28,10 +29,48 @@ namespace MS.Katusha.Web.Controllers
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
         public ProfilesController(IUserService userService, IProfileService profileService, IResourceManager resourceManager, IStateService stateService)
-            : base(userService, stateService)
+            : base(userService, profileService, stateService)
         {
             _profileService = profileService;
             _resourceManager = resourceManager;
+        }
+
+        public ActionResult Online(int? key) {
+            var pageIndex = (key ?? 1);
+            int total;
+            IEnumerable<State> onlineStates = null;
+            switch (KatushaUser.Gender) {
+                case (byte)Sex.Male:
+                    onlineStates = StateService.OnlineGirls(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    break;
+                case (byte)Sex.Female:
+                    onlineStates = StateService.OnlineMen(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    break;
+                default:
+                    onlineStates = StateService.OnlineProfiles(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    break;
+            }
+            var onlineProfiles = new List<Profile>(DependencyHelper.GlobalPageSize);
+            onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
+
+            var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
+            var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            return View(model);
+        }
+        
+        public ActionResult New(int? key)
+        {
+            var pageIndex = (key ?? 1);
+            int total;
+            var newProfiles = KatushaProfile.Gender == (byte)Sex.Male
+                    ? ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, DependencyHelper.GlobalPageSize)
+                    : ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, pageIndex, DependencyHelper.GlobalPageSize);
+
+            var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
+            var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            return View(model);
         }
 
         public ActionResult Men(int? key) { return Index(p => p.Gender == (byte)Sex.Male, key); }

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
 using AutoMapper;
@@ -20,11 +21,14 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         public Sex Gender { get; set; }
 
-        public IUserService UserService { get; private set; }
-        public IStateService StateService { get; set; }
+        protected IUserService UserService { get; set; }
+        protected IProfileService ProfileService { get; set; }
+        protected IStateService StateService { get; set; }
+        private const int ProfileCount = 8;
 
-        public KatushaController(IUserService userService, IStateService stateService)
+        public KatushaController(IUserService userService, IProfileService profileService, IStateService stateService)
         {
+            ProfileService = profileService;
             UserService = userService;
             StateService = stateService;
         }
@@ -43,11 +47,37 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         {
             base.OnActionExecuting(filterContext);
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
-            if (KatushaUser != null)
+            if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
+                int total;
+                IEnumerable<Profile> newProfiles = null;
+                if (KatushaProfile != null)
+                    newProfiles = KatushaProfile.Gender == (byte)Sex.Male
+                        ? ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, 1, ProfileCount)
+                        : ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, 1, ProfileCount);
+                if(newProfiles != null)
+                    ViewBag.KatushaNewProfiles = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
+
+                IEnumerable<State> onlineStates = null;
+                switch (KatushaUser.Gender) {
+                    case (byte)Sex.Male:
+                        onlineStates = StateService.OnlineGirls(out total, 1, ProfileCount).ToList();
+                        break;
+                    case (byte)Sex.Female:
+                        onlineStates = StateService.OnlineMen(out total, 1, ProfileCount).ToList();
+                        break;
+                    default:
+                        onlineStates = StateService.OnlineProfiles(out total, 1, ProfileCount).ToList();
+                        break;
+                }
+                var onlineProfiles = new List<Profile>();
+                onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
+                if(onlineProfiles.Count > 0)
+                    ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
+            }
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
-            if(KatushaProfile != null) {
+            if (KatushaProfile != null) {
                 StateService.Ping(KatushaProfile.Id, (Sex) KatushaProfile.Gender);
             }
         }

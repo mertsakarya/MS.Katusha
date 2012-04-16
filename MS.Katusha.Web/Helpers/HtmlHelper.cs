@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Security.Policy;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +12,7 @@ using System.Web.Mvc.Html;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Web.Models.Entities;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 
 namespace MS.Katusha.Web.Helpers
@@ -99,13 +101,19 @@ namespace MS.Katusha.Web.Helpers
             return rm._L(resourceName, (byte) language);
         }
 
-        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false )
+        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false )
         {
             var tb = new TagBuilder("img");
             if(setId) {
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
             }
-            var str = GetPhotoPath(photoGuid, photoType);
+            string str = GetPhotoPath(photoGuid, photoType);
+            if (encode) {
+                var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
+                var bytes = ToBytes(fileName);
+                var encodedBytes = EncodeBytes(bytes);
+                str = @"data:image/jpg;base64," + encodedBytes;
+            }
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
@@ -116,11 +124,7 @@ namespace MS.Katusha.Web.Helpers
 
         private static string GetPhotoPath(Guid photoGuid, PhotoType photoType)
         {
-
-            if (photoGuid == Guid.Empty) {
-                return String.Format("/Images/Man{0}.jpg", ((photoType == PhotoType.Thumbnail) ? "small" : ""));
-            }
-            return String.Format("/Photos/{1}-{0}.png", photoGuid, (byte) photoType);
+            return String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? "Images": "Photos"), (byte)photoType, photoGuid);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression)
@@ -143,6 +147,19 @@ namespace MS.Katusha.Web.Helpers
             //        String.Format("<div class=\"display-label\"><b>{0}</b></div><div class=\"display-field\">{1}</div><span title=\"{2}\">?</span><br />",
             //                      , htmlHelper.DisplayTextFor(expression), metadata.Description));
             return htmlHelper.Raw("");
+        }
+
+        public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
+        {
+            var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
+            var url = "/Profiles/Show/" + val;
+            var anchor = new TagBuilder("a");
+            anchor.Attributes.Add("title", title);
+            anchor.Attributes.Add("href", url);
+            anchor.Attributes.Add("rel", galleryName);
+            anchor.InnerHtml = htmlHelper.Photo(profile.ProfilePhotoGuid, photoType, "", false, encode).ToString();
+            return htmlHelper.Raw(anchor.ToString());
         }
 
         public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, Type enumType)
@@ -377,6 +394,16 @@ namespace MS.Katusha.Web.Helpers
                         return htmlHelper._R(String.Format("Profile.{0}.DisplayName", key));
                     return key;
             }
+        }
+
+        private static byte[] ToBytes(string fileName)
+        {
+            return System.IO.File.ReadAllBytes(fileName);
+        }
+
+        private static string EncodeBytes(byte[] bytes)
+        {
+            return Convert.ToBase64String(bytes);
         }
     }
 }

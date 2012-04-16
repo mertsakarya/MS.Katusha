@@ -33,16 +33,12 @@ namespace MS.Katusha.Services.Generators
             var from = _profiles[num];
             num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var to = _profiles[num];
-            if (from.Id == to.Id) {
-                return Generate(_total);
-            } else {
-                _visitService.Visit(from, to);
+            if (from.Id == to.Id) return Generate(_total);
+            _visitService.Visit(@from, to);
 #if DEBUG
-                Logger.Info("Visit END:");
+            Logger.Info("Visit END:");
 #endif
-
-                return null;
-            }
+            return null;
         }
     }
 }
