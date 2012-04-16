@@ -9,7 +9,7 @@
     <file relUrl="packages.config" publishTime="04/13/2012 13:27:53" />
     <file relUrl="Content/themes/base/jquery.ui.datepicker.css" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/AsyncCtpLibrary.dll" publishTime="04/06/2012 15:46:31" />
-    <file relUrl="bin/MS.Katusha.Web.dll" publishTime="04/13/2012 18:50:22" />
+    <file relUrl="bin/MS.Katusha.Web.dll" publishTime="04/16/2012 15:02:43" />
     <file relUrl="bin/BouncyCastle.Crypto.dll" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/System.Web.WebPages.Razor.xml" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/Common.Logging.NLog.dll" publishTime="04/13/2012 12:41:28" />
@@ -28,7 +28,7 @@
     <file relUrl="Scripts/jquery.validate.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Views/Profiles/Create.cshtml" publishTime="04/08/2012 20:34:55" />
     <file relUrl="bin/System.Data.SqlServerCe.Entity.dll" publishTime="03/06/2012 10:12:35" />
-    <file relUrl="Views/Shared/_LeftPartial.cshtml" publishTime="04/10/2012 16:04:07" />
+    <file relUrl="Views/Shared/_LeftPartial.cshtml" publishTime="04/16/2012 14:20:31" />
     <file relUrl="bin/Raven.Client.Lightweight.xml" publishTime="04/06/2012 15:47:51" />
     <file relUrl="Content/Mosaic/img/progress.gif" publishTime="03/17/2011 09:51:38" />
     <file relUrl="bin/System.Net.Http.xml" publishTime="03/06/2012 10:12:35" />
@@ -45,23 +45,23 @@
     <file relUrl="bin/System.Web.Http.Common.xml" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/Raven.Client.Lightweight.pdb" publishTime="04/06/2012 15:47:51" />
     <file relUrl="Scripts/jquery-1.6.2-vsdoc.js" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Enumerations.dll" publishTime="04/13/2012 18:50:14" />
+    <file relUrl="bin/MS.Katusha.Enumerations.dll" publishTime="04/16/2012 15:02:36" />
     <file relUrl="Views/Shared/Error.cshtml" publishTime="04/08/2012 20:41:36" />
     <file relUrl="bin/Common.Logging.dll" publishTime="04/13/2012 12:25:45" />
-    <file relUrl="bin/MS.Katusha.Domain.dll" publishTime="04/13/2012 18:50:14" />
+    <file relUrl="bin/MS.Katusha.Domain.dll" publishTime="04/16/2012 15:02:37" />
     <file relUrl="NLog.config" publishTime="04/13/2012 16:59:35" />
     <file relUrl="bin/Raven.Client.Embedded.xml" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Views/Messages/List.cshtml" publishTime="04/10/2012 18:57:12" />
     <file relUrl="Images/facebook.png" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Content/Bootstrap/bootstrap-image-gallery.min.js" publishTime="03/19/2012 17:13:54" />
-    <file relUrl="bin/MS.Katusha.Repositories.DB.pdb" publishTime="04/13/2012 18:50:16" />
-    <file relUrl="bin/MS.Katusha.Domain.Raven.dll" publishTime="04/13/2012 18:50:15" />
+    <file relUrl="bin/MS.Katusha.Repositories.DB.pdb" publishTime="04/16/2012 15:02:39" />
+    <file relUrl="bin/MS.Katusha.Domain.Raven.dll" publishTime="04/16/2012 15:02:38" />
     <file relUrl="Images/profile.gif" publishTime="03/28/2012 11:28:19" />
     <file relUrl="Content/Mosaic/mosaic.1.0.1.js" publishTime="03/17/2011 09:51:38" />
     <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/ImageResizer.Mvc.dll" publishTime="04/01/2012 16:11:44" />
     <file relUrl="Images/NuGetGallery.png" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Interfaces.Repositories.dll" publishTime="04/13/2012 18:50:15" />
+    <file relUrl="bin/MS.Katusha.Interfaces.Repositories.dll" publishTime="04/16/2012 15:02:38" />
     <file relUrl="Scripts/Fbck/jquery.fcbkcomplete.js" publishTime="03/19/2012 11:47:58" />
     <file relUrl="bin/Lucene.Net.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/System.Web.Providers.dll" publishTime="03/06/2012 10:12:35" />
@@ -82,8 +82,9 @@
     <file relUrl="Content/themes/base/jquery.ui.all.css" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/Raven.Storage.Esent.dll" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Views/Account/Login.cshtml" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Mailer.pdb" publishTime="04/08/2012 21:32:19" />
+    <file relUrl="bin/MS.Katusha.Mailer.pdb" publishTime="04/16/2012 15:02:36" />
     <file relUrl="Views/Account/Register.cshtml" publishTime="03/06/2012 10:12:34" />
+    <file relUrl="Views/Shared/_New.cshtml" publishTime="04/16/2012 14:22:48" />
     <file relUrl="bin/Facebook.dll" publishTime="04/13/2012 12:27:59" />
     <file relUrl="bin/PagedList.xml" publishTime="03/12/2012 11:32:48" />
     <file relUrl="Images/heroAccent.png" publishTime="03/06/2012 10:12:34" />
@@ -94,24 +95,24 @@
     <file relUrl="bin/Esent.Interop.dll" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/ImageResizer.Mvc.xml" publishTime="04/01/2012 16:11:44" />
     <file relUrl="Images/Man.jpg" publishTime="03/22/2012 14:16:09" />
-    <file relUrl="bin/MS.Katusha.Web.pdb" publishTime="04/13/2012 18:50:21" />
+    <file relUrl="bin/MS.Katusha.Web.pdb" publishTime="04/16/2012 15:02:43" />
     <file relUrl="bin/Raven.Client.Lightweight.dll" publishTime="04/06/2012 15:47:51" />
-    <file relUrl="bin/MS.Katusha.Interfaces.Services.dll" publishTime="04/13/2012 18:50:15" />
-    <file relUrl="Web.config" publishTime="04/14/2012 22:35:22" />
+    <file relUrl="bin/MS.Katusha.Interfaces.Services.dll" publishTime="04/16/2012 15:02:38" />
+    <file relUrl="Web.config" publishTime="04/16/2012 15:03:06" />
     <file relUrl="Scripts/jquery-1.6.2.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/Microsoft.Web.Infrastructure.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/System.Data.SqlServerCe.dll" publishTime="03/06/2012 10:12:35" />
-    <file relUrl="Views/Profiles/Index.cshtml" publishTime="04/10/2012 19:09:48" />
+    <file relUrl="Views/Profiles/Index.cshtml" publishTime="04/16/2012 11:15:56" />
     <file relUrl="bin/System.Web.Mvc.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/System.Web.Mvc.xml" publishTime="03/06/2012 10:12:35" />
     <file relUrl="Content/FileUpload/jquery.fileupload-ui.js" publishTime="03/19/2012 17:13:54" />
     <file relUrl="bin/Esent.Interop.xml" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/System.Json.dll" publishTime="03/06/2012 10:12:35" />
-    <file relUrl="bin/MS.Katusha.Repositories.DB.dll" publishTime="04/13/2012 18:50:16" />
+    <file relUrl="bin/MS.Katusha.Repositories.DB.dll" publishTime="04/16/2012 15:02:39" />
     <file relUrl="Content/FileUpload/jquery.fileupload-ui.css" publishTime="03/19/2012 17:13:54" />
     <file relUrl="bin/ImageResizer.xml" publishTime="04/01/2012 16:11:44" />
     <file relUrl="bin/Newtonsoft.Json.xml" publishTime="03/07/2012 09:24:29" />
-    <file relUrl="bin/MS.Katusha.Repositories.RavenDB.pdb" publishTime="04/13/2012 18:50:16" />
+    <file relUrl="bin/MS.Katusha.Repositories.RavenDB.pdb" publishTime="04/16/2012 15:02:39" />
     <file relUrl="bin/Raven.Munin.dll" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Views/___MailTemplates/MailConfirm_en.cshtml" publishTime="04/08/2012 20:28:42" />
     <file relUrl="Scripts/PagedList/PagedList.Mvc.js" publishTime="03/12/2012 11:32:49" />
@@ -125,12 +126,14 @@
     <file relUrl="bin/ImageResizer.dll" publishTime="04/01/2012 16:11:44" />
     <file relUrl="bin/System.Web.Optimization.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="ConfigurationData.txt" publishTime="04/12/2012 14:14:21" />
+    <file relUrl="Views/Profiles/Online.cshtml" publishTime="04/16/2012 14:04:43" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/System.Web.Helpers.dll" publishTime="03/06/2012 10:12:35" />
-    <file relUrl="bin/MS.Katusha.Interfaces.Repositories.pdb" publishTime="04/13/2012 18:50:15" />
+    <file relUrl="Images/3-00000000-0000-0000-0000-000000000000.jpg" publishTime="04/16/2012 13:24:41" />
+    <file relUrl="bin/MS.Katusha.Interfaces.Repositories.pdb" publishTime="04/16/2012 15:02:38" />
     <file relUrl="Global.asax" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Infrastructure.pdb" publishTime="04/13/2012 18:50:17" />
+    <file relUrl="bin/MS.Katusha.Infrastructure.pdb" publishTime="04/16/2012 15:02:41" />
     <file relUrl="Images/orderedListTwo.png" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/PagedList.dll" publishTime="03/12/2012 11:32:48" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="03/06/2012 10:12:34" />
@@ -157,7 +160,7 @@
     <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Scripts/jquery-ui-1.8.18.min.js" publishTime="04/06/2012 15:49:01" />
     <file relUrl="Views/Account/ChangePassword.cshtml" publishTime="03/16/2012 17:38:20" />
-    <file relUrl="bin/MS.Katusha.Services.pdb" publishTime="04/13/2012 18:50:18" />
+    <file relUrl="bin/MS.Katusha.Services.pdb" publishTime="04/16/2012 15:02:41" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="04/06/2012 15:49:03" />
     <file relUrl="Scripts/jquery-1.6.2.min.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Images/Girlsmall.jpg" publishTime="03/22/2012 14:15:46" />
@@ -166,6 +169,7 @@
     <file relUrl="bin/Raven.Storage.Managed.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Content/FileUpload/load-image.min.js" publishTime="03/19/2012 17:13:54" />
     <file relUrl="Images/orderedListThree.png" publishTime="03/06/2012 10:12:34" />
+    <file relUrl="Views/Shared/_Online.cshtml" publishTime="04/16/2012 14:22:39" />
     <file relUrl="bin/Raven.Client.MvcIntegration.dll" publishTime="04/06/2012 15:47:51" />
     <file relUrl="bin/Raven.Client.Embedded.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Scripts/modernizr-2.0.6-development-only.js" publishTime="03/06/2012 10:12:34" />
@@ -176,40 +180,42 @@
     <file relUrl="bin/Raven.Database.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/System.Net.Http.Formatting.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="Content/themes/base/jquery.ui.resizable.css" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Domain.pdb" publishTime="04/13/2012 18:50:14" />
+    <file relUrl="bin/MS.Katusha.Domain.pdb" publishTime="04/16/2012 15:02:37" />
     <file relUrl="bin/Lucene.Net.Contrib.SpellChecker.dll" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Views/Home/Contact.cshtml" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Raven.Studio.xap" publishTime="01/30/2012 15:36:18" />
-    <file relUrl="Views/Shared/_Layout.cshtml" publishTime="04/12/2012 14:18:04" />
+    <file relUrl="Views/Shared/_Layout.cshtml" publishTime="04/16/2012 13:34:15" />
     <file relUrl="Views/Web.config" publishTime="04/10/2012 19:11:09" />
-    <file relUrl="bin/MS.Katusha.Domain.Raven.pdb" publishTime="04/13/2012 18:50:15" />
+    <file relUrl="bin/MS.Katusha.Domain.Raven.pdb" publishTime="04/16/2012 15:02:38" />
     <file relUrl="Scripts/knockout.debug.js" publishTime="04/06/2012 15:48:49" />
     <file relUrl="Content/FileUpload/tmpl.min.js" publishTime="03/19/2012 17:13:54" />
     <file relUrl="bin/Raven.Client.MvcIntegration.pdb" publishTime="04/06/2012 15:47:51" />
     <file relUrl="Content/themes/base/images/ui-icons_cd0a0a_256x240.png" publishTime="04/06/2012 15:49:02" />
     <file relUrl="bin/System.Web.Http.WebHost.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/Autofac.dll" publishTime="04/06/2012 15:49:51" />
+    <file relUrl="Images/1-00000000-0000-0000-0000-000000000000.jpg" publishTime="04/16/2012 13:26:33" />
     <file relUrl="Views/Shared/_LoginPartial.cshtml" publishTime="04/08/2012 20:47:37" />
     <file relUrl="Content/FileUpload/jquery.fileupload-ip.js" publishTime="03/19/2012 17:13:54" />
     <file relUrl="bin/Raven.AspNet.SessionState.dll" publishTime="04/06/2012 15:47:59" />
     <file relUrl="bin/Esent.Interop.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/EntityFramework.xml" publishTime="03/06/2012 10:12:35" />
+    <file relUrl="Views/Profiles/New.cshtml" publishTime="04/16/2012 14:04:25" />
     <file relUrl="bin/Autofac.xml" publishTime="04/06/2012 15:49:51" />
     <file relUrl="Views/Search/Search.cshtml" publishTime="04/10/2012 19:09:24" />
     <file relUrl="bin/Autofac.Integration.Mvc.dll" publishTime="04/06/2012 15:49:53" />
     <file relUrl="Images/close.gif" publishTime="03/28/2012 11:27:31" />
-    <file relUrl="bin/MS.Katusha.Interfaces.Services.pdb" publishTime="04/13/2012 18:50:15" />
+    <file relUrl="bin/MS.Katusha.Interfaces.Services.pdb" publishTime="04/16/2012 15:02:38" />
     <file relUrl="Content/PagedList.css" publishTime="03/12/2012 11:32:49" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="04/06/2012 15:49:02" />
     <file relUrl="Scripts/jquery-ui-1.8.11.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Views/Messages/Send.cshtml" publishTime="04/10/2012 19:07:21" />
     <file relUrl="Content/Site.css" publishTime="03/26/2012 01:49:50" />
-    <file relUrl="bin/MS.Katusha.Enumerations.pdb" publishTime="04/13/2012 18:50:14" />
+    <file relUrl="bin/MS.Katusha.Enumerations.pdb" publishTime="04/16/2012 15:02:36" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.js" publishTime="03/06/2012 10:12:34" />
     <file relUrl="Content/Bootstrap/bootstrap.min.js" publishTime="03/19/2012 17:13:54" />
     <file relUrl="bin/System.Web.WebPages.Razor.dll" publishTime="03/06/2012 10:12:35" />
-    <file relUrl="bin/MS.Katusha.Mailer.dll" publishTime="04/08/2012 21:32:19" />
+    <file relUrl="bin/MS.Katusha.Mailer.dll" publishTime="04/16/2012 15:02:37" />
     <file relUrl="Views/Shared/KatushaError.cshtml" publishTime="04/08/2012 20:51:27" />
     <file relUrl="Content/Bootstrap/bootstrap-responsive.min.css" publishTime="03/19/2012 17:13:54" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="04/06/2012 15:49:03" />
@@ -240,7 +246,8 @@
     <file relUrl="Views/Shared/_SearchForm.cshtml" publishTime="04/08/2012 13:05:03" />
     <file relUrl="Views/Profiles/Delete.cshtml" publishTime="04/08/2012 20:35:32" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="04/06/2012 15:49:03" />
-    <file relUrl="bin/MS.Katusha.Services.dll" publishTime="04/13/2012 18:50:18" />
+    <file relUrl="Images/2-00000000-0000-0000-0000-000000000000.jpg" publishTime="04/16/2012 13:26:04" />
+    <file relUrl="bin/MS.Katusha.Services.dll" publishTime="04/16/2012 15:02:41" />
     <file relUrl="bin/Newtonsoft.Json.dll" publishTime="03/07/2012 09:24:29" />
     <file relUrl="bin/Quartz.dll" publishTime="04/13/2012 12:25:45" />
     <file relUrl="bin/Raven.Abstractions.dll" publishTime="04/06/2012 15:47:51" />
@@ -249,17 +256,19 @@
     <file relUrl="bin/BouncyCastle.Crypto.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="Content/Mosaic/img/hover-magnify.png" publishTime="03/17/2011 09:51:38" />
     <file relUrl="bin/NLog.dll" publishTime="03/07/2012 09:24:29" />
+    <file relUrl="Images/4-00000000-0000-0000-0000-000000000000.jpg" publishTime="04/16/2012 13:24:08" />
     <file relUrl="bin/Raven.Munin.pdb" publishTime="04/06/2012 15:46:31" />
     <file relUrl="bin/PagedList.Mvc.dll" publishTime="03/12/2012 11:32:48" />
     <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="03/06/2012 10:12:34" />
-    <file relUrl="bin/MS.Katusha.Repositories.RavenDB.dll" publishTime="04/13/2012 18:50:16" />
-    <file relUrl="bin/MS.Katusha.Infrastructure.dll" publishTime="04/13/2012 18:50:17" />
+    <file relUrl="bin/MS.Katusha.Repositories.RavenDB.dll" publishTime="04/16/2012 15:02:39" />
+    <file relUrl="bin/MS.Katusha.Infrastructure.dll" publishTime="04/16/2012 15:02:41" />
     <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="03/06/2012 10:12:34" />
     <file relUrl="bin/ClientDependency.Core.dll" publishTime="03/19/2012 17:31:51" />
     <file relUrl="Views/Visitor/Index.cshtml" publishTime="04/10/2012 19:10:52" />
     <file relUrl="bin/System.Net.Http.dll" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/System.Json.xml" publishTime="03/06/2012 10:12:35" />
     <file relUrl="bin/Lucene.Net.Contrib.SpellChecker.pdb" publishTime="04/06/2012 15:46:31" />
+    <file relUrl="Images/0-00000000-0000-0000-0000-000000000000.jpg" publishTime="03/22/2012 14:16:09" />
     <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="03/06/2012 10:12:35" />
   </publishProfile>
 </publishData>

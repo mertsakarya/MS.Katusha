@@ -361,6 +361,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\close.gif" />
+    <Content Include="Images\0-00000000-0000-0000-0000-000000000000.jpg" />
+    <Content Include="Images\1-00000000-0000-0000-0000-000000000000.jpg" />
+    <Content Include="Images\2-00000000-0000-0000-0000-000000000000.jpg" />
+    <Content Include="Images\3-00000000-0000-0000-0000-000000000000.jpg" />
+    <Content Include="Images\4-00000000-0000-0000-0000-000000000000.jpg" />
     <Content Include="Images\close.gif" />
     <Content Include="Images\Girl.jpg" />
     <Content Include="Images\Girlsmall.jpg" />
