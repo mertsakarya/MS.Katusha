@@ -1,4 +1,5 @@
 ﻿@using MS.Katusha.Domain.Entities
+<span id="fbResult" style="color:#800000">FB</span>
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
     <p>
@@ -19,13 +20,13 @@
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML
             });
-
+            
             FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
                     var uid = response.authResponse.userID;
                     var accessToken = response.authResponse.accessToken;
                     @if (Session["AccessToken"] == null) {
-                        <text>$.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) { alert(textStatus);});</text>
+                        <text>$.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) { document.getElementById("fbResult").innerHTML = (textStatus);});</text>
                     }
                 } else if (response.status === 'not_authorized') {
                     // the user is logged in to Facebook, 
@@ -50,5 +51,6 @@
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
         <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div></li>
+        
     </ul>
 }
