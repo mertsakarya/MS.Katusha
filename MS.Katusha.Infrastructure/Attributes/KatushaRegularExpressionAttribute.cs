@@ -15,7 +15,7 @@ namespace MS.Katusha.Infrastructure.Attributes
         private const string PatternName = "RegularExpressionPattern";
         public KatushaRegularExpressionAttribute(string propertyName) : base(propertyName)
         {
-            _resourceManager = new ResourceManager();
+            _resourceManager = DependencyResolver.Current.GetService<IResourceManager>();
             PropertyName = propertyName;
         }
 

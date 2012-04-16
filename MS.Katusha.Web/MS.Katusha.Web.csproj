@@ -468,6 +468,10 @@
       <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
       <Name>MS.Katusha.Interfaces.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Jobs\MS.Katusha.Jobs.csproj">
+      <Project>{C4209BB3-50EE-4C94-A353-45438557C465}</Project>
+      <Name>MS.Katusha.Jobs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>

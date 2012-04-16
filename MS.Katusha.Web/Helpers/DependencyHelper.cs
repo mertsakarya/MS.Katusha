@@ -1,8 +1,6 @@
-using System;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
-using Autofac.Features.OwnedInstances;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
@@ -14,7 +12,6 @@ using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Models.Entities;
 using NLog;
-using Quartz;
 using Raven.Client;
 
 namespace MS.Katusha.Web.Helpers
@@ -61,6 +58,22 @@ namespace MS.Katusha.Web.Helpers
 
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
 
+
+            //builder.RegisterAssemblyTypes(typeof(HelloWorldJob).Assembly).As<IJob>().InstancePerLifetimeScope();
+            //var properties = new NameValueCollection {{"quartz.scheduler.jobFactory.type", "MS.Katusha.Web.Helpers.AutoMapperJobFactory, MS.Katusha.Web"}};
+            //properties["quartz.scheduler.instanceName"] = "RemoteServer";
+
+            //// set thread pool info
+            //properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
+            //properties["quartz.threadPool.threadCount"] = "5";
+            //properties["quartz.threadPool.threadPriority"] = "Normal";
+
+            //ISchedulerFactory schedFact = new StdSchedulerFactory(properties);
+            //IScheduler sched = schedFact.GetScheduler();
+            //builder.RegisterInstance(sched).As<IScheduler>().SingleInstance();
+
+            
+            
             //builder.RegisterGeneric(typeof(JobWrapper<>));
             //builder.RegisterType<SomeJob>();
 
@@ -68,28 +81,79 @@ namespace MS.Katusha.Web.Helpers
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             ModelBinders.Binders[typeof(SearchCriteriaModel)] = new SearchCriteriaBinder();
 
+
+
+            //var resolver = DependencyResolver.Current;
+            ////var services = resolver.GetServices(typeof(IJob));
+            //var jobs = from type in typeof(HelloWorldJob).Assembly.GetTypes()
+            //  where typeof(IJob).IsAssignableFrom(type)
+            //  select type;
+            //foreach(var type in jobs) {
+            //    var attributes = Attribute.GetCustomAttributes(type);
+            //    foreach (var attribute in attributes) {
+            //        if (attribute is KatushaQuartzJobAttribute) {
+            //            var quartzJobAttribute = attribute as KatushaQuartzJobAttribute;
+            //            var trigger = GetTrigger(quartzJobAttribute);
+            //            IJobDetail jobDetail = new JobDetailImpl(quartzJobAttribute.Name, null, type);
+            //            sched.ScheduleJob(jobDetail, trigger);
+            //        }
+            //    }
+
+            //}
+            //sched.Start();
+
             //var job = container.Resolve<JobWrapper<SomeJob>>();
 
 #if DEBUG
             Logger.Info("Dependencies resolved");
 #endif
         }
+
+        //private static ITrigger GetTrigger(KatushaQuartzJobAttribute quartzJobAttribute)
+        //{
+        //    var trigger = new SimpleTriggerImpl(quartzJobAttribute.Name,
+        //        null,
+        //        DateTime.UtcNow,
+        //        null,
+        //        SimpleTriggerImpl.RepeatIndefinitely,
+        //        TimeSpan.FromSeconds(quartzJobAttribute.Interval)
+        //    );
+        //    return trigger;
+        //}
     }
 
-    public class JobWrapper<T> : IJob where T : IJob
-    {
-        private readonly Func<Owned<T>> _jobFactory;
+    //public class AutoMapperJobFactory : IJobFactory
+    //{
+    //    public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler) {
+    //        try {
+    //            var resolver = DependencyResolver.Current;
+    //            var c = resolver.GetServices<IJob>();
+    //            var b = resolver.GetServices(bundle.JobDetail.JobType);
+    //            var a = resolver.GetService<IJob>();
+    //            var job = (IJob)resolver.GetService(bundle.JobDetail.JobType);
+    //            return job;
+    //        } catch (Exception e) {
+    //            var se = new SchedulerException("Problem instantiating class", e);
+    //            throw se;
+    //        }
+    //    }
+    //}
 
-        public JobWrapper(Func<Owned<T>> jobFactory)
-        {
-            _jobFactory = jobFactory;
-        }
 
-        public void Execute(IJobExecutionContext context) { 
-            using (var ownedJob = _jobFactory()) {
-                var theJob = ownedJob.Value;
-                theJob.Execute(context);
-            }
-        }
-    }
+    //public class JobWrapper<T> : IJob where T : IJob
+    //{
+    //    private readonly Func<Owned<T>> _jobFactory;
+
+    //    public JobWrapper(Func<Owned<T>> jobFactory)
+    //    {
+    //        _jobFactory = jobFactory;
+    //    }
+
+    //    public void Execute(IJobExecutionContext context) { 
+    //        using (var ownedJob = _jobFactory()) {
+    //            var theJob = ownedJob.Value;
+    //            theJob.Execute(context);
+    //        }
+    //    }
+    //}
 }

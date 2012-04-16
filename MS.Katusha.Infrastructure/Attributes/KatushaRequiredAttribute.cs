@@ -14,7 +14,7 @@ namespace MS.Katusha.Infrastructure.Attributes
         public KatushaRequiredAttribute(string propertyName)
         {
             PropertyName = propertyName;
-            _resourceManager = new ResourceManager();
+            _resourceManager = DependencyResolver.Current.GetService<IResourceManager>();
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)

@@ -78,27 +78,28 @@ namespace MS.Katusha.Web.Helpers
 
         public static string _R<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
         {
-            IResourceManager rm = new ResourceManager();
-            return rm._R(resourceName, (byte) language);
+            var rm = DependencyResolver.Current.GetService<IResourceManager>();
+            return rm._R(resourceName, (byte)language);
         }
 
         public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, Language language = 0)
         {
-            IResourceManager rm = new ResourceManager();
+            var rm = DependencyResolver.Current.GetService<IResourceManager>();
+            //IResourceManager rm = new ResourceManager();
             return rm._LText(lookupName, name, (byte) language);
         }
 
         public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, Language language = 0)
         {
-            IResourceManager rm = new ResourceManager();
-            var key = rm._LKey(lookupName, value, (byte) language);
+            var rm = DependencyResolver.Current.GetService<IResourceManager>();
+            var key = rm._LKey(lookupName, value, (byte)language);
             return key;
         }
 
         public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
         {
-            IResourceManager rm = new ResourceManager();
-            return rm._L(resourceName, (byte) language);
+            var rm = DependencyResolver.Current.GetService<IResourceManager>();
+            return rm._L(resourceName, (byte)language);
         }
 
         public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false )

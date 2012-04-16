@@ -17,6 +17,12 @@ namespace MS.Katusha.Interfaces.Services
         /// Use this if you know profile.Id. MUCH FASTER!
         /// </summary>
         Profile GetProfile(long profileId, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams);
+
+        /// <summary>
+        /// For logged in user only!!!
+        /// </summary>
+        Profile GetProfileDB(long profileId, params Expression<Func<Profile, object>>[] includeExpressionParams);
+
         /// <summary>
         /// Use this if you don't know profile.Id, but want to get by Guid or FriendlyName. SLOWER!
         /// </summary>

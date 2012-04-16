@@ -17,7 +17,7 @@ namespace MS.Katusha.Infrastructure.Attributes
         public KatushaRangeAttribute(string propertyName)
             : base(0,1)
         {
-            _resourceManager = new ResourceManager();
+            _resourceManager = DependencyResolver.Current.GetService<IResourceManager>();
             PropertyName = propertyName;
         }
 

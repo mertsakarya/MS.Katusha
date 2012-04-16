@@ -145,7 +145,7 @@ namespace MS.Katusha.Web.Controllers
                 _profileService.CreateProfile(profile);
                 ValidateProfileCollections(model, profile);
                 //TODO: This is error prone. 
-                KatushaProfile = _profileService.GetProfile(profile.Guid.ToString(), null, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
+                KatushaProfile = _profileService.GetProfileDB(profile.Id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
                 ValidateProfileCollections(model, KatushaProfile);
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });

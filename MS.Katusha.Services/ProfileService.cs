@@ -65,7 +65,20 @@ namespace MS.Katusha.Services
             //    };
             //}
             var profile = _profileRepositoryRaven.GetById(profileId, includeExpressionParams);
-            _visitService.Visit(visitorProfile, profile); 
+            _visitService.Visit(visitorProfile, profile);
+            return profile;
+        }
+
+        public virtual Profile GetProfileDB(long profileId, params Expression<Func<Profile, object>>[] includeExpressionParams)
+        {
+            if (includeExpressionParams == null || includeExpressionParams.Length == 0) {
+                includeExpressionParams = new Expression<Func<Profile, object>>[] {
+                    p => p.CountriesToVisit, p => p.User,
+                    p => p.LanguagesSpoken, p => p.LanguagesSpoken, p => p.Searches,
+                    p => p.Photos
+                };
+            }
+            var profile = _profileRepository.GetById(profileId, includeExpressionParams);
             return profile;
         }
 

@@ -57,6 +57,7 @@
     <Compile Include="Attributes\KatushaFieldAttribute.cs" />
     <Compile Include="Attributes\KatushaFilterAttribute.cs" />
     <Compile Include="Attributes\KatushaLookupListAttribute.cs" />
+    <Compile Include="Attributes\KatushaQuartzJobAttribute.cs" />
     <Compile Include="Attributes\KatushaRangeAttribute.cs" />
     <Compile Include="Attributes\KatushaRegularExpressionAttribute.cs" />
     <Compile Include="Attributes\KatushaRequiredAttribute.cs" />

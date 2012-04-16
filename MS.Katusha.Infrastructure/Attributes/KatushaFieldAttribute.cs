@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Mvc;
 using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Infrastructure.Attributes
@@ -6,7 +7,8 @@ namespace MS.Katusha.Infrastructure.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class KatushaFieldAttribute : Attribute
     {
-        private static readonly IResourceManager ResourceManager = new ResourceManager();
+        private static readonly IResourceManager ResourceManager = DependencyResolver.Current.GetService<IResourceManager>();
+
 
         public KatushaFieldAttribute(string propertyName) { PropertyName = propertyName; }
         public string PropertyName { get; private set; }
