@@ -41,16 +41,16 @@ namespace MS.Katusha.Web.Controllers
             IEnumerable<State> onlineStates = null;
             switch (KatushaUser.Gender) {
                 case (byte)Sex.Male:
-                    onlineStates = StateService.OnlineGirls(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    onlineStates = StateService.OnlineGirls(out total, pageIndex, PageSize).ToList();
                     break;
                 case (byte)Sex.Female:
-                    onlineStates = StateService.OnlineMen(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    onlineStates = StateService.OnlineMen(out total, pageIndex, PageSize).ToList();
                     break;
                 default:
-                    onlineStates = StateService.OnlineProfiles(out total, pageIndex, DependencyHelper.GlobalPageSize).ToList();
+                    onlineStates = StateService.OnlineProfiles(out total, pageIndex, PageSize).ToList();
                     break;
             }
-            var onlineProfiles = new List<Profile>(DependencyHelper.GlobalPageSize);
+            var onlineProfiles = new List<Profile>(PageSize);
             onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
 
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
@@ -64,8 +64,8 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             int total;
             var newProfiles = KatushaProfile.Gender == (byte)Sex.Male
-                    ? ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, DependencyHelper.GlobalPageSize)
-                    : ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, pageIndex, DependencyHelper.GlobalPageSize);
+                    ? ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, PageSize)
+                    : ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, pageIndex, PageSize);
 
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);

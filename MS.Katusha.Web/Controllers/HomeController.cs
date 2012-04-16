@@ -1,6 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using AutoMapper;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
+using MS.Katusha.Web.Helpers;
+using MS.Katusha.Web.Models;
+using MS.Katusha.Web.Models.Entities;
+using PagedList;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -11,9 +18,16 @@ namespace MS.Katusha.Web.Controllers
         {
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? key)
         {
-            return View();
+            var pageIndex = (key ?? 1);
+            int total;
+            var newProfiles = ProfileService.GetNewProfiles(null, out total, pageIndex, DependencyHelper.GlobalPageSize);
+
+            var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
+            var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, DependencyHelper.GlobalPageSize, total);
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            return View(model);
         }
 
         public ActionResult About()
