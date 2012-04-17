@@ -304,8 +304,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\ClientDependency\MERTSAKARYA-3451f70fc0be45c4cab7caf1d0f42c73-map.xml" />
-    <Content Include="App_Data\MS.Katusha.sdf" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.js" />
     <Content Include="Content\Bootstrap\bootstrap-responsive.min.css" />
