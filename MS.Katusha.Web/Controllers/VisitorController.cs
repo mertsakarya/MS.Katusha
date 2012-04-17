@@ -33,7 +33,7 @@ namespace MS.Katusha.Web.Controllers
             var visitorsModel = Mapper.Map<IList<VisitModel>>(visitors);
 
             var visitorAsIPagedList = new StaticPagedList<VisitModel>(visitorsModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<VisitModel> { List = visitorAsIPagedList };
+            var model = new PagedListModel<VisitModel> { List = visitorAsIPagedList, Total = total };
 
             return View(model);
         }

@@ -55,7 +55,7 @@ namespace MS.Katusha.Web.Controllers
 
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total };
             return View(model);
         }
         
@@ -69,7 +69,7 @@ namespace MS.Katusha.Web.Controllers
 
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total };
             return View(model);
         }
 
@@ -83,7 +83,7 @@ namespace MS.Katusha.Web.Controllers
             var profiles = _profileService.GetNewProfiles(controllerFilter, out total, pageIndex, PageSize);
             var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total };
             return View("Index", model);
         }
 

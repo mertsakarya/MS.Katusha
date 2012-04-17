@@ -26,7 +26,7 @@ namespace MS.Katusha.Web.Controllers
 
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, DependencyHelper.GlobalPageSize, total);
-            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList };
+            var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total};
             return View(model);
         }
 

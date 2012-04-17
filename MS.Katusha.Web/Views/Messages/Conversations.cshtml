@@ -1,11 +1,11 @@
 @using MS.Katusha.Enumerations
 @model MS.Katusha.Web.Models.PagedListModel<ConversationResultModel>
 @{
-    ViewBag.Title = "My Messages";
+    ViewBag.Title = "My Conversations";
     var controller = ViewContext.RouteData.Values["Controller"];
 }
 
-<h2>My messages</h2>
+<h2>My conversations ( @Model.Total )</h2>
        
 <ul>
 @foreach (var item in Model.List) {

@@ -37,7 +37,7 @@ namespace MS.Katusha.Web.Controllers
             var messages = _conversationService.GetMessages(KatushaProfile.Id, from.Id, out total, pageIndex);
             var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
             var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationModel> {List = messagesAsIPagedList};
+            var model = new PagedListModel<ConversationModel> {List = messagesAsIPagedList, Total = total};
             return View(model);
         }
 
@@ -56,7 +56,7 @@ namespace MS.Katusha.Web.Controllers
             //End /TODO
 
             var conversationResultsAsIPagedList = new StaticPagedList<ConversationResultModel>(conversationResultsModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationResultModel> {List = conversationResultsAsIPagedList};
+            var model = new PagedListModel<ConversationResultModel> { List = conversationResultsAsIPagedList, Total = total };
             return View(model);
         }
 

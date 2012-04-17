@@ -5,7 +5,7 @@
     var action = ViewContext.RouteData.Values["Action"].ToString();
 }
 
-<h2>Index</h2>
+<h2>Online Profiles ( @Model.Total )</h2>
        
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 @foreach (var profile in Model.List) {
