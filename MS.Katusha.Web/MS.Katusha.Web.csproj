@@ -304,8 +304,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\MS.Katusha.RavenDB\raven-data.ico" />
-    <Content Include="App_Data\MS.Katusha.sdf" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.js" />
     <Content Include="Content\Bootstrap\bootstrap-responsive.min.css" />
@@ -453,8 +451,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
-    <Folder Include="App_Data\MS.Katusha.RavenDB\IndexDefinitions\TemporaryIndexDefinitionsAsSource\" />
-    <Folder Include="App_Data\MS.Katusha.RavenDB\temp\" />
     <Folder Include="Photos\" />
   </ItemGroup>
   <ItemGroup>
@@ -527,15 +523,6 @@
     <Content Include="Views\Shared\KatushaError.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\MS.Katusha.RavenDB\Data" />
-    <None Include="App_Data\MS.Katusha.RavenDB\IndexDefinitions\ProfileFacetsIndex.index" />
-    <None Include="App_Data\MS.Katusha.RavenDB\IndexDefinitions\Temp%252fCacheObjects%252fByDeletedAndKey.index" />
-    <None Include="App_Data\MS.Katusha.RavenDB\Indexes\ProfileFacetsIndex\segments.gen" />
-    <None Include="App_Data\MS.Katusha.RavenDB\Indexes\ProfileFacetsIndex\segments_1" />
-    <None Include="App_Data\MS.Katusha.RavenDB\logs\RVN.log" />
-    <None Include="App_Data\MS.Katusha.RavenDB\logs\RVNres00001.jrs" />
-    <None Include="App_Data\MS.Katusha.RavenDB\logs\RVNres00002.jrs" />
-    <None Include="App_Data\MS.Katusha.RavenDB\system\RVN.chk" />
     <Content Include="ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
     <Content Include="Views\Photos\List.cshtml" />
