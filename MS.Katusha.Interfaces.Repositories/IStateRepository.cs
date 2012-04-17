@@ -9,9 +9,10 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IStateRepositoryDB
     {
         State GetById(long profileId);
+        State Delete(State state);
         void UpdateStatus(long profileId, Sex gender);
         IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending);
-        long Count(Expression<Func<State, bool>> filter);
+        int Count(Expression<Func<State, bool>> filter);
     }
 
     public interface IStateRepositoryRavenDB : IStateRepositoryDB

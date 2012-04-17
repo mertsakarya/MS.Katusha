@@ -4,7 +4,7 @@ using MS.Katusha.Domain.Raven.Entities;
 
 namespace MS.Katusha.Interfaces.Services
 {
-    public interface IConversationService
+    public interface IConversationService : IRestore<Domain.Entities.Conversation>
     {
         IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20);
         IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);

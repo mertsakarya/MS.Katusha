@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -56,5 +58,26 @@ namespace MS.Katusha.Services
             return items;
         }
 
+        public IList<string> RestoreFromDB(Expression<Func<Visit, bool>> filter, bool deleteIfExists = false)
+        {
+            var dbRepository = _visitRepository;
+            var ravenRepository = _visitRepositoryRaven;
+
+            var result = new List<string>();
+            var items = dbRepository.Query(filter, null, false);
+            foreach (var item in items) {
+                try {
+                    if (deleteIfExists) {
+                        var p = ravenRepository.GetById(item.Id);
+                        if (p != null)
+                            ravenRepository.Delete(p);
+                    }
+                    ravenRepository.Add(item);
+                } catch (Exception ex) {
+                    result.Add(String.Format("{0} - {1}", item.Id, ex.Message));
+                }
+            }
+            return result;
+        }
     }
 }

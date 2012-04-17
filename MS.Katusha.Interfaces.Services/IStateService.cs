@@ -4,7 +4,7 @@ using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {
-    public interface IStateService
+    public interface IStateService : IRestore<State>
     {
         void Ping(long profileId, Sex gender);
         bool IsOnline(long profileId);

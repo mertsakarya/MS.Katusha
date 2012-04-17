@@ -6,7 +6,7 @@ using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
 {
-    public interface IProfileService
+    public interface IProfileService : IRestore<Profile>
     {
         IEnumerable<Profile> GetNewProfiles(Expression<Func<Profile, bool>> controllerFilter, out int total, int pageNo = 1, int pageSize = 20);
 

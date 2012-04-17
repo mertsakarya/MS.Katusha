@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -56,6 +58,28 @@ namespace MS.Katusha.Services
             _conversationRepository.FullUpdate(message);
         }
 
+        public IList<string> RestoreFromDB(Expression<Func<Domain.Entities.Conversation, bool>> filter, bool deleteIfExists = false)
+        {
+            var dbRepository = _conversationRepository;
+            var ravenRepository = _conversationRepositoryRaven;
+
+            var result = new List<string>();
+            var items = dbRepository.Query(filter, null, false);
+            foreach (var item in items) {
+                try {
+                    if (deleteIfExists) {
+                        var p = ravenRepository.GetById(item.Id);
+                        if (p != null)
+                            ravenRepository.Delete(p);
+                    }
+                    var ravenItem = Mapper.Map<Conversation>(item);
+                    ravenRepository.Add(ravenItem);
+                } catch (Exception ex) {
+                    result.Add(String.Format("{0} - {1}", item.Id, ex.Message));
+                }
+            }
+            return result;
+        }
     }
 
 }

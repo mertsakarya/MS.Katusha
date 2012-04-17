@@ -2,8 +2,9 @@
 <span id="fbResult" style="color:#800000">FB</span>
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
+    var name = (profile != null) ? profile.Name : User.Identity.Name;
     <p>
-        Hello, @Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
+        Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
         @Html.ActionLink("Log off", "LogOff", "Account")
     </p>
 } else {

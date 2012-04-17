@@ -21,6 +21,14 @@ namespace MS.Katusha.Repositories.DB
 
         public State GetById(long profileId) { return _dbContext.States.AsNoTracking().FirstOrDefault(p => p.ProfileId == profileId); }
 
+        public State Delete(State state)
+        {
+            var entity = _dbContext.States.FirstOrDefault(p => p.Id == state.Id);
+            if(entity != null)
+                _dbContext.States.Remove(entity);
+            return entity;
+        }
+
         public void UpdateStatus(long profileId, Sex gender)
         {
             var state = _dbContext.States.FirstOrDefault(p => p.ProfileId == profileId);
@@ -41,7 +49,7 @@ namespace MS.Katusha.Repositories.DB
             return q.Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
-        public long Count(Expression<Func<State, bool>> filter)
+        public int Count(Expression<Func<State, bool>> filter)
         {
             var q = _dbContext.States.AsNoTracking().AsQueryable();
             if (filter != null) q = q.Where(filter);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MS.Katusha.Interfaces.Services;
@@ -11,12 +12,19 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IConfigurationService _configurationService;
         private readonly ISamplesService _samplesService;
+        private readonly IVisitService _visitService;
+        private readonly IConversationService _conversationService;
+        private readonly IStateService _stateService;
 
-        public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, ISamplesService samplesService, IStateService stateService)
+        public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, 
+            ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService)
             : base(userService, profileService, stateService)
         {
             _configurationService = configurationService;
             _samplesService = samplesService;
+            _visitService = visitService;
+            _conversationService = conversationService;
+            _stateService = stateService;
         }
 
         [HttpGet]
@@ -36,6 +44,34 @@ namespace MS.Katusha.Web.Controllers
             if (count <= 0) return;
             _samplesService.GenerateRandomUserAndProfile(count, extra);
             Response.Write(String.Format("({0}) items are created with extra {1}!", count, extra));
+        }
+
+        [HttpGet]
+        public void Restore(string key, bool delete = false)
+        {
+            IList<string> list;
+            switch(key.ToLowerInvariant()) {
+                case "profiles":
+                    list = ProfileService.RestoreFromDB(null, delete);
+                    break;
+                case "visits":
+                    list = _visitService.RestoreFromDB(null, delete);
+                    break;
+                case "conversations":
+                    list = _conversationService.RestoreFromDB(null, delete);
+                    break;
+                case "states":
+                    list = _stateService.RestoreFromDB(null, delete);
+                    break;
+                default:
+                    list = new List<string> {"Unnkown parameter: " + key};
+                    break;
+            }
+            if(list.Count > 0)
+                foreach (var line in list) {
+                    Response.Write(String.Format("({0}) <br />", line));                    
+                }
+            Response.Write("DONE!");
         }
 
         [HttpGet]

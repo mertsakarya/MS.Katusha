@@ -1,5 +1,6 @@
 using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
@@ -25,6 +26,14 @@ namespace MS.Katusha.Repositories.RavenDB
                 return session.Query<State>().AsNoTracking().FirstOrDefault(p => p.ProfileId == profileId);
             }
         }
+
+        public State Delete(State entity)
+        {
+            var name = String.Format("{0}s/{1}", typeof(State).Name.ToLower(CultureInfo.CreateSpecificCulture("en-US")), entity.Id);
+            _documentStore.DatabaseCommands.Delete(name, null);
+            return entity;
+        }
+
         public IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool @ascending)
         {
             using (var session = _documentStore.OpenSession()) {
@@ -38,7 +47,7 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public long Count(Expression<Func<State, bool>> filter) {
+        public int Count(Expression<Func<State, bool>> filter) {
             using (var session = _documentStore.OpenSession()) {
                 RavenQueryStatistics stats;
                 var q = session.Query<State>().Statistics(out stats).AsNoTracking();

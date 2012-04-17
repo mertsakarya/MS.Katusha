@@ -180,5 +180,24 @@ namespace MS.Katusha.Services
         public void DeleteSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.DeleteByProfileId(profileId, lookingFor); }
 
         public void AddSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.AddByProfileId(profileId, lookingFor); }
+
+        public IList<string> RestoreFromDB(Expression<Func<Profile, bool>> filter, bool deleteIfExists = false)
+        {
+            var result = new List<string>();
+            var profiles = _profileRepository.Query(filter, null, false, p => p.Photos, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User);
+            foreach (var profile in profiles) {
+                try {
+                    if (deleteIfExists) {
+                        var p = _profileRepositoryRaven.GetById(profile.Id);
+                        if (p != null)
+                            _profileRepositoryRaven.Delete(p);
+                    }
+                    _profileRepositoryRaven.Add(profile);
+                } catch(Exception ex) {
+                    result.Add(String.Format("{0} - {1}", profile.Id, ex.Message));
+                }
+            }
+            return result;
+        }
     }
 }
