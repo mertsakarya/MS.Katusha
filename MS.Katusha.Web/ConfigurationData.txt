@@ -128,6 +128,11 @@
  	[Configuration]
 		MinimumLength	0
 		MaximumLength	4000
+
+*	JOB DEFINITIONS (CRON)
+		HelloWorld2Job	*/6 * * * * ?
+		HelloWorldJob	0/5 * * * * ?
+
  	[Resource]
  		en	EmptyText	""
 		en	NotFilled	Not selected

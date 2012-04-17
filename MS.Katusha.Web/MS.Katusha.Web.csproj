@@ -274,7 +274,6 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
-    <Compile Include="Helpers\GenderHelper.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />

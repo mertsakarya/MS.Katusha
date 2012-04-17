@@ -5,7 +5,10 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Jobs;
 using MS.Katusha.Web.Helpers;
+using DependencyHelper = MS.Katusha.Web.Helpers.DependencyHelper;
+using RavenHelper = MS.Katusha.Web.Helpers.RavenHelper;
 
 namespace MS.Katusha.Web
 {
@@ -52,6 +55,7 @@ namespace MS.Katusha.Web
 
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
+            QuartzHelper.RegisterQuartz(RavenHelper.RavenStore);
             MapperHelper.HandleMappings();
             AreaRegistration.RegisterAllAreas();
 

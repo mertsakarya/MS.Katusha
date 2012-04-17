@@ -31,11 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="Quartz">
       <HintPath>..\packages\Quartz.2.0.0\lib\net40\Quartz.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
+    <Reference Include="Raven.Client.Embedded">
+      <HintPath>..\packages\RavenDB-Embedded.1.0.888\lib\net40\Raven.Client.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,21 +54,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HelloWorldJob.cs" />
+    <Compile Include="AutoMapperJobFactory.cs" />
+    <Compile Include="DependencyHelper.cs" />
+    <Compile Include="JobDetails\HelloWorldJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuartzHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
+      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
+      <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
       <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>
       <Name>MS.Katusha.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
+      <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
+      <Name>MS.Katusha.Interfaces.Repositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
       <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
       <Name>MS.Katusha.Interfaces.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
+      <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
+      <Name>MS.Katusha.Repositories.RavenDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
+      <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
+      <Name>MS.Katusha.Repositories.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
+      <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>
+      <Name>MS.Katusha.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
