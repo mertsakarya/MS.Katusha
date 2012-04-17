@@ -27,7 +27,7 @@ namespace MS.Katusha.Web.Helpers
 
             //RavenStore = new EmbeddableDocumentStore { DataDirectory = DependencyHelper.RootFolder + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
             RavenStore.Initialize();
-            //CreateIndexes();
+            CreateIndexes();
             CreateFacets();
         }
 
