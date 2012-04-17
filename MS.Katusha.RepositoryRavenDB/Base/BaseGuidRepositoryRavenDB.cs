@@ -8,7 +8,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 {
     public abstract class BaseGuidRepositoryRavenDB<T> : BaseRepositoryRavenDB<T>, IRavenGuidRepository<T> where T : BaseGuidModel
     {
-        //protected BaseGuidRepositoryRavenDB(string connectionStringName = "KatushaRavenDB") //: base(connectionStringName)
+        //protected BaseGuidRepositoryRavenDB(string connectionStringName = "RavenDB") //: base(connectionStringName)
         //{
         //}
 
