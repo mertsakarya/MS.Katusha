@@ -3,7 +3,7 @@ using MS.Katusha.Domain;
 
 namespace MS.Katusha.Infrastructure
 {
-    public class KatushaContextInitializer : DropCreateDatabaseIfModelChanges<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
+    public class KatushaContextInitializer : CreateDatabaseIfNotExists<KatushaDbContext> //DropCreateDatabaseIfModelChanges<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
     {
         private KatushaDbContext _dbContext;
         protected override void Seed(KatushaDbContext dbContext)
