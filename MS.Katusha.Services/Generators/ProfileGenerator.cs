@@ -71,7 +71,7 @@ namespace MS.Katusha.Services.Generators
                 var photoCount = GeneratorHelper.RND.Next(4);
                 if (photoCount > 0) {
                     var root = ConfigurationManager.AppSettings["Root_Folder"];
-                    var samples = root + "..\\SamplePhotos\\" + ((Sex) profile.Gender).ToString() + "\\";
+                    var samples = root + "Images\\SamplePhotos\\" + ((Sex) profile.Gender).ToString() + "\\";
                     for (var i = 1; i <= photoCount; i++) {
                         var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";
                         var filepath = samples + filename;

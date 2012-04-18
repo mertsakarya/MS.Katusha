@@ -336,6 +336,12 @@
     <Content Include="Images\Man.jpg" />
     <Content Include="Images\Mansmall.jpg" />
     <Content Include="Images\profile.gif" />
+    <Content Include="Images\SamplePhotos\Female\me1.jpg" />
+    <Content Include="Images\SamplePhotos\Female\me2.jpg" />
+    <Content Include="Images\SamplePhotos\Female\me3.jpg" />
+    <Content Include="Images\SamplePhotos\Male\me1.jpg" />
+    <Content Include="Images\SamplePhotos\Male\me2.jpg" />
+    <Content Include="Images\SamplePhotos\Male\me3.jpg" />
     <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.js" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.min.js" />
