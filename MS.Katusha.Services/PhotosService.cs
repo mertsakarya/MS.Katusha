@@ -106,6 +106,24 @@ namespace MS.Katusha.Services
             return _photoRepository.SingleAttached(p => p.Id == photo.Id);
         }
 
+        public IList<Guid> Dir(string pathToPhotos, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            var files = Directory.GetFiles(pathToPhotos, ((byte)PhotoType.Original).ToString(CultureInfo.InvariantCulture) + "-*.jpg");
+            total = files.Length;
+            var fileList = files.Skip((pageNo - 1)*pageSize).Take(pageSize);
+            var list = new List<Guid>(fileList.Count());
+            var start = 3 + pathToPhotos.Length;
+            foreach(var fileName in fileList) {
+                Guid guid;
+                if (Guid.TryParse(fileName.Substring(start, 36), out guid)) {
+                    list.Add(guid);
+                }
+            }
+            return list;
+        }
+
+        public Photo GetByGuid(Guid guid) { return _photoRepository.GetByGuid(guid); }
+
         public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
             var profile = _profileRepository.GetById(profileId, p => p.Photos);

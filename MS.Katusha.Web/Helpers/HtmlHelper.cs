@@ -45,7 +45,7 @@ namespace MS.Katusha.Web.Helpers
             var dict = rm._L(type.Name);
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
-                list.Add(new SelectListItem {Text = CultureHelper._R("EmptyText"), Value = "0"});
+                list.Add(new SelectListItem {Text = htmlHelper._R("EmptyText"), Value = "0"});
             foreach (var item in dict) {
                 var sli = new SelectListItem() {Text = item.Value, Value = item.Key};
                 try {

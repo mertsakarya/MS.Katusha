@@ -19,8 +19,6 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         public User KatushaUser { get; set; }
         public Profile KatushaProfile { get; set; }
 
-        public Sex Gender { get; set; }
-
         protected IUserService UserService { get; set; }
         protected IProfileService ProfileService { get; set; }
         protected IStateService StateService { get; set; }
@@ -84,38 +82,40 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            // Is it View ?
-            var view = filterContext.Result as ViewResultBase;
-            if (view == null) // if not exit
-                return;
+            #region internationalization
+            //// Is it View ?
+            //var view = filterContext.Result as ViewResultBase;
+            //if (view == null) // if not exit
+            //    return;
 
-            string cultureName = Thread.CurrentThread.CurrentCulture.Name; // e.g. "en-US" // filterContext.HttpContext.Request.UserLanguages[0]; // needs validation return "en-us" as default            
+            //string cultureName = Thread.CurrentThread.CurrentCulture.Name; // e.g. "en-US" // filterContext.HttpContext.Request.UserLanguages[0]; // needs validation return "en-us" as default            
 
-            // Is it default culture? exit
-            if (cultureName == CultureHelper.GetDefaultCulture())
-                return;
+            //// Is it default culture? exit
+            //if (cultureName == CultureHelper.GetDefaultCulture())
+            //    return;
 
-            // Are views implemented separately for this culture?  if not exit
-            bool viewImplemented = CultureHelper.IsViewSeparate(cultureName);
-            if (viewImplemented == false)
-                return;
+            //// Are views implemented separately for this culture?  if not exit
+            //bool viewImplemented = CultureHelper.IsViewSeparate(cultureName);
+            //if (viewImplemented == false)
+            //    return;
 
-            string viewName = view.ViewName;
+            //string viewName = view.ViewName;
 
-            int i;
+            //int i;
 
-            if (string.IsNullOrEmpty(viewName))
-                viewName = filterContext.RouteData.Values["action"] + "." + cultureName; // Index.en-US
-            else if ((i = viewName.IndexOf('.')) > 0) {
-                // contains . like "Index.cshtml"                
-                viewName = viewName.Substring(0, i + 1) + cultureName + viewName.Substring(i);
-            } else
-                viewName += "." + cultureName; // e.g. "Index" ==> "Index.en-Us"
+            //if (string.IsNullOrEmpty(viewName))
+            //    viewName = filterContext.RouteData.Values["action"] + "." + cultureName; // Index.en-US
+            //else if ((i = viewName.IndexOf('.')) > 0) {
+            //    // contains . like "Index.cshtml"                
+            //    viewName = viewName.Substring(0, i + 1) + cultureName + viewName.Substring(i);
+            //} else
+            //    viewName += "." + cultureName; // e.g. "Index" ==> "Index.en-Us"
 
-            view.ViewName = viewName;
+            //view.ViewName = viewName;
 
-            filterContext.Controller.ViewBag._culture = "." + cultureName;
-
+            //filterContext.Controller.ViewBag._culture = "." + cultureName;
+            #endregion
+            
             base.OnActionExecuted(filterContext);
         }
 

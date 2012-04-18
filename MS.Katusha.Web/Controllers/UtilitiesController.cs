@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Controllers.BaseControllers;
+using MS.Katusha.Web.Helpers;
+using MS.Katusha.Web.Models;
+using MS.Katusha.Web.Models.Entities;
+using PagedList;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -15,9 +20,12 @@ namespace MS.Katusha.Web.Controllers
         private readonly IVisitService _visitService;
         private readonly IConversationService _conversationService;
         private readonly IStateService _stateService;
+        private readonly IPhotosService _photosService;
 
         public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, 
-            ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService)
+            ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
+            IPhotosService photosService
+            )
             : base(userService, profileService, stateService)
         {
             _configurationService = configurationService;
@@ -25,6 +33,7 @@ namespace MS.Katusha.Web.Controllers
             _visitService = visitService;
             _conversationService = conversationService;
             _stateService = stateService;
+            _photosService = photosService;
         }
 
         [HttpGet]
@@ -92,6 +101,29 @@ namespace MS.Katusha.Web.Controllers
             if (count <= 0) return;
             _samplesService.GenerateRandomVisit(count, extra);
             Response.Write(String.Format("({0}) items are created with extra {1}!", count, extra));
+        }
+
+        [HttpGet]
+        public ActionResult Photos(string key)
+        {
+            int total;
+            int pageNo;
+            if (!int.TryParse(key, out pageNo)) { 
+                pageNo = 1;
+            }
+
+            var list = _photosService.Dir(Server.MapPath("/Photos"), out total, pageNo, DependencyHelper.GlobalPageSize);
+            var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyHelper.GlobalPageSize, total);
+            var photoGuids = new PagedListModel<Guid> { List = pagedList, Total = total };
+            var dictionaryPhotos = new Dictionary<Guid, PhotoModel>();
+            var dictionaryProfiles = new Dictionary<Guid, ProfileModel>();
+            foreach (var guid in list) {
+                var photo = _photosService.GetByGuid(guid);
+                dictionaryPhotos.Add(guid, Mapper.Map<PhotoModel>(photo));
+                dictionaryProfiles.Add(guid, Mapper.Map<ProfileModel>(ProfileService.GetProfile(photo.ProfileId)));
+            }
+            var model = new UtilitiesPhotosModel {PhotoGuids = photoGuids, Photos = dictionaryPhotos, Profiles = dictionaryProfiles};
+            return View("Dir", model);
         }
 
         private int GetValues(string key, out int extra)

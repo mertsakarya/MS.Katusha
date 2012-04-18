@@ -1,0 +1,86 @@
+@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.UtilitiesPhotosModel
+@{ 
+    ViewBag.Title = "Photo files";
+}
+
+<h2>Photo files ( @Model.PhotoGuids.Total )</h2>
+
+<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+    @foreach (var guid in Model.PhotoGuids.List) {
+        var photo = Model.Photos[guid];
+        var profile = Model.Profiles[guid];
+        <div id="Photo:@photo.Guid" class="gallery-item" style="display: inline;" data-href="@Html.PhotoLink(photo.Guid)" title="@photo.Description">
+            <div class="mosaic-block bar">
+                <div class="mosaic-overlay">
+                    <div class="details">
+                        <a href="#" onclick="DeletePhoto('@Html.KeyFor(profile)', '@photo.Guid')"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                        <a title="Make this your profile picture" href="#" onclick=" MakeProfilePhoto('@Html.KeyFor(profile)', '@photo.Guid')">
+                            <img src="/Images/profile.gif" alt="Delete photo"/>
+                        </a>
+                    </div>
+                </div>
+                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
+                    <div class="mosaic-backdrop">@Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+<!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn btn-primary modal-next">
+            <span>Next</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Previous</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+    </div>
+</div>
+<br/>
+@Html.PagedListPager(Model.PhotoGuids.List, key => Url.Action("Photos", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+
+@{
+    var photoType = ((byte) PhotoType.Medium).ToString();        
+    <script type="text/javascript">
+        $(function () {
+            $('.bar').mosaic({ animation: 'slide' });
+        });
+
+        function MakeProfilePhoto(key, guid) {
+            javascript: $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
+                function () {
+                    var img = document.getElementById("ProfilePhoto");
+                    if (img != null)
+                        img.src = "/Photos/@(photoType)-" + guid + ".png";
+                    alert('You have changed your profile picture!');
+                }
+            );
+        }
+
+        function DeletePhoto(key, guid) {
+            $.getJSON('/Photos/Delete/' + key + '/' + guid,
+                function () {
+                    document.getElementById("Photo:" + guid).style.display = "none";
+                    //$(document.getElementById("Photo:" + guid)).hide("slow");
+                    //alert('Photo deleted!');
+                }
+            );
+        }
+    </script>
+}

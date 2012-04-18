@@ -61,17 +61,5 @@ namespace MS.Katusha.Web.Helpers
         {
             return _cultures[name].Enabled;
         }
-
-        public static string _R(string resourceName, Language language = 0)
-        {
-            IResourceManager rm = new ResourceManager();
-            return rm._R(resourceName, (byte)language);
-        }
-
-        public static IDictionary<string, string> _L(string resourceName, Language language = 0)
-        {
-            IResourceManager rm = new ResourceManager();
-            return rm._L(resourceName, (byte)language);
-        }
     }
 }
