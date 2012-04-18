@@ -16,8 +16,8 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : KatushaController
     {
-        public AccountController(IUserService userService, IProfileService profileService, IStateService stateService)
-            : base(userService, profileService, stateService)
+        public AccountController(IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(userService, profileService, stateService, conversationService)
         {
         }
         //

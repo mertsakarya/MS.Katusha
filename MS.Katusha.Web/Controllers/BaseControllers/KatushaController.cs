@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
@@ -22,10 +23,12 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
         protected IUserService UserService { get; set; }
         protected IProfileService ProfileService { get; set; }
         protected IStateService StateService { get; set; }
+        protected IConversationService ConversationService { get; set; }
         private const int ProfileCount = 8;
 
-        public KatushaController(IUserService userService, IProfileService profileService, IStateService stateService)
+        public KatushaController(IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
         {
+            ConversationService = conversationService;
             ProfileService = profileService;
             UserService = userService;
             StateService = stateService;
@@ -76,8 +79,9 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
             if (KatushaProfile != null) {
-                StateService.Ping(KatushaProfile.Id, (Sex) KatushaProfile.Gender);
-            }
+                ViewBag.ConversationCount = ConversationService.GetConversationStatistics(KatushaProfile.Id);
+                StateService.Ping(KatushaProfile.Id, (Sex)KatushaProfile.Gender);
+            } else ViewBag.ConversationCount = new ConversationCountResult();
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

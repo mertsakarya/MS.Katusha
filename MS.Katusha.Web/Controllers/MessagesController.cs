@@ -22,7 +22,7 @@ namespace MS.Katusha.Web.Controllers
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
         public MessagesController(IUserService userService, IProfileService profileService, IConversationService conversationService, IStateService stateService)
-            : base(userService, profileService, stateService)
+            : base(userService, profileService, stateService, conversationService)
         {
             _profileService = profileService;
             _conversationService = conversationService;

@@ -26,6 +26,8 @@ namespace MS.Katusha.Services
             return _conversationRepositoryRaven.MyConversations(profileId, out total, pageNo, pageSize);
         }
 
+        public ConversationCountResult GetConversationStatistics(long profileId) { return _conversationRepositoryRaven.GetConversationStatistics(profileId); }
+
         public IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20)
         {
             return _conversationRepositoryRaven.Query(q => (q.FromId == fromId && q.ToId == profileId) || (q.ToId == fromId && q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
@@ -33,9 +35,9 @@ namespace MS.Katusha.Services
 
         public void SendMessage(Conversation message)
         {
-            var dbMessage = AutoMapper.Mapper.Map<MS.Katusha.Domain.Entities.Conversation>(message);
+            var dbMessage = Mapper.Map<Domain.Entities.Conversation>(message);
             _conversationRepository.Add(dbMessage);
-            var ravenMessage = AutoMapper.Mapper.Map<Conversation>(dbMessage);
+            var ravenMessage = Mapper.Map<Conversation>(dbMessage);
             ravenMessage.FromGuid = message.FromGuid;
             ravenMessage.FromName = message.FromName;
             ravenMessage.FromPhotoGuid = message.FromPhotoGuid;

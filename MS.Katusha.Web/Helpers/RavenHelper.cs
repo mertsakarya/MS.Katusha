@@ -32,7 +32,8 @@ namespace MS.Katusha.Web.Helpers
             IndexCreation.CreateIndexes(typeof (ProfileSearchFacetIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof (ProfileLanguageFacetIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof (ProfileCountryFacetIndex).Assembly, RavenStore);
-            IndexCreation.CreateIndexes(typeof (ConversationIndex).Assembly, RavenStore);
+            IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, RavenStore);
+            IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, RavenStore);
         }
 
         private static void CreateFacets()

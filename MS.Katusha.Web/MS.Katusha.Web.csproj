@@ -333,6 +333,7 @@
     <Content Include="Images\close.gif" />
     <Content Include="Images\Girl.jpg" />
     <Content Include="Images\Girlsmall.jpg" />
+    <Content Include="Images\mail.jpg" />
     <Content Include="Images\Man.jpg" />
     <Content Include="Images\Mansmall.jpg" />
     <Content Include="Images\profile.gif" />

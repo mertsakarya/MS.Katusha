@@ -26,7 +26,7 @@ namespace MS.Katusha.Web.Controllers
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
             IPhotosService photosService
             )
-            : base(userService, profileService, stateService)
+            : base(userService, profileService, stateService, conversationService)
         {
             _configurationService = configurationService;
             _samplesService = samplesService;

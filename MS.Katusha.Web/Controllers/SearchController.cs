@@ -19,8 +19,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly ISearchService _searchService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService)
-            : base(userService, profileService, stateService)
+        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, IConversationService conversationService)
+            : base(userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
         }

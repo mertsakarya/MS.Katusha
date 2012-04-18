@@ -6,7 +6,7 @@ using MS.Katusha.Infrastructure.Attributes;
 
 namespace MS.Katusha.Web.Models.Entities.BaseEntities
 {
-    public abstract class BaseFriendlyModel : BaseGuidModel, IValidatableObject
+    public abstract class BaseFriendlyModel : BaseGuidModel //, IValidatableObject
     {
 
         //[Display("FriendlyName")]
@@ -19,13 +19,13 @@ namespace MS.Katusha.Web.Models.Entities.BaseEntities
             return base.ToString() + String.Format(" | FriendlyName: {0}", FriendlyName);
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
 
-            if(false)
-                yield return new ValidationResult("POP");
+        //    if(false)
+        //        yield return new ValidationResult("POP");
 
-        }
+        //}
 
     }
 }

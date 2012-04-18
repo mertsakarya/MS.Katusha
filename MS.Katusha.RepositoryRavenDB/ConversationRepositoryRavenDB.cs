@@ -25,5 +25,13 @@ namespace MS.Katusha.Repositories.RavenDB
                 //.AsProjection<Profile>()
             }
         }
+
+        public ConversationCountResult GetConversationStatistics(long profileId)
+        {
+            using (var session = DocumentStore.OpenSession()) {
+                var query = session.Query<ConversationCountResult, ConversationCountIndex>().FirstOrDefault(p => p.ToId == profileId);
+                return query;
+            }
+        }
     }
 }

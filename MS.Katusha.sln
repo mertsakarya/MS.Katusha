@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Interfaces.Repos
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{40FC43D7-43C3-4A6C-8B0D-16167E3725A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C7C29B2D-A706-434F-9551-923F91FB76A4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Infrastructure", "MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj", "{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Domain.Raven", "MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj", "{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}"

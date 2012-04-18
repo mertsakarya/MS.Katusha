@@ -12,5 +12,6 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IConversationRepositoryRavenDB : IRavenGuidRepository<MS.Katusha.Domain.Raven.Entities.Conversation>
     {
         IList<ConversationResult> MyConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
+        ConversationCountResult GetConversationStatistics(long profileId);
     }
 }
