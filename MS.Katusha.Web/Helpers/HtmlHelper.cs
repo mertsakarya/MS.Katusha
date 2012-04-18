@@ -115,7 +115,7 @@ namespace MS.Katusha.Web.Helpers
                     var bytes = ToBytes(fileName);
                     var encodedBytes = EncodeBytes(bytes);
                     str = @"data:image/jpg;base64," + encodedBytes;
-                } catch() {
+                } catch {
                     
                 }
             }
