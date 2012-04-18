@@ -26,7 +26,7 @@ namespace MS.Katusha.Web.Helpers
             } catch {}
         }
 
-        private static void CreateIndexes()
+        public static void CreateIndexes()
         {
             IndexCreation.CreateIndexes(typeof (ProfileFacetsIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof (ProfileSearchFacetIndex).Assembly, RavenStore);
@@ -36,7 +36,7 @@ namespace MS.Katusha.Web.Helpers
             IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, RavenStore);
         }
 
-        private static void CreateFacets()
+        public static void CreateFacets()
         {
             using (var session = RavenStore.OpenSession()) {
                 session.Store(new FacetSetup {

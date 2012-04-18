@@ -155,6 +155,8 @@ namespace MS.Katusha.Web.Controllers
         public void RegisterRaven()
         {
             RavenHelper.RegisterRaven();
+            RavenHelper.CreateFacets();
+            RavenHelper.CreateIndexes();
             Response.Write("Done!");
         }
     }
