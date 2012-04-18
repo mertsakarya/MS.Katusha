@@ -110,10 +110,14 @@ namespace MS.Katusha.Web.Helpers
             }
             string str = GetPhotoPath(photoGuid, photoType);
             if (encode) {
-                var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
-                var bytes = ToBytes(fileName);
-                var encodedBytes = EncodeBytes(bytes);
-                str = @"data:image/jpg;base64," + encodedBytes;
+                try {
+                    var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
+                    var bytes = ToBytes(fileName);
+                    var encodedBytes = EncodeBytes(bytes);
+                    str = @"data:image/jpg;base64," + encodedBytes;
+                } catch() {
+                    
+                }
             }
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
