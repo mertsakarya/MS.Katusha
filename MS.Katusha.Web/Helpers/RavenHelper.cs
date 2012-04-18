@@ -3,7 +3,6 @@ using MS.Katusha.Enumerations;
 using MS.Katusha.Repositories.RavenDB.Indexes;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
-using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 
 namespace MS.Katusha.Web.Helpers

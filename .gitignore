@@ -28,7 +28,7 @@ _ReSharper*/
 [Aa]pp_Data/
 
 Log.txt
-/MS.Katusha.Web/Photos
+/MS.Katusha.Web/Photos/*.jpg
 Log.txt
 *.log
 Logs/

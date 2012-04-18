@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Domain\MS.Katusha.Domain" Label="MS.Katusha.Domain" Category="Project" />
+    <Node Id="EntityFramework 4.3.1" Label="EntityFramework 4.3.1" Category="Package" />
+    <Node Id="EntityFramework.SqlServerCompact 4.3.1" Label="EntityFramework.SqlServerCompact 4.3.1" Category="Package" />
+    <Node Id="SqlServerCompact 4.0.8852.1" Label="SqlServerCompact 4.0.8852.1" Category="Package" />
+    <Node Id="Web\MS.Katusha.Web" Label="MS.Katusha.Web" Category="Project" />
+    <Node Id="AspNetMvc 4.0.20126.16343" Label="AspNetMvc 4.0.20126.16343" Category="Package" />
+    <Node Id="AspNetRazor.Core 2.0.20126.16343" Label="AspNetRazor.Core 2.0.20126.16343" Category="Package" />
+    <Node Id="AspNetWebApi 4.0.20126.16343" Label="AspNetWebApi 4.0.20126.16343" Category="Package" />
+    <Node Id="AspNetWebApi.Core 4.0.20126.16343" Label="AspNetWebApi.Core 4.0.20126.16343" Category="Package" />
+    <Node Id="AspNetWebPages.Core 2.0.20126.16343" Label="AspNetWebPages.Core 2.0.20126.16343" Category="Package" />
+    <Node Id="Autofac 2.6.1.841" Label="Autofac 2.6.1.841" Category="Package" />
+    <Node Id="Autofac.Mvc3 2.6.1.841" Label="Autofac.Mvc3 2.6.1.841" Category="Package" />
+    <Node Id="AutoMapper 2.1.266" Label="AutoMapper 2.1.266" Category="Package" />
+    <Node Id="ClientDependency 1.4.0.0" Label="ClientDependency 1.4.0.0" Category="Package" />
+    <Node Id="ClientDependency-Mvc 1.4.0.0" Label="ClientDependency-Mvc 1.4.0.0" Category="Package" />
+    <Node Id="Common.Logging 2.0.0" Label="Common.Logging 2.0.0" Category="Package" />
+    <Node Id="Common.Logging.NLog 2.0.0" Label="Common.Logging.NLog 2.0.0" Category="Package" />
+    <Node Id="EntityFramework 4.3.1" Label="EntityFramework 4.3.1" Category="Package" />
+    <Node Id="EntityFramework.SqlServerCompact 4.3.2" Label="EntityFramework.SqlServerCompact 4.3.2" Category="Package" />
+    <Node Id="Facebook 6.0.14" Label="Facebook 6.0.14" Category="Package" />
+    <Node Id="ImageResizer 3.1.5" Label="ImageResizer 3.1.5" Category="Package" />
+    <Node Id="ImageResizer.Mvc 3.1.5" Label="ImageResizer.Mvc 3.1.5" Category="Package" />
+    <Node Id="ImageResizer.MvcWebConfig 3.1.5" Label="ImageResizer.MvcWebConfig 3.1.5" Category="Package" />
+    <Node Id="ImageResizer.WebConfig 3.1.5" Label="ImageResizer.WebConfig 3.1.5" Category="Package" />
+    <Node Id="jQuery 1.6.2" Label="jQuery 1.6.2" Category="Package" />
+    <Node Id="jQuery.Ajax.Unobtrusive 2.0.20126.16343" Label="jQuery.Ajax.Unobtrusive 2.0.20126.16343" Category="Package" />
+    <Node Id="jQuery.UI.Combined 1.8.18" Label="jQuery.UI.Combined 1.8.18" Category="Package" />
+    <Node Id="jQuery.Validation 1.8.1" Label="jQuery.Validation 1.8.1" Category="Package" />
+    <Node Id="jQuery.Validation.Unobtrusive 2.0.20126.16343" Label="jQuery.Validation.Unobtrusive 2.0.20126.16343" Category="Package" />
+    <Node Id="knockoutjs 2.0.0.1" Label="knockoutjs 2.0.0.1" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Microsoft.Web.Optimization 1.0.0-beta" Label="Microsoft.Web.Optimization 1.0.0-beta" Category="Package" />
+    <Node Id="Modernizr 2.0.6" Label="Modernizr 2.0.6" Category="Package" />
+    <Node Id="MvcScaffolding 1.0.6" Label="MvcScaffolding 1.0.6" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.0.8" Label="Newtonsoft.Json 4.0.8" Category="Package" />
+    <Node Id="NLog 2.0.0.2000" Label="NLog 2.0.0.2000" Category="Package" />
+    <Node Id="PagedList 1.14" Label="PagedList 1.14" Category="Package" />
+    <Node Id="PagedList.Mvc 3.14" Label="PagedList.Mvc 3.14" Category="Package" />
+    <Node Id="Quartz 2.0.0" Label="Quartz 2.0.0" Category="Package" />
+    <Node Id="Raven.AspNet.SessionState 1.5" Label="Raven.AspNet.SessionState 1.5" Category="Package" />
+    <Node Id="RavenDB 1.0.888" Label="RavenDB 1.0.888" Category="Package" />
+    <Node Id="RavenDB-Embedded 1.0.888" Label="RavenDB-Embedded 1.0.888" Category="Package" />
+    <Node Id="RazorEngine 3.0.8" Label="RazorEngine 3.0.8" Category="Package" />
+    <Node Id="SqlServerCompact 4.0.8852.1" Label="SqlServerCompact 4.0.8852.1" Category="Package" />
+    <Node Id="System.Json 4.0.20126.16343" Label="System.Json 4.0.20126.16343" Category="Package" />
+    <Node Id="System.Net.Http 2.0.20126.16343" Label="System.Net.Http 2.0.20126.16343" Category="Package" />
+    <Node Id="System.Net.Http.Formatting 4.0.20126.16343" Label="System.Net.Http.Formatting 4.0.20126.16343" Category="Package" />
+    <Node Id="System.Web.Http.Common 4.0.20126.16343" Label="System.Web.Http.Common 4.0.20126.16343" Category="Package" />
+    <Node Id="System.Web.Providers 1.1" Label="System.Web.Providers 1.1" Category="Package" />
+    <Node Id="System.Web.Providers.Core 1.0" Label="System.Web.Providers.Core 1.0" Category="Package" />
+    <Node Id="T4Scaffolding 1.0.5" Label="T4Scaffolding 1.0.5" Category="Package" />
+    <Node Id="Services\MS.Katusha.Mailer" Label="MS.Katusha.Mailer" Category="Project" />
+    <Node Id="RazorEngine 3.0.8" Label="RazorEngine 3.0.8" Category="Package" />
+    <Node Id="Repositories\MS.Katusha.Repositories.RavenDB" Label="MS.Katusha.Repositories.RavenDB" Category="Project" />
+    <Node Id="Newtonsoft.Json 4.0.8" Label="Newtonsoft.Json 4.0.8" Category="Package" />
+    <Node Id="NLog 2.0.0.2000" Label="NLog 2.0.0.2000" Category="Package" />
+    <Node Id="RavenDB 1.0.888" Label="RavenDB 1.0.888" Category="Package" />
+    <Node Id="RavenDB-Embedded 1.0.888" Label="RavenDB-Embedded 1.0.888" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="EntityFramework.SqlServerCompact 4.3.1" Target="SqlServerCompact 4.0.8852.1" Category="Package Dependency" />
+    <Link Source="EntityFramework.SqlServerCompact 4.3.1" Target="EntityFramework 4.3.1" Category="Package Dependency" />
+    <Link Source="Domain\MS.Katusha.Domain" Target="EntityFramework.SqlServerCompact 4.3.1" Category="Installed Package" />
+    <Link Source="AspNetMvc 4.0.20126.16343" Target="AspNetWebPages.Core 2.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetMvc 4.0.20126.16343" Target="AspNetRazor.Core 2.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetMvc 4.0.20126.16343" Target="System.Web.Http.Common 4.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetWebApi 4.0.20126.16343" Target="AspNetWebApi.Core 4.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetWebApi.Core 4.0.20126.16343" Target="System.Net.Http.Formatting 4.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetWebApi.Core 4.0.20126.16343" Target="System.Web.Http.Common 4.0.20126.16343" Category="Package Dependency" />
+    <Link Source="AspNetWebPages.Core 2.0.20126.16343" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="AspNetWebPages.Core 2.0.20126.16343" Target="AspNetRazor.Core 2.0.20126.16343" Category="Package Dependency" />
+    <Link Source="Autofac.Mvc3 2.6.1.841" Target="Autofac 2.6.1.841" Category="Package Dependency" />
+    <Link Source="ClientDependency-Mvc 1.4.0.0" Target="ClientDependency 1.4.0.0" Category="Package Dependency" />
+    <Link Source="Common.Logging.NLog 2.0.0" Target="Common.Logging 2.0.0" Category="Package Dependency" />
+    <Link Source="EntityFramework.SqlServerCompact 4.3.2" Target="SqlServerCompact 4.0.8852.1" Category="Package Dependency" />
+    <Link Source="EntityFramework.SqlServerCompact 4.3.2" Target="EntityFramework 4.3.1" Category="Package Dependency" />
+    <Link Source="ImageResizer.Mvc 3.1.5" Target="ImageResizer 3.1.5" Category="Package Dependency" />
+    <Link Source="ImageResizer.MvcWebConfig 3.1.5" Target="ImageResizer 3.1.5" Category="Package Dependency" />
+    <Link Source="ImageResizer.MvcWebConfig 3.1.5" Target="ImageResizer.WebConfig 3.1.5" Category="Package Dependency" />
+    <Link Source="ImageResizer.MvcWebConfig 3.1.5" Target="ImageResizer.Mvc 3.1.5" Category="Package Dependency" />
+    <Link Source="ImageResizer.WebConfig 3.1.5" Target="ImageResizer 3.1.5" Category="Package Dependency" />
+    <Link Source="jQuery.Ajax.Unobtrusive 2.0.20126.16343" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="jQuery.UI.Combined 1.8.18" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="jQuery.Validation 1.8.1" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="jQuery.Validation.Unobtrusive 2.0.20126.16343" Target="jQuery.Validation 1.8.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Web.Optimization 1.0.0-beta" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="MvcScaffolding 1.0.6" Target="T4Scaffolding 1.0.5" Category="Package Dependency" />
+    <Link Source="PagedList.Mvc 3.14" Target="PagedList 1.14" Category="Package Dependency" />
+    <Link Source="Quartz 2.0.0" Target="Common.Logging 2.0.0" Category="Package Dependency" />
+    <Link Source="Raven.AspNet.SessionState 1.5" Target="RavenDB 1.0.888" Category="Package Dependency" />
+    <Link Source="RavenDB 1.0.888" Target="NLog 2.0.0.2000" Category="Package Dependency" />
+    <Link Source="RavenDB 1.0.888" Target="Newtonsoft.Json 4.0.8" Category="Package Dependency" />
+    <Link Source="RavenDB-Embedded 1.0.888" Target="NLog 2.0.0.2000" Category="Package Dependency" />
+    <Link Source="RavenDB-Embedded 1.0.888" Target="Newtonsoft.Json 4.0.8" Category="Package Dependency" />
+    <Link Source="System.Net.Http.Formatting 4.0.20126.16343" Target="System.Net.Http 2.0.20126.16343" Category="Package Dependency" />
+    <Link Source="System.Web.Providers 1.1" Target="System.Web.Providers.Core 1.0" Category="Package Dependency" />
+    <Link Source="T4Scaffolding 1.0.5" Target="EntityFramework 4.3.1" Category="Package Dependency" />
+    <Link Source="Web\MS.Katusha.Web" Target="AspNetMvc 4.0.20126.16343" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="AspNetWebApi 4.0.20126.16343" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Autofac.Mvc3 2.6.1.841" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="AutoMapper 2.1.266" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="ClientDependency-Mvc 1.4.0.0" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Common.Logging.NLog 2.0.0" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="EntityFramework.SqlServerCompact 4.3.2" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Facebook 6.0.14" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="ImageResizer.MvcWebConfig 3.1.5" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="jQuery.Ajax.Unobtrusive 2.0.20126.16343" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="jQuery.UI.Combined 1.8.18" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="jQuery.Validation.Unobtrusive 2.0.20126.16343" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="knockoutjs 2.0.0.1" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Microsoft.Web.Optimization 1.0.0-beta" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Modernizr 2.0.6" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="MvcScaffolding 1.0.6" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="PagedList.Mvc 3.14" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Quartz 2.0.0" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="Raven.AspNet.SessionState 1.5" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="RavenDB-Embedded 1.0.888" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="RazorEngine 3.0.8" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="System.Json 4.0.20126.16343" Category="Installed Package" />
+    <Link Source="Web\MS.Katusha.Web" Target="System.Web.Providers 1.1" Category="Installed Package" />
+    <Link Source="Services\MS.Katusha.Mailer" Target="RazorEngine 3.0.8" Category="Installed Package" />
+    <Link Source="RavenDB 1.0.888" Target="NLog 2.0.0.2000" Category="Package Dependency" />
+    <Link Source="RavenDB 1.0.888" Target="Newtonsoft.Json 4.0.8" Category="Package Dependency" />
+    <Link Source="RavenDB-Embedded 1.0.888" Target="NLog 2.0.0.2000" Category="Package Dependency" />
+    <Link Source="RavenDB-Embedded 1.0.888" Target="Newtonsoft.Json 4.0.8" Category="Package Dependency" />
+    <Link Source="Repositories\MS.Katusha.Repositories.RavenDB" Target="RavenDB 1.0.888" Category="Installed Package" />
+    <Link Source="Repositories\MS.Katusha.Repositories.RavenDB" Target="RavenDB-Embedded 1.0.888" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>
