@@ -152,5 +152,10 @@ namespace MS.Katusha.Web.Controllers
             return count;
         }
 
+        public void RegisterRaven()
+        {
+            RavenHelper.RegisterRaven();
+            Response.Write("Done!");
+        }
     }
 }
