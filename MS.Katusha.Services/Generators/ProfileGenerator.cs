@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.Globalization;
+using System.Web;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
@@ -70,7 +71,7 @@ namespace MS.Katusha.Services.Generators
             if (extra == 0) {
                 var photoCount = GeneratorHelper.RND.Next(4);
                 if (photoCount > 0) {
-                    var root = ConfigurationManager.AppSettings["Root_Folder"];
+                    var root = HttpContext.Current.Server.MapPath(@"~\"); //ConfigurationManager.AppSettings["Root_Folder"];
                     var samples = root + "Images\\SamplePhotos\\" + ((Sex) profile.Gender).ToString() + "\\";
                     for (var i = 1; i <= photoCount; i++) {
                         var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";

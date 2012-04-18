@@ -110,8 +110,6 @@ namespace MS.Katusha.Infrastructure
 
         private readonly Dictionary<Section, ConfigurationType> _dependencies;
 
-        //private static readonly string ConfigurationFilename = Environment.GetEnvironmentVariable("MS.KATUSHA_HOME") + @"ConfigurationData.txt";
-        //private static readonly string ConfigurationFilename = ConfigurationManager.AppSettings["Root_Folder"] + @"ConfigurationData.txt";
         private static readonly string ConfigurationFilename = HttpContext.Current.Server.MapPath(@"~\") + @"ConfigurationData.txt";
         
 

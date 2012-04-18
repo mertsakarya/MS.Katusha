@@ -13,18 +13,12 @@ namespace MS.Katusha.Web.Helpers
 
         public static void RegisterRaven()
         {
-            //RavenStore = new EmbeddableDocumentStore { DataDirectory = ConfigurationManager.AppSettings["Root_Folder"] + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
-            //RavenStore = new EmbeddableDocumentStore { DataDirectory = Environment.GetEnvironmentVariable("MS.KATUSHA_HOME") + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
-
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
             parser.Parse();
 
-            RavenStore = new DocumentStore {
-                ApiKey = parser.ConnectionStringOptions.ApiKey,
-                Url = parser.ConnectionStringOptions.Url,
-            };
-
+            RavenStore = new DocumentStore { ApiKey = parser.ConnectionStringOptions.ApiKey, Url = parser.ConnectionStringOptions.Url };
             //RavenStore = new EmbeddableDocumentStore { DataDirectory = DependencyHelper.RootFolder + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
+            
             RavenStore.Initialize();
             try {
                 CreateIndexes();
