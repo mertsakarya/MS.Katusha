@@ -124,6 +124,79 @@ namespace MS.Katusha.Services
 
         public Photo GetByGuid(Guid guid) { return _photoRepository.GetByGuid(guid); }
 
+        public List<string> CheckPhotoFiles(string path)
+        {
+            var guids = new List<Guid>();
+            var list = new List<string>();
+            foreach (var file in Directory.EnumerateFiles(path)) {
+                var fileName = Path.GetFileNameWithoutExtension(file);
+                if (fileName == null) continue;
+                var extension = Path.GetExtension(file);
+                if (extension == null || extension.ToLowerInvariant() != ".jpg") {
+                    list.Add("EXTENSION\t" + file);
+                    continue;
+                }
+
+                var photoType = fileName[0] - 48;
+                if (photoType > (int) PhotoType.MAX && fileName[1] != '-') {
+                    list.Add("PHOTOTYPE\t" + file);
+                    continue;
+                }
+                var strGuid = fileName.Substring(2);
+                Guid guid;
+                if (!Guid.TryParse(strGuid, out guid)) {
+                    list.Add("GUIDPARSE\t" + file);
+                    continue;
+                }
+                if (!guids.Contains(guid)) {
+                    guids.Add(guid);
+                    foreach(var suffix in _versions.Keys) {
+                        var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", guid, suffix, path);
+                        if(!File.Exists(fileShouldExist)) {
+                            list.Add("NOFILE\t" + fileShouldExist);
+                        }
+                    }
+                    var photo = _photoRepository.GetByGuid(guid);
+                    if (photo == null) {
+                        list.Add("NOPHOTO\t" + guid.ToString());
+                    }
+                }
+            }
+            return list;
+        }
+
+        List<string> IPhotosService.CheckPhotos(string path)
+        {
+            var list = new List<string>();
+            foreach(var photo in _photoRepository.GetAll().ToList()) {
+                var profile = _profileRepository.GetById(photo.ProfileId);
+                if(profile == null) {
+                    list.Add("NOPROFILE\t" + photo.Guid.ToString());
+                }
+                foreach (var suffix in _versions.Keys) {
+                    var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", photo.Guid, suffix, path);
+                    if (!File.Exists(fileShouldExist)) {
+                        list.Add("NOFILE\t" + fileShouldExist);
+                    }
+                }
+            }
+            return list;
+        }
+
+        List<string> IPhotosService.CheckProfilePhotos(string path) {
+            var list = new List<string>();
+            foreach (var profile in _profileRepository.Query(p=>p.ProfilePhotoGuid != Guid.Empty, null, false).ToList()) {
+                var photo = _photoRepository.GetByGuid(profile.ProfilePhotoGuid);
+                foreach (var suffix in _versions.Keys) {
+                    var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", photo.Guid, suffix, path);
+                    if (!File.Exists(fileShouldExist)) {
+                        list.Add("NOFILE\t" + fileShouldExist);
+                    }
+                }
+            }
+            return list;
+        }
+
         public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
             var profile = _profileRepository.GetById(profileId, p => p.Photos);

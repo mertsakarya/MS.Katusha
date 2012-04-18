@@ -1,0 +1,20 @@
+@{ 
+    ViewBag.Title = "Utilities";
+}
+<h2>Utilities</h2>
+<hr/>
+<ul>
+    <li>@Html.ActionLink("Initialize Lookups", "InitConfiguration", "Utilities")</li>
+    <hr/>
+    <li>@Html.ActionLink("Create profiles", "GenerateProfiles", "Utilities", new {key = 1}, null)</li>
+    <li>@Html.ActionLink("Create conversations", "GenerateConversations", "Utilities", new { key = 2, extra = 50 }, null)</li>
+    <li>@Html.ActionLink("Create visits", "GenerateVisits", "Utilities", new { key = 2, extra = 50 }, null)</li>
+    <hr/>
+    <li>@Html.ActionLink("Photos", "Photos", "Utilities", new { key = 1 }, null)</li>
+    <li>@Html.ActionLink("Check photos", "CheckPhotos", "Utilities", null, null)</li>
+    <hr/>
+    <li>@Html.ActionLink("Restore profiles", "Restore", "Utilities", new { key = "Profiles" }, null)</li>
+    <li>@Html.ActionLink("Restore conversations", "Restore", "Utilities", new { key = "Conversations" }, null)</li>
+    <li>@Html.ActionLink("Restore visits", "Restore", "Utilities", new { key = "Visits" }, null)</li>
+    <li>@Html.ActionLink("Restore states", "Restore", "Utilities", new { key = "States" }, null)</li>
+</ul>

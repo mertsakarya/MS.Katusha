@@ -37,6 +37,9 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult Index() { return View(); }
+
+        [HttpGet]
         public void InitConfiguration()
         {
             Response.ContentType = "text/plain";
@@ -108,7 +111,7 @@ namespace MS.Katusha.Web.Controllers
         {
             int total;
             int pageNo;
-            if (!int.TryParse(key, out pageNo)) { 
+            if (!int.TryParse(key, out pageNo)) {
                 pageNo = 1;
             }
 
@@ -122,8 +125,21 @@ namespace MS.Katusha.Web.Controllers
                 dictionaryPhotos.Add(guid, Mapper.Map<PhotoModel>(photo));
                 dictionaryProfiles.Add(guid, Mapper.Map<ProfileModel>(ProfileService.GetProfile(photo.ProfileId)));
             }
-            var model = new UtilitiesPhotosModel {PhotoGuids = photoGuids, Photos = dictionaryPhotos, Profiles = dictionaryProfiles};
-            return View("Dir", model);
+            var model = new UtilitiesPhotosModel { PhotoGuids = photoGuids, Photos = dictionaryPhotos, Profiles = dictionaryProfiles };
+            return View(model);
+        }
+
+        [HttpGet]
+        public void CheckPhotos()
+        {
+            var path = Server.MapPath("/Photos");
+            List<string> list = _photosService.CheckPhotos(path);
+            list.AddRange(_photosService.CheckPhotoFiles(path));
+            list.AddRange(_photosService.CheckProfilePhotos(path));
+            foreach (var line in list) {
+                Response.Write(line + "<br/>");
+            }
+            Response.Write("<hr/>FINISHED!");
         }
 
         private int GetValues(string key, out int extra)
