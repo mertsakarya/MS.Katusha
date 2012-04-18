@@ -18,6 +18,7 @@ namespace MS.Katusha.Domain
 
         public DbSet<SearchingFor> Searches { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<PhotoBackup> PhotoBackups { get; set; }
         public DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         public DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
 

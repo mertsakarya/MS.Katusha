@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPhotoBackupRepository.cs" />
     <Compile Include="IStateRepository.cs" />
     <Compile Include="IConfigurationDataRepository.cs" />
     <Compile Include="IConfigurationRepository.cs" />

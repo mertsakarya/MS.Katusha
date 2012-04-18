@@ -35,6 +35,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerHttpRequest();
             builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
             builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerHttpRequest();
+            builder.RegisterType<PhotoBackupService>().As<IPhotoBackupService>().InstancePerHttpRequest();
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
             builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
@@ -53,6 +54,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<CountriesToVisitRepositoryDB>().As<ICountriesToVisitRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<SearchingForRepositoryDB>().As<ISearchingForRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<LanguagesSpokenRepositoryDB>().As<ILanguagesSpokenRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<PhotoBackupRepositoryDB>().As<IPhotoBackupRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();

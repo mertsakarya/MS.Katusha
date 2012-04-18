@@ -13,6 +13,8 @@ namespace MS.Katusha.Domain
 
         DbSet<SearchingFor> Searches { get; set; }
         DbSet<Photo> Photos { get; set; }
+        DbSet<PhotoBackup> PhotoBackups { get; set; }
+
         DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
     }

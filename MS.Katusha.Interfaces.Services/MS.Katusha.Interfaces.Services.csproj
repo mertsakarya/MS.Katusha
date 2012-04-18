@@ -46,11 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPhotosService.cs" />
     <Compile Include="IRestore.cs" />
     <Compile Include="IStateService.cs" />
     <Compile Include="ISamplesService.cs" />
     <Compile Include="IVisitService.cs" />
-    <Compile Include="IPhotosService.cs" />
+    <Compile Include="IPhotoBackupService.cs" />
     <Compile Include="ISearchService.cs" />
     <Compile Include="IConfigurationService.cs" />
     <Compile Include="IConversationService.cs" />

@@ -63,6 +63,7 @@
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
     <Compile Include="Entities\BaseEntities\IdModel.cs" />
     <Compile Include="Entities\ConfigurationData.cs" />
+    <Compile Include="Entities\PhotoBackup.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
     <Compile Include="Entities\Conversation.cs" />
