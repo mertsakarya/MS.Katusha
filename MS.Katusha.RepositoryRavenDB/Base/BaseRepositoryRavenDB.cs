@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -32,17 +33,21 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
-        public IQueryable<T> GetAll()
+        public IList<T> GetAll(out int total)
         {
             RavenQueryStatistics stats;
-            return QueryableRepository(out stats);
+            var q = QueryableRepository(out stats).ToList();
+            total = stats.TotalResults;
+            return q;
         }
 
-        public IQueryable<T> GetAll(int pageNo, int pageSize)
+        public IList<T> GetAll(out int total, int pageNo, int pageSize)
         {
-            if (pageNo < 1) return GetAll();
             RavenQueryStatistics stats;
-            return QueryableRepository(out stats).Skip((pageNo - 1) * pageSize).Take(pageSize);
+            if (pageNo < 1) return GetAll(out total);
+            var result =  QueryableRepository(out stats).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+            total = stats.TotalResults;
+            return result;
         }
 
         private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter, out RavenQueryStatistics stats, bool withTracking = false)
@@ -52,7 +57,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return queryable;
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IList<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             RavenQueryStatistics stats;
             IQueryable<T> q = QueryHelper(filter, out stats);
@@ -60,19 +65,20 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2})", typeof(T).Name, filter, orderByClause));
 #endif
-            return q;
+            return q.ToList();
         }
 
-        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IList<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             RavenQueryStatistics stats;
             IQueryable<T> q = QueryHelper(filter, out stats);
-            total = stats.TotalResults;
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2}, {3}, {4})", typeof(T).Name, filter, pageNo, pageSize, orderByClause));
 #endif
-            return q.Skip((pageNo - 1) * pageSize).Take(pageSize);
+            var result =  q.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+            total = stats.TotalResults;
+            return result;
         }
 
         public T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
@@ -150,7 +156,6 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             logger.Info(String.Format("Save<{0}>()", typeof(T).Name));
 #endif
         }
-
 
         public void Patch(long id, PatchRequest[] patchRequests)
         {

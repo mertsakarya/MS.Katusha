@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -32,27 +33,32 @@ namespace MS.Katusha.Repositories.DB.Base
             return Single(p => p.Id == id, includeExpressionParams);
         }
 
-        public IQueryable<T> GetAll()
+        public IList<T> GetAll(out int total)
         {
-            return QueryableRepository;
+            var q = QueryableRepository.ToList();
+            total = q.Count();
+            return q;
         }
 
-        public IQueryable<T> GetAll(int pageNo, int pageSize)
+        public IList<T> GetAll(out int total, int pageNo, int pageSize)
         {
-            return pageNo < 1 ? GetAll() : QueryableRepository.OrderByDescending(p=>p.Id).Skip((pageNo - 1) * pageSize).Take(pageSize);
+            if(pageNo < 1) return GetAll(out total);
+            var q = QueryableRepository;
+            total = q.Count();
+            return q.OrderByDescending(p => p.Id).Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IList<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2})", typeof(T).Name, filter, orderByClause));
 #endif
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
-            return q;
+            return q.ToList();
         }
 
-        public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
+        public IList<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2}, {3}, {4})", typeof(T).Name, filter, pageNo, pageSize, orderByClause));
@@ -60,7 +66,7 @@ namespace MS.Katusha.Repositories.DB.Base
             IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter, includeExpressionParams);
             total = q.Count();
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
-            return q.Skip((pageNo - 1) * pageSize).Take( pageSize );
+            return q.Skip((pageNo - 1) * pageSize).Take( pageSize ).ToList();
         }
 
         public T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)

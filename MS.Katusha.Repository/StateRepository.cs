@@ -42,13 +42,14 @@ namespace MS.Katusha.Repositories.DB
             return retVal;
         }
 
-        public IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending)
+        public IList<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending)
         {
             var q = _dbContext.States.AsNoTracking().AsQueryable();
             if (filter != null) q = q.Where(filter);
             total = q.Count();
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
-            return q.Skip((pageNo - 1) * pageSize).Take(pageSize);
+            var query = q.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+            return query;
         }
 
         public int Count(Expression<Func<State, bool>> filter)

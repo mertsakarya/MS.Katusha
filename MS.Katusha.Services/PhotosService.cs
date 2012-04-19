@@ -174,7 +174,9 @@ namespace MS.Katusha.Services
         List<string> IPhotosService.CheckPhotos(string path)
         {
             var list = new List<string>();
-            foreach(var photo in _photoRepository.GetAll().ToList()) {
+            int total;
+            var photos = _photoRepository.GetAll(out total).ToList();
+            foreach(var photo in photos) {
                 var profile = _profileRepository.GetById(photo.ProfileId);
                 if(profile == null) {
                     list.Add("NOPROFILE\t" + photo.Guid.ToString());

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -34,16 +35,16 @@ namespace MS.Katusha.Repositories.RavenDB
             return entity;
         }
 
-        public IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool @ascending)
+        public IList<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool @ascending)
         {
             using (var session = _documentStore.OpenSession()) {
                 RavenQueryStatistics stats;
                 var q = session.Query<State>().Statistics(out stats).AsNoTracking();
                 if (filter != null) q = q.Where(filter);
                 if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
-                q = q.Skip((pageNo - 1)*pageSize).Take(pageSize);
+                var query  = q.Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
                 total = stats.TotalResults;
-                return q;
+                return query;
             }
         }
 
@@ -52,7 +53,7 @@ namespace MS.Katusha.Repositories.RavenDB
                 RavenQueryStatistics stats;
                 var q = session.Query<State>().Statistics(out stats).AsNoTracking();
                 if (filter != null) q = q.Where(filter);
-                var a = q.Take(0);
+                var a = q.Take(0).ToList();
                 return stats.TotalResults;
             }
 
