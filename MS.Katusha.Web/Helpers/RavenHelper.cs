@@ -34,6 +34,7 @@ namespace MS.Katusha.Web.Helpers
             IndexCreation.CreateIndexes(typeof (ProfileCountryFacetIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, RavenStore);
+            IndexCreation.CreateIndexes(typeof(UniqueVisitorsIndex).Assembly, RavenStore);
         }
 
         public static void CreateFacets()

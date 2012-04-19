@@ -73,7 +73,7 @@ namespace MS.Katusha.Web.Models.Entities
 
         [KatushaField("Profile.Age")]
         [ReadOnly(true)]
-        public int? Age { get { return DateTime.Now.Year - BirthYear; } }
+        public int? Age { get { return DateTimeOffset.UtcNow.Year - BirthYear; } }
 
         [KatushaRequired("Profile.Description")]
         [KatushaStringLength("Profile.Description")]

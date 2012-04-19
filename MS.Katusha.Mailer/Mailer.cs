@@ -34,9 +34,9 @@ namespace MS.Katusha.Mailer
                 } 
                 else
                 {
-                    var cachedCreation = (DateTime) cache.Get(templateName);
+                    var cachedCreation = (DateTimeOffset) cache.Get(templateName);
                     var fileName = templateFolder + templateName;
-                    var creation = File.GetLastWriteTime(fileName);
+                    var creation = new DateTimeOffset(File.GetLastWriteTime(fileName));
                     if(cachedCreation != creation)
                         CreateCache<T>(templateName, cache, templateFolder);
                 }
@@ -66,10 +66,10 @@ namespace MS.Katusha.Mailer
         {
             string templateText;
             var fileName = templateFolder + templateName;
-            var creation = File.GetLastWriteTime(fileName);
+            var creation = new DateTimeOffset(File.GetLastWriteTime(fileName));
             using (var reader = new StreamReader(fileName))
                 templateText = reader.ReadToEnd();
-            cache.Add(templateName, creation, DateTime.MaxValue);
+            cache.Add(templateName, creation, DateTimeOffset.MaxValue);
             Razor.Compile<T>(templateText, templateName);
         }
     }

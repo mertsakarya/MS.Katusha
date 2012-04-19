@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -80,8 +81,11 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             ViewBag.KatushaProfile = KatushaProfile;
             if (KatushaProfile != null) {
                 ViewBag.ConversationCount = ConversationService.GetConversationStatistics(KatushaProfile.Id);
-                StateService.Ping(KatushaProfile.Id, (Sex)KatushaProfile.Gender);
-            } else ViewBag.ConversationCount = new ConversationCountResult();
+                ViewBag.NewVisits = StateService.Ping(KatushaProfile.Id, (Sex)KatushaProfile.Gender);
+            } else {
+                ViewBag.ConversationCount = new ConversationCountResult();
+                ViewBag.NewVisits = new NewVisits {LastVisitTime = DateTimeOffset.UtcNow, Visits = new List<UniqueVisitorsResult>()};
+            }
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

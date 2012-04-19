@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 
 namespace MS.Katusha.Interfaces.Repositories
 {
@@ -10,5 +13,7 @@ namespace MS.Katusha.Interfaces.Repositories
     }
     public interface IVisitRepositoryRavenDB : IVisitRepositoryDB, IRavenRepository<Visit>
     {
+        IList<UniqueVisitorsResult> GetVisitorsSinceLastVisit(long profileId, DateTimeOffset lastVisitTime);
+        IList<UniqueVisitorsResult> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
     }
 }

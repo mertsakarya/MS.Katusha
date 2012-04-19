@@ -62,7 +62,6 @@ namespace MS.Katusha.Services
 
 
             if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
-            byte[] data;
             foreach (var suffix in _versions.Keys) {
                 var fileName = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
                 ImageBuilder.Current.Build(hpf, fileName, new ResizeSettings(_versions[suffix]), false, true);

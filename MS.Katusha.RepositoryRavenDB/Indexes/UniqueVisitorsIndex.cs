@@ -10,16 +10,20 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
         public UniqueVisitorsIndex()
         {
             Map = docs => from doc in docs
-                          select new {
-                                         ProfileId = doc.VisitorProfileId,
-                                         Count = doc.VisitCount
-                                     };
+                select new UniqueVisitorsResult {
+                    ProfileId = doc.ProfileId,
+                    VisitorProfileId = doc.VisitorProfileId,
+                    Count = doc.VisitCount,
+                    LastVisitTime = doc.ModifiedDate
+                };
             Reduce = results => from result in results
-                                group result by result.ProfileId into g
-                                select new {
-                                               ProfileId = g.Key,
-                                               Count = g.Sum(x => x.Count)
-                                           };
+                                group result by new {result.ProfileId, result.VisitorProfileId} into g
+                                select new UniqueVisitorsResult {
+                                    ProfileId = g.Key.ProfileId,
+                                    VisitorProfileId = g.Key.VisitorProfileId,
+                                    LastVisitTime = g.Max(x => x.LastVisitTime),
+                                    Count = g.Sum(x => x.Count)
+                                };
         }
     }
 }

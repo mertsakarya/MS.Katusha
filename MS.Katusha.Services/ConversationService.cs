@@ -51,12 +51,12 @@ namespace MS.Katusha.Services
         {
             var messageForRaven = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (messageForRaven == null) return;
-            messageForRaven.ReadDate = DateTime.UtcNow;
+            messageForRaven.ReadDate = DateTimeOffset.UtcNow;
             _conversationRepositoryRaven.FullUpdate(messageForRaven);
 
             var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (message == null) return;
-            message.ReadDate = DateTime.UtcNow;
+            message.ReadDate = DateTimeOffset.UtcNow;
             _conversationRepository.FullUpdate(message);
         }
 

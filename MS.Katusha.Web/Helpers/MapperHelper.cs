@@ -1,49 +1,20 @@
-using System;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
-using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Services;
+using MS.Katusha.Web.Helpers.Converters;
+using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Helpers
 {
-    public class ConversationResultTypeConverter : ITypeConverter<ConversationResult, ConversationResultModel>
-    {
-        private static ConversationResultTypeConverter _instance = null;
-
-        private ConversationResultTypeConverter() {}
-
-        public static ConversationResultTypeConverter GetInstance() { 
-            if (_instance == null) 
-                _instance = new ConversationResultTypeConverter();
-            return _instance;
-        }
-
-        public IProfileService ProfileService { get; set; }
-
-        public ConversationResultModel Convert(ResolutionContext context)
-        {
-            var data = context.SourceValue as ConversationResult;
-            if (data == null) throw new ArgumentNullException();
-            var model = new ConversationResultModel {
-                Count = data.Count,
-                UnreadCount = data.UnreadCount,
-                From = Mapper.Map<ProfileModel>(ProfileService.GetProfile(data.FromId)),
-                To = Mapper.Map<ProfileModel>(ProfileService.GetProfile(data.ToId))
-            };
-            return model;
-        }
-    }
-    
     public static class MapperHelper
     {
 
         public static void HandleMappings()
         {
-            MS.Katusha.Services.Helpers.MapperHelper.HandleMappings();
+            Services.Helpers.MapperHelper.HandleMappings();
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>()
@@ -83,6 +54,8 @@ namespace MS.Katusha.Web.Helpers
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>();
+
+            Mapper.CreateMap<UniqueVisitorsResult, NewVisitModel>().ConvertUsing(UniqueVisitorsResultConverter.GetInstance());
 
         }
     }

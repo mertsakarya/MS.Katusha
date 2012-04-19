@@ -102,9 +102,9 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("Add<{0}>({1})", typeof(T).Name, entity));
 #endif
-            entity.ModifiedDate = DateTime.UtcNow;
+            entity.ModifiedDate = DateTimeOffset.UtcNow;
             entity.CreationDate = entity.ModifiedDate;
-            entity.DeletionDate = new DateTime(1900, 1, 1, 0, 0, 0);
+            entity.DeletionDate = new DateTimeOffset(new DateTime(1900, 1, 1));
             entity.Deleted = false;
             return AddRavenDB(entity);
         }
@@ -114,7 +114,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("FullUpdate<{0}>({1})", typeof(T).Name, entity));
 #endif
-            entity.ModifiedDate = DateTime.UtcNow;
+            entity.ModifiedDate = DateTimeOffset.UtcNow;
             return AddRavenDB(entity);
         }
 
@@ -134,7 +134,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             logger.Info(String.Format("SoftDelete<{0}>({1})", typeof(T).Name, entity));
 #endif
             entity.Deleted = true;
-            entity.DeletionDate = DateTime.UtcNow;
+            entity.DeletionDate = DateTimeOffset.UtcNow;
             return Add(entity);
         }
 

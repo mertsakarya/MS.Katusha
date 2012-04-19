@@ -5,7 +5,7 @@ namespace MS.Katusha.Services.Generators
 {
     public static class GeneratorHelper
     {
-        public static Random RND = new Random((int) DateTime.Now.Ticks & 0x0000FFFF);
+        public static Random RND = new Random((int) DateTimeOffset.UtcNow.Ticks & 0x0000FFFF);
 
         public static int RandomNumber(int min, int max)
         {

@@ -7,6 +7,6 @@ namespace MS.Katusha.Domain.Entities
     {
         public long ProfileId { get; set; }
         public byte Gender { get; set; }
-        public DateTime LastOnline { get; set; }
+        public DateTimeOffset LastOnline { get; set; }
     }
 }

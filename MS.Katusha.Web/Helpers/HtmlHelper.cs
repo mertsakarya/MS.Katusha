@@ -28,6 +28,24 @@ namespace MS.Katusha.Web.Helpers
             return realModelType;
         }
 
+        public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTimeOffset dateTimeOffset)
+        {
+            var year = dateTimeOffset.Year;
+            var month = dateTimeOffset.Month;
+            var day = dateTimeOffset.Day;
+            var hour = dateTimeOffset.Hour;
+            var minute = dateTimeOffset.Minute;
+            var second = dateTimeOffset.Second;
+            return String.Format("{0}{1}{2}{3}{4}{5}",
+                                 year,
+                                 (month < 10) ? "0" + month: month.ToString(CultureInfo.InvariantCulture),
+                                 (day < 10) ? "0" + day: day.ToString(CultureInfo.InvariantCulture),
+                                 (hour < 10) ? "0" + hour: hour.ToString(CultureInfo.InvariantCulture),
+                                 (minute < 10) ? "0" + minute: minute.ToString(CultureInfo.InvariantCulture),
+                                 (second < 10) ? "0" + second:second.ToString(CultureInfo.InvariantCulture)
+                                 );
+        }
+
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
             var fi = value.GetType().GetField(value.ToString());
@@ -157,7 +175,7 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTimeOffset.UtcNow.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
             var url = "/Profiles/Show/" + val;
             var anchor = new TagBuilder("a");
             anchor.Attributes.Add("title", title);

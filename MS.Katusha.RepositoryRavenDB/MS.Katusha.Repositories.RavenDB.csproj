@@ -78,7 +78,6 @@
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationCountIndex.cs" />
-    <Compile Include="Indexes\VisitorsSinceLastVisitIndex.cs" />
     <Compile Include="StateRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationIndex.cs" />
     <Compile Include="Indexes\ProfileCountryFacetIndex.cs" />
@@ -108,9 +107,6 @@
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
       <Name>MS.Katusha.Interfaces.Repositories</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

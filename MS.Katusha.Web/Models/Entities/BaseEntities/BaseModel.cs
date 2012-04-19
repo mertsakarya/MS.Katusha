@@ -9,8 +9,8 @@ namespace MS.Katusha.Web.Models.Entities.BaseEntities
         public long Id { get; set; }
 
  
-        public DateTime ModifiedDate { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTimeOffset ModifiedDate { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
 
         public override string ToString()
         {

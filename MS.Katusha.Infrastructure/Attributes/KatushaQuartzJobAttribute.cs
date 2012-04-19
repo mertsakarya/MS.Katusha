@@ -16,7 +16,7 @@ namespace MS.Katusha.Infrastructure.Attributes
                 var rm = new ResourceManager();
                 TriggerName = value + "Trigger";
                 JobName = value;
-                StartTimeUtc = DateTime.UtcNow;
+                StartTimeUtc = DateTimeOffset.UtcNow;
                 EndTimeUtc = null;
                 var val = rm._C(value);
                 CronExpression = val;

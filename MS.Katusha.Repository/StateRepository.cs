@@ -6,8 +6,6 @@ using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
-using MS.Katusha.Repositories.DB.Base;
-
 
 namespace MS.Katusha.Repositories.DB
 {
@@ -29,15 +27,19 @@ namespace MS.Katusha.Repositories.DB
             return entity;
         }
 
-        public void UpdateStatus(long profileId, Sex gender)
+        public DateTimeOffset UpdateStatus(long profileId, Sex gender)
         {
             var state = _dbContext.States.FirstOrDefault(p => p.ProfileId == profileId);
+            DateTimeOffset retVal;
             if (state == null) {
-                _dbContext.States.Add(new State() {Gender = (byte)gender, ProfileId = profileId, LastOnline = DateTime.UtcNow});
+                retVal = new DateTimeOffset(new DateTime(1900, 1, 1));
+                _dbContext.States.Add(new State { Gender = (byte)gender, ProfileId = profileId, LastOnline = DateTimeOffset.UtcNow });
             } else {
-                state.LastOnline = DateTime.UtcNow;
+                retVal = state.LastOnline;
+                state.LastOnline = DateTimeOffset.UtcNow;
             }
             _dbContext.SaveChanges();
+            return retVal;
         }
 
         public IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending)

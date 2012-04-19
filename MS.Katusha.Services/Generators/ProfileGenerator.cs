@@ -70,7 +70,7 @@ namespace MS.Katusha.Services.Generators
             if (extra == 0) {
                 var photoCount = GeneratorHelper.RND.Next(4);
                 if (photoCount > 0) {
-                    var root = HttpContext.Current.Server.MapPath(@"~\"); //ConfigurationManager.AppSettings["Root_Folder"];
+                    var root = HttpContext.Current.Server.MapPath(@"~\");
                     var samples = root + "Images\\SamplePhotos\\" + ((Sex) profile.Gender).ToString() + "\\";
                     for (var i = 1; i <= photoCount; i++) {
                         var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";

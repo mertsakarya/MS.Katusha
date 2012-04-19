@@ -1,14 +1,11 @@
 @using MS.Katusha.Enumerations
-@model MS.Katusha.Web.Models.PagedListModel<MS.Katusha.Web.Models.NewVisitModel>
-@{ 
-    ViewBag.Title = "Visitors";
-    var action = ViewContext.RouteData.Values["Action"].ToString();
-}
+@model MS.Katusha.Web.Models.NewVisitsModel
+@{ ViewBag.Title = "New Visits"; }
 
-<h2>Visitors ( @Model.Total )</h2>
+<h2>New Visitors ( @Model.Visits.Count ) since @Model.LastVisitTime.ToLocalTime().</h2>
 
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-    @foreach (var visit in Model.List) {
+    @foreach (var visit in Model.Visits) {
         var profile = visit.VisitorProfile;
         var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
         var date = visit.LastVisitTime.ToLocalTime();
@@ -34,8 +31,6 @@
     }
 </div>
 
-@Html.PagedListPager(Model.List, key => Url.Action(action, new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-
 <div>
-    @Html.ActionLink("Back to List", action)
+    @Html.ActionLink("View all visitors", "Index", "Visitor", null, null)
 </div>

@@ -19,7 +19,7 @@ namespace MS.Katusha.Domain.Entities
         [MaxLength(255)]
         public string Subject { get; set; }
 
-        public DateTime ReadDate { get; set; }
+        public DateTimeOffset ReadDate { get; set; }
 
         public override string ToString()
         {

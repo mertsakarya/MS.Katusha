@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 
@@ -45,17 +46,19 @@ namespace MS.Katusha.Services
             }
         }
 
-        public IEnumerable<Visit> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        public IList<UniqueVisitorsResult> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
-            var items = _visitRepositoryRaven.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.ModifiedDate, false);
-            var profile = _profileRepositoryRaven.GetById(profileId);
-            foreach(var item in items) {
-                var visitorProfile = _profileRepositoryRaven.GetById(item.VisitorProfileId);
-                item.Profile = profile;
-                item.VisitorProfile = visitorProfile;
-            }
-            //var items = _visitRepository.Query(p => p.ProfileId == profileId, pageNo, pageSize, out total, o => o.ModifiedDate, false, p => p.VisitorProfile);
+            var items = _visitRepositoryRaven.GetVisitors(profileId, out total, pageNo, pageSize);
             return items;
+        }
+
+
+        public NewVisits GetVisitorsSinceLastVisit(long profileId, DateTimeOffset lastVisitTime)
+        {
+            DateTimeOffset lvt = lastVisitTime - new TimeSpan(0, 0, 5, 0);
+            var visits = _visitRepositoryRaven.GetVisitorsSinceLastVisit(profileId, lvt);
+            var newVisits = new NewVisits { LastVisitTime = lastVisitTime, Visits = visits };
+            return newVisits;
         }
 
         public IList<string> RestoreFromDB(Expression<Func<Visit, bool>> filter, bool deleteIfExists = false)
