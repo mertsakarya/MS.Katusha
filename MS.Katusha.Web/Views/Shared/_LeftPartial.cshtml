@@ -6,7 +6,7 @@
     var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant();
     var actionName = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant();
     <ul>
-        @Html.Partial("_New")<hr/>
+        @Html.Partial("_New")
         @Html.Partial("_Online")
         <hr/>
         @if (profile != null) {

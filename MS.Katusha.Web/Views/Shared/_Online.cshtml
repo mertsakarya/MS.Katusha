@@ -1,11 +1,12 @@
 ﻿@using MS.Katusha.Enumerations
 @{ var profiles = ViewBag.KatushaOnlineProfiles as IEnumerable<ProfileModel>; }
 @if (profiles != null) {
-    <span>Online Users</span>
+    <hr/>
+    <h3>Online Users</h3>
     <div id="onlinegallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         @foreach (var profile in profiles) {
             @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "onlinegallery", true)
         }
     </div>
-    @Html.ActionLink("More...", "Online", "Profiles");
+    @Html.ActionLink("More...", "Online", "Profiles", null, new {style="font-weight:bold" });
 }

@@ -6,25 +6,26 @@
     var conversationCount = ViewBag.ConversationCount as ConversationCountResult;
     var newVisits = ViewBag.NewVisits as NewVisits;
     var name = (profile != null) ? profile.Name : User.Identity.Name;
-    <div><table><tr>
-    @if (newVisits != null && newVisits.Visits != null && newVisits.Visits.Count > 0) {
-        <td>
-            <a href="@Url.Action("NewVisits", "Visitor", new { key = Html.GetUrlFriendlyDateTime(newVisits.LastVisitTime) })" title="@String.Format("{0} visitors.", newVisits.Visits.Count)">
-                <img src="/Images/view.gif" /><br/>
-                <b>@newVisits.Visits.Count </b> visitors
-            </a>
-        </td>
-    }
+    <div style="float:right">
+        @if (newVisits != null && newVisits.Visits != null && newVisits.Visits.Count > 0) {
+            <div style="float:right; border:1px #f0f0f0 solid">
+                <a style="background-color: fff;" href="@Url.Action("NewVisits", "Visitor", new { key = Html.GetUrlFriendlyDateTime(newVisits.LastVisitTime) })" title="@String.Format("{0} visitors.", newVisits.Visits.Count)">
+                    <img src="/Images/view.gif" /><br/>
+                    <b>@newVisits.Visits.Count </b> visitors
+                </a>
+            </div>
+        }
 
-    @if (conversationCount != null && conversationCount.UnreadCount > 0) {
-        <td>
-            <a href="@Url.Action("Conversations", "Messages", new { key = 1 })" title="@String.Format("{0}/{1}", conversationCount.UnreadCount, conversationCount.Count)">
-                <img src="/Images/mail.jpg" /><br/>
-                <b>@conversationCount.UnreadCount</b> / @conversationCount.Count
-            </a>
-        </td>
-    }
-    </tr></table></div>
+        @if (conversationCount != null && conversationCount.UnreadCount > 0) {
+            <div style="float:right; border:1px #f0f0f0 solid">
+                <a style="background-color: fff;"  href="@Url.Action("Conversations", "Messages", new { key = 1 })" title="@String.Format("{0}/{1}", conversationCount.UnreadCount, conversationCount.Count)">
+                    <img src="/Images/mail.jpg" /><br/>
+                    <b>@conversationCount.UnreadCount</b> / @conversationCount.Count
+                </a>
+            </div>
+        }
+    </div>
+    <br style="clear:both"/>
     <p>
         Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
         @Html.ActionLink("Log off", "LogOff", "Account")
@@ -49,7 +50,14 @@
                     var uid = response.authResponse.userID;
                     var accessToken = response.authResponse.accessToken;
                     @if (Session["AccessToken"] == null) {
-                        <text>$.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) { document.getElementById("fbResult").innerHTML = (textStatus);});</text>
+                        <text>
+                            $.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) {
+                                document.getElementById("fbResult").innerHTML = (textStatus);
+                                FB.api('/me', function(response) { 
+                                    alert('Welcome, '+response.name+"!"); 
+                                });
+                            });
+                        </text>
                     }
                 } else if (response.status === 'not_authorized') {
                     // the user is logged in to Facebook, 

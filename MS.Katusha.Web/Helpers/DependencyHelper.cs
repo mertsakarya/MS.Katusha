@@ -1,4 +1,3 @@
-using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -20,8 +19,7 @@ namespace MS.Katusha.Web.Helpers
     public static class DependencyHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public const int GlobalPageSize = 15;
-        public static readonly string RootFolder = HttpContext.Current.Server.MapPath(@"~\");
+        public const int GlobalPageSize = 40;
         public static IContainer Container;
         public static void RegisterDependencies()
         {

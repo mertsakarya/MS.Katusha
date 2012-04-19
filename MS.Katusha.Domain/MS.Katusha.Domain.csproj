@@ -82,10 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>

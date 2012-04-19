@@ -12,7 +12,7 @@
     if (item == null) { continue; }
     var from = item.From.Name;
     var to = item.To.Name;
-    <li>@Html.ActionLink(String.Format("{0} ({1} - {2})",from, item.Count, item.UnreadCount), "List", "Messages", new {key = Html.KeyFor(item.From)}, null) 
+    <li>@Html.ActionLink(String.Format("{0} ({1} - {2})", from, item.UnreadCount, item.Count), "List", "Messages", new { key = Html.KeyFor(item.From) }, null) 
     </li>
 }
 

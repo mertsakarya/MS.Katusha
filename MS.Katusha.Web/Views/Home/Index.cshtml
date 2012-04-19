@@ -12,7 +12,7 @@
     @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
 }
 </div>
-
+<hr style="clear: both"/>
 @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 
 <div>
