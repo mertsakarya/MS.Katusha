@@ -19,7 +19,7 @@ namespace MS.Katusha.Repositories.RavenDB
         {
         }
 
-        public IList<UniqueVisitorsResult> GetVisitorsSinceLastVisit(long profileId, DateTimeOffset lastVisitTime)
+        public IList<UniqueVisitorsResult> GetVisitorsSinceLastVisit(long profileId, DateTime lastVisitTime)
         {
             using (var session = DocumentStore.OpenSession()) {
                 try {

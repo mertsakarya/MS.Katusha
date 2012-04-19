@@ -84,7 +84,7 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
                 ViewBag.NewVisits = StateService.Ping(KatushaProfile.Id, (Sex)KatushaProfile.Gender);
             } else {
                 ViewBag.ConversationCount = new ConversationCountResult();
-                ViewBag.NewVisits = new NewVisits {LastVisitTime = DateTimeOffset.UtcNow, Visits = new List<UniqueVisitorsResult>()};
+                ViewBag.NewVisits = new NewVisits {LastVisitTime = DateTime.Now, Visits = new List<UniqueVisitorsResult>()};
             }
         }
 

@@ -57,14 +57,14 @@ namespace MS.Katusha.Repositories.RavenDB
             }
 
         }
-        public DateTimeOffset UpdateStatus(long profileId, Sex gender)
+        public DateTime UpdateStatus(long profileId, Sex gender)
         {
-            var entity = new State {Id = profileId, ProfileId = profileId, Gender = (byte) gender, LastOnline = DateTimeOffset.UtcNow};
+            var entity = new State {Id = profileId, ProfileId = profileId, Gender = (byte) gender, LastOnline = DateTime.Now};
             using (var session = _documentStore.OpenSession()) {
                 session.Store(entity);
                 session.SaveChanges();
             }
-            return new DateTimeOffset(new DateTime(1900, 1, 1));
+            return new DateTime(1900, 1, 1);
         }
     }
 }

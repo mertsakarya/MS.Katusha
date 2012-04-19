@@ -31,27 +31,27 @@ namespace MS.Katusha.Services
 
         public bool IsOnline(long profileId) { 
             var state = _stateRepositoryRaven.GetById(profileId);
-            var diff = DateTimeOffset.UtcNow - state.LastOnline;
+            var diff = DateTime.Now - state.LastOnline;
             return ( diff < OnlineInterval);
         }
 
         public IEnumerable<State> OnlineGirls(out int total, int pageNo = 1, int pageSize = 20)
         {
-            var dt = DateTimeOffset.UtcNow - OnlineInterval;
+            var dt = DateTime.Now - OnlineInterval;
             var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt && p.Gender == (byte)Sex.Female, pageNo, pageSize, out total, p => p.LastOnline, false);
             //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt && p.Gender == (byte)Sex.Female);
             return retval;
         }
         public IEnumerable<State> OnlineMen(out int total, int pageNo = 1, int pageSize = 20)
         {
-            var dt = DateTimeOffset.UtcNow - OnlineInterval;
+            var dt = DateTime.Now - OnlineInterval;
             var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt && p.Gender == (byte)Sex.Male, pageNo, pageSize, out total, p => p.LastOnline, false);
             //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt && p.Gender == (byte)Sex.Male);
             return retval;
         }
         public IEnumerable<State> OnlineProfiles(out int total, int pageNo = 1, int pageSize = 20)
         {
-            var dt = DateTimeOffset.UtcNow - OnlineInterval;
+            var dt = DateTime.Now - OnlineInterval;
             var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt, pageNo, pageSize, out total, p => p.LastOnline, false);
             //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt);
             return retval;

@@ -53,9 +53,9 @@ namespace MS.Katusha.Services
         }
 
 
-        public NewVisits GetVisitorsSinceLastVisit(long profileId, DateTimeOffset lastVisitTime)
+        public NewVisits GetVisitorsSinceLastVisit(long profileId, DateTime lastVisitTime)
         {
-            DateTimeOffset lvt = lastVisitTime - new TimeSpan(0, 0, 5, 0);
+            var lvt = lastVisitTime - new TimeSpan(0, 0, 5, 0);
             var visits = _visitRepositoryRaven.GetVisitorsSinceLastVisit(profileId, lvt);
             var newVisits = new NewVisits { LastVisitTime = lastVisitTime, Visits = visits };
             return newVisits;

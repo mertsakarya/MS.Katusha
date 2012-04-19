@@ -21,7 +21,7 @@ namespace MS.Katusha.Jobs.JobDetails
         public void Execute(IJobExecutionContext context)
         {
             var profile = _profileService.GetProfile(1);
-            Debug.WriteLine("Hello at " + profile.Name + DateTimeOffset.UtcNow.DateTime.ToLocalTime().ToString(CultureInfo.InvariantCulture));
+            Debug.WriteLine("Hello at " + profile.Name + DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
     }
     [KatushaQuartzJob(ResourceString = "HelloWorld2Job")]
@@ -38,7 +38,7 @@ namespace MS.Katusha.Jobs.JobDetails
         public void Execute(IJobExecutionContext context)
         {
             var profile = _profileService.GetProfile(1);
-            Debug.WriteLine("Hello2 at " + profile.Name + DateTimeOffset.UtcNow.DateTime.ToLocalTime().ToString(CultureInfo.InvariantCulture));
+            Debug.WriteLine("Hello2 at " + profile.Name + DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
     }  
 }

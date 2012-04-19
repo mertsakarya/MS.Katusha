@@ -11,17 +11,17 @@
     @foreach (var visit in Model.List) {
         var profile = visit.VisitorProfile;
         var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-        var date = visit.LastVisitTime.ToLocalTime();
-        var now = DateTimeOffset.UtcNow.ToLocalTime();
+        var date = visit.LastVisitTime;
+        var now = DateTime.Now;
         var dateString = "";
         if (now.Day == date.Day && now.Month == date.Month && now.Year == date.Year) {
-            dateString = date.DateTime.ToShortTimeString();
+            dateString = date.ToShortTimeString();
         } else {
-            dateString = date.DateTime.ToShortDateString();
+            dateString = date.ToShortDateString();
         }
         <div class="gallery-item" style="display: inline-block;" >
             <div class="bar">
-                <a title="@(profile.Name + " - " + (DateTimeOffset.UtcNow.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
+                <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
                     @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
                 </a>
                 <div style="border: 1 solid">

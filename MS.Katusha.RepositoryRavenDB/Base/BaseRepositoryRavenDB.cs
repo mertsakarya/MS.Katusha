@@ -8,7 +8,7 @@ using MS.Katusha.Interfaces.Repositories;
 using NLog;
 using Raven.Abstractions.Data;
 using Raven.Client;
-
+using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
@@ -20,10 +20,10 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         protected IDocumentStore DocumentStore { get; private set; }
 
-        private IQueryable<T> QueryableRepository(bool withTracking = false)
+        private IQueryable<T> QueryableRepository(out RavenQueryStatistics stats, bool withTracking = false)
         {
             using (var session = DocumentStore.OpenSession()) {
-                return withTracking ? session.Query<T>().Where(p => p.Deleted == false).AsQueryable() : session.Query<T>().Where(p => p.Deleted == false).AsQueryable().AsNoTracking();
+                return withTracking ? Queryable.Where(session.Query<T>().Statistics(out stats), p => p.Deleted == false).AsQueryable() : Queryable.Where(session.Query<T>().Statistics(out stats), p => p.Deleted == false).AsQueryable().AsNoTracking();
             }
         }
 
@@ -34,25 +34,28 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public IQueryable<T> GetAll()
         {
-            return QueryableRepository();
+            RavenQueryStatistics stats;
+            return QueryableRepository(out stats);
         }
 
         public IQueryable<T> GetAll(int pageNo, int pageSize)
         {
             if (pageNo < 1) return GetAll();
-            return QueryableRepository().Skip((pageNo - 1) * pageSize).Take(pageSize);
+            RavenQueryStatistics stats;
+            return QueryableRepository(out stats).Skip((pageNo - 1) * pageSize).Take(pageSize);
         }
 
-        private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter, bool withTracking = false)
+        private IQueryable<T> QueryHelper(Expression<Func<T, bool>> filter, out RavenQueryStatistics stats, bool withTracking = false)
         {
-            var queryable = QueryableRepository(withTracking);
+            var queryable = QueryableRepository(out stats, withTracking);
             if (filter != null) queryable = queryable.Where(filter);
             return queryable;
         }
 
         public IQueryable<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            IQueryable<T> q = QueryHelper(filter);
+            RavenQueryStatistics stats;
+            IQueryable<T> q = QueryHelper(filter, out stats);
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2})", typeof(T).Name, filter, orderByClause));
@@ -62,8 +65,9 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public IQueryable<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            IQueryable<T> q = QueryHelper(filter);
-            total = q.Count();
+            RavenQueryStatistics stats;
+            IQueryable<T> q = QueryHelper(filter, out stats);
+            total = stats.TotalResults;
             if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
 #if DEBUG
             logger.Info(String.Format("Query<{0}>({1}, {2}, {3}, {4})", typeof(T).Name, filter, pageNo, pageSize, orderByClause));
@@ -76,7 +80,8 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("Single<{0}>({1})", typeof(T), filter));
 #endif   
-            return QueryHelper(filter).FirstOrDefault();
+            RavenQueryStatistics stats;
+            return QueryHelper(filter, out stats).FirstOrDefault();
         }
 
         public T SingleAttached(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams)
@@ -84,7 +89,8 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("SingleAttached<{0}>({1})", typeof(T).Name, filter));
 #endif
-            return QueryHelper(filter, true).FirstOrDefault();
+            RavenQueryStatistics stats;
+            return QueryHelper(filter, out stats, true).FirstOrDefault();
         }
 
         private T AddRavenDB(T entity)
@@ -102,9 +108,9 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("Add<{0}>({1})", typeof(T).Name, entity));
 #endif
-            entity.ModifiedDate = DateTimeOffset.UtcNow;
+            entity.ModifiedDate = DateTime.Now;
             entity.CreationDate = entity.ModifiedDate;
-            entity.DeletionDate = new DateTimeOffset(new DateTime(1900, 1, 1));
+            entity.DeletionDate = new DateTime(1900, 1, 1);
             entity.Deleted = false;
             return AddRavenDB(entity);
         }
@@ -114,7 +120,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("FullUpdate<{0}>({1})", typeof(T).Name, entity));
 #endif
-            entity.ModifiedDate = DateTimeOffset.UtcNow;
+            entity.ModifiedDate = DateTime.Now;
             return AddRavenDB(entity);
         }
 
@@ -134,7 +140,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             logger.Info(String.Format("SoftDelete<{0}>({1})", typeof(T).Name, entity));
 #endif
             entity.Deleted = true;
-            entity.DeletionDate = DateTimeOffset.UtcNow;
+            entity.DeletionDate = DateTime.Now;
             return Add(entity);
         }
 

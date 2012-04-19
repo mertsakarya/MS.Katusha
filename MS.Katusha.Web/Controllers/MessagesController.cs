@@ -89,7 +89,7 @@ namespace MS.Katusha.Web.Controllers
             data.FromGuid = KatushaProfile.Guid;
             data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
 
-            data.ReadDate = new DateTimeOffset(new DateTime(1900, 1, 1));
+            data.ReadDate = new DateTime(1900, 1, 1);
             _conversationService.SendMessage(data);
             return RedirectToAction("Conversations");
         }

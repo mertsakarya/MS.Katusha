@@ -5,7 +5,7 @@ namespace MS.Katusha.Enumerations
 {
     public class AgeHelper
     {
-        private static readonly int Year = DateTimeOffset.UtcNow.Year;
+        private static readonly int Year = DateTime.Now.Year;
 
         public static readonly int[][] Array = new [] {
                                                         new[] {00, 17},

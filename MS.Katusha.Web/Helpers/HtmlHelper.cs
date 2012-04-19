@@ -28,14 +28,14 @@ namespace MS.Katusha.Web.Helpers
             return realModelType;
         }
 
-        public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTimeOffset dateTimeOffset)
+        public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTime dateTime)
         {
-            var year = dateTimeOffset.Year;
-            var month = dateTimeOffset.Month;
-            var day = dateTimeOffset.Day;
-            var hour = dateTimeOffset.Hour;
-            var minute = dateTimeOffset.Minute;
-            var second = dateTimeOffset.Second;
+            var year = dateTime.Year;
+            var month = dateTime.Month;
+            var day = dateTime.Day;
+            var hour = dateTime.Hour;
+            var minute = dateTime.Minute;
+            var second = dateTime.Second;
             return String.Format("{0}{1}{2}{3}{4}{5}",
                                  year,
                                  (month < 10) ? "0" + month: month.ToString(CultureInfo.InvariantCulture),
@@ -175,7 +175,7 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTimeOffset.UtcNow.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
             var url = "/Profiles/Show/" + val;
             var anchor = new TagBuilder("a");
             anchor.Attributes.Add("title", title);

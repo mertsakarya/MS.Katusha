@@ -9,6 +9,6 @@ namespace MS.Katusha.Interfaces.Services
     {
         void Visit(Profile visitorProfile, Profile profile);
         IList<UniqueVisitorsResult> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
-        NewVisits GetVisitorsSinceLastVisit(long profileId, DateTimeOffset lastVisit);
+        NewVisits GetVisitorsSinceLastVisit(long profileId, DateTime lastVisit);
     }
 }

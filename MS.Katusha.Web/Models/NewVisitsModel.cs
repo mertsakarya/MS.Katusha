@@ -6,6 +6,6 @@ namespace MS.Katusha.Web.Models
     public class NewVisitsModel
     {
         public IList<NewVisitModel> Visits { get; set; }
-        public DateTimeOffset LastVisitTime { get; set; }
+        public DateTime LastVisitTime { get; set; }
     }
 }

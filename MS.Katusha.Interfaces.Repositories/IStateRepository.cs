@@ -10,7 +10,7 @@ namespace MS.Katusha.Interfaces.Repositories
     {
         State GetById(long profileId);
         State Delete(State state);
-        DateTimeOffset UpdateStatus(long profileId, Sex gender);
+        DateTime UpdateStatus(long profileId, Sex gender);
         IQueryable<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending);
         int Count(Expression<Func<State, bool>> filter);
     }

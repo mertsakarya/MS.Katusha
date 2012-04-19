@@ -27,16 +27,16 @@ namespace MS.Katusha.Repositories.DB
             return entity;
         }
 
-        public DateTimeOffset UpdateStatus(long profileId, Sex gender)
+        public DateTime UpdateStatus(long profileId, Sex gender)
         {
             var state = _dbContext.States.FirstOrDefault(p => p.ProfileId == profileId);
-            DateTimeOffset retVal;
+            DateTime retVal;
             if (state == null) {
-                retVal = new DateTimeOffset(new DateTime(1900, 1, 1));
-                _dbContext.States.Add(new State { Gender = (byte)gender, ProfileId = profileId, LastOnline = DateTimeOffset.UtcNow });
+                retVal = new DateTime(1900, 1, 1);
+                _dbContext.States.Add(new State { Gender = (byte)gender, ProfileId = profileId, LastOnline = DateTime.Now });
             } else {
                 retVal = state.LastOnline;
-                state.LastOnline = DateTimeOffset.UtcNow;
+                state.LastOnline = DateTime.Now;
             }
             _dbContext.SaveChanges();
             return retVal;

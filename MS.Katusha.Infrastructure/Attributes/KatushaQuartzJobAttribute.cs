@@ -16,7 +16,7 @@ namespace MS.Katusha.Infrastructure.Attributes
                 var rm = new ResourceManager();
                 TriggerName = value + "Trigger";
                 JobName = value;
-                StartTimeUtc = DateTimeOffset.UtcNow;
+                StartTimeUtc = DateTime.Now;
                 EndTimeUtc = null;
                 var val = rm._C(value);
                 CronExpression = val;
@@ -30,8 +30,8 @@ namespace MS.Katusha.Infrastructure.Attributes
         public string TriggerGroup { get; set; }
         public string JobName { get; set; }
         public string JobGroup { get; set; }
-        public DateTimeOffset StartTimeUtc { get; set; }
-        public DateTimeOffset? EndTimeUtc { get; set; }
+        public DateTime StartTimeUtc { get; set; }
+        public DateTime? EndTimeUtc { get; set; }
         public string CronExpression { get; set; }
         public int IntervalSeconds { get; set; }
         public bool Enabled { get; set; }

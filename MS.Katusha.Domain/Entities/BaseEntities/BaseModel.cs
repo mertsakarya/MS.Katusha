@@ -4,9 +4,9 @@ namespace MS.Katusha.Domain.Entities.BaseEntities
 {
     public abstract class BaseModel : IdModel
     {
-        public DateTimeOffset ModifiedDate { get; set; }
-        public DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset DeletionDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime DeletionDate { get; set; }
         public bool Deleted { get; set; }
 
         public override string ToString()

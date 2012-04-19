@@ -8,6 +8,6 @@ namespace MS.Katusha.Web.Models
         public ProfileModel Profile { get; set; }
         public ProfileModel VisitorProfile { get; set; }
         public int Count { get; set; }
-        public DateTimeOffset LastVisitTime { get; set; }
+        public DateTime LastVisitTime { get; set; }
     }
 }

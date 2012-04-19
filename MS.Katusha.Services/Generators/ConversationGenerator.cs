@@ -35,9 +35,9 @@ namespace MS.Katusha.Services.Generators
             if (extra > 0) _total = extra;
             var message = new Conversation {Message = GeneratorHelper.RandomString(300, false), Subject = GeneratorHelper.RandomString(50, true)};
             if (GeneratorHelper.RND.Next(10) < 7)
-                message.ReadDate = DateTimeOffset.UtcNow;
+                message.ReadDate = DateTime.Now;
             else {
-                message.ReadDate = new DateTimeOffset(new DateTime(1900, 1, 1, 0, 0, 0));
+                message.ReadDate = new DateTime(1900, 1, 1);
             }
             var num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var from = _profiles[num];

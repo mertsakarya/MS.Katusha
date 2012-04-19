@@ -58,12 +58,12 @@ namespace MS.Katusha.Web.Controllers
                     int.Parse(key.Substring(10,2)),
                     int.Parse(key.Substring(12,2))
                     ); //.ToUniversalTime();
-                var dateTimeOffset = new DateTimeOffset(dateTime, TimeSpan.Zero);
-                visits = _visitService.GetVisitorsSinceLastVisit(KatushaProfile.Id, dateTimeOffset);
+                //var dateTimeOffset = new DateTimeOffset(dateTime, TimeSpan.Zero);
+                visits = _visitService.GetVisitorsSinceLastVisit(KatushaProfile.Id, dateTime);
                 var instance = UniqueVisitorsResultConverter.GetInstance();
                 instance.ProfileService = ProfileService;
             } catch {
-                visits = new NewVisits() {LastVisitTime = DateTimeOffset.UtcNow, Visits = new List<UniqueVisitorsResult>()};
+                visits = new NewVisits {LastVisitTime = DateTime.Now, Visits = new List<UniqueVisitorsResult>()};
             }
             var model = new NewVisitsModel {
                 LastVisitTime = visits.LastVisitTime,

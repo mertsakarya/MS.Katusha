@@ -51,7 +51,7 @@ namespace MS.Katusha.Jobs
             ITrigger trigger;
             try {
                 if (quartzJobAttribute.IntervalSeconds != 0) {
-                    trigger = new SimpleTriggerImpl(quartzJobAttribute.TriggerName, quartzJobAttribute.TriggerGroup, DateTime.UtcNow, null, int.MaxValue, new TimeSpan(0, 0, 0, quartzJobAttribute.IntervalSeconds));
+                    trigger = new SimpleTriggerImpl(quartzJobAttribute.TriggerName, quartzJobAttribute.TriggerGroup, DateTime.Now, null, int.MaxValue, new TimeSpan(0, 0, 0, quartzJobAttribute.IntervalSeconds));
                 } else {
                     trigger = new CronTriggerImpl(
                         quartzJobAttribute.TriggerName,
