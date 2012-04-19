@@ -53,8 +53,8 @@
                         <text>
                             $.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) {
                                 document.getElementById("fbResult").innerHTML = (textStatus);
-                                FB.api('/me', function(response) { 
-                                    alert('Welcome, '+response.name+"!"); 
+                                FB.api('/me?access_token=' + accessToken, function(response) { 
+                                    alert('Welcome, ' + response.name+"!"); 
                                 });
                             });
                         </text>
