@@ -54,6 +54,7 @@ namespace MS.Katusha.Web.Helpers
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>();
+            Mapper.CreateMap<FacebookProfileModel, Profile>();
 
             Mapper.CreateMap<UniqueVisitorsResult, NewVisitModel>().ConvertUsing(UniqueVisitorsResultConverter.GetInstance());
 

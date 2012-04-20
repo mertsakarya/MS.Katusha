@@ -1,6 +1,5 @@
 ﻿@using MS.Katusha.Domain.Entities
 @using MS.Katusha.Domain.Raven.Entities
-<span id="fbResult" style="color:#800000">FB</span>
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
     var conversationCount = ViewBag.ConversationCount as ConversationCountResult;
@@ -18,7 +17,7 @@
 
         @if (conversationCount != null && conversationCount.UnreadCount > 0) {
             <div style="float:right; border:1px #f0f0f0 solid">
-                <a style="background-color: fff;"  href="@Url.Action("Conversations", "Messages", new { key = 1 })" title="@String.Format("{0}/{1}", conversationCount.UnreadCount, conversationCount.Count)">
+                <a style="background-color: #f0f0f0;"  href="@Url.Action("Conversations", "Messages", new { key = 1 })" title="@String.Format("{0}/{1}", conversationCount.UnreadCount, conversationCount.Count)">
                     <img src="/Images/mail.jpg" /><br/>
                     <b>@conversationCount.UnreadCount</b> / @conversationCount.Count
                 </a>
@@ -28,8 +27,35 @@
     <br style="clear:both"/>
     <p>
         Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
-        @Html.ActionLink("Log off", "LogOff", "Account")
+        <a href="#" onclick="logoff();">Log off</a>
     </p>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '405781396117619', // App ID
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+        };
+        $('#fbLogout').click(function () { logoff(); });
+
+        function logoff() {
+            var url = '@Url.Action("LogOff", "Account")';
+            if (FB)
+                try {
+                    window.location = url;
+                    FB.logout(function(response) { window.location = url; });
+                } catch (e) {
+                    window.location = url;
+                }
+            else 
+                window.location = url;            
+        }
+        
+    </script>
+    
 } else {
     @*
     https://developers.facebook.com/apps/405781396117619/auth
@@ -44,21 +70,26 @@
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML
             });
-            
+
             FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
                     var uid = response.authResponse.userID;
                     var accessToken = response.authResponse.accessToken;
-                    @if (Session["AccessToken"] == null) {
-                        <text>
-                            $.post('/Account/FacebookLogin', { 'accessToken': accessToken, uid : uid}, function(data, textStatus) {
-                                document.getElementById("fbResult").innerHTML = (textStatus);
-                                FB.api('/me?access_token=' + accessToken, function(response) { 
-                                    alert('Welcome, ' + response.name+"!"); 
-                                });
-                            });
-                        </text>
-                    }
+                    $.post('/Account/FacebookLogin?dummy=' + Math.random(), {
+                        'accessToken': accessToken,
+                        uid: uid
+                    }, function (data, textStatus) {
+                        if (data) {
+                            if (data.status == "ok") {
+                                location = data.url;
+                            } else if (data.status == "new") {
+                                if (!(location.href.indexOf('Profiles') > 0 && location.href.indexOf('Facebook') > 0))
+                                    $('#facebookRegisterLink').click();
+                            }
+                        } else {
+                            document.getElementById("fbResult").innerHTML = "Facebook Error";
+                        }
+                    });
                 } else if (response.status === 'not_authorized') {
                     // the user is logged in to Facebook, 
                     // but has not authenticated your app
@@ -79,8 +110,11 @@
     </script>
     
     <ul>
+        <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1" style="width:70px; float:right; position: relative; display: inline-block;"></div></li>
+        <li style="display:none;">@Html.ActionLink("Register Facebook", "Facebook", "Account", routeValues: null, htmlAttributes: new { id = "facebookRegisterLink", data_dialog_title = "Facebook Registration" })</li>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
-        <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div></li>
+        <li><span id="fbResult" style="color:#800000"></span>
+</li>
     </ul>
 }

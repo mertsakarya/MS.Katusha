@@ -230,8 +230,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BaseControllers\KatushaController.cs" />
-    <Compile Include="Controllers\BaseControllers\LookupListProcessor.cs" />
+    <Compile Include="Controllers\KatushaController.cs" />
+    <Compile Include="Helpers\LookupListProcessor.cs" />
     <Compile Include="Controllers\UtilitiesController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\VisitorController.cs" />
@@ -251,13 +251,14 @@
     </Compile>
     <Compile Include="Helpers\RavenHelper.cs" />
     <Compile Include="Helpers\SearchCriteriaBinder.cs" />
-    <Compile Include="KatushaMetadataProvider.cs" />
+    <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseModel.cs" />
     <Compile Include="Models\Entities\ConversationModel.cs" />
     <Compile Include="Models\Entities\ConversationResultModel.cs" />
+    <Compile Include="Models\Entities\FacebookProfileModel.cs" />
     <Compile Include="Models\Entities\CountriesToVisitModel.cs" />
     <Compile Include="Models\Entities\LanguagesSpokenModel.cs" />
     <Compile Include="Models\Entities\PhotoModel.cs" />
@@ -411,6 +412,8 @@
     <Content Include="Views\Utilities\Photos.cshtml" />
     <Content Include="Views\Utilities\Index.cshtml" />
     <Content Include="Views\Visitor\NewVisits.cshtml" />
+    <Content Include="Views\Profiles\_CreateOrEdit.cshtml" />
+    <Content Include="Views\Account\Facebook.cshtml" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
@@ -431,7 +434,6 @@
     <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="Photos\" />
   </ItemGroup>
   <ItemGroup>

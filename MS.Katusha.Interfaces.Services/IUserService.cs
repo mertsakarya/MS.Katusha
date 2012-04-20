@@ -8,6 +8,7 @@ namespace MS.Katusha.Interfaces.Services
     {
         bool ValidateUser(string userName, string password);
         User CreateUser(string userName, string password, string email, object passwordQuestion, object passwordAnswer, bool isApproved, object providerUserKey, out KatushaMembershipCreateStatus status);
+        void UpdateUser(User user);
         User GetUser(string userName, bool userIsOnline = false);
         User GetUser(long id);
         User GetUser(Guid guid);

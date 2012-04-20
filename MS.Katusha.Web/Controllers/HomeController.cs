@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;

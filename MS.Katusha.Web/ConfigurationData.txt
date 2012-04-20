@@ -176,8 +176,7 @@
  	[Resource]
  		en	Profile.From.DisplayName	Your country
  		en	Profile.From.Description	The country currently you are living in.
- 		tr	Profile.From.DisplayName	Ülkeniz
- 		tr	Profile.From.Description	Yaşadığınız ülke.
+ 		en	Profile.From.RequiredErrorMessage	Where are you from? This is important for people finding you.
 
 *	Profile.City
  	[Configuration]
@@ -283,6 +282,21 @@
  	[Resource]
  		en	Profile.BreastSize.DisplayName	Breast size
  		en	Profile.BreastSize.Description	What is your breast size. Be honest.
+
+*	User.Email
+ 	[Configuration]
+ 		User.Email.MaximumLength	64
+ 	[Resource]
+ 		en	User.Email.DisplayName	Email
+ 		en	User.Email.Description	What is your email? Be honest.
+		en	User.Email.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+		en	User.Email.RequiredErrorMessage	What is your email? We need your email to communicate with you.
+
+*	User.Gender
+ 	[Resource]
+ 		en	User.Gender.DisplayName	Gender
+ 		en	User.Gender.Description	What is your gender?
+
 
 [ResourceLookup]
 	en	Sex				Male			Man				2	1

@@ -30,7 +30,11 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         public T GetById(long id, params Expression<Func<T, object>>[] includeExpressionParams)
         {
-            return Single(p => p.Id == id, includeExpressionParams);
+            //return Single(p => p.Id == id, includeExpressionParams);
+            using (var session = DocumentStore.OpenSession()) {
+                var t =  session.Load<T>(id);
+                return t.Deleted ? null : t;
+            }
         }
 
         public IList<T> GetAll(out int total)

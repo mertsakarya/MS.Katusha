@@ -6,7 +6,6 @@ using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
@@ -48,12 +47,7 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             var conversationResults = _conversationService.GetConversations(KatushaProfile.Id, out total, pageIndex, PageSize);
 
-            //TODO: What I did here is terrible find another way.
-            var instance = ConversationResultTypeConverter.GetInstance();
-            instance.ProfileService = _profileService;
-
             var conversationResultsModel = Mapper.Map<IList<ConversationResultModel>>(conversationResults);
-            //End /TODO
 
             var conversationResultsAsIPagedList = new StaticPagedList<ConversationResultModel>(conversationResultsModel, pageIndex, PageSize, total);
             var model = new PagedListModel<ConversationResultModel> { List = conversationResultsAsIPagedList, Total = total };

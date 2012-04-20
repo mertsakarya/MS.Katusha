@@ -1,0 +1,211 @@
+@using MS.Katusha.Enumerations
+@model FacebookProfileModel
+
+@{
+    ViewBag.Title = "Facebook Registration";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Use the form below to create a new account.</h2>
+</hgroup>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account")) {
+    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+    @Html.HiddenFor(model => model.FacebookId)
+    <fieldset>
+        <legend>Registration Form</legend>
+        <ol>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Gender)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.Gender, false, new { onchange = "$('#'+this.value+'Properties').fadeIn('slow'); $('#'+((this.value=='Female') ? 'Male' : 'Female')+'Properties').fadeOut('slow')" })
+                    @Html.ValidationMessageFor(model => model.Gender)
+                </div>
+            </li>            
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(m => m.Name)
+                        </div>
+                        <div class="editor-field">
+                            @Html.TextBoxFor(m => m.Name)
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(m => m.Email)
+                        </div>
+                        <div class="editor-field">
+                            @Html.TextBoxFor(m => m.Email)
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.City)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.City)
+                            @Html.ValidationMessageFor(model => model.City)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.From)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.From)
+                            @Html.ValidationMessageFor(model => model.From)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Height)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Height)
+                            @Html.ValidationMessageFor(model => model.Height)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.BirthYear)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.BirthYear)
+                            @Html.ValidationMessageFor(model => model.BirthYear)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Description)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Description)
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+            </li>
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.EyeColor)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.EyeColor)
+                            @Html.ValidationMessageFor(model => model.EyeColor)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.HairColor)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.HairColor)
+                            @Html.ValidationMessageFor(model => model.HairColor)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.BodyBuild)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.BodyBuild)
+                            @Html.ValidationMessageFor(model => model.BodyBuild)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Religion)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.Religion)
+                            @Html.ValidationMessageFor(model => model.Religion)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Smokes)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.Smokes)
+                            @Html.ValidationMessageFor(model => model.Smokes)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Alcohol)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.Alcohol)
+                            @Html.ValidationMessageFor(model => model.Alcohol)
+                        </div>
+                    </div>
+                </div>
+            </li> 
+            <li id="MaleProperties" @(Model.Gender==Sex.Female ? "style=display:none": "")>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.DickSize)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.DickSize)
+                            @Html.ValidationMessageFor(model => model.DickSize)
+                        </div>
+                    </div>
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.DickThickness)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.DickThickness)
+                            @Html.ValidationMessageFor(model => model.DickThickness)
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="FemaleProperties" @(Model.Gender==Sex.Female ? "" : "style=display:none")>
+                <div style="float: left;width:98%; display: block;">
+                    <div style="width:48%; position: relative; display: inline-block;">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.BreastSize)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EnumDropDownListFor(model => model.BreastSize)
+                            @Html.ValidationMessageFor(model => model.BreastSize)
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <hr style="clear: both"/>
+        <input type="submit" value="Register" />
+    </fieldset>
+}

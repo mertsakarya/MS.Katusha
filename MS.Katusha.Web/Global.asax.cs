@@ -8,7 +8,6 @@ using MS.Katusha.Infrastructure;
 using MS.Katusha.Jobs;
 using MS.Katusha.Web.Helpers;
 using DependencyHelper = MS.Katusha.Web.Helpers.DependencyHelper;
-using RavenHelper = MS.Katusha.Web.Helpers.RavenHelper;
 
 namespace MS.Katusha.Web
 {

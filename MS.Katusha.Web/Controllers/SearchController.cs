@@ -5,7 +5,6 @@ using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;

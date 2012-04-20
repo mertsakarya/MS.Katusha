@@ -49,6 +49,8 @@ namespace MS.Katusha.Services
             return user;
         }
 
+        public void UpdateUser(User user) { _repository.FullUpdate(user); }
+
         public void SendConfirmationMail(User user)
         {
             Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm_en.cshtml", user);

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Security.Policy;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -175,7 +174,7 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From ?? 0)));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From)));
             var url = "/Profiles/Show/" + val;
             var anchor = new TagBuilder("a");
             anchor.Attributes.Add("title", title);

@@ -5,11 +5,8 @@ using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Controllers.BaseControllers;
 using MS.Katusha.Web.Helpers;
-using MS.Katusha.Web.Helpers.Converters;
 using MS.Katusha.Web.Models;
-using MS.Katusha.Web.Models.Entities;
 using PagedList;
 
 namespace MS.Katusha.Web.Controllers
@@ -31,9 +28,6 @@ namespace MS.Katusha.Web.Controllers
         {
             var pageIndex = (key ?? 1);
             int total;
-
-            var instance = UniqueVisitorsResultConverter.GetInstance();
-            instance.ProfileService = ProfileService;
 
             var visitors = _visitService.GetVisitors(KatushaProfile.Id, out total, pageIndex, PageSize);
 
@@ -60,8 +54,6 @@ namespace MS.Katusha.Web.Controllers
                     ); //.ToUniversalTime();
                 //var dateTimeOffset = new DateTimeOffset(dateTime, TimeSpan.Zero);
                 visits = _visitService.GetVisitorsSinceLastVisit(KatushaProfile.Id, dateTime);
-                var instance = UniqueVisitorsResultConverter.GetInstance();
-                instance.ProfileService = ProfileService;
             } catch {
                 visits = new NewVisits {LastVisitTime = DateTime.Now, Visits = new List<UniqueVisitorsResult>()};
             }

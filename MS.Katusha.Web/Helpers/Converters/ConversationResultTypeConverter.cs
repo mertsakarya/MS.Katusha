@@ -4,7 +4,7 @@ using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models.Entities;
 
-namespace MS.Katusha.Web.Helpers
+namespace MS.Katusha.Web.Helpers.Converters
 {
     public class ConversationResultTypeConverter : ITypeConverter<ConversationResult, ConversationResultModel>
     {

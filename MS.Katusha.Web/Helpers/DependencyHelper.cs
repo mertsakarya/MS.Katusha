@@ -11,7 +11,6 @@ using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Models.Entities;
 using NLog;
-
 using Raven.Client;
 
 namespace MS.Katusha.Web.Helpers

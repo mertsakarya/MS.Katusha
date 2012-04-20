@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 
 namespace MS.Katusha.Web.Helpers
 {

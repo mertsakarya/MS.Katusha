@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -9,12 +8,13 @@ using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Helpers;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Web.Helpers;
+using MS.Katusha.Web.Helpers.Converters;
 using MS.Katusha.Web.Models.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
-namespace MS.Katusha.Web.Controllers.BaseControllers
+namespace MS.Katusha.Web.Controllers
 {
     public class KatushaController : Controller
     {
@@ -33,6 +33,8 @@ namespace MS.Katusha.Web.Controllers.BaseControllers
             ProfileService = profileService;
             UserService = userService;
             StateService = stateService;
+            UniqueVisitorsResultConverter.GetInstance().ProfileService = profileService;
+            ConversationResultTypeConverter.GetInstance().ProfileService = profileService;
         }
 
         protected bool IsKeyForProfile(string key)
