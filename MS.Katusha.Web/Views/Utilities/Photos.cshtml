@@ -53,7 +53,10 @@
     </div>
 </div>
 <br/>
-@Html.PagedListPager(Model.PhotoGuids.List, key => Url.Action("Photos", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@if (Model.PhotoGuids.Total > Model.PhotoGuids.List.PageSize) {
+    <hr style="clear: both"/>
+    @Html.PagedListPager(Model.PhotoGuids.List, key => Url.Action("Photos", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
 
 @{
     var photoType = ((byte) PhotoType.Medium).ToString();        

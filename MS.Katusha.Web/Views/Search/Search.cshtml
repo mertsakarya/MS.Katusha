@@ -19,7 +19,10 @@
         }
 
     </div>
-    @Html.PagedListPager(model, page => Url.Action(action, new {key=page})+"?"+Request.QueryString.ToString(), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    if (Model.Total > model.PageSize) {
+        <hr style="clear: both"/>
+        @Html.PagedListPager(model, page => Url.Action(action, new { key = page }) + "?" + Request.QueryString.ToString(), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
 }
 <div>
     @Html.ActionLink("Back to List", action)

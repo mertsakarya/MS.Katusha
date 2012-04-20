@@ -8,12 +8,21 @@
     
     <br />
     <fieldset>
-        <div class="editor-label">@Html.LabelFor(model => model.Age)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
-        <div class="editor-label">@Html.LabelFor(model => model.From)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true)</div>
-        <div class="editor-label">@Html.LabelFor(model => Model.City)</div><div class="editor-field"><input class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
-        <div class="editor-label">@Html.LabelFor(model => model.Height)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
-        <p>
-            <input type="submit" value="Search" />
-        </p>
+        <legend>Search</legend>
+        <ol>
+            <li>
+                <div class="editor-label">@Html.LabelFor(model => model.Age)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true, new { style = "width:180px" })</div>
+            </li>
+            <li>
+                <div class="editor-label">@Html.LabelFor(model => model.From)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true, new { style = "width:180px" })</div>
+            </li>
+            <li>
+                <div class="editor-label">@Html.LabelFor(model => Model.City)</div><div class="editor-field"><input style="width:168px" class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
+            </li>
+            <li>
+                <div class="editor-label">@Html.LabelFor(model => model.Height)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true, new { style = "width:180px" })</div>
+            </li>
+        </ol>
+        <p><input type="submit" value="Search" /></p>
     </fieldset>
 </form>

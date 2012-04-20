@@ -12,8 +12,10 @@
     @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
 }
 </div>
-<hr style="clear: both"/>
-@Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@if (Model.Total > Model.List.PageSize) {
+    <hr style="clear: both"/>
+    @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
 
 <div>
     @Html.ActionLink("Back to List", action, "Home", null, null)

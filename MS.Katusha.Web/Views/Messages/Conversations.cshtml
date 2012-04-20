@@ -18,7 +18,10 @@
 
 </ul>
 
-@Html.PagedListPager(Model.List, key => Url.Action("Conversations", new { key=key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@if (Model.Total > Model.List.PageSize) {
+    <hr style="clear: both"/>
+    @Html.PagedListPager(Model.List, key => Url.Action("Conversations", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
 
 <div>
     @Html.ActionLink("Back to List", (ViewBag.KatushaProfile.Gender == (byte)Sex.Male ? "Girls" : "Men"), "Profiles")
