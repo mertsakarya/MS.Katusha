@@ -8,7 +8,7 @@
     <div style="float:right">
         @if (newVisits != null && newVisits.Visits != null && newVisits.Visits.Count > 0) {
             <div style="float:right; border:1px #f0f0f0 solid">
-                <a style="background-color: fff;" href="@Url.Action("NewVisits", "Visitor", new { key = Html.GetUrlFriendlyDateTime(newVisits.LastVisitTime) })" title="@String.Format("{0} visitors.", newVisits.Visits.Count)">
+                <a href="@Url.Action("NewVisits", "Visitor", new { key = Html.GetUrlFriendlyDateTime(newVisits.LastVisitTime) })" title="@String.Format("{0} visitors.", newVisits.Visits.Count)">
                     <img src="/Images/view.gif" /><br/>
                     <b>@newVisits.Visits.Count </b> visitors
                 </a>
