@@ -1,14 +1,18 @@
+@using MS.Katusha.Domain.Entities
+@using MS.Katusha.Enumerations
 @model SearchCriteriaModel
-<form id="searchForm" action="/Search/Men" method="get">
-    <br /> 
+@{
+    var profile = ViewBag.KatushaProfile as Profile;
+    var searching = (@profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";
+  }
+<form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
+    @*    <br /> 
     <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Search/Girls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
     <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Search/Men';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
-    <br/><br/>
-    <h3 id="whereToSearch">Searching Men</h3>
-    
-    <br />
+    <br/><br/>*@
+    <hr style="clear: both"/>
+    <h3 id="whereToSearch">Search @(searching)</h3>
     <fieldset>
-        <legend>Search</legend>
         <ol>
             <li>
                 <div class="editor-label">@Html.LabelFor(model => model.Age)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true, new { style = "width:180px" })</div>
