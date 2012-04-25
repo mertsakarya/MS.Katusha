@@ -22,6 +22,11 @@ namespace MS.Katusha.Domain
         public DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         public DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
 
+        public DbSet<GeoCountry> GeoCountries { get; set; }
+        public DbSet<GeoLanguage> GeoLanguages { get; set; }
+        public DbSet<GeoName> GeoNames { get; set; }
+        public DbSet<GeoTimeZone> GeoTimeZones { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Profile>()

@@ -20,36 +20,9 @@ namespace MS.Katusha.Infrastructure
 
         public static void Delete(KatushaDbContext dbContext)
         {
-            DeleteResourceLookups(dbContext);
-            DeleteResources(dbContext);
-            DeleteConfigurationDatas(dbContext);
-        }
-
-        private static void DeleteResourceLookups(KatushaDbContext dbContext)
-        {
-            var repository = new ResourceLookupRepositoryDB(dbContext);
-            int total;
-            foreach (var item in repository.GetAll(out total).ToArray())
-                repository.Delete(item);
-            repository.Save();
-        }
-
-        private static void DeleteConfigurationDatas(KatushaDbContext dbContext)
-        {
-            int total;
-            var repository = new ConfigurationDataRepositoryDB(dbContext);
-            foreach (var item in repository.GetAll(out total).ToArray())
-                repository.Delete(item);
-            repository.Save();
-        }
-
-        private static void DeleteResources(KatushaDbContext dbContext)
-        {
-            int total;
-            var repository = new ResourceRepositoryDB(dbContext);
-            foreach (var item in repository.GetAll(out total).ToArray())
-                repository.Delete(item);
-            repository.Save();
+            foreach (var tableName in new string[] {"Resources", "ConfigurationDatas", "ResourceLookups","GeoCountries", "GeoLanguages", "GeoNames", "GeoTimeZones" }) {
+                dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [" + tableName + "]");
+            }
         }
     }
 }

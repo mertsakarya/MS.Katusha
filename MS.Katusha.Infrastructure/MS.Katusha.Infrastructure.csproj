@@ -81,6 +81,7 @@
     <Compile Include="ConfigParser.cs" />
     <Compile Include="Cache\CacheObject.cs" />
     <Compile Include="Exceptions\KatushaException.cs" />
+    <Compile Include="Exceptions\Resources\KatushaGeoLocationException.cs" />
     <Compile Include="Exceptions\Resources\KatushaConfigurationException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceLookupException.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Exceptions\Services\KatushaFriendlyNameNotFoundException.cs" />
     <Compile Include="Exceptions\Services\KatushaGenderNotExistsException.cs" />
     <Compile Include="Exceptions\Web\KatushaNotAllowedException.cs" />
+    <Compile Include="GeoLocation.cs" />
     <Compile Include="KatushaContextInitializer.cs" />
     <Compile Include="ReloadResources.cs" />
     <Compile Include="ResourceManager.cs" />

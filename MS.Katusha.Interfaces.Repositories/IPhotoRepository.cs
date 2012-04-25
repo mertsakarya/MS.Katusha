@@ -5,5 +5,4 @@ namespace MS.Katusha.Interfaces.Repositories
     public interface IPhotoRepositoryDB : IGuidRepository<Photo>
     {
     }
-
 }

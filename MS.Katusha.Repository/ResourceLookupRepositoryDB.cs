@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;

@@ -17,5 +17,11 @@ namespace MS.Katusha.Domain
 
         DbSet<CountriesToVisit> CountriesToVisit { get; set; }
         DbSet<LanguagesSpoken> LanguagesSpoken { get; set; }
+
+        DbSet<GeoCountry> GeoCountries { get; set; }
+        DbSet<GeoLanguage> GeoLanguages { get; set; }
+        DbSet<GeoName> GeoNames { get; set; }
+        DbSet<GeoTimeZone> GeoTimeZones { get; set; }
+
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="IProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ILocationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">

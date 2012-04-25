@@ -3,28 +3,30 @@
 @model SearchCriteriaModel
 @{
     var profile = ViewBag.KatushaProfile as Profile;
-    var searching = (@profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";
+    var searching = "Girls";
+    if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
   }
 <form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
-    @*    <br /> 
+    @*
+    <br /> 
     <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Search/Girls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
     <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Search/Men';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
-    <br/><br/>*@
+    <br/><br/>
+    *@
     <hr style="clear: both"/>
     <h3 id="whereToSearch">Search @(searching)</h3>
     <fieldset>
         <ol>
-            <li>
-                <div class="editor-label">@Html.LabelFor(model => model.Age)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true, new { style = "width:180px" })</div>
+            <li><div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
             </li>
             <li>
-                <div class="editor-label">@Html.LabelFor(model => model.From)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true, new { style = "width:180px" })</div>
+                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true)</div>
             </li>
             <li>
-                <div class="editor-label">@Html.LabelFor(model => Model.City)</div><div class="editor-field"><input style="width:168px" class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
+                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field"><input class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
             </li>
             <li>
-                <div class="editor-label">@Html.LabelFor(model => model.Height)</div><div class="editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true, new { style = "width:180px" })</div>
+                <div class="search-editor-label">@Html.LabelFor(model => model.Height)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
             </li>
         </ol>
         <p><input type="submit" value="Search" /></p>

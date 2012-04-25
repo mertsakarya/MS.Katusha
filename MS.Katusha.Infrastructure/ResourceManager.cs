@@ -19,6 +19,7 @@ namespace MS.Katusha.Infrastructure
         Dictionary<string, string> _L(string resourceName, byte language = 0);
         string _LText(string lookupName, string name, byte language = 0);
         string _LKey(string lookupName, byte value, byte language = 0);
+        GeoLocation GeoLocation { get; }
         //List<string> GetValuesFromCodeList(List<string> resourceCodeList);
     }
 
@@ -28,6 +29,8 @@ namespace MS.Katusha.Infrastructure
         private static readonly IDictionary<string, string> ResourceList;
         private static readonly IDictionary<string, Dictionary<string, string>> ResourceLookupList;
         private static readonly IDictionary<string, Dictionary<string, byte>> ResourceLookupByteList;
+        private static readonly GeoLocation _geoLocation;
+
         private static readonly ReaderWriterLockSlim ListLock;
 
         static ResourceManager()
@@ -36,6 +39,7 @@ namespace MS.Katusha.Infrastructure
             ResourceList = new Dictionary<string, string>();
             ResourceLookupList = new Dictionary<string, Dictionary<string, string>>();
             ResourceLookupByteList = new Dictionary<string, Dictionary<string, byte>>();
+            _geoLocation = new GeoLocation();
             ListLock = new ReaderWriterLockSlim();
         }
 
@@ -50,14 +54,65 @@ namespace MS.Katusha.Infrastructure
             isEmpty = ResourceList.Count <= 0;
             ListLock.ExitReadLock();
             if (isEmpty) LoadResourceFromDb(new ResourceRepositoryDB(new KatushaDbContext()));
-            
+
             ListLock.EnterReadLock();
             isEmpty = ConfigurationList.Count <= 0;
             ListLock.ExitReadLock();
             if (isEmpty) LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(new KatushaDbContext()));
+
+            ListLock.EnterReadLock();
+            isEmpty = !_geoLocation.Initialized;
+            ListLock.ExitReadLock();
+            if (isEmpty) {
+                var dbContext = new KatushaDbContext();
+                LoadGeoLocationDataFromDb(new GeoCountryRepositoryDB(dbContext), new GeoLanguageRepositoryDB(dbContext), new GeoNameRepositoryDB(dbContext), new GeoTimeZoneRepositoryDB(dbContext));
+            }
         }
 
-        public void LoadResourceFromDb(IResourceRepository resourceRepository)
+        private static void LoadGeoLocationDataFromDb(GeoCountryRepositoryDB countryRepository, GeoLanguageRepositoryDB languageRepository, GeoNameRepositoryDB nameRepository, GeoTimeZoneRepositoryDB timeZoneRepository)
+        {
+            ListLock.EnterWriteLock();
+            try {
+                _geoLocation.Countries.Clear();
+                foreach (var item in countryRepository.GetAll()) {
+                    try {
+                        _geoLocation.Countries.Add(item.ISO, item);
+                    } catch (Exception ex) {
+                        throw new KatushaGeoLocationException(item.ISO, item.Country, ex);
+                    }
+                }
+                _geoLocation.Languages.Clear();
+                foreach (var item in languageRepository.GetAll()) {
+                    try {
+                        if (!String.IsNullOrWhiteSpace(item.ISO639_1))
+                            _geoLocation.Languages.Add(item.ISO639_1, item);
+                    } catch (Exception ex) {
+                        throw new KatushaGeoLocationException(item.ISO639_1, item.LanguageName, ex);
+                    }
+                }
+                _geoLocation.TimeZones.Clear();
+                foreach (var item in timeZoneRepository.GetAll()) {
+                    try {
+                        _geoLocation.TimeZones.Add(item.TimeZoneId, item);
+                    } catch (Exception ex) {
+                        throw new KatushaGeoLocationException(item.TimeZoneId, item.TimeZoneId, ex);
+                    }
+                }
+                _geoLocation.Names.Clear();
+                foreach (var item in nameRepository.GetAll()) {
+                    try {
+                        _geoLocation.Names.Add(item.GeoNameId.ToString(), item);
+                    } catch (Exception ex) {
+                        throw new KatushaGeoLocationException(item.GeoNameId.ToString(), item.Name, ex);
+                    }
+                }
+                _geoLocation.Initialize();;
+            } finally {
+                ListLock.ExitWriteLock();
+            }
+        }
+
+        public static void LoadResourceFromDb(IResourceRepository resourceRepository)
         {
             ListLock.EnterWriteLock();
             try {
@@ -74,7 +129,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public void LoadConfigurationDataFromDb(IConfigurationDataRepository resourceRepository)
+        public static void LoadConfigurationDataFromDb(IConfigurationDataRepository resourceRepository)
         {
             ListLock.EnterWriteLock();
             try {
@@ -229,6 +284,8 @@ namespace MS.Katusha.Infrastructure
 
             return key + "." + value.ToString();
         }
+
+        public GeoLocation GeoLocation { get { return _geoLocation; } }
 
         public string _LText(string resourceName, string name, byte language = 0)
         {

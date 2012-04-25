@@ -20,8 +20,8 @@ namespace MS.Katusha.Services
             ReloadResources.Delete(_dbContext);
             var result = ReloadResources.Set(_dbContext);
             var resourceManager = new ResourceManager();
-            resourceManager.LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(_dbContext));
-            resourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));
+            ResourceManager.LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(_dbContext));
+            ResourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));
             resourceManager.LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(_dbContext));
             return result;
             

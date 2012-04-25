@@ -1,0 +1,424 @@
+﻿* TODOs:
+*	Messages -> conversations
+*	Unread messages warning
+*	New profile visit warning
+*	Online status
+*	Membership implementation
+
+***********************************************************************************************************************
+*
+*	Author:		MERT SAKARYA
+*	Email:		mertsakarya@hotmail.com
+*	Date:		2012/03/17
+*
+***********************************************************************************************************************
+*
+* This file is used to upload Configuration information to Katusha Database
+* It can be executed from /Home/Init Action
+*
+* If first character is '*' or '#', it is considered as a comment line
+* Lines are Trimmed from spaces, whitespaces and tabs,
+# Blank lines are ignored
+* If line starts with [
+* It can be change a configuration section
+*	Configuration sections can be 
+*		[Configuration]
+*		[Resource]
+*		[ResourceLookup]
+*
+*	[Configuration] is two tab delimited line for, Key and Value
+*	[Resource]	is three tab delimited line for, Language, Key and Value
+*	[ResourceLookup] is five tab delimited line for, Language, LookupName, Key, Value and Order
+*	[START] All lines are ignored until this line. Parsing will start after this line. 
+*
+*	There cannot be more tabs for section lines unless it is empty and will be trimmed at the beginning anyhow.
+*	\r \n and \t are considered return, new line and tab on Value fields and will be replaced.
+*	If a Value field is "" it will be replaced with empty string.
+*	One line corresponds to a record on database
+*	Language value can be:
+*		An integer that can be casted to Language Enumeration
+*		Text that can be casted to Language Enumeration
+*		Culture text that can be mapped to Language Enumeration
+*
+***********************************************************************************************************************
+*
+*	Properties that are used
+
+*	<PropertyName>	Field Attribute
+*	[Configuration]
+*		<PropertyName>.HideSurroundingHtml	false
+*		<PropertyName>.ShowForDisplay	true
+*		<PropertyName>.ShowForEdit	true
+*	[Resource]
+*		en	<PropertyName>.DisplayName	""
+*		en	<PropertyName>.Description	""
+*		en	<PropertyName>.DisplayFormatString	""
+*		en	<PropertyName>.EditFormatString	""
+*		en	<PropertyName>.NullDisplayText	""
+*		en	<PropertyName>.ShortDisplayName	""
+*		en	<PropertyName>.TemplateHint	""
+*		en	<PropertyName>.Watermark	""
+
+*	PropertyName	StringLengthAttribute
+*	[Configuration]
+*		<PropertyName>.MaximumLength	int.MaxValue
+*		<PropertyName>.MinimumLength	int.MinValue
+*	[Resource]
+*		en	<PropertyName>.StringLengthErrorMessage	({0} - {1})
+
+*	PropertyName	RangeAttribute
+*	[Configuration]
+*		<PropertyName>.Maximum	double.MaxValue
+*		<PropertyName>.Minimum	double.MinValue
+*	[Resource]
+*		en	<PropertyName>.RangeErrorMessage	({0} - {1})
+
+*	PropertyName	RequiredAttribute
+*	[Resource]
+*		en	<PropertyName>.RequiredErrorMessage	*
+
+*	PropertyName	RegularExpression
+*	[Configuration]
+*		<PropertyName>.RegularExpressionPattern	""
+*	[Resource]
+*		en	<PropertyName>.RegularExpressionErrorMessage	*
+*
+***********************************************************************************************************************
+*
+*	<PropertyName>	Property List of whole field information with sample data
+*	[Configuration]
+*		<PropertyName>.HideSurroundingHtml	false
+*		<PropertyName>.ShowForDisplay	true
+*		<PropertyName>.ShowForEdit	true
+*		<PropertyName>.MaximumLength	int.MaxValue
+*		<PropertyName>.MinimumLength	int.MinValue
+*		<PropertyName>.Maximum	double.MaxValue
+*		<PropertyName>.Minimum	double.MinValue
+*		<PropertyName>.RegularExpressionPattern	""
+*		<PropertyName>.AdditionalValues	"a=1|b=2"
+*	[Resource]
+*		en	<PropertyName>.AdditionalValues	""
+*		en	<PropertyName>.DisplayName	""
+*		en	<PropertyName>.Description	""
+*		en	<PropertyName>.DisplayFormatString	""
+*		en	<PropertyName>.EditFormatString	""
+*		en	<PropertyName>.NullDisplayText	""
+*		en	<PropertyName>.ShortDisplayName	""
+*		en	<PropertyName>.TemplateHint	""
+*		en	<PropertyName>.Watermark	""
+*		en	<PropertyName>.StringLengthErrorMessage	({0} - {1})
+*		en	<PropertyName>.RangeErrorMessage	({0} - {1})
+*		en	<PropertyName>.RequiredErrorMessage	*
+*		en	<PropertyName>.RegularExpressionErrorMessage	*
+*
+***********************************************************************************************************************
+*
+*	ResourceManager looks for <PropertyName>.<Key><Language> pattern for Values, 
+*	If it cannot find the Value, it tries to find <Key><Language> for default,
+*	on Configuration Data, it excludes <Language> information.
+*	AdditionalValues are in the following format splitted by '|' character a=1|b=2
+*
+***********************************************************************************************************************
+
+
+
+[START]
+
+***							Global Declarations
+ 	[Configuration]
+		MinimumLength	0
+		MaximumLength	4000
+
+*	JOB DEFINITIONS (CRON)
+		HelloWorld2Job	*/6 * * * * ?
+		HelloWorldJob	0/5 * * * * ?
+
+ 	[Resource]
+ 		en	EmptyText	""
+		en	NotFilled	Not selected
+		en	KatushaMembershipCreateStatus.DuplicateUserName	User name already exists. Please enter a different user name.
+		en	KatushaMembershipCreateStatus.DuplicateEmail	A user name for that e-mail address already exists. Please enter a different e-mail address.
+		en	KatushaMembershipCreateStatus.InvalidPassword	The password provided is invalid. Please enter a valid password value.
+		en	KatushaMembershipCreateStatus.InvalidEmail		The e-mail address provided is invalid. Please check the value and try again.
+		en	KatushaMembershipCreateStatus.InvalidAnswer		The password retrieval answer provided is invalid. Please check the value and try again.
+		en	KatushaMembershipCreateStatus.InvalidQuestion	The password retrieval question provided is invalid. Please check the value and try again.
+		en	KatushaMembershipCreateStatus.InvalidUserName	The user name provided is invalid. Please check the value and try again.
+		en	KatushaMembershipCreateStatus.ProviderError		The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.
+		en	KatushaMembershipCreateStatus.UserRejected		The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.
+		en	KatushaMembershipCreateStatus.Default			An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.
+		en	FriendlyNameExists								Url friendly name already exists. Sorry. Can you try another one?
+
+***							Field Declarations
+*	FriendlyName
+ 	[Configuration]
+ 		FriendlyName.MaximumLength	64
+ 		FriendlyName.RegularExpressionPattern	^[a-z0-9_]*$
+ 	[Resource]
+ 		en	FriendlyName.DisplayName	Url friendly name
+ 		en	FriendlyName.Description	This value is for unique name for you to be used on URLs. If you have this value, you will not be referred with weird ID on URLs. This value must unique.
+ 		en	FriendlyName.NullDisplayText	<Friendly Name>
+ 		en	FriendlyName.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+ 		en	FriendlyName.RegularExpressionErrorMessage	Sorry, only lower case English characters, numbers and '_' sign are allowed.
+
+*	Profile.Name
+ 	[Configuration]
+ 		Profile.Name.MaximumLength	64
+ 		Profile.Name.RegularExpressionPattern	^[a-zA-Z0-9 ]*$
+ 	[Resource]
+ 		en	Profile.Name.DisplayName	Name
+ 		en	Profile.Name.Description	This can be any name you want.
+ 		en	Profile.Name.NullDisplayText	""
+ 		en	Profile.Name.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+ 		en	Profile.Name.RegularExpressionErrorMessage	Sorry, only English characters, numbers and space characters are allowed.
+ 		en	Profile.Name.RequiredErrorMessage	What is your name? You don't have to write your last name but at least give us your name.
+
+*	Profile.From
+ 	[Resource]
+ 		en	Profile.From.DisplayName	Your country
+ 		en	Profile.From.Description	The country currently you are living in.
+ 		en	Profile.From.RequiredErrorMessage	Where are you from? This is important for people finding you.
+
+*	Profile.City
+ 	[Configuration]
+ 		Profile.City.MaximumLength	64
+ 	[Resource]
+ 		en	Profile.City.DisplayName	Your city
+ 		en	Profile.City.Description	The city currently you are living in.
+ 		en	Profile.City.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+
+*	Profile.BodyBuild
+ 	[Resource]
+ 		en	Profile.BodyBuild.DisplayName	Body type
+ 		en	Profile.BodyBuild.Description	The country currently you are living in.
+
+*	Profile.EyeColor
+ 	[Resource]
+ 		en	Profile.EyeColor.DisplayName	Eye color
+ 		en	Profile.EyeColor.Description	What color are your eyes?
+
+*	Profile.HairColor
+ 	[Resource]
+ 		en	Profile.HairColor.DisplayName	Hair color
+ 		en	Profile.HairColor.Description	What color is your hair?.
+
+*	Profile.Smokes
+ 	[Resource]
+ 		en	Profile.Smokes.DisplayName	Do you smoke?
+ 		en	Profile.Smokes.Description	Do you smoke?
+
+*	Profile.Alcohol
+ 	[Resource]
+ 		en	Profile.Alcohol.DisplayName	Do you drink?
+ 		en	Profile.Alcohol.Description	Do you drink?
+
+*	Profile.Religion
+ 	[Resource]
+ 		en	Profile.Religion.DisplayName	What do you believe in?
+ 		en	Profile.Religion.Description	What do you believe in?
+
+*	Profile.Height
+ 	[Configuration]
+ 		Profile.Height.Minimum	100
+ 		Profile.Height.Maximum	250
+ 	[Resource]
+ 		en	Profile.Height.DisplayName		Height
+ 		en	Profile.Height.Description	How tall are you in centimeters?
+ 		en	Profile.Height.RangeErrorMessage	You can be between {0} and {1} cms.
+
+*	Profile.BirthYear
+ 	[Configuration]
+ 		Profile.BirthYear.Minimum	1940
+ 		Profile.BirthYear.Maximum	2000
+ 	[Resource]
+ 		en	Profile.BirthYear.DisplayName	Birthyear
+ 		en	Profile.BirthYear.Description	This is how we understand your age? :)
+ 		en	Profile.BirthYear.RangeErrorMessage	You can be born between years {0} and {1}.
+
+*	Profile.Age
+ 	[Resource]
+ 		en	Profile.Age.DisplayName	Age
+ 		en	Profile.Age.Description	Your age...
+
+*	Profile.Description
+ 	[Configuration]
+ 		Profile.Description.MinimumLength	3
+ 		Profile.Description.MaximumLength	1920
+ 	[Resource]
+ 		en	Profile.Description.DisplayName	Description
+ 		en	Profile.Description.Description	Fill this up for people know you better.
+ 		en	Profile.Description.StringLengthErrorMessage	You must write at least {0} and up to {1} letters.
+ 		en	Profile.Description.RequiredErrorMessage	Why don't you write a little about yourself?
+
+*	Profile.Searches
+ 	[Resource]
+ 		en	Profile.Searches.DisplayName	Relationship you're looking for
+ 		en	Profile.Searches.Description	What are looking for here?
+ 		en	Profile.Searches.MaxItems	10
+ 		en	Profile.Searches.Message	Type what are looking for here.
+
+*	Profile.CountriesToVisit
+ 	[Resource]
+ 		en	Profile.CountriesToVisit.DisplayName	Countries you want to go
+ 		en	Profile.CountriesToVisit.Description	Tell us about where you want to go.
+ 		en	Profile.CountriesToVisit.Message	Type countres where would you like to visit. 
+
+*	Profile.LanguagesSpoken
+ 	[Resource]
+ 		en	Profile.LanguagesSpoken.DisplayName	Languages you speak
+ 		en	Profile.LanguagesSpoken.Description	Which languages do you speak? Well, we have google translator now...
+ 		en	Profile.LanguagesSpoken.Message	Type which languages you can speak. 
+
+*	Profile.DickThickness
+ 	[Resource]
+ 		en	Profile.DickThickness.DisplayName	Penis thickness
+ 		en	Profile.DickThickness.Description	How thick is your penis? Be honest.
+
+*	Profile.DickSize
+ 	[Resource]
+ 		en	Profile.DickSize.DisplayName	Penis size
+ 		en	Profile.DickSize.Description	How big is your penis? Be honest.
+
+*	Profile.BreastSize
+ 	[Resource]
+ 		en	Profile.BreastSize.DisplayName	Breast size
+ 		en	Profile.BreastSize.Description	What is your breast size. Be honest.
+
+*	User.Email
+ 	[Configuration]
+ 		User.Email.MaximumLength	64
+ 	[Resource]
+ 		en	User.Email.DisplayName	Email
+ 		en	User.Email.Description	What is your email? Be honest.
+		en	User.Email.StringLengthErrorMessage	You can leave this empty or up to {1} characters.
+		en	User.Email.RequiredErrorMessage	What is your email? We need your email to communicate with you.
+
+*	User.Gender
+ 	[Resource]
+ 		en	User.Gender.DisplayName	Gender
+ 		en	User.Gender.Description	What is your gender?
+
+
+[ResourceLookup]
+	en	Sex				Male			Man				2	1
+	en	Sex				Female			Girl			1	2
+
+	en	Language		Turkish			Turkish			3	1
+	en	Language		Russian			Russian			2	2
+	en	Language		English			English			1	3
+
+	en	Country			Turkey			Turkey			3	1
+	en	Country			Ukraine			Ukraine			4	2
+	en	Country			Russia			Russia			2	3
+	en	Country			UnitedStates	United States	1	4
+
+	en	Status			Online			Online			1	1
+	en	Status			Away			Away			2	2
+	en	Status			Offline			Offline			3	3
+
+	en	MembershipType	Normal			Normal			1	1
+	en	MembershipType	Gold			Gold			2	2
+	en	MembershipType	Platinium		Platinium		3	3
+
+	en	Existance		Active			Active			1	1
+	en	Existance		Expired			Expired			2	2
+
+	en	BreastSize		Small			Small			1	1
+	en	BreastSize		Medium			Medium			2	2
+	en	BreastSize		Large			Large			3	3
+	en	BreastSize		ExtraLarge		Extra Large		4	4
+
+	en	DickSize		Small			Small			1	1
+	en	DickSize		Medium			Medium			2	2
+	en	DickSize		Large			Large			3	3
+	en	DickSize		ExtraLarge		Extra Large		4	4
+
+	en	DickThickness	Narrow			Narrow			1	1
+	en	DickThickness	Wide			Wide			2	2
+	en	DickThickness	Thick			Thick			3	3	
+	en	DickThickness	VeryThick		Very Thick		4	4
+
+	en	BodyBuild		Thin			Thin			1	1
+	en	BodyBuild		Fit				Fit				2	2
+	en	BodyBuild		Average			Average			3	3
+	en	BodyBuild		AboveAverage	Above Average	4	4
+	en	BodyBuild		Overweight		Over weight		5	5
+
+	en	EyeColor		Black			Black			1	1
+	en	EyeColor		Hazel			Hazel			2	2
+	en	EyeColor		Brown			Brown			3	3
+	en	EyeColor		Green			Green			4	4
+	en	EyeColor		Blue			Blue			5	5
+	en	EyeColor		Gray			Gray			6	6
+	en	EyeColor		Red				Red				7	7
+
+	en	HairColor		Brunette		Brunette		1	1
+	en	HairColor		Blonde			Blonde			2	2
+	en	HairColor		Scarlett		Scarlett		3	3
+	en	HairColor		Chestnut		Chestnut		4	4
+
+	en	Smokes			Smokes			Smokes			1	1
+	en	Smokes			DoesntSmoke	Don't Smoke			2	2
+
+	en	Alcohol			No				No				1	1
+	en	Alcohol			Sometimes		Sometimes		2	2
+	en	Alcohol			Yes				Yes				3	3
+
+	en	Religion		Christian		Christian		1	1
+	en	Religion		Muslim			Muslim			2	2
+	en	Religion		Jewish			Jewish			3	3
+	en	Religion		Hindu			Hindu			4	4
+	en	Religion		Buddhist		Buddhist		5	5
+	en	Religion		Atheist			Atheist			6	6
+	en	Religion		Agnostic		Agnostic		7	7
+	en	Religion		Deist			Deist			8	8
+	en	Religion		Other			Other			9	9
+
+	en	LookingFor		Friend			Friend			1	1
+	en	LookingFor		Sex				Sex				2	2
+	en	LookingFor		OneNight		One night stand	3	3
+	en	LookingFor		LongTimeRelationship	Long time relationship	4	4
+
+	en	MailType		MailConfirm		Mail Confirm		1	1
+	en	MailType		PasswordChanged	Password Changed	2	2
+	en	MailType		YouveGotMessage	You've Got Message	3	3
+
+	en	KatushaMembershipCreateStatus	Success				Success				1	1
+	en	KatushaMembershipCreateStatus	DuplicateUserName	Duplicate User Name	2	2
+	en	KatushaMembershipCreateStatus	DuplicateEmail		Duplicate Email		3	3
+	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password		4	4
+	en	KatushaMembershipCreateStatus	InvalidEmail		Invalid Email		5	5
+	en	KatushaMembershipCreateStatus	InvalidAnswer		Invalid Answer		6	6
+	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question		7	7
+	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName		8	8
+	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10	9
+	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9	10
+
+	en	PhotoType		Original				Original			1	0
+	en	PhotoType		Thumbnail				Thumbnail			2	1
+	en	PhotoType		Medium					Medium				3	2
+	en	PhotoType		Large					Large				4	3
+
+	en	Age		LessThan18				<18			1	1
+	en	Age		Between18And24			18-24		2	2
+	en	Age		Between25And29			25-29		3	3
+	en	Age		Between30And34			30-34		4	4
+	en	Age		Between35And39			35-39		5	5
+	en	Age		Between40And44			40-44		6	6
+	en	Age		Between45And49			45-49		7	7
+	en	Age		Between50And54			50-54		8	8
+	en	Age		Between55And59			55-59		9	9
+	en	Age		Between60And69			60-69		10	10
+	en	Age		After70					70>			11	11
+
+	en	Height			LessThan140				<140		1	1
+	en	Height			Between140And149		140-149		2	2
+	en	Height			Between150And159		150-159		3	3
+	en	Height			Between160And169		160-169		4	4
+	en	Height			Between170And179		170-179		5	5
+	en	Height			Between180And189		180-189		6	6
+	en	Height			Between190And199		190-199		7	7
+	en	Height			Between200And209		200-209		8	8
+	en	Height			After210				210>		9	9
+
+*	There is a bug in code... Last Lookup will not be parsed in DB.
+	en	Dummy			Dummy				Dummy		1	1

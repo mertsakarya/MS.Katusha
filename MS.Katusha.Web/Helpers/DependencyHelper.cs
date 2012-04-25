@@ -36,6 +36,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
             builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
+            builder.RegisterType<LocationService>().As<ILocationService>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();

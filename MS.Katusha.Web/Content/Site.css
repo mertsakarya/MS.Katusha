@@ -663,3 +663,35 @@ ul#social li {
 .k_clearfix {
 	display: block;
 }
+
+
+.search-editor-label 
+{
+    position: relative;
+    background: none;
+    color: #333;
+    outline: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.search-editor-field 
+{
+    position: relative;
+    background: none;
+    color: #333;
+    outline: none;
+    text-decoration: none;
+}
+.search-editor-field input[type="text"],
+.search-editor-field select
+{
+    width: 160px;
+    height: 20px;
+    font-size: small;
+    font-style: italic;
+    padding: 1px;
+    margin: 1px;
+    margin-right: 0;
+    border: 1px #888 solid;
+}

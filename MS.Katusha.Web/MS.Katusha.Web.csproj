@@ -229,6 +229,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\CityIndex.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
     <Compile Include="Helpers\LookupListProcessor.cs" />
@@ -274,6 +275,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConfigData\cities1000.txt" />
+    <Content Include="ConfigData\cities15000.txt" />
+    <Content Include="ConfigData\cities5000.txt" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.js" />
     <Content Include="Content\Bootstrap\bootstrap-responsive.min.css" />
@@ -327,7 +331,8 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Database.sql" />
+    <Content Include="ConfigData\countryInfo.txt" />
+    <Content Include="ConfigData\Database.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\close.gif" />
@@ -350,6 +355,7 @@
     <Content Include="Images\SamplePhotos\Male\me2.jpg" />
     <Content Include="Images\SamplePhotos\Male\me3.jpg" />
     <Content Include="Images\view.gif" />
+    <Content Include="ConfigData\iso-languagecodes.txt" />
     <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.js" />
     <Content Include="Scripts\Fbck\jquery.fcbkcomplete.min.js" />
@@ -373,6 +379,7 @@
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.Template.html" />
+    <Content Include="ConfigData\timeZones.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -506,7 +513,7 @@
     <Content Include="Views\Shared\KatushaError.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConfigurationData.txt" />
+    <Content Include="ConfigData\ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
     <Content Include="Views\Photos\List.cshtml" />
     <Content Include="Views\Messages\List.cshtml" />
