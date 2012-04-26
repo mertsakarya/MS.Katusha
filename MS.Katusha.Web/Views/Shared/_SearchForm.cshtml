@@ -5,7 +5,7 @@
     var profile = ViewBag.KatushaProfile as Profile;
     var searching = "Girls";
     if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
-  }
+}
 <form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
     @*
     <br /> 
@@ -32,3 +32,23 @@
         <p><input type="submit" value="Search" /></p>
     </fieldset>
 </form>
+<script type="text/javascript">
+    
+    $("input#City_0_").autocomplete({
+        source: function (request, response) {
+            // define a function to call your Action (assuming UserController)
+            $.ajax({
+                url: '/Search/GetCities', type: "POST", dataType: "json",
+
+                // query will be the param used by your action method
+                data: { query: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item, value: item };
+                    }))
+                }
+            })
+        },
+        minLength: 1, // require at least one character from the user
+    });
+</script>

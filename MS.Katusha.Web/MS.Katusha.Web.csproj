@@ -250,7 +250,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\RavenHelper.cs" />
     <Compile Include="Helpers\SearchCriteriaBinder.cs" />
     <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />

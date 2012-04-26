@@ -56,7 +56,7 @@ namespace MS.Katusha.Domain.Entities
         [StringLength(200)]
         public string AsciiName { get; set; } // name of geographical point in plain ascii characters, varchar(200)
         [NotMapped]
-        public IList<string> AlternateNamesList { get; set; } //alternatenames, comma separated varchar(5000)
+        public IList<string> AlternateNamesList { get { return AlternateNames.Split(','); } } //alternatenames, comma separated varchar(5000)
         public string AlternateNames { get; set; } //alternatenames, comma separated varchar(5000)
         public double Latitude { get; set; } //latitude in decimal degrees (wgs84)
         public double Longitude { get; set; } //longitude in decimal degrees (wgs84)

@@ -10,7 +10,7 @@ namespace MS.Katusha.Services
     {
         private readonly IResourceManager _resourceManager;
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
-        private GeoLocation _geoLocation;
+        private readonly GeoLocation _geoLocation;
 
         public LocationService(IResourceManager resourceManager, IKatushaGlobalCacheContext globalCacheContext)
         {
@@ -19,10 +19,12 @@ namespace MS.Katusha.Services
             _katushaGlobalCache = globalCacheContext;
         }
 
-        public IDictionary<string, string> GetCountries() { return _geoLocation.GetCountryNames(); }
-        public IList<string> GetCities(string countryCode) { return _geoLocation.GetNames(countryCode); }
-        public IList<IList<string>> GetCitiesWithAlternates(string countryCode) { return _geoLocation.GetNamesWithAlternates(countryCode); }
+        public IDictionary<string, string> GetCountries() { return _geoLocation.GetCountries(); }
         public IDictionary<string, string> GetLanguages() { return _geoLocation.GetLanguages(); }
-        public IDictionary<string, string> GetLanguages(string countryCode) { return _geoLocation.GetLanguages(countryCode); }
+        public IList<string> GetCities() { return _geoLocation.GetCities(); }
+        public IList<string> GetCitiesWithAlternates() { return _geoLocation.GetCitiesWithAlternates(); }
+        public IDictionary<int, string> GetCities(string countryCode) { return _geoLocation.GetNames(countryCode.ToLowerInvariant()); }
+        public IDictionary<int, IList<string>> GetCitiesWithAlternates(string countryCode) { return _geoLocation.GetNamesWithAlternates(countryCode.ToLowerInvariant()); }
+        public IDictionary<string, string> GetLanguages(string countryCode) { return _geoLocation.GetLanguages(countryCode.ToLowerInvariant()); }
     }
 }

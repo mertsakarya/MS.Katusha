@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
@@ -16,12 +18,15 @@ namespace MS.Katusha.Web.Controllers
     public class SearchController : KatushaController
     {
         private readonly ISearchService _searchService;
+        private readonly ILocationService _locationService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, IConversationService conversationService)
+        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, 
+            IConversationService conversationService, ILocationService locationService)
             : base(userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
+            _locationService = locationService;
         }
 
         public ActionResult Men(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return Search(key, model); }
@@ -46,6 +51,14 @@ namespace MS.Katusha.Web.Controllers
                 return View("Search", searchResultModel);
             }
             return View("Search", new SearchResultModel {SearchCriteria = model});
+        }
+
+        public ActionResult GetCities(string query)
+        {
+            var list = (from u in _locationService.GetCities()
+                         where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
+                         select u).Take(20).ToArray();
+            return Json(list);
         }
      }
 }

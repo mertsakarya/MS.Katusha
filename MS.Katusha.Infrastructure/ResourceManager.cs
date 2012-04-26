@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using MS.Katusha.Domain;
@@ -76,34 +77,34 @@ namespace MS.Katusha.Infrastructure
                 _geoLocation.Countries.Clear();
                 foreach (var item in countryRepository.GetAll()) {
                     try {
-                        _geoLocation.Countries.Add(item.ISO, item);
+                        _geoLocation.Countries.Add(item.ISO.ToLowerInvariant(), item);
                     } catch (Exception ex) {
-                        throw new KatushaGeoLocationException(item.ISO, item.Country, ex);
+                        throw new KatushaGeoLocationException(item.ISO.ToLowerInvariant(), item.Country, ex);
                     }
                 }
                 _geoLocation.Languages.Clear();
                 foreach (var item in languageRepository.GetAll()) {
                     try {
                         if (!String.IsNullOrWhiteSpace(item.ISO639_1))
-                            _geoLocation.Languages.Add(item.ISO639_1, item);
+                            _geoLocation.Languages.Add(item.ISO639_1.ToLowerInvariant(), item);
                     } catch (Exception ex) {
-                        throw new KatushaGeoLocationException(item.ISO639_1, item.LanguageName, ex);
+                        throw new KatushaGeoLocationException(item.ISO639_1.ToLowerInvariant(), item.LanguageName, ex);
                     }
                 }
                 _geoLocation.TimeZones.Clear();
                 foreach (var item in timeZoneRepository.GetAll()) {
                     try {
-                        _geoLocation.TimeZones.Add(item.TimeZoneId, item);
+                        _geoLocation.TimeZones.Add(item.TimeZoneId.ToLowerInvariant(), item);
                     } catch (Exception ex) {
-                        throw new KatushaGeoLocationException(item.TimeZoneId, item.TimeZoneId, ex);
+                        throw new KatushaGeoLocationException(item.TimeZoneId.ToLowerInvariant(), item.TimeZoneId, ex);
                     }
                 }
                 _geoLocation.Names.Clear();
                 foreach (var item in nameRepository.GetAll()) {
                     try {
-                        _geoLocation.Names.Add(item.GeoNameId.ToString(), item);
+                        _geoLocation.Names.Add(item.GeoNameId.ToString(CultureInfo.InvariantCulture), item);
                     } catch (Exception ex) {
-                        throw new KatushaGeoLocationException(item.GeoNameId.ToString(), item.Name, ex);
+                        throw new KatushaGeoLocationException(item.GeoNameId.ToString(CultureInfo.InvariantCulture), item.Name, ex);
                     }
                 }
                 _geoLocation.Initialize();;

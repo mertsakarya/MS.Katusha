@@ -5,7 +5,7 @@ using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 
-namespace MS.Katusha.Web.Helpers
+namespace MS.Katusha.Infrastructure
 {
     public static class RavenHelper
     {
