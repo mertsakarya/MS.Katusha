@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Raven.Abstractions.Data;
@@ -36,14 +37,8 @@ namespace MS.Katusha.Services
             if (searchCriteria.CanSearch) {
                 int total;
                 var filter = GetFilter<Profile>(searchCriteria);
-                var facetFilter = GetFilter<ProfileFacet>(searchCriteria, true);
-                var searchFilter = GetFilter<ProfileSearchFacet>(searchCriteria, true);
-                var countryFilter = GetFilter<ProfileCountryFacet>(searchCriteria, true);
-                var languageFilter = GetFilter<ProfileLanguageFacet>(searchCriteria, true);
+                var facetFilter = GetFilter<ProfileFacet>(searchCriteria);
                 var facetSearch = FacetSearch(facetFilter, "ProfileFacets");
-                facetSearch.Add("Search", FacetSearch(searchFilter, "ProfileSearchFacet")["Search"]);
-                facetSearch.Add("Country", FacetSearch(countryFilter, "ProfileCountryFacet")["Country"]);
-                facetSearch.Add("Language", FacetSearch(languageFilter, "ProfileLanguageFacet")["Language"]);
               
                 return new SearchResult { 
                     Profiles = Search(filter, pageNo, pageSize, out total),
@@ -55,13 +50,13 @@ namespace MS.Katusha.Services
             return new SearchResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };
         }
 
-        private static Expression<Func<T, bool>> GetFilter<T>(SearchCriteria searchCriteria, bool isFacet = false)
+        private static Expression<Func<T, bool>> GetFilter<T>(SearchCriteria searchCriteria)
         {
             var type = typeof (T);
             var argParam = Expression.Parameter(type, "p");
             var expression = GetExpression(new[] {(searchCriteria.Gender)}, Expression.Property(argParam, "Gender"));
 
-            expression = GetExpression(searchCriteria.From, Expression.Property(argParam, "From"), expression);
+            expression = GetExpressionLocation(searchCriteria.From, Expression.Property(argParam, "From"), "Country", "", expression);
             expression = GetExpression(searchCriteria.BodyBuild, Expression.Property(argParam, "BodyBuild"), expression);
             expression = GetExpression(searchCriteria.EyeColor, Expression.Property(argParam, "EyeColor"), expression);
             expression = GetExpression(searchCriteria.BreastSize, Expression.Property(argParam, "BreastSize"), expression);
@@ -77,15 +72,7 @@ namespace MS.Katusha.Services
 
             expression = GetExpressionMinMax(HeightHelper.GetArrayItems(searchCriteria.Height), Expression.Property(argParam, "Height"), expression);
             expression = GetExpressionMinMax(AgeHelper.GetArrayItems(searchCriteria.Age), Expression.Property(argParam, "BirthYear"), expression);
-            if (!isFacet) {
-                expression = GetExpressionIn(searchCriteria.Language, "Language", expression);
-                expression = GetExpressionIn(searchCriteria.LookingFor, "Search", expression);
-                expression = GetExpressionIn(searchCriteria.Country, "Country", expression);
-            } else {
-                if (type.Name == "ProfileLanguageFacet") expression = GetExpression(searchCriteria.Language, Expression.PropertyOrField(argParam, "Language"), expression);
-                if (type.Name == "ProfileSearchFacet") expression = GetExpression(searchCriteria.LookingFor, Expression.Property(argParam, "Search"), expression);
-                if (type.Name == "ProfileCountryFacet") expression = GetExpression(searchCriteria.Country, Expression.Property(argParam, "Country"), expression);
-            }
+
             var filter = Expression.Lambda<Func<T, bool>>(expression, argParam);
             return filter;
         }
@@ -108,10 +95,27 @@ namespace MS.Katusha.Services
             return expression == null ? pe : Expression.AndAlso(expression, pe);
         }
 
+        private static Expression GetExpressionLocation(ICollection<string> values, Expression left, string lookupName, string countryCode = "", Expression expression = null)
+        {
+            if (values.Count == 0) return expression;
+            IList<Expression> expressions = new List<Expression>();
+            foreach (var key in values) {
+                if (ResourceManager.GetInstance().GeoLocation.ContainsKey(lookupName, key, countryCode)) {
+                    ConstantExpression right = Expression.Constant(key);
+                    Expression expression1 = Expression.Equal(left, right);
+                    expressions.Add(expression1);
+                }
+            }
+            if (expressions.Count <= 0) return expression;
+            var pe = expressions[0];
+            for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
+            return expression == null ? pe : Expression.AndAlso(expression, pe);
+        }
+
         private static Expression GetExpression<TEnum>(ICollection<TEnum> values, Expression left, Expression expression = null)
         {
             if (values.Count == 0) return expression;
-            IList<Expression> expressions = values.Where(p=> Convert.ToByte(p) > 0).Select(value => Expression.Constant(Convert.ToByte(value))).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
+            IList<Expression> expressions = values.Where(p => Convert.ToByte(p) > 0).Select(value => Expression.Constant(Convert.ToByte(value))).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
             if (expressions.Count <= 0) return expression;
             var pe = expressions[0];
             for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
@@ -123,31 +127,6 @@ namespace MS.Katusha.Services
             if (values.Count == 0) return expression;
             IList<Expression> expressions = values.Where(p=>!String.IsNullOrWhiteSpace(p)).Select(Expression.Constant).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
             if (expressions.Count <= 0) return expression;
-            var pe = expressions[0];
-            for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
-            return expression == null ? pe : Expression.AndAlso(expression, pe);
-        }
-
-        private static Expression GetExpressionIn<TEnum>(ICollection<TEnum> values, string itemName, Expression expression = null)
-        {
-            if(values.Count == 0) return expression;
-            IList<Expression> expressions = new List<Expression>();
-            foreach (var value in values) {
-                var val = Convert.ToByte(value);
-                Expression<Func<Profile, bool>> ex = null;
-                switch(itemName) {
-                    case "Language":
-                        ex = profile => profile.LanguagesSpoken.Any(p => p.Language == val);
-                        break;
-                    case "Search":
-                        ex = profile => profile.Searches.Any(p => p.Search == val);
-                        break;
-                    case "Country":
-                        ex = profile => profile.CountriesToVisit.Any(p => p.Country == val);
-                        break;
-                }
-                if (ex != null) expressions.Add(ex.Body);
-            }
             var pe = expressions[0];
             for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
             return expression == null ? pe : Expression.AndAlso(expression, pe);

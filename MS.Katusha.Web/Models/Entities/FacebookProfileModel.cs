@@ -17,7 +17,7 @@ namespace MS.Katusha.Web.Models.Entities
 
         [KatushaField("Profile.From")]
         [KatushaRequired("Profile.From")]
-        public Country From { get; set; }
+        public string From { get; set; }
 
         [KatushaStringLength("Profile.City")]
         [KatushaField("Profile.City")]

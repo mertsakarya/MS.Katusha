@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace MS.Katusha.Infrastructure
         public IDictionary<string, GeoName> Names { get; private set; }
         public IDictionary<string, GeoTimeZone> TimeZones { get; private set; }
         public IDictionary<string, IList<GeoName>> CountryNames { get; private set; }
+        public IDictionary<string, IDictionary<string, string>> CountryCities { get; private set; }
 
 
         private IDictionary<string, string> _languageList;
@@ -31,15 +33,24 @@ namespace MS.Katusha.Infrastructure
         public void Initialize()
         {
             CountryNames = new Dictionary<string, IList<GeoName>>(Countries.Count);
-            foreach(var nameItem in Names) {
+            CountryCities = new Dictionary<string, IDictionary<string, string>>(Countries.Count);
+            foreach (var nameItem in Names) {
                 var name = nameItem.Value;
                 var key = name.CountryCode.ToLowerInvariant();
-                IList<GeoName> list;
+                IList<GeoName> geoNames;
+                IDictionary<string, string> cityNames;
                 if (!CountryNames.ContainsKey(key)) {
-                    list = new List<GeoName>();
-                    CountryNames.Add(key, list);
-                } else list = CountryNames[key];
-                list.Add(name);
+                    geoNames = new List<GeoName>();
+                    CountryNames.Add(key, geoNames);
+                    cityNames = new Dictionary<string, string>();
+                    CountryCities.Add(key, cityNames);
+                } else {
+                    geoNames = CountryNames[key];
+                    cityNames = CountryCities[key];
+                }
+                geoNames.Add(name);
+                if(!cityNames.ContainsKey(name.Name))
+                    cityNames.Add(name.Name, name.Name);
             }
             var removeList = (from country in Countries where !CountryNames.ContainsKey(country.Key) select country.Key).ToList();
             foreach (var item in removeList) Countries.Remove(item);
@@ -114,6 +125,7 @@ namespace MS.Katusha.Infrastructure
         public IDictionary<string, string> GetCountries() { return _countryList; }
         public IList<string> GetCitiesWithAlternates() { return _cityListWithAlternates; }
         public IList<string> GetCities() { return _cityList; }
+        public IDictionary<string, string> GetCities(string countryCode) { return CountryCities.ContainsKey(countryCode)? CountryCities[countryCode] : new Dictionary<string, string>(); }
         public IDictionary<string, string> GetLanguages() { return _languageList; }
 
         public IDictionary<string, string> GetLanguages(string countryCode)
@@ -127,6 +139,44 @@ namespace MS.Katusha.Infrastructure
                     list.Add(language, languageName);
             }
             return list;
+        }
+
+        public string GetValue(string lookupName, string key, string countryCode = "")
+        {
+            IDictionary<string, string> keyValues = null;
+            var lookup = lookupName.ToLowerInvariant();
+            switch (lookup) {
+                case "language":
+                    keyValues = GetLanguages();
+                    break;
+                case "country":
+                    keyValues = GetCountries();
+                    break;
+                case "city":
+                    keyValues = GetCities(countryCode);
+                    break;
+            }
+            var value = (keyValues == null || String.IsNullOrWhiteSpace(key)) ? "" : (keyValues.ContainsKey(key)) ? keyValues[key] : "";
+            return value;
+        }
+
+        public bool ContainsKey(string lookupName, string key, string countryCode = "")
+        {
+            IDictionary<string, string> keyValues = null;
+            var lookup = lookupName.ToLowerInvariant();
+            switch (lookup) {
+                case "language":
+                    keyValues = GetLanguages();
+                    break;
+                case "country":
+                    keyValues = GetCountries();
+                    break;
+                case "city":
+                    keyValues = GetCities(countryCode);
+                    break;
+            }
+            var value = !(keyValues == null || String.IsNullOrWhiteSpace(key)) && keyValues.ContainsKey(key);
+            return value;
         }
 
     }

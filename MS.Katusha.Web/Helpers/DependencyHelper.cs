@@ -1,3 +1,4 @@
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -20,6 +21,8 @@ namespace MS.Katusha.Web.Helpers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public const int GlobalPageSize = 40;
         public static IContainer Container;
+        public static readonly string PhotosFolder = HttpContext.Current.Server.MapPath("/Photos");
+
         public static void RegisterDependencies()
         {
             var builder = new ContainerBuilder();
@@ -37,6 +40,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
             builder.RegisterType<LocationService>().As<ILocationService>().InstancePerHttpRequest();
+            builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
 
             builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();

@@ -14,7 +14,7 @@ namespace MS.Katusha.Domain.Entities
         [Key]
         public string LanguageName { get; set; }
 
-        public string ToString() { return LanguageName; }
+        public new string ToString() { return LanguageName; }
     }
 
     public class GeoCountry
@@ -44,7 +44,7 @@ namespace MS.Katusha.Domain.Entities
         public IList<string> NeighborsList { get { return Neighbors.Split(','); } }
         public string EquivalentFipsCode { get; set; }
 
-        public string ToString() { return Country; }
+        public new string ToString() { return Country; }
     }
 
     public class GeoName
@@ -85,7 +85,7 @@ namespace MS.Katusha.Domain.Entities
         public string TimeZone { get; set; } //the timezone id (see file timeZone.txt) varchar(40)
         public string ModificationDate { get; set; } //date of last modification in yyyy-MM-dd format
 
-        public string ToString() { return Name; }
+        public new string ToString() { return Name; }
 
     }
 
@@ -97,6 +97,6 @@ namespace MS.Katusha.Domain.Entities
         public double DSTOffset { get; set; }
         public double RawOffset { get; set; }
 
-        public string ToString() { return TimeZoneId; }
+        public new string ToString() { return TimeZoneId; }
     }
 }

@@ -1,6 +1,5 @@
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB.Base;
 
@@ -10,17 +9,17 @@ namespace MS.Katusha.Repositories.DB
     {
         public LanguagesSpokenRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
 
-        public void DeleteByProfileId(long profileId, Language language)
+        public void DeleteByProfileId(long profileId, string language)
         {
-            var entity = SingleAttached(p => p.ProfileId == profileId && p.Language == (byte)language);
+            var entity = SingleAttached(p => p.ProfileId == profileId && p.Language == language);
             if(entity != null)
                 Delete(entity);
         }
 
-        public void AddByProfileId(long profileId, Language language)
+        public void AddByProfileId(long profileId, string language)
         {
-            if (SingleAttached(p => p.ProfileId == profileId && p.Language == (byte)language) == null) ;
-                Add(new LanguagesSpoken() {Language = (byte) language, ProfileId = profileId});
+            if (SingleAttached(p => p.ProfileId == profileId && p.Language == language) == null)
+                Add(new LanguagesSpoken {Language = language, ProfileId = profileId});
         }
     }
 }

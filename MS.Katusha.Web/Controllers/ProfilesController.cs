@@ -219,17 +219,18 @@ namespace MS.Katusha.Web.Controllers
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
         {
             if (!performDataOperation) {
+                var languages = _resourceManager.GeoLocation.GetLanguages();
+                var countries = _resourceManager.GeoLocation.GetCountries();
+
                 var formValue = Request.Form["CountriesToVisitModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {
                     var list = formValue.Split(',');
-                    Country c;
-                    foreach (var line in list) if (Enum.TryParse(line, out c)) profileModel.CountriesToVisit.Add(new CountriesToVisitModel { Country = c });
+                    foreach (var line in list) if(countries.ContainsKey(line)) profileModel.CountriesToVisit.Add(new CountriesToVisitModel { Country = line });
                 }
                 formValue = Request.Form["LanguagesSpokenModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {
                     var list = formValue.Split(',');
-                    Language c;
-                    foreach (var line in list) if (Enum.TryParse(line, out c)) profileModel.LanguagesSpoken.Add(new LanguagesSpokenModel { Language = c });
+                    foreach (var line in list) if (languages.ContainsKey(line)) profileModel.LanguagesSpoken.Add(new LanguagesSpokenModel { Language = line });
                 }
                 formValue = Request.Form["SearchingForModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {
@@ -239,19 +240,19 @@ namespace MS.Katusha.Web.Controllers
                 }
             }
 
-            var llp = new LookupListProcessor<ProfileModel, Profile, CountriesToVisitModel, CountriesToVisit, Country>(
+            var llp = new LookupListProcessor<ProfileModel, Profile, CountriesToVisitModel, CountriesToVisit, string>(
                 p => p.CountriesToVisit,
                 p => p.CountriesToVisit,
-                p => (Country)p.Country,
+                p => (string)p.Country,
                 p => p.Country,
                 (modelData, country) => _profileService.DeleteCountriesToVisit(modelData.Id, country),
                 (modelData, country) => _profileService.AddCountriesToVisit(modelData.Id, country)
                 );
 
-            var llp2 = new LookupListProcessor<ProfileModel, Profile, LanguagesSpokenModel, LanguagesSpoken, Language>(
+            var llp2 = new LookupListProcessor<ProfileModel, Profile, LanguagesSpokenModel, LanguagesSpoken, string>(
                 p => p.LanguagesSpoken,
                 p => p.LanguagesSpoken,
-                p => (Language)p.Language,
+                p => (string)p.Language,
                 p => p.Language,
                 (modelData, language) => _profileService.DeleteLanguagesSpoken(modelData.Id, language),
                 (modelData, language) => _profileService.AddLanguagesSpoken(modelData.Id, language)

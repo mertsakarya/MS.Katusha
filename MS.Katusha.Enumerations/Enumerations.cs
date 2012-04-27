@@ -7,8 +7,8 @@ namespace MS.Katusha.Enumerations
     public enum BreastSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
     public enum DickSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
     public enum DickThickness : byte { Narrow = 1, Wide = 2, Thick = 3, VeryThick = 4, MAX = 4 }
-    public enum Language : byte { Turkish = 1, Russian = 2, English = 3, MAX = 3, DefaultLanguage = English }
-    public enum Country : byte { Turkey = 1, Ukraine = 2, Russia = 3, UnitedStates = 4, MAX = 4 }
+    //public enum Language : byte { Turkish = 1, Russian = 2, English = 3, MAX = 3, DefaultLanguage = English }
+    //public enum Country : byte { Turkey = 1, Ukraine = 2, Russia = 3, UnitedStates = 4, MAX = 4 }
 
     public enum BodyBuild : byte { Thin = 1, Fit = 2, Average = 3, AboveAverage = 4, Overweight = 5, MAX = 5 }
     public enum EyeColor : byte { Black = 1, Hazel = 2, Brown = 3, Green = 4, Blue = 5, Gray = 6, Red = 7, MAX = 7 }

@@ -1,6 +1,5 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Domain.Entities.BaseEntities;
-using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
@@ -11,12 +10,13 @@ namespace MS.Katusha.Domain.Entities
         public long ProfileId { get; set; }
         [JsonIgnore]
         public Profile Profile { get; set; }
-        public byte Country { get; set; }
+        [StringLength(2)]
+        public string Country { get; set; }
 
 
         public override string ToString()
         {
-            return Enum.GetName(typeof(Country), Country);
+            return Country;
         }
     }
 }

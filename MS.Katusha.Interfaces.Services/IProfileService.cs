@@ -34,10 +34,10 @@ namespace MS.Katusha.Interfaces.Services
         void UpdateRavenProfile(long id);
 
 
-        void DeleteCountriesToVisit(long profileId, Country country);
-        void AddCountriesToVisit(long profileId, Country country);
-        void DeleteLanguagesSpoken(long profileId, Language language);
-        void AddLanguagesSpoken(long profileId, Language language);
+        void DeleteCountriesToVisit(long profileId, string country);
+        void AddCountriesToVisit(long profileId, string country);
+        void DeleteLanguagesSpoken(long profileId, string language);
+        void AddLanguagesSpoken(long profileId, string language);
         void DeleteSearches(long profileId, LookingFor lookingFor);
         void AddSearches(long profileId, LookingFor lookingFor);
     }

@@ -29,8 +29,9 @@
         Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
         <a href="#" onclick="logoff();">Log off</a>
     </p>
-    <script src="http://connect.facebook.net/en_US/all.js"></script>
-    <script>
+    <!-- script src="http://connect.facebook.net/en_US/all.js"></ script -->
+    <script src="/Scripts/fb_all.js" type="text/javascript"></script>
+    <script type="text/javascript">
         window.fbAsyncInit = function() {
             FB.init({
                 appId: '405781396117619', // App ID
@@ -61,7 +62,7 @@
     https://developers.facebook.com/apps/405781396117619/auth
     http://csharpsdk.org/docs/web/getting-started
     *@
-    <script>
+    <script type="text/javascript">
 
         window.fbAsyncInit = function () {
             FB.init({
@@ -104,13 +105,14 @@
             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
             if (d.getElementById(id)) { return; }
             js = d.createElement('script'); js.id = id; js.async = true;
-            js.src = "//connect.facebook.net/en_US/all.js";
+            //js.src = "//connect.facebook.net/en_US/all.js";
+            js.src = "/Scripts/fb_all.js";
             ref.parentNode.insertBefore(js, ref);
         } (document));
     </script>
     
     <ul>
-        <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1" style="width:70px; float:right; position: relative; display: inline-block;"></div></li>
+        <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1" style="overflow:hidden;height:18px;width:70px; float:right; position: relative; display: inline-block;"></div></li>
         <li style="display:none;">@Html.ActionLink("Register Facebook", "Facebook", "Account", routeValues: null, htmlAttributes: new { id = "facebookRegisterLink", data_dialog_title = "Facebook Registration" })</li>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>

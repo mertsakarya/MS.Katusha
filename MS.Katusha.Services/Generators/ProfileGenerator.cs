@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using NLog;
 
@@ -12,12 +15,14 @@ namespace MS.Katusha.Services.Generators
         private readonly IUserService _userService;
         private readonly IPhotosService _photosService;
         private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.ProfileGenerator");
+        private IResourceManager _resourceManager;
 
         public ProfileGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
         {
             _profileService = profileService;
             _userService = userService;
             _photosService = photosService;
+            _resourceManager = ResourceManager.GetInstance();
         }
 
         public Profile Generate(int extra = 0)
@@ -27,7 +32,15 @@ namespace MS.Katusha.Services.Generators
 #endif
             IGenerator<User> generator = new UserGenerator(_userService);
             var user = generator.Generate();
-            var city = new[] { "Istanbul", "Ankara", "Kiev" };
+            var city = _resourceManager.GeoLocation.GetCities();
+
+            var geoCountries = _resourceManager.GeoLocation.GetCountries();
+            var countries = new List<string>(geoCountries.Count);
+            countries.AddRange(geoCountries.Select(country => country.Key));
+
+            var geoLanguages = _resourceManager.GeoLocation.GetLanguages();
+            var languages = new List<string>(geoLanguages.Count);
+            languages.AddRange(geoLanguages.Select(language => language.Key));
 
             var profile = new Profile {
                                           Name = GeneratorHelper.RandomString(10, true),
@@ -37,11 +50,11 @@ namespace MS.Katusha.Services.Generators
                                           BodyBuild = (byte) (GeneratorHelper.RND.Next((int) BodyBuild.MAX) + 1), 
                                           EyeColor = (byte) (GeneratorHelper.RND.Next((int) EyeColor.MAX) + 1), 
                                           Smokes = (byte) (GeneratorHelper.RND.Next((int) Smokes.MAX) + 1), 
-                                          From = (byte) (GeneratorHelper.RND.Next((int) Country.MAX) + 1), 
+                                          From = countries[GeneratorHelper.RND.Next( countries.Count-2)+ 1], 
                                           HairColor = (byte) (GeneratorHelper.RND.Next((int) HairColor.MAX) + 1), 
                                           Alcohol = (byte) (GeneratorHelper.RND.Next(1 + (int) Alcohol.MAX)),
                                           Religion = (byte) (GeneratorHelper.RND.Next((int)Religion.MAX) + 1),
-                                          City = city[GeneratorHelper.RND.Next(3)], 
+                                          City = city[GeneratorHelper.RND.Next(city.Count)], 
                                           Description = GeneratorHelper.RandomString(1000, false), 
                                           Height = GeneratorHelper.RandomNumber(150, 198), 
                                           BirthYear = GeneratorHelper.RandomNumber(1960, 1989)
@@ -56,17 +69,16 @@ namespace MS.Katusha.Services.Generators
             
             _profileService.CreateProfile(profile);
 
-            for(byte i = 1; i <= (byte)Language.MAX; i++) 
-                if(GeneratorHelper.RND.Next(2) + 1 == 1)
-                    _profileService.AddLanguagesSpoken(profile.Id, (Language) i);
+            foreach (var language in languages.Where(language => GeneratorHelper.RND.Next(10) + 1 == 1))
+                _profileService.AddLanguagesSpoken(profile.Id, language);
             
             for(byte i = 1; i <= (byte)LookingFor.MAX; i++)
                 if (GeneratorHelper.RND.Next(2) + 1 == 1)
                     _profileService.AddSearches(profile.Id, (LookingFor) i);
-            
-            for(byte i = 1; i <= (byte)Country.MAX; i++)
-                if (GeneratorHelper.RND.Next(2) + 1 == 1)
-                    _profileService.AddCountriesToVisit(profile.Id, (Country) i);
+
+            foreach (var country in countries.Where(country => GeneratorHelper.RND.Next(10) + 1 == 1))
+                _profileService.AddCountriesToVisit(profile.Id, country); 
+
             if (extra == 0) {
                 var photoCount = GeneratorHelper.RND.Next(4);
                 if (photoCount > 0) {

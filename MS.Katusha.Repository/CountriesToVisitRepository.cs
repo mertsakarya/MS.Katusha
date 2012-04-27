@@ -11,18 +11,18 @@ namespace MS.Katusha.Repositories.DB
     {
         public CountriesToVisitRepositoryDB(IKatushaDbContext dbContext) : base(dbContext) { }
 
-        public void DeleteByProfileId(long profileId, Country country)
+        public void DeleteByProfileId(long profileId, string country)
         {
-            var entity = SingleAttached(p => p.ProfileId == profileId && p.Country == (byte)country);
+            var entity = SingleAttached(p => p.ProfileId == profileId && p.Country == country);
             if(entity != null)
                 Delete(entity);
         }
 
-        public void AddByProfileId(long profileId, Country country)
+        public void AddByProfileId(long profileId, string country)
         {
-            var exist = SingleAttached(p => p.ProfileId == profileId && p.Country == (byte)country);
+            var exist = SingleAttached(p => p.ProfileId == profileId && p.Country == country);
             if(exist == null)
-                Add(new CountriesToVisit() { Country = (byte)country, ProfileId = profileId });
+                Add(new CountriesToVisit() { Country = country, ProfileId = profileId });
         }
     }
 }

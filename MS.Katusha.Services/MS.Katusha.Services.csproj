@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UtilityService.cs" />
     <Compile Include="LocationService.cs" />
     <Compile Include="PhotoBackupService.cs" />
     <Compile Include="StateService.cs" />

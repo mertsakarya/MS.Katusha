@@ -80,10 +80,7 @@
     <Compile Include="Indexes\ConversationCountIndex.cs" />
     <Compile Include="StateRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationIndex.cs" />
-    <Compile Include="Indexes\ProfileCountryFacetIndex.cs" />
-    <Compile Include="Indexes\ProfileLanguageFacetIndex.cs" />
     <Compile Include="Indexes\ProfileFacetsIndex.cs" />
-    <Compile Include="Indexes\ProfileSearchFacetIndex.cs" />
     <Compile Include="Indexes\UniqueVisitorsIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProfileRepositoryRavenDB.cs" />

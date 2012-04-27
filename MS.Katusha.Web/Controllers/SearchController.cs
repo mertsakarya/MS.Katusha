@@ -53,12 +53,21 @@ namespace MS.Katusha.Web.Controllers
             return View("Search", new SearchResultModel {SearchCriteria = model});
         }
 
-        public ActionResult GetCities(string query)
+        public ActionResult GetCities(string countryCode, string query)
         {
             var list = (from u in _locationService.GetCities()
-                         where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
-                         select u).Take(20).ToArray();
-            return Json(list);
+                        where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
+                        select u).Take(20).ToArray();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
-     }
+
+        public ActionResult GetCountries(string query)
+        {
+            var items = _locationService.GetCountries();
+            var list = (from u in items
+                        where u.Value.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
+                        select u).Take(20).ToArray();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+    }
 }

@@ -31,7 +31,7 @@ namespace MS.Katusha.Web.Models.Entities
 
         [KatushaField("Profile.From")]
         [KatushaRequired("Profile.From")]
-        public Country From { get; set; }
+        public string From { get; set; }
 
         [KatushaStringLength("Profile.City")]
         [KatushaField("Profile.City")]
@@ -108,7 +108,7 @@ namespace MS.Katusha.Web.Models.Entities
                       String.Format(
                           " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | Religion: {10} | Height: {11} | BirthYear: {12}",
                           0/*(User == null) ? 0 : User.Id*/, "REMOVED", Name,
-                          Enum.GetName(typeof (Country), From),
+                          From,
                           City,
                           Enum.GetName(typeof (BodyBuild), BodyBuild),
                           Enum.GetName(typeof (EyeColor), EyeColor),

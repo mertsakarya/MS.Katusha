@@ -5,7 +5,7 @@ namespace MS.Katusha.Interfaces.Repositories
 {
     public interface ICountriesToVisitRepositoryDB : IRepository<CountriesToVisit>
     {
-        void DeleteByProfileId(long profileId, Country country);
-        void AddByProfileId(long profileId, Country country);
+        void DeleteByProfileId(long profileId, string country);
+        void AddByProfileId(long profileId, string country);
     }
 }

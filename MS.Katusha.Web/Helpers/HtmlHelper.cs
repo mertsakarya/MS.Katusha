@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
@@ -58,17 +59,17 @@ namespace MS.Katusha.Web.Helpers
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var type = GetNonNullableModelType(metadata);
-            IResourceManager rm = new ResourceManager();
+            var rm = ResourceManager.GetInstance();
             var dict = rm._L(type.Name);
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
-                list.Add(new SelectListItem {Text = htmlHelper._R("EmptyText"), Value = "0"});
+                list.Add(new SelectListItem { Text = htmlHelper._R("EmptyText"), Value = "0" });
             foreach (var item in dict) {
-                var sli = new SelectListItem() {Text = item.Value, Value = item.Key};
+                var sli = new SelectListItem() { Text = item.Value, Value = item.Key };
                 try {
                     if (metadata.Model != null && item.Key == metadata.Model.ToString())
                         sli.Selected = true;
-                } catch {}
+                } catch { }
                 list.Add(sli);
             }
             return htmlHelper.DropDownListFor(expression, list, htmlAttributes);
@@ -93,33 +94,39 @@ namespace MS.Katusha.Web.Helpers
         public static string KeyFor<TModel>(this HtmlHelper<TModel> htmlHelper, Profile model) { return (String.IsNullOrEmpty(model.FriendlyName)) ? model.Guid.ToString() : model.FriendlyName; }
 
 
-        public static string _R<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
+        public static string _R<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, string language = "")
         {
             var rm = DependencyResolver.Current.GetService<IResourceManager>();
-            return rm._R(resourceName, (byte)language);
+            return rm._R(resourceName, language);
         }
 
-        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, Language language = 0)
+        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, string language = "")
         {
             var rm = DependencyResolver.Current.GetService<IResourceManager>();
             //IResourceManager rm = new ResourceManager();
-            return rm._LText(lookupName, name, (byte) language);
+            return rm._LText(lookupName, name,  language);
         }
 
-        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, Language language = 0)
+        public static string _LText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, string language = "")
         {
             var rm = DependencyResolver.Current.GetService<IResourceManager>();
-            var key = rm._LKey(lookupName, value, (byte)language);
+            var key = rm._LKey(lookupName, value, language);
             return key;
         }
 
-        public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, Language language = 0)
+        public static IDictionary<string, string> _L<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, string language = "")
         {
             var rm = DependencyResolver.Current.GetService<IResourceManager>();
-            return rm._L(resourceName, (byte)language);
+            return rm._L(resourceName, language);
         }
 
-        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false )
+        public static string LocationValue<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string key, string countryCode = "")
+        {
+            var rm = DependencyResolver.Current.GetService<IResourceManager>();
+            return rm.GeoLocation.GetValue(lookupName, key, countryCode);
+        }
+
+        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false)
         {
             var tb = new TagBuilder("img");
             if(setId) {
@@ -170,11 +177,40 @@ namespace MS.Katusha.Web.Helpers
             //                      , htmlHelper.DisplayTextFor(expression), metadata.Description));
             return htmlHelper.Raw("");
         }
+        public static IHtmlString DisplayCountryFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression, string countryCode)
+        {
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            if (condition) {
+                var rm = ResourceManager.GetInstance().GeoLocation.GetCountries();
+                var label = new TagBuilder("div");
+                label.AddCssClass("display-label");
+                label.InnerHtml = String.Format("<b>{0}</b>", htmlHelper.DisplayNameFor(expression).ToHtmlString());
+                var text = new TagBuilder("div");
+                text.AddCssClass("display-field");
+                text.SetInnerText(htmlHelper.GetCountry(countryCode));
+                var container = new TagBuilder("div");
+                container.Attributes.Add("title", metadata.Description);
+                container.InnerHtml = label + text.ToString();
+                var result = htmlHelper.Raw(container.ToString());
+                return result;
+            }
+            //return htmlHelper.Raw(
+            //        String.Format("<div class=\"display-label\"><b>{0}</b></div><div class=\"display-field\">{1}</div><span title=\"{2}\">?</span><br />",
+            //                      , htmlHelper.DisplayTextFor(expression), metadata.Description));
+            return htmlHelper.Raw("");
+        }
+
+        public static string GetCountry<TModel>(this HtmlHelper<TModel> htmlHelper, string countryCode)
+        {
+            var countries = ResourceManager.GetInstance().GeoLocation.GetCountries();
+            if(String.IsNullOrWhiteSpace(countryCode)) return "";
+            return (countries.ContainsKey(countryCode) ? countries[countryCode] : "");
+        }
 
         public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper._LText("Country", Enum.GetName(typeof (Country), profile.From)));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper.GetCountry(profile.From));
             var url = "/Profiles/Show/" + val;
             var anchor = new TagBuilder("a");
             anchor.Attributes.Add("title", title);
@@ -201,14 +237,44 @@ namespace MS.Katusha.Web.Helpers
 
         private static string Append(string key, string value, string keyName = "key") { return String.Format("{{{0}:\"{1}\",value:\"{2}\"}}", keyName, key, value.Replace("\n", "\\n").Replace("\t", "\\t").Replace("\r", "\\r").Replace("'", "\\'").Replace("\"", "\\\"")); }
 
+        public static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName)
+        {
+            IResourceManager rm = ResourceManager.GetInstance();
+            var lookup = lookupName.ToLowerInvariant();
+            IDictionary<string, string> keyValues; 
+            if( lookup == "language") 
+                keyValues = rm.GeoLocation.GetLanguages();
+            else if(lookup == "country") 
+                keyValues = rm.GeoLocation.GetCountries();
+            else if (lookup.StartsWith("city/")) {
+                var countryCode = lookup.Substring(5);
+                if (rm.GeoLocation.CountryCities.ContainsKey(countryCode))
+                    keyValues = rm.GeoLocation.CountryCities[countryCode];
+                else
+                    keyValues = new Dictionary<string, string>();
+            } else
+                keyValues = rm._L(lookupName);
+            var sb = new StringBuilder();
+            sb.Append("[");
+            var i = 0;
+            if(keyValues != null)
+                foreach (var item in keyValues) {
+                    sb.Append(Append(item.Key, item.Value));
+                    if (i != keyValues.Count - 1) sb.Append(",");
+                    i++;
+                }
+            sb.Append("]");
+            return htmlHelper.Raw(sb.ToString());
+        }
+
         public static IHtmlString ToJson<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, IList<TColl> list, Expression<Func<TColl, TProp>> expression)
         {
             var sb = new StringBuilder();
             sb.Append("[");
 
-            IResourceManager rm = new ResourceManager();
+            IResourceManager rm = ResourceManager.GetInstance();
             var compiledExpression = expression.Compile();
-            var enumType = typeof (TProp);
+            var enumType = typeof(TProp);
             var firstTime = true;
             foreach (var item in list) {
                 if (!firstTime) sb.Append(',');
@@ -219,6 +285,81 @@ namespace MS.Katusha.Web.Helpers
             sb.Append("]");
             return htmlHelper.Raw(sb.ToString());
         }
+
+        public static IHtmlString ToJson<TModel, TColl>(this HtmlHelper<TModel> htmlHelper, IList<TColl> list, Expression<Func<TColl, string>> expression, string lookupName)
+        {
+            var sb = new StringBuilder();
+            sb.Append("[");
+
+            IResourceManager rm = ResourceManager.GetInstance();
+            var compiledExpression = expression.Compile();
+            var keyValues = (lookupName.ToLowerInvariant() == "language") ? rm.GeoLocation.GetLanguages() : (lookupName.ToLowerInvariant() == "country") ? rm.GeoLocation.GetCountries() : null;
+            var firstTime = true;
+            foreach (var item in list) {
+                if (!firstTime) sb.Append(',');
+                var key = compiledExpression.Invoke(item);
+                if (keyValues.ContainsKey(key)) {
+                    var value = keyValues[key];
+                    sb.Append(Append(value, key, "title"));
+                    firstTime = false;
+                } else {
+                    Debug.WriteLine(lookupName + " : " + key);
+                }
+            }
+            sb.Append("]");
+            return htmlHelper.Raw(sb.ToString());
+        }
+
+
+        public static IHtmlString FacebookListFor2<TModel, TColl>(
+            this HtmlHelper<TModel> htmlHelper,
+            string resourceName,
+            TModel model,
+            IList<TColl> collection,
+            string lookupName,
+            Expression<Func<TModel, IList<TColl>>> modelPropertyExpression,
+            Expression<Func<TColl, string>> propertyPropertyExpression
+            )
+        {
+            var name = typeof(TColl).Name;
+            var label = new TagBuilder("div");
+            var edit = new TagBuilder("div");
+            var select = new TagBuilder("select");
+            var script = new TagBuilder("script");
+
+            label.AddCssClass("editor-label");
+            label.InnerHtml = (htmlHelper.LabelFor(modelPropertyExpression).ToHtmlString());
+            select.Attributes.Add("id", name + "Selection");
+            select.Attributes.Add("name", name + "Selection[]");
+            script.Attributes.Add("type", "text/javascript");
+            var message = htmlHelper._R(resourceName + ".Message");
+            var tmp = htmlHelper._R(resourceName + ".MaxItems");
+            int maxItems;
+            if (!int.TryParse(tmp, out maxItems)) maxItems = 0;
+            var maxItemsText = (maxItems > 0) ? maxItems.ToString(CultureInfo.InvariantCulture) : String.Format("_FCBK{0}.length", name);
+            script.InnerHtml = String.Format(
+                @"      var _FCBK{0}={1};
+        var _FCBK{0}SelectedList={2};
+        $('#{0}Selection').fcbkcomplete({{
+            json_url:_FCBK{0},
+            cache: true,
+            json_cache:true,
+            filter_case:false,
+            filter_hide:false,
+            firstselected:false,
+            filter_selected:true,
+            maxitems:{4},
+            delay:10,
+            complete_text:'{3}'
+        }});
+        for (var i = 0; i < _FCBK{0}SelectedList.length; i++) {{  
+            $('#{0}Selection').trigger('addItem',_FCBK{0}SelectedList[i]);  
+        }}
+", name, htmlHelper.ToJson(lookupName), htmlHelper.ToJson(collection, propertyPropertyExpression, lookupName), message.Replace("\'", "\\'"), maxItemsText);
+            edit.InnerHtml = select.ToString() + htmlHelper.ValidationMessageFor(modelPropertyExpression);
+            return htmlHelper.Raw(String.Format("{0}{1}{2}", label, edit, script));
+        }
+
 
         public static IHtmlString FacebookListFor<TModel, TColl, TProp>(
             this HtmlHelper<TModel> htmlHelper,
@@ -269,6 +410,59 @@ namespace MS.Katusha.Web.Helpers
             return htmlHelper.Raw(String.Format("{0}{1}{2}", label, edit, script));
         }
 
+        public static IHtmlString AutoCompleteFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, string>> expression, string name, string lookupName, string urlToCall, string countryCode = "")
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var id = name.Replace('[', '_').Replace(']', '_');
+            string key = "";
+            try {
+                key = (metadata.Model != null) ? metadata.Model.ToString() : "";
+            } catch(Exception ex) {
+                if (name.IndexOf('[') < 0) throw;
+            }
+            var rm = ResourceManager.GetInstance();
+            var value = rm.GeoLocation.GetValue(lookupName, key, countryCode);
+            var hiddenTag = new TagBuilder("input");
+            hiddenTag.Attributes.Add("id", id);
+            hiddenTag.Attributes.Add("name", name);
+            hiddenTag.Attributes.Add("type", "hidden");
+            hiddenTag.Attributes.Add("value", key);
+
+
+            var inputTag = new TagBuilder("input");
+            inputTag.AddCssClass("text-box single-line");
+            inputTag.Attributes.Add("id", id+"Lookup");
+            inputTag.Attributes.Add("name", name + "Lookup");
+            inputTag.Attributes.Add("type", "text");
+            inputTag.Attributes.Add("value", value);
+
+            var scriptTag = new TagBuilder("script") { InnerHtml = String.Format(@"
+$(function() {{
+    $('input#{0}Lookup').autocomplete({{
+        select: function(event, ui) {{
+            $('input#{0}')[0].value = ui.item.key;  
+            $('input#{0}Lookup')[0].value = ui.item.value;  
+        }},
+        source: function (request, response) {{
+            $.ajax({{
+                url: '{1}',
+                type: 'POST',
+                dataType: 'json',
+                data: {{ query: request.term{2} }},
+                success: function (data) {{
+                    response($.map(data, function(item) {{
+                        return {{ label: item.Value, value: item.Value, key: item.Key }};
+                    }}));
+                }}
+            }});
+        }},
+        minLength: 2 // require at least one character from the user
+    }});
+}});", id, urlToCall, (!String.IsNullOrWhiteSpace(countryCode) ? ", countryCode:'" + countryCode + "'" : ""))};
+            scriptTag.Attributes.Add("type", "text/javascript");
+            return htmlHelper.Raw(String.Format("{0}{1}{2}", inputTag, hiddenTag, scriptTag));
+        }
+
 
         public static IHtmlString DisplayDetailForEnum<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, TModel model, Expression<Func<TModel, IList<TColl>>> expression,
                                                                              string lookupName, Type enumType, Expression<Func<TColl, TProp>> collectionPropertyExpression)
@@ -286,6 +480,49 @@ namespace MS.Katusha.Web.Helpers
                     if (!first) sb.Append(", ");
                     else first = false;
                     sb.Append(rm._LText(lookupName, val.ToString()));
+                }
+
+                var label = new TagBuilder("div");
+                label.AddCssClass("display-label");
+                label.InnerHtml = String.Format("<b>{0}</b>", htmlHelper.DisplayNameFor(expression).ToHtmlString());
+                var text = new TagBuilder("div");
+                text.AddCssClass("display-field");
+                text.InnerHtml = sb.ToString();
+                var container = new TagBuilder("div");
+                container.Attributes.Add("title", metadata.Description);
+                container.InnerHtml = label + text.ToString();
+                return htmlHelper.Raw(container.ToString());
+            }
+
+            return htmlHelper.Raw("");
+        }
+
+        public static IHtmlString DisplayDetailForEnum<TModel, TColl, TProp>(this HtmlHelper<TModel> htmlHelper, TModel model, Expression<Func<TModel, IList<TColl>>> expression,
+                                                                             string lookupName, Expression<Func<TColl, TProp>> collectionPropertyExpression)
+        {
+            var compiledExpression = expression.Compile();
+            var list = compiledExpression.Invoke(model);
+            if (list.Count > 0) {
+                var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+                var compiledPropertyExpression = collectionPropertyExpression.Compile();
+                IResourceManager rm = new ResourceManager();
+                var sb = new StringBuilder();
+                var first = true;
+                foreach (var item in list) {
+                    var val = compiledPropertyExpression.Invoke(item);
+                    if (!first) sb.Append(", ");
+                    else first = false;
+                    if (lookupName.ToLowerInvariant() == "language") {
+                        var items = rm.GeoLocation.GetLanguages();
+                        var value = val.ToString().ToLowerInvariant();
+                        if (items.ContainsKey(value))
+                            sb.Append(items[value]);
+                    } else if (lookupName.ToLowerInvariant() == "country") {
+                        var items = rm.GeoLocation.GetCountries();
+                        var value = val.ToString().ToLowerInvariant();
+                        if (items.ContainsKey(value))
+                            sb.Append(items[value]);
+                    }
                 }
 
                 var label = new TagBuilder("div");
@@ -329,18 +566,15 @@ namespace MS.Katusha.Web.Helpers
                     var result = "";
                     var k = key;
                     if(enumType.IsEnum) {
-                        switch (key) {
-                            case "From":
-                                k = "Country";
-                                break;
-                            case "BirthYear":
-                                k = "Age";
-                                break;
-                        }
+                        if(key == "BirthYear") k = "Age";
                         var val = Convert.ToByte(value);
                         if (val > 0) hasValue = true;
                         var lookupName = k;
                         result = htmlHelper._LText(lookupName, htmlHelper._LText(lookupName, val));
+                    } else if (key == "From") {
+                        var val = Convert.ToString(value);
+                        if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
+                        result = htmlHelper.LocationValue((key == "From") ? "Country" : key, val);
                     } else if (value is string) {
                         var val = Convert.ToString(value);
                         if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
@@ -358,12 +592,10 @@ namespace MS.Katusha.Web.Helpers
         {
             var value = "";
             lookupKey = range;
-            string k;
             switch (key) {
                 case "City":
                     value = range;
                     break;
-                case "From":
                 case "BodyBuild":
                 case "HairColor":
                 case "EyeColor":
@@ -373,19 +605,20 @@ namespace MS.Katusha.Web.Helpers
                 case "DickSize":
                 case "DickThickness":
                 case "BreastSize":
-                    k = (key == "From") ? "Country" : key;
-                    lookupKey = htmlHelper._LText(k, Convert.ToByte(range));
-                    value = htmlHelper._LText(k, lookupKey);
+                    lookupKey = htmlHelper._LText(key, Convert.ToByte(range));
+                    value = htmlHelper._LText(key, lookupKey);
                     break;
                 case "Search":
-                case "Language":
-                case "Country":
-                    k = (key == "Search") ? "LookingFor" : key;
-                    lookupKey = htmlHelper._LText(k, Convert.ToByte(range));
-                    value = htmlHelper._LText(k, lookupKey);
+                    lookupKey = htmlHelper._LText("LookingFor", Convert.ToByte(range));
+                    value = htmlHelper._LText("LookingFor", lookupKey);
+                    break;
+                case "From":
+                    if (key == "From") key = "Country";
+                    lookupKey = range;
+                    value = htmlHelper.LocationValue(key, range);
                     break;
                 case "BirthYear":
-                    k = "Age";
+                    var k = "Age";
                     var age = (byte)AgeHelper.GetEnum(range);
                     lookupKey = htmlHelper._LText(k, age);
                     value = htmlHelper._LText(k, lookupKey);
@@ -403,12 +636,6 @@ namespace MS.Katusha.Web.Helpers
         public static string SearchCriteriaKeyText<TModel>(this HtmlHelper<TModel> htmlHelper, string key)
         {
             switch (key) {
-                case "Search":
-                    return htmlHelper._R("Profile.Searches.DisplayName");
-                case "Language":
-                    return htmlHelper._R("Profile.LanguagesSpoken.DisplayName");
-                case "Country":
-                    return htmlHelper._R("Profile.CountriesToVisit.DisplayName");
                 case "BirthYear":
                     return htmlHelper._R("Profile.Age.DisplayName");
                 default:

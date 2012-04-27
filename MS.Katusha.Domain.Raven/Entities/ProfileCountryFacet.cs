@@ -2,6 +2,6 @@ namespace MS.Katusha.Domain.Raven.Entities
 {
     public class ProfileCountryFacet : ProfileFacet
     {
-        public byte Country { get; set; }
+        public string Country { get; set; }
     }
 }

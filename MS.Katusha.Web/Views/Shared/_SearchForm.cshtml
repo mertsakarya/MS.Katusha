@@ -7,23 +7,18 @@
     if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
 }
 <form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
-    @*
-    <br /> 
-    <a class="btn" href="#" onclick="document.getElementById('searchForm').action = '/Search/Girls';document.getElementById('whereToSearch').innerText = 'Searching Girls'; ">Search Girls</a>
-    <a class="btn" href="#" onclick=" document.getElementById('searchForm').action = '/Search/Men';document.getElementById('whereToSearch').innerText = 'Searching Men';">Search Men</a>
-    <br/><br/>
-    *@
     <hr style="clear: both"/>
     <h3 id="whereToSearch">Search @(searching)</h3>
     <fieldset>
         <ol>
-            <li><div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
+            <li>
+                <div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
             </li>
             <li>
-                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.From[0], true)</div>
+                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.From[0], "From[0]", "Country", "/Search/GetCountries")</div>
             </li>
-            <li>
-                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field"><input class="text-box single-line" id="City_0_" name="City[0]" type="text" value="@(Model.City.Count > 0 ? Model.City[0] : "")" /></div>
+            <li id="SearchCity[0]">
+                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", "/Search/GetCities")</div>
             </li>
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.Height)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
@@ -32,23 +27,3 @@
         <p><input type="submit" value="Search" /></p>
     </fieldset>
 </form>
-<script type="text/javascript">
-    
-    $("input#City_0_").autocomplete({
-        source: function (request, response) {
-            // define a function to call your Action (assuming UserController)
-            $.ajax({
-                url: '/Search/GetCities', type: "POST", dataType: "json",
-
-                // query will be the param used by your action method
-                data: { query: request.term },
-                success: function (data) {
-                    response($.map(data, function (item) {
-                        return { label: item, value: item };
-                    }))
-                }
-            })
-        },
-        minLength: 1, // require at least one character from the user
-    });
-</script>

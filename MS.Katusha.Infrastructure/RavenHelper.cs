@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Repositories.RavenDB.Indexes;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Infrastructure
 {
@@ -21,17 +23,43 @@ namespace MS.Katusha.Infrastructure
             
             RavenStore.Initialize();
             try {
-                CreateIndexes();
-                CreateFacets();
+                Create();
             } catch {}
+        }
+
+        public static void ClearRaven()
+        {
+            DeleteAll<Conversation>();
+            DeleteAll<State>();
+            DeleteAll<Visit>();
+            DeleteAll<Profile>();
+            DeleteAll<FacetSetup>();
+            var indexes = RavenStore.DatabaseCommands.GetIndexNames(0, int.MaxValue);
+            foreach(var index in indexes)
+                if (!index.ToLowerInvariant().StartsWith("raven/"))
+                    RavenStore.DatabaseCommands.DeleteIndex(index);
+            Create();
+        }
+
+        private static void Create()
+        {
+            CreateIndexes();
+            CreateFacets();
+        }
+
+        private static void DeleteAll<T>()
+        {
+            using (var session = RavenStore.OpenSession()) {
+                foreach(var item in session.Query<T>()) {
+                    session.Delete(item);
+                }
+                session.SaveChanges();
+            }
         }
 
         public static void CreateIndexes()
         {
             IndexCreation.CreateIndexes(typeof (ProfileFacetsIndex).Assembly, RavenStore);
-            IndexCreation.CreateIndexes(typeof (ProfileSearchFacetIndex).Assembly, RavenStore);
-            IndexCreation.CreateIndexes(typeof (ProfileLanguageFacetIndex).Assembly, RavenStore);
-            IndexCreation.CreateIndexes(typeof (ProfileCountryFacetIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(UniqueVisitorsIndex).Assembly, RavenStore);
@@ -59,9 +87,6 @@ namespace MS.Katusha.Infrastructure
                                                                               new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges}
                                                                           }
                                              });
-                session.Store(new FacetSetup { Id = "facets/ProfileCountryFacet", Facets = new List<Facet> { new Facet { Name = "Country" } } });
-                session.Store(new FacetSetup { Id = "facets/ProfileSearchFacet", Facets = new List<Facet> { new Facet { Name = "Search" } } });
-                session.Store(new FacetSetup { Id = "facets/ProfileLanguageFacet", Facets = new List<Facet> { new Facet { Name = "Language" } } });
                 session.SaveChanges();
             }
         }

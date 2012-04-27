@@ -15,11 +15,11 @@ namespace MS.Katusha.Infrastructure
     {
         string _C(string key);
         string _C(string propertyName, string key, bool mustFind = false);
-        string _R(string resourceName, byte language = 0);
-        string _R(string propertyName, string key, bool mustFind = false, byte language = 0);
-        Dictionary<string, string> _L(string resourceName, byte language = 0);
-        string _LText(string lookupName, string name, byte language = 0);
-        string _LKey(string lookupName, byte value, byte language = 0);
+        string _R(string resourceName, string language = "");
+        string _R(string propertyName, string key, bool mustFind = false, string language = "");
+        Dictionary<string, string> _L(string resourceName, string language = "");
+        string _LText(string lookupName, string name, string language = "");
+        string _LKey(string lookupName, byte value, string language = "");
         GeoLocation GeoLocation { get; }
         //List<string> GetValuesFromCodeList(List<string> resourceCodeList);
     }
@@ -217,7 +217,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public string _R(string resourceName, byte language = 0)
+        public string _R(string resourceName, string language = "en")
         {
             language = GetLanguage(language);
             var key = String.Format("{0}{1}",resourceName, language);
@@ -229,7 +229,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public string _R(string propertyName, string key, bool mustFind = false, byte language = 0)
+        public string _R(string propertyName, string key, bool mustFind = false, string language = "")
         {
             language = GetLanguage(language);
             var name = String.Format("{0}.{1}{2}", propertyName, key, language);
@@ -244,7 +244,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public Dictionary<string, string> _L(string resourceName, byte language = 0)
+        public Dictionary<string, string> _L(string resourceName, string language = "")
         {
             language = GetLanguage(language);
             var resourceValue = new Dictionary<string, string>();
@@ -262,7 +262,7 @@ namespace MS.Katusha.Infrastructure
             return resourceValue;
         }
 
-        public string _LKey(string lookupName, byte value, byte language = 0)
+        public string _LKey(string lookupName, byte value, string language = "")
         {
 
             if (value == 0) return "";
@@ -288,7 +288,7 @@ namespace MS.Katusha.Infrastructure
 
         public GeoLocation GeoLocation { get { return _geoLocation; } }
 
-        public string _LText(string resourceName, string name, byte language = 0)
+        public string _LText(string resourceName, string name, string language = "")
         {
 
             if (String.IsNullOrWhiteSpace(name) || name == "0") return "";
@@ -311,28 +311,19 @@ namespace MS.Katusha.Infrastructure
             return key + "." + name;
         }
 
-        private static byte GetLanguage(byte language)
+        private static string GetLanguage(string language)
         {
-            if (language == 0) {
+            if (String.IsNullOrWhiteSpace(language)) {
                 var cultureName = Thread.CurrentThread.CurrentCulture.Name;
                 return ParseLanguageText(cultureName);
             }
             return language;
         }
 
-        public static byte ParseLanguageText(string cultureName)
+        public static string ParseLanguageText(string cultureName)
         {
-            if (String.IsNullOrWhiteSpace(cultureName) || cultureName.Length < 2) return (byte) Language.DefaultLanguage;
-            switch (cultureName.Substring(0, 2).ToLower()) {
-                case "tr":
-                    return (byte) Language.Turkish;
-                case "ru":
-                    return (byte) Language.Russian;
-                case "en":
-                    return (byte)Language.English;
-                default:
-                    return (byte) Language.DefaultLanguage;
-            }
+            if (String.IsNullOrWhiteSpace(cultureName) || cultureName.Length < 2) return "en";
+            return cultureName.Substring(0, 2).ToLowerInvariant();
         }
 
         private static IResourceManager _instance = null;

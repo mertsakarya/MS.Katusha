@@ -12,9 +12,9 @@ namespace MS.Katusha.Infrastructure.Attributes
 
         public KatushaFieldAttribute(string propertyName) { PropertyName = propertyName; }
         public string PropertyName { get; private set; }
-        public string GetFromResource(string key, bool mustFind = false, Language language = 0)
+        public string GetFromResource(string key, bool mustFind = false, string language = "")
         {
-            return ResourceManager._R(PropertyName, key, mustFind, (byte)language);
+            return ResourceManager._R(PropertyName, key, mustFind, language);
         }
 
         public string GetFromConfiguration(string key, bool mustFind = false)

@@ -57,13 +57,6 @@ namespace MS.Katusha.Services
 
         public virtual Profile GetProfile(long profileId, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams)
         {
-            //if (includeExpressionParams == null || includeExpressionParams.Length == 0) {
-            //    includeExpressionParams = new Expression<Func<Profile, object>>[] {
-            //        p => p.CountriesToVisit, p => p.User, p => p.State,
-            //        p => p.LanguagesSpoken, p => p.LanguagesSpoken, p => p.Searches,
-            //        p => p.Photos
-            //    };
-            //}
             var profile = _profileRepositoryRaven.GetById(profileId, includeExpressionParams);
             _visitService.Visit(visitorProfile, profile);
             return profile;
@@ -169,13 +162,13 @@ namespace MS.Katusha.Services
             _profileRepositoryRaven.FullUpdate(profile);
         }
 
-        public void DeleteCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.DeleteByProfileId(profileId, country); }
+        public void DeleteCountriesToVisit(long profileId, string country) { _countriesToVisitRepository.DeleteByProfileId(profileId, country); }
 
-        public void AddCountriesToVisit(long profileId, Country country) { _countriesToVisitRepository.AddByProfileId(profileId, country); }
+        public void AddCountriesToVisit(long profileId, string country) { _countriesToVisitRepository.AddByProfileId(profileId, country); }
 
-        public void DeleteLanguagesSpoken(long profileId, Language language) { _languagesSpokenRepository.DeleteByProfileId(profileId, language); }
+        public void DeleteLanguagesSpoken(long profileId, string language) { _languagesSpokenRepository.DeleteByProfileId(profileId, language); }
 
-        public void AddLanguagesSpoken(long profileId, Language language) { _languagesSpokenRepository.AddByProfileId(profileId, language); }
+        public void AddLanguagesSpoken(long profileId, string language) { _languagesSpokenRepository.AddByProfileId(profileId, language); }
 
         public void DeleteSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.DeleteByProfileId(profileId, lookingFor); }
 

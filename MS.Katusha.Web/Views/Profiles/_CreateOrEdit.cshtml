@@ -68,7 +68,7 @@
     @Html.LabelFor(model => model.From)
 </div>
 <div class="editor-field">
-    @Html.EnumDropDownListFor(model => model.From)
+    @Html.AutoCompleteFor(model => model.From, "From", "Country", "/Search/GetCountries")
     @Html.ValidationMessageFor(model => model.From)
 </div>
 
@@ -130,10 +130,10 @@
     </div>   
 }
 
-<script src="/Scripts/Fbck/jquery.fcbkcomplete.js"></script>
-@Html.FacebookListFor("Profile.CountriesToVisit", Model, Model.CountriesToVisit, typeof(Country), p => p.CountriesToVisit, p => p.Country)
+<script src="/Scripts/Fbck/jquery.fcbkcomplete.js" type="text/javascript"></script>
+@Html.FacebookListFor2("Profile.CountriesToVisit", Model, Model.CountriesToVisit, "Country", p => p.CountriesToVisit, p => p.Country)
 
-@Html.FacebookListFor("Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, typeof(Language), p => p.LanguagesSpoken, p => p.Language)
+@Html.FacebookListFor2("Profile.LanguagesSpoken", Model, Model.LanguagesSpoken, "Language", p => p.LanguagesSpoken, p => p.Language)
 
 @Html.FacebookListFor("Profile.Searches", Model, Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
 

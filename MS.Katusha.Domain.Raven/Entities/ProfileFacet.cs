@@ -3,7 +3,7 @@
     public class ProfileFacet
     {
         public byte Gender { get; set; }
-        public byte From { get; set; }
+        public string From { get; set; }
         public string City { get; set; }
         public byte BodyBuild { get; set; }
         public byte EyeColor { get; set; }

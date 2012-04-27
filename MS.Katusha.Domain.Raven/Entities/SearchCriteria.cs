@@ -9,7 +9,7 @@ namespace MS.Katusha.Domain.Raven.Entities
     {
         public Sex Gender { get; set; }
         public string Name { get; set; }
-        public IList<Country?> From { get; set; }
+        public IList<string> From { get; set; }
         public IList<string> City { get; set; }
         public IList<BodyBuild?> BodyBuild { get; set; }
         public IList<EyeColor?> EyeColor { get; set; }
@@ -25,8 +25,8 @@ namespace MS.Katusha.Domain.Raven.Entities
         public IList<Height?> Height { get; set; }
 
         public IList<LookingFor> LookingFor { get; set; }
-        public IList<Country> Country { get; set; }
-        public IList<Language> Language { get; set; }
+        public IList<string> Country { get; set; }
+        public IList<string> Language { get; set; }
 
         public bool CanSearch
         {

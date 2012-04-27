@@ -17,7 +17,7 @@ namespace MS.Katusha.Web.Models.Entities
         public string Name { get; set; }
 
         [KatushaField("Profile.From")]
-        public IList<Country> From { get; set; }
+        public IList<string> From { get; set; }
         
         [KatushaStringLength("Profile.City")]
         [KatushaField("Profile.City")]
@@ -59,9 +59,9 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.Searches")]
         public IList<LookingFor> LookingFor { get; set; }
         [KatushaField("Profile.CountriesToVisit")]
-        public IList<Country> Country { get; set; }
+        public IList<string> Country { get; set; }
         [KatushaField("Profile.LanguagesSpoken")]
-        public IList<Language> Language { get; set; }
+        public IList<string> Language { get; set; }
 
         public static SearchCriteriaModel Empty()
         {
@@ -70,18 +70,18 @@ namespace MS.Katusha.Web.Models.Entities
                 BodyBuild = new List<BodyBuild>(),
                 BreastSize = new List<BreastSize>(),
                 City = new List<string>(),
-                Country = new List<Country>(),
+                Country = new List<string>(),
                 DickSize = new List<DickSize>(),
                 DickThickness = new List<DickThickness>(),
                 EyeColor = new List<EyeColor>(),
                 HairColor = new List<HairColor>(),
                 Height = new List<Height>(),
                 Age = new List<Age>(),
-                Language = new List<Language>(),
+                Language = new List<string>(),
                 Religion = new List<Religion>(),
                 LookingFor = new List<LookingFor>(),
                 Smokes = new List<Smokes>(),
-                From = new List<Country>(),
+                From = new List<string>(),
                 Name = ""
             };
             return scm;
@@ -91,7 +91,7 @@ namespace MS.Katusha.Web.Models.Entities
         {
             var hs = new HashSet<string>();
             if (City.Count > 0 && City.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("City");
-            if (From.Count > 0 && From.Any(p => p > 0)) hs.Add("From");
+            if (From.Count > 0 && From.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("From");
             if (BodyBuild.Count > 0 && BodyBuild.Any(p => p > 0)) hs.Add("BodyBuild");
             if (EyeColor.Count > 0 && EyeColor.Any(p => p > 0)) hs.Add("EyeColor");
             if (HairColor.Count > 0 && HairColor.Any(p => p > 0)) hs.Add("HairColor");
@@ -104,8 +104,8 @@ namespace MS.Katusha.Web.Models.Entities
             if (Height.Count > 0 && Height.Any(p => p > 0)) hs.Add("Height");
             if (Age.Count > 0 && Age.Any(p => p > 0)) { hs.Add("Age"); hs.Add("BirthYear"); }
             if (LookingFor.Count > 0 && LookingFor.Any(p => p > 0)) hs.Add("LookingFor");
-            if (Country.Count > 0 && Country.Any(p => p > 0)) hs.Add("Country");
-            if (Language.Count > 0 && Language.Any(p => p > 0)) hs.Add("Language");
+            if (Country.Count > 0 && Country.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("Country");
+            if (Language.Count > 0 && Language.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("Language");
             return hs;
         }
     }

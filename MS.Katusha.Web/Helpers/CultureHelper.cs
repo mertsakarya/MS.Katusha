@@ -9,9 +9,9 @@ namespace MS.Katusha.Web.Helpers
     {
         // Include ONLY cultures you are implementing as views
         private static readonly  Dictionary<String, dynamic> _cultures  = new Dictionary<string,dynamic> {
-            {"en-US", new {Enabled = true, Language = Language.English}},  // first culture is the DEFAULT
-            {"tr-TR", new {Enabled = true, Language = Language.Turkish}},
-            {"ru-RU", new {Enabled = true, Language = Language.Russian}}
+            {"en-US", new {Enabled = true, Language = "en"}},  // first culture is the DEFAULT
+            {"tr-TR", new {Enabled = true, Language = "tr"}},
+            {"ru-RU", new {Enabled = true, Language = "ru"}}
         };
 
 

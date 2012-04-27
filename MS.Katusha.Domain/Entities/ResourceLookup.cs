@@ -8,7 +8,8 @@ namespace MS.Katusha.Domain.Entities
     {
         public string ResourceKey { get; set; }
         public string Value { get; set; }
-        public byte Language { get; set; }
+        [StringLength(2)]
+        public string Language { get; set; }
         public string LookupName { get; set; }
         public byte Order { get; set; }
         public byte LookupValue { get; set; }

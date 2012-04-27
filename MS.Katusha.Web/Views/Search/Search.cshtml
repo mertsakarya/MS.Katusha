@@ -11,7 +11,7 @@
     <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         @foreach (var profile in model) {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), Html._LText("Country", Enum.GetName(typeof (Country), profile.From)));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), Html.GetCountry(profile.From));
             var url = Url.Action("Show", "Profiles", new {key = val});
             <a title="@title" href="@url" rel="gallery">
                 @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)

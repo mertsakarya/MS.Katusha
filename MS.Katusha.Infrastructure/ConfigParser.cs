@@ -37,7 +37,7 @@ namespace MS.Katusha.Infrastructure
             public int LanguageOrder { get; set; }
             public int OrderOrder { get; set; }
             public Section Section { get; private set; }
-            private byte _language;
+            private string _language;
             private byte _order;
             public ConfigurationType(Section section) { Section = section; }
 
@@ -88,39 +88,7 @@ namespace MS.Katusha.Infrastructure
                 }
             }
 
-            protected static string GetLanguage(List<string> values, out byte language)
-            {
-                Language ll = 0;
-                byte lb;
-                if (!Byte.TryParse(values[0], out lb)) {
-                    if (!Enum.TryParse(values[0], true, out ll)) {
-                        var cultureName = values[0];
-                        if (cultureName.Length >= 2) {
-                            switch (cultureName.Substring(0, 2).ToLowerInvariant()) {
-                                case "tr":
-                                    lb = (byte) Language.Turkish;
-                                    break;
-                                case "ru":
-                                    lb = (byte) Language.Russian;
-                                    break;
-                                case "en":
-                                    lb = (byte) Language.English;
-                                    break;
-                            }
-                            if (lb == 0) {
-                                language = 255;
-                                return String.Format("LANGUAGE ERROR: {0} {1} {2}", values[0], values[1], values[2]);
-                            }
-                        }
-                    }
-                }
-                language = (byte) (lb + (byte) ll);
-                if (language <= 0 || language > (byte) Language.MAX) {
-                    language = 255;
-                    return String.Format("LANGUAGE ERROR: {0} {1} {2}", values[0], values[1], values[2]);
-                }
-                return null;
-            }
+            protected static string GetLanguage(List<string> values, out string language) { language = values[0].Substring(0, 2).ToLowerInvariant(); return null; }
 
         }
 

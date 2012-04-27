@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
@@ -21,10 +22,11 @@ namespace MS.Katusha.Web.Controllers
         private readonly IConversationService _conversationService;
         private readonly IStateService _stateService;
         private readonly IPhotosService _photosService;
+        private readonly IUtilityService _utilityService;
 
         public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
-            IPhotosService photosService
+            IPhotosService photosService, IUtilityService utilityService
             )
             : base(userService, profileService, stateService, conversationService)
         {
@@ -34,6 +36,7 @@ namespace MS.Katusha.Web.Controllers
             _conversationService = conversationService;
             _stateService = stateService;
             _photosService = photosService;
+            _utilityService = utilityService;
         }
 
         [HttpGet]
@@ -115,15 +118,17 @@ namespace MS.Katusha.Web.Controllers
                 pageNo = 1;
             }
 
-            var list = _photosService.Dir(Server.MapPath("/Photos"), out total, pageNo, DependencyHelper.GlobalPageSize);
+            var list = _photosService.Dir(DependencyHelper.PhotosFolder, out total, pageNo, DependencyHelper.GlobalPageSize);
             var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyHelper.GlobalPageSize, total);
             var photoGuids = new PagedListModel<Guid> { List = pagedList, Total = total };
             var dictionaryPhotos = new Dictionary<Guid, PhotoModel>();
             var dictionaryProfiles = new Dictionary<Guid, ProfileModel>();
             foreach (var guid in list) {
                 var photo = _photosService.GetByGuid(guid);
-                dictionaryPhotos.Add(guid, Mapper.Map<PhotoModel>(photo));
-                dictionaryProfiles.Add(guid, Mapper.Map<ProfileModel>(ProfileService.GetProfile(photo.ProfileId)));
+                if (photo != null) {
+                    dictionaryPhotos.Add(guid, Mapper.Map<PhotoModel>(photo));
+                    dictionaryProfiles.Add(guid, Mapper.Map<ProfileModel>(ProfileService.GetProfile(photo.ProfileId)));
+                }
             }
             var model = new UtilitiesPhotosModel { PhotoGuids = photoGuids, Photos = dictionaryPhotos, Profiles = dictionaryProfiles };
             return View(model);
@@ -132,7 +137,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpGet]
         public void CheckPhotos()
         {
-            var path = Server.MapPath("/Photos");
+            var path = DependencyHelper.PhotosFolder;
             List<string> list = _photosService.CheckPhotos(path);
             list.AddRange(_photosService.CheckPhotoFiles(path));
             list.AddRange(_photosService.CheckProfilePhotos(path));
@@ -154,9 +159,13 @@ namespace MS.Katusha.Web.Controllers
 
         public void RegisterRaven()
         {
-            RavenHelper.RegisterRaven();
-            RavenHelper.CreateFacets();
-            RavenHelper.CreateIndexes();
+            _utilityService.RegisterRaven();
+            Response.Write("Done!");
+        }
+
+        public void ClearDatabase()
+        {
+            _utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
             Response.Write("Done!");
         }
     }

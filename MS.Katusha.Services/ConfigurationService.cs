@@ -3,6 +3,7 @@ using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
+using Raven.Client;
 
 namespace MS.Katusha.Services
 {
@@ -24,7 +25,6 @@ namespace MS.Katusha.Services
             ResourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));
             resourceManager.LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(_dbContext));
             return result;
-            
         }
     }
 

@@ -240,9 +240,10 @@ namespace MS.Katusha.Web.Controllers
                 }
             }
             var model = new FacebookProfileModel() { Name = me.name, Description = me.quotes, Gender = (me.gender == "male") ? Sex.Male : Sex.Female, City = city, FacebookId = me.id };
-            Country from;
-            if (Enum.TryParse(country, out from)) {
-                model.From = from;
+            var rm = ResourceManager.GetInstance();
+            var countries = rm.GeoLocation.GetCountries();
+            if (countries.ContainsKey(country)) {
+                model.From = country;
             }
             return ContextDependentView(model, "Facebook");
         }

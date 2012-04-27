@@ -11,7 +11,7 @@
     }
     <hr />
 
-    @Html.DisplayDetailFor(Model.From != 0, _ => Model.From)
+    @Html.DisplayCountryFor(!String.IsNullOrWhiteSpace(Model.From), _ => Model.From, Model.From)
     @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.City), _ => Model.City)
     @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
 
@@ -30,8 +30,8 @@
     } else if (Model.Gender == Sex.Female) {
         @Html.DisplayDetailFor(Model.BreastSize != 0, _ => Model.BreastSize)
     }
-    @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", typeof(Country), p => p.Country)
-    @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", typeof(Language), p => p.Language)
+    @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", p => p.Country)
+    @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", p => p.Language)
     @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", typeof(LookingFor), p => p.Search)   
     @Html.Partial("_Photo", Model)
 </fieldset>

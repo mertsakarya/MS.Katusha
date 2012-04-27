@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MS.Katusha.Web.Helpers
 {
-    public class LookupListProcessor<TModel, TModelData, TProp, TPropData, TEnum> where TModelData : MS.Katusha.Domain.Entities.BaseEntities.BaseModel where TEnum : struct
+    public class LookupListProcessor<TModel, TModelData, TProp, TPropData, TEnum> where TModelData : MS.Katusha.Domain.Entities.BaseEntities.BaseModel
     {
 
         public delegate void DeleteEvent(TModelData modelData, TEnum enumValue);
