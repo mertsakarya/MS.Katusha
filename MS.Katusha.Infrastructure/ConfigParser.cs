@@ -270,6 +270,9 @@ namespace MS.Katusha.Infrastructure
 
         private void WriteToDatabase(StringBuilder sb)
         {
+
+            throw new Exception(_dbContext.Database.Connection.ConnectionString);
+
             var val = sb.ToString();
             if (!String.IsNullOrWhiteSpace(val)) {
                 using (var sourceConnection = new SqlConnection(_dbContext.Database.Connection.ConnectionString)) {
