@@ -49,7 +49,7 @@ namespace MS.Katusha.Domain.Entities
 
     public class GeoName
     {
-        [Key]
+        [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GeoNameId { get; set; }
         [StringLength(200)]
         public string Name { get; set; } // name of geographical point (utf8) varchar(200)

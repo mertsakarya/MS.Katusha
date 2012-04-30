@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -230,57 +231,100 @@ namespace MS.Katusha.Infrastructure
         private string BulkCopy(string basePath, string filename, string tableName, bool hasHeaders, string[] mapColumnNames, Type[] mapTypes)
         {
             var result = "";
-            var dt = new DataTable();
-            for (var i = 0; i < mapColumnNames.Length; i++) dt.Columns.Add(mapColumnNames[i], mapTypes[i] );
+            var sb = new StringBuilder();
+            sb.Append("INSERT [");
+            sb.Append(tableName);
+            sb.Append("] (");
+            sb.Append(String.Join(",", mapColumnNames));
+            sb.Append(") VALUES (");
+            var colarr = new List<string>(mapColumnNames.Length);
+            for (var i = 0; i < mapColumnNames.Length; i++) {
+
+                colarr.Add("{" + i + "}");
+            }
+            sb.Append(String.Join(",", colarr));
+            sb.Append(")");
+            var command = sb.ToString();
+            var rows = GetLineArray(basePath, filename, hasHeaders, mapTypes);
+            sb = new StringBuilder();
+            //sb.AppendFormat("set IDENTITY_INSERT [{0}] OFF\r\n", tableName);
+            var counter = 0;
+
             try {
-                using (var sourceConnection = new SqlConnection(_dbContext.Database.Connection.ConnectionString)) {
-                    sourceConnection.Open();
-                    var bulkCopy = new SqlBulkCopy(sourceConnection) { BatchSize = 100, DestinationTableName = tableName };
-                    using (var stream = new StreamReader(basePath + filename, Encoding.UTF8)) {
-                        var line = 0;
-                        while (!stream.EndOfStream) {
-                            var text = stream.ReadLine();
-                            line++;
-                            if (hasHeaders && line == 1) continue;
-                            if (String.IsNullOrWhiteSpace(text)) continue;
-                            if (text[0] == '#') continue;
-                            var arr = text.Split('\t');
-                            IList<object> objects = new List<object>(mapTypes.Length);
-                            for(var i = 0; i < mapTypes.Length; i++) {
-                                var type = mapTypes[i];
-                                object val = null;
-                                if(type == typeof(int)) {
-                                    int v = 0;
-                                    int.TryParse(arr[i], out v);
-                                    val = v;
-                                } else if (type == typeof(long)) {
-                                    long v = 0;
-                                    long.TryParse(arr[i], out v);
-                                    val = v;
-                                } else if (type == typeof(decimal)) {
-                                    decimal v = 0;
-                                    decimal.TryParse(arr[i], out v);
-                                    val = v;
-                                } else if (type == typeof(double)) {
-                                    double v = 0.0;
-                                    double.TryParse(arr[i], out v);
-                                    val = v;
-                                } else {
-                                    val = arr[i];
-                                }
-                                objects.Add(val);
-                            }
-                            dt.Rows.Add(objects.ToArray());
-                        }
-                        for (var i = 0; i < mapColumnNames.Length; i++)
-                            bulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping(i, mapColumnNames[i]));
-                        bulkCopy.WriteToServer(dt);
+                foreach (var row in rows) {
+                    sb.AppendLine(String.Format(command, row));
+                    counter++;
+                    if (counter == 100) {
+                        WriteToDatabase(sb);
+                        counter = 0;
+                        sb = new StringBuilder();
+                        //sb.AppendFormat("set IDENTITY_INSERT [{0}] ON\r\n", tableName);
                     }
                 }
+                WriteToDatabase(sb);                
             } catch (Exception ex) {
                 result = ex.Message;
             }
             return result;
+        }
+
+        private void WriteToDatabase(StringBuilder sb)
+        {
+            var val = sb.ToString();
+            if (!String.IsNullOrWhiteSpace(val)) {
+                using (var sourceConnection = new SqlConnection(_dbContext.Database.Connection.ConnectionString)) {
+                    sourceConnection.Open();
+                    using (var tran = sourceConnection.BeginTransaction()) {
+                        
+                        var cmd = new SqlCommand(val, sourceConnection) {Transaction = tran};
+                        var lines = cmd.ExecuteNonQuery();
+                        tran.Commit();
+                        Debug.WriteLine(lines);
+                    }
+                }
+            }
+        }
+
+        private static IList<string[]> GetLineArray(string basePath, string filename, bool hasHeaders, Type[] mapTypes)
+        {
+            IList<string[]> list = new List<string[]>();
+            using (var stream = new StreamReader(basePath + filename, Encoding.UTF8)) {
+                var line = 0;
+                while (!stream.EndOfStream) {
+                    var text = stream.ReadLine();
+                    line++;
+                    if (hasHeaders && line == 1) continue;
+                    if (String.IsNullOrWhiteSpace(text)) continue;
+                    if (text[0] == '#') continue;
+                    var arr = text.Split('\t');
+                    IList<string> objects = new List<string>(mapTypes.Length);
+                    for (var i = 0; i < mapTypes.Length; i++) {
+                        var type = mapTypes[i];
+                        object val = null;
+                        if (type == typeof (int)) {
+                            int v = 0;
+                            int.TryParse(arr[i], out v);
+                            val = v;
+                        } else if (type == typeof (long)) {
+                            long v = 0;
+                            long.TryParse(arr[i], out v);
+                            val = v;
+                        } else if (type == typeof (decimal)) {
+                            decimal v = 0;
+                            decimal.TryParse(arr[i], out v);
+                            val = v;
+                        } else if (type == typeof (double)) {
+                            double v = 0.0;
+                            double.TryParse(arr[i], out v);
+                            val = v;
+                        } else val = "'"+arr[i].Replace("'","''")+"'";
+                        objects.Add(val.ToString());
+                    }
+                    list.Add(objects.ToArray());
+                    //dt.Rows.Add(objects.ToArray());
+                }
+            }
+            return list;
         }
     }
 
