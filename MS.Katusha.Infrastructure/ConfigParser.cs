@@ -270,7 +270,7 @@ namespace MS.Katusha.Infrastructure
 
         private void WriteToDatabase(StringBuilder sb)
         {
-
+             
             throw new Exception(_dbContext.Database.Connection.ConnectionString);
 
             var val = sb.ToString();
