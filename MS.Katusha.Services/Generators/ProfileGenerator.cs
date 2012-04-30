@@ -40,8 +40,9 @@ namespace MS.Katusha.Services.Generators
             var geoLanguages = _resourceManager.GetLanguages();
             var languages = new List<string>(geoLanguages.Count);
             languages.AddRange(geoLanguages.Select(language => language.Key));
-
-            var co = countries[GeneratorHelper.RND.Next(countries.Count - 2) + 1];
+            var cn = GeneratorHelper.RND.Next(countries.Count) + 1;
+            if (cn <= 0 || cn > countries.Count - 2) cn = 3;
+            var co = countries[cn];
             var cl = _resourceManager.GetCities(co);
             var ci = cl[GeneratorHelper.RND.Next(cl.Count)];
             var profile = new Profile {
