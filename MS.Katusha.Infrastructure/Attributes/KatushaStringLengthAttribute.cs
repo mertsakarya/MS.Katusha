@@ -37,7 +37,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager._C(PropertyName, MaximumLengthName), out i) ? i : int.MaxValue;
+                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MaximumLengthName), out i) ? i : int.MaxValue;
             }
         }
 
@@ -46,14 +46,14 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager._C(PropertyName, MinimumLengthName), out i) ? i : int.MinValue;
+                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MinimumLengthName), out i) ? i : int.MinValue;
             }
         }
 
         public new string ErrorMessage
         {
             get {
-                return String.Format(_resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
+                return String.Format(_resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
             }
         }
 

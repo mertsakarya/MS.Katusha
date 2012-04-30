@@ -18,7 +18,7 @@
         }
         <div class="gallery-item" style="display: inline-block;" >
             <div class="bar">
-                <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html._LText("Country", profile.From.ToString()))" href="/Profiles/Show/@(val)" rel="gallery">
+                <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + Html.LocationText("Country", profile.From))" href="/Profiles/Show/@(val)" rel="gallery">
                     @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
                 </a>
                 <div style="border: 1 solid">

@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UtilityService.cs" />
-    <Compile Include="LocationService.cs" />
     <Compile Include="PhotoBackupService.cs" />
     <Compile Include="StateService.cs" />
     <Compile Include="Generators\VisitGenerator.cs" />

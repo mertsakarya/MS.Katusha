@@ -18,10 +18,10 @@ namespace MS.Katusha.Infrastructure.Attributes
                 JobName = value;
                 StartTimeUtc = DateTime.Now;
                 EndTimeUtc = null;
-                var val = rm._C(value);
+                var val = ResourceManager.ConfigurationValue(value);
                 CronExpression = val;
                 IntervalSeconds = 0;
-                val = rm._C(value + ".Enabled");
+                val = ResourceManager.ConfigurationValue(value + ".Enabled");
                 Enabled = val == null || String.IsNullOrWhiteSpace(val) || val.ToLowerInvariant() == "true";
             }
         }

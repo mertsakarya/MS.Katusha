@@ -49,10 +49,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4B5AD5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Location", "MS.Katusha.Location\MS.Katusha.Location.csproj", "{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9F14308B-3846-473B-B767-85E958650D6A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Tests", "MS.Katusha.Tests\MS.Katusha.Tests.csproj", "{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MS.Katusha1.vsmdi
@@ -196,16 +192,6 @@ Global
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|x86.ActiveCfg = Release|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,6 +210,5 @@ Global
 		{0FF01629-20B8-45DF-96EA-47A3E4E8F712} = {3B2A79A2-497C-4AE9-9D0F-6BF404576152}
 		{5390666F-ABB7-4FEC-8582-0CFFA21398B2} = {3B2A79A2-497C-4AE9-9D0F-6BF404576152}
 		{85B30335-23D3-4EEF-8AD1-444BBFEBE796} = {3B2A79A2-497C-4AE9-9D0F-6BF404576152}
-		{70EDF6F6-2B16-4040-A92D-DDD6A378C37C} = {9F14308B-3846-473B-B767-85E958650D6A}
 	EndGlobalSection
 EndGlobal

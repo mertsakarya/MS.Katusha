@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
@@ -14,12 +13,12 @@ namespace MS.Katusha.Infrastructure.Attributes
         public string PropertyName { get; private set; }
         public string GetFromResource(string key, bool mustFind = false, string language = "")
         {
-            return ResourceManager._R(PropertyName, key, mustFind, language);
+            return ResourceManager.ResourceValue(PropertyName, key, mustFind, language);
         }
 
         public string GetFromConfiguration(string key, bool mustFind = false)
         {
-            return ResourceManager._C(PropertyName, key, mustFind);
+            return ResourceManager.ConfigurationValue(PropertyName, key, mustFind);
         }
     }
 }

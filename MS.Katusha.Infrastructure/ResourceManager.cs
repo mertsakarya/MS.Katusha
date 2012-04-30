@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using MS.Katusha.Domain;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Exceptions.Resources;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
@@ -13,15 +12,19 @@ namespace MS.Katusha.Infrastructure
 {
     public interface IResourceManager
     {
-        string _C(string key);
-        string _C(string propertyName, string key, bool mustFind = false);
-        string _R(string resourceName, string language = "");
-        string _R(string propertyName, string key, bool mustFind = false, string language = "");
-        Dictionary<string, string> _L(string resourceName, string language = "");
-        string _LText(string lookupName, string name, string language = "");
-        string _LKey(string lookupName, byte value, string language = "");
-        GeoLocation GeoLocation { get; }
-        //List<string> GetValuesFromCodeList(List<string> resourceCodeList);
+        string ConfigurationValue(string propertyName, string key, bool mustFind = false);
+        string ResourceValue(string resourceName, string language = "");
+        string ResourceValue(string propertyName, string key, bool mustFind, string language);
+
+        IDictionary<string, string> GetLookup(string lookupName, string countryCode = "");
+        string GetLookupText(string lookupName, string key, string countryCode = "");
+        string GetLookupEnumKey(string lookupName, byte value, string language = "");
+
+        bool ContainsKey(string lookupName, string key, string countryCode = "");
+
+        IDictionary<string, string> GetCountries();
+        IDictionary<string, string> GetLanguages();
+        IList<string> GetCities(string countryCode);
     }
 
     public class ResourceManager : IResourceManager
@@ -30,7 +33,7 @@ namespace MS.Katusha.Infrastructure
         private static readonly IDictionary<string, string> ResourceList;
         private static readonly IDictionary<string, Dictionary<string, string>> ResourceLookupList;
         private static readonly IDictionary<string, Dictionary<string, byte>> ResourceLookupByteList;
-        private static readonly GeoLocation _geoLocation;
+        private static readonly GeoLocation Location;
 
         private static readonly ReaderWriterLockSlim ListLock;
 
@@ -40,7 +43,7 @@ namespace MS.Katusha.Infrastructure
             ResourceList = new Dictionary<string, string>();
             ResourceLookupList = new Dictionary<string, Dictionary<string, string>>();
             ResourceLookupByteList = new Dictionary<string, Dictionary<string, byte>>();
-            _geoLocation = new GeoLocation();
+            Location = new GeoLocation();
             ListLock = new ReaderWriterLockSlim();
         }
 
@@ -62,7 +65,7 @@ namespace MS.Katusha.Infrastructure
             if (isEmpty) LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(new KatushaDbContext()));
 
             ListLock.EnterReadLock();
-            isEmpty = !_geoLocation.Initialized;
+            isEmpty = !Location.Initialized;
             ListLock.ExitReadLock();
             if (isEmpty) {
                 var dbContext = new KatushaDbContext();
@@ -74,40 +77,40 @@ namespace MS.Katusha.Infrastructure
         {
             ListLock.EnterWriteLock();
             try {
-                _geoLocation.Countries.Clear();
+                Location.Countries.Clear();
                 foreach (var item in countryRepository.GetAll()) {
                     try {
-                        _geoLocation.Countries.Add(item.ISO.ToLowerInvariant(), item);
+                        Location.Countries.Add(item.ISO.ToLowerInvariant(), item);
                     } catch (Exception ex) {
                         throw new KatushaGeoLocationException(item.ISO.ToLowerInvariant(), item.Country, ex);
                     }
                 }
-                _geoLocation.Languages.Clear();
+                Location.Languages.Clear();
                 foreach (var item in languageRepository.GetAll()) {
                     try {
                         if (!String.IsNullOrWhiteSpace(item.ISO639_1))
-                            _geoLocation.Languages.Add(item.ISO639_1.ToLowerInvariant(), item);
+                            Location.Languages.Add(item.ISO639_1.ToLowerInvariant(), item);
                     } catch (Exception ex) {
                         throw new KatushaGeoLocationException(item.ISO639_1.ToLowerInvariant(), item.LanguageName, ex);
                     }
                 }
-                _geoLocation.TimeZones.Clear();
+                Location.TimeZones.Clear();
                 foreach (var item in timeZoneRepository.GetAll()) {
                     try {
-                        _geoLocation.TimeZones.Add(item.TimeZoneId.ToLowerInvariant(), item);
+                        Location.TimeZones.Add(item.TimeZoneId.ToLowerInvariant(), item);
                     } catch (Exception ex) {
                         throw new KatushaGeoLocationException(item.TimeZoneId.ToLowerInvariant(), item.TimeZoneId, ex);
                     }
                 }
-                _geoLocation.Names.Clear();
+                Location.Names.Clear();
                 foreach (var item in nameRepository.GetAll()) {
                     try {
-                        _geoLocation.Names.Add(item.GeoNameId.ToString(CultureInfo.InvariantCulture), item);
+                        Location.Names.Add(item.GeoNameId.ToString(CultureInfo.InvariantCulture), item);
                     } catch (Exception ex) {
                         throw new KatushaGeoLocationException(item.GeoNameId.ToString(CultureInfo.InvariantCulture), item.Name, ex);
                     }
                 }
-                _geoLocation.Initialize();;
+                Location.Initialize();;
             } finally {
                 ListLock.ExitWriteLock();
             }
@@ -160,7 +163,7 @@ namespace MS.Katusha.Infrastructure
             return x.Order.CompareTo(y.Order);
         }
 
-        public void LoadResourceLookupFromDb(IResourceLookupRepository resourceLookupRepository)
+        public static void LoadResourceLookupFromDb(IResourceLookupRepository resourceLookupRepository)
         {
             ListLock.EnterWriteLock();
             try {
@@ -187,15 +190,13 @@ namespace MS.Katusha.Infrastructure
                             list = new List<LookupItem> { new LookupItem { Key = item.ResourceKey, Value = item.Value, Order = item.Order, ByteValue = item.LookupValue } };
                         }
                     }
-                    //list.Sort(CompareLookupItem);
-                    //_resourceLookupList.Add(lookupName+language, list.ToDictionary(r => r.Key, r => r.Value));
                 }
             } finally {
                 ListLock.ExitWriteLock();
             }
         }
 
-        public string _C(string key)
+        public static string ConfigurationValue(string key)
         {
             ListLock.EnterReadLock();
             try {
@@ -205,7 +206,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public string _C(string propertyName, string key, bool mustFind = false)
+        public string ConfigurationValue(string propertyName, string key, bool mustFind = false)
         {
             ListLock.EnterReadLock();
             try {
@@ -217,10 +218,10 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public string _R(string resourceName, string language = "en")
+        public string ResourceValue(string resourceName, string language = "")
         {
             language = GetLanguage(language);
-            var key = String.Format("{0}{1}",resourceName, language);
+            var key = String.Format("{0}{1}", resourceName, language);
             ListLock.EnterReadLock();
             try {
                 return ResourceList.ContainsKey(key) ? ResourceList[key] : String.Format("{0} Code not found", key);
@@ -229,7 +230,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public string _R(string propertyName, string key, bool mustFind = false, string language = "")
+        public string ResourceValue(string propertyName, string key, bool mustFind, string language)
         {
             language = GetLanguage(language);
             var name = String.Format("{0}.{1}{2}", propertyName, key, language);
@@ -244,27 +245,38 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public Dictionary<string, string> _L(string resourceName, string language = "")
+        public IDictionary<string, string> GetCountries() { return Location.GetCountries(); }
+        public IDictionary<string, string> GetLanguages() { return Location.GetLanguages(); }
+        public IList<string> GetCities(string countryCode) { return Location.GetCities(countryCode); }
+
+        public IDictionary<string, string> GetLookup(string lookupName, string countryCode = "")
         {
-            language = GetLanguage(language);
-            var resourceValue = new Dictionary<string, string>();
-            string key = String.Format("{0}{1}", resourceName, language);
-            if (!string.IsNullOrEmpty(key)) {
-                ListLock.EnterReadLock();
-                try {
-                    if (ResourceLookupList.ContainsKey(key)) 
-                        resourceValue = ResourceLookupList[key];
-                } finally {
-                    ListLock.ExitReadLock();
+            IDictionary<string, string> resourceValue;
+            ListLock.EnterReadLock();
+            try {
+                resourceValue = Location.GetLookup(lookupName, countryCode);
+            } finally {
+                ListLock.ExitReadLock();
+            }
+            if (resourceValue == null || resourceValue.Count == 0) {
+                var language = GetLanguage("");
+                resourceValue = new Dictionary<string, string>();
+                var key = String.Format("{0}{1}", lookupName, language);
+                if (!string.IsNullOrEmpty(key)) {
+                    ListLock.EnterReadLock();
+                    try {
+                        if (ResourceLookupList.ContainsKey(key))
+                            resourceValue = ResourceLookupList[key];
+                    } finally {
+                        ListLock.ExitReadLock();
+                    }
                 }
             }
-
             return resourceValue;
         }
 
-        public string _LKey(string lookupName, byte value, string language = "")
+        public string GetLookupEnumKey(string lookupName, byte value, string language = "")
         {
-
             if (value == 0) return "";
             language = GetLanguage(language);
             string key = String.Format("{0}{1}", lookupName, language);
@@ -283,12 +295,23 @@ namespace MS.Katusha.Infrastructure
                 }
             }
 
-            return key + "." + value.ToString();
+            return key + "." + value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public GeoLocation GeoLocation { get { return _geoLocation; } }
+        public bool ContainsKey(string lookupName, string key, string countryCode = "")
+        {
+            var lookup = GetLookup(lookupName, countryCode);
+            return lookup.ContainsKey(key);
+        }
 
-        public string _LText(string resourceName, string name, string language = "")
+        public string GetLookupText(string lookupName, string key, string countryCode = "")
+        {
+            if (String.IsNullOrWhiteSpace(key) || key == "0") return "";
+            var retval = Location.GetValue(lookupName, key, countryCode);
+            return !String.IsNullOrWhiteSpace(retval) ? retval : GetLookupTextOthers(lookupName, key, "");
+        }
+
+        private static string GetLookupTextOthers(string resourceName, string name, string language = "")
         {
 
             if (String.IsNullOrWhiteSpace(name) || name == "0") return "";
@@ -315,15 +338,10 @@ namespace MS.Katusha.Infrastructure
         {
             if (String.IsNullOrWhiteSpace(language)) {
                 var cultureName = Thread.CurrentThread.CurrentCulture.Name;
-                return ParseLanguageText(cultureName);
+                if (String.IsNullOrWhiteSpace(cultureName) || cultureName.Length < 2) return "en";
+                return cultureName.Substring(0, 2).ToLowerInvariant();
             }
             return language;
-        }
-
-        public static string ParseLanguageText(string cultureName)
-        {
-            if (String.IsNullOrWhiteSpace(cultureName) || cultureName.Length < 2) return "en";
-            return cultureName.Substring(0, 2).ToLowerInvariant();
         }
 
         private static IResourceManager _instance = null;

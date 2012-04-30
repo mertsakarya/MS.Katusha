@@ -99,8 +99,9 @@ namespace MS.Katusha.Services
         {
             if (values.Count == 0) return expression;
             IList<Expression> expressions = new List<Expression>();
+            var resourceManager = ResourceManager.GetInstance();
             foreach (var key in values) {
-                if (ResourceManager.GetInstance().GeoLocation.ContainsKey(lookupName, key, countryCode)) {
+                if (resourceManager.ContainsKey(lookupName, key, countryCode)) {
                     ConstantExpression right = Expression.Constant(key);
                     Expression expression1 = Expression.Equal(left, right);
                     expressions.Add(expression1);

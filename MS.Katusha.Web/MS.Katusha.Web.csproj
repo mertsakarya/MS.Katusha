@@ -504,9 +504,6 @@
     <Content Include="Views\Profiles\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_CreateOrEdit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Mail\SendConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>

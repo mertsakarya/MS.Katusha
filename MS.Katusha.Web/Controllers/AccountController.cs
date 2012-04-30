@@ -167,34 +167,34 @@ namespace MS.Katusha.Web.Controllers
             var resourceManager = ResourceManager.GetInstance();
             switch (createStatus) {
                 case KatushaMembershipCreateStatus.DuplicateUserName:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.DuplicateEmail:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidPassword:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidEmail:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidAnswer:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidQuestion:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidUserName:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.ProviderError:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.UserRejected:
-                    return resourceManager._R("KatushaMembershipCreateStatus." + createStatus);
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 default:
-                    return resourceManager._R("KatushaMembershipCreateStatus.Default");
+                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus.Default");
             }
         }
         #endregion
@@ -241,8 +241,7 @@ namespace MS.Katusha.Web.Controllers
             }
             var model = new FacebookProfileModel() { Name = me.name, Description = me.quotes, Gender = (me.gender == "male") ? Sex.Male : Sex.Female, City = city, FacebookId = me.id };
             var rm = ResourceManager.GetInstance();
-            var countries = rm.GeoLocation.GetCountries();
-            if (countries.ContainsKey(country)) {
+            if(rm.ContainsKey("Country", country)) {
                 model.From = country;
             }
             return ContextDependentView(model, "Facebook");

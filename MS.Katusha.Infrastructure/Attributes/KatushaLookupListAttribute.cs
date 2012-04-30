@@ -25,7 +25,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager._C(PropertyName, MaximumName), out i) ? i : int.MaxValue;
+                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MaximumName), out i) ? i : int.MaxValue;
             }
         }
 
@@ -34,7 +34,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager._C(PropertyName, MinimumName), out i) ? i : int.MinValue;
+                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MinimumName), out i) ? i : int.MinValue;
             }
         }
 
@@ -46,7 +46,7 @@ namespace MS.Katusha.Infrastructure.Attributes
 
         public string PropertyName { get; private set; }
 
-        public new string ErrorMessage { get { return String.Format(_resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
+        public new string ErrorMessage { get { return String.Format(_resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {

@@ -5,6 +5,7 @@
     var profile = ViewBag.KatushaProfile as Profile;
     var searching = "Girls";
     if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
+    var from = Model.From.Count > 0 ? Model.From[0] : "";
 }
 <form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
     <hr style="clear: both"/>
@@ -17,8 +18,8 @@
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.From[0], "From[0]", "Country", "/Search/GetCountries")</div>
             </li>
-            <li id="SearchCity[0]">
-                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", "/Search/GetCities")</div>
+            <li id="SearchCity">
+                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", "/Search/GetCities", from, "document.getElementById('From_0_').value")</div>
             </li>
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.Height)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
@@ -27,3 +28,18 @@
         <p><input type="submit" value="Search" /></p>
     </fieldset>
 </form>
+<script type="text/javascript">
+    function cf(cityArea, from, city) {
+        var ca = document.getElementById(cityArea);
+        var f = document.getElementById(from);
+        if (ca != null)
+            if (f != null && f.value.length > 0) {
+                ca.style.display = '';
+            } else {
+                ca.style.display = "none";
+                document.getElementById(city).value = '';
+                document.getElementById(city+'Lookup').value = '';
+            }
+    }
+    setInterval("cf('SearchCity', 'From_0_', 'City_0_')", 10);
+</script>

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
@@ -18,15 +19,15 @@ namespace MS.Katusha.Web.Controllers
     public class SearchController : KatushaController
     {
         private readonly ISearchService _searchService;
-        private readonly ILocationService _locationService;
+        private IResourceManager _resourceManager;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
         public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, 
-            IConversationService conversationService, ILocationService locationService)
+            IConversationService conversationService)
             : base(userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
-            _locationService = locationService;
+            _resourceManager = ResourceManager.GetInstance();
         }
 
         public ActionResult Men(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return Search(key, model); }
@@ -53,17 +54,22 @@ namespace MS.Katusha.Web.Controllers
             return View("Search", new SearchResultModel {SearchCriteria = model});
         }
 
-        public ActionResult GetCities(string countryCode, string query)
+        public ActionResult GetCities(string query, string countryCode = "")
         {
-            var list = (from u in _locationService.GetCities()
+            if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
+            var coll = _resourceManager.GetCities(countryCode);
+            var list = (from u in coll
                         where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
                         select u).Take(20).ToArray();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            var dict = new List<KeyValuePair<string, string>>(list.Length);
+            dict.AddRange(list.Select(item => new KeyValuePair<string, string>(item, item)));
+            return Json(dict, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetCountries(string query)
         {
-            var items = _locationService.GetCountries();
+            if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
+            var items = _resourceManager.GetCountries();
             var list = (from u in items
                         where u.Value.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
                         select u).Take(20).ToArray();

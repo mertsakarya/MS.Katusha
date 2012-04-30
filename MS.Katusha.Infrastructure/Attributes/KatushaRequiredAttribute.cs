@@ -27,7 +27,7 @@ namespace MS.Katusha.Infrastructure.Attributes
 
         protected string PropertyName { get; private set; }
 
-        public new string ErrorMessage { get { return _resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "*"; } }
+        public new string ErrorMessage { get { return _resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "*"; } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {

@@ -30,9 +30,9 @@ namespace MS.Katusha.Infrastructure.Attributes
             return validationResult;
         }
 
-        public new string ErrorMessage { get { return _resourceManager._R(PropertyName, ErrorMessageKeyName) ?? "*"; } }
+        public new string ErrorMessage { get { return _resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "*"; } }
 
-        public new string Pattern { get { return _resourceManager._C(PropertyName, PatternName); } }
+        public new string Pattern { get { return _resourceManager.ConfigurationValue(PropertyName, PatternName); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context) { yield return new ModelClientValidationRegexRule(ErrorMessage, Pattern); }
     }

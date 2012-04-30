@@ -150,7 +150,7 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", _resourceManager.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -175,7 +175,6 @@ namespace MS.Katusha.Web.Controllers
             if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
             try {
                 ViewBag.SameProfile = true;
-                if (!ModelState.IsValid) return View(model);
                 var profileModel = KatushaProfile;
                 ValidateProfileCollections(model, profileModel, false);
                 if (!ModelState.IsValid) return View(model);
@@ -189,7 +188,7 @@ namespace MS.Katusha.Web.Controllers
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceManager._R("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", _resourceManager.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -219,8 +218,8 @@ namespace MS.Katusha.Web.Controllers
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
         {
             if (!performDataOperation) {
-                var languages = _resourceManager.GeoLocation.GetLanguages();
-                var countries = _resourceManager.GeoLocation.GetCountries();
+                var languages = _resourceManager.GetLanguages();
+                var countries = _resourceManager.GetCountries();
 
                 var formValue = Request.Form["CountriesToVisitModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {

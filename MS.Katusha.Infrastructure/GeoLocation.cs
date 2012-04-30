@@ -124,8 +124,17 @@ namespace MS.Katusha.Infrastructure
 
         public IDictionary<string, string> GetCountries() { return _countryList; }
         public IList<string> GetCitiesWithAlternates() { return _cityListWithAlternates; }
-        public IList<string> GetCities() { return _cityList; }
-        public IDictionary<string, string> GetCities(string countryCode) { return CountryCities.ContainsKey(countryCode)? CountryCities[countryCode] : new Dictionary<string, string>(); }
+        public IList<string> GetCities(string countryCode)
+        {
+            if (String.IsNullOrWhiteSpace(countryCode)) return _cityList;
+            if (!CountryCities.ContainsKey(countryCode)) return new List<string>();
+            var items = CountryCities[countryCode];
+            var list = new List<string>(items.Count);
+            list.AddRange(items.Select(item => item.Value));
+            return list;
+        }
+
+        public IDictionary<string, string> GetCityList(string countryCode) { return CountryCities.ContainsKey(countryCode)? CountryCities[countryCode] : new Dictionary<string, string>(); }
         public IDictionary<string, string> GetLanguages() { return _languageList; }
 
         public IDictionary<string, string> GetLanguages(string countryCode)
@@ -143,6 +152,13 @@ namespace MS.Katusha.Infrastructure
 
         public string GetValue(string lookupName, string key, string countryCode = "")
         {
+            var keyValues = GetLookup(lookupName, countryCode);
+            var value = (keyValues == null || String.IsNullOrWhiteSpace(key)) ? "" : (keyValues.ContainsKey(key)) ? keyValues[key] : "";
+            return value;
+        }
+
+        public IDictionary<string, string> GetLookup(string lookupName, string countryCode)
+        {
             IDictionary<string, string> keyValues = null;
             var lookup = lookupName.ToLowerInvariant();
             switch (lookup) {
@@ -153,11 +169,17 @@ namespace MS.Katusha.Infrastructure
                     keyValues = GetCountries();
                     break;
                 case "city":
-                    keyValues = GetCities(countryCode);
+                    keyValues = GetCityList(countryCode);
                     break;
             }
-            var value = (keyValues == null || String.IsNullOrWhiteSpace(key)) ? "" : (keyValues.ContainsKey(key)) ? keyValues[key] : "";
-            return value;
+            
+            if (lookup.StartsWith("city/")) {
+                var cc = lookup.Substring(5);
+                if (CountryCities.ContainsKey(cc))
+                    keyValues = CountryCities[cc];
+            }
+
+            return keyValues ?? new Dictionary<string, string>();
         }
 
         public bool ContainsKey(string lookupName, string key, string countryCode = "")
@@ -172,7 +194,7 @@ namespace MS.Katusha.Infrastructure
                     keyValues = GetCountries();
                     break;
                 case "city":
-                    keyValues = GetCities(countryCode);
+                    keyValues = GetCityList(countryCode);
                     break;
             }
             var value = !(keyValues == null || String.IsNullOrWhiteSpace(key)) && keyValues.ContainsKey(key);
