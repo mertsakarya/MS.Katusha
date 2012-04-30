@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -270,20 +272,21 @@ namespace MS.Katusha.Infrastructure
 
         private void WriteToDatabase(StringBuilder sb)
         {
-             
-            throw new Exception(_dbContext.Database.Connection.ConnectionString);
-
             var val = sb.ToString();
-            if (!String.IsNullOrWhiteSpace(val)) {
-                using (var sourceConnection = new SqlConnection(_dbContext.Database.Connection.ConnectionString)) {
-                    sourceConnection.Open();
+            if (String.IsNullOrWhiteSpace(val)) return;
+            using (var sourceConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["MS.Katusha.Domain.KatushaDbContext"].ConnectionString)) {
+                sourceConnection.Open();
+                try {
                     using (var tran = sourceConnection.BeginTransaction()) {
-                        
-                        var cmd = new SqlCommand(val, sourceConnection) {Transaction = tran};
+                        var cmd = sourceConnection.CreateCommand();
+                        cmd.Transaction = tran;
+                        cmd.CommandText = val;
                         var lines = cmd.ExecuteNonQuery();
                         tran.Commit();
-                        Debug.WriteLine(lines);
+                        //Debug.WriteLine(lines);
                     }
+                } finally {
+                    sourceConnection.Close();
                 }
             }
         }
