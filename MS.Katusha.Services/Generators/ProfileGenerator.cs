@@ -15,14 +15,14 @@ namespace MS.Katusha.Services.Generators
         private readonly IUserService _userService;
         private readonly IPhotosService _photosService;
         private readonly static Logger Logger = LogManager.GetLogger("MS.Katusha.ProfileGenerator");
-        private IResourceManager _resourceManager;
+        private readonly IResourceService _resourceService;
 
-        public ProfileGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService)
+        public ProfileGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService, IResourceService resourceService)
         {
             _profileService = profileService;
             _userService = userService;
             _photosService = photosService;
-            _resourceManager = ResourceManager.GetInstance();
+            _resourceService = resourceService;
         }
 
         public Profile Generate(int extra = 0)
@@ -33,17 +33,17 @@ namespace MS.Katusha.Services.Generators
             IGenerator<User> generator = new UserGenerator(_userService);
             var user = generator.Generate();
 
-            var geoCountries = _resourceManager.GetCountries();
+            var geoCountries = _resourceService.GetCountries();
             var countries = new List<string>(geoCountries.Count);
             countries.AddRange(geoCountries.Select(country => country.Key));
 
-            var geoLanguages = _resourceManager.GetLanguages();
+            var geoLanguages = _resourceService.GetLanguages();
             var languages = new List<string>(geoLanguages.Count);
             languages.AddRange(geoLanguages.Select(language => language.Key));
             var cn = GeneratorHelper.RND.Next(countries.Count) + 1;
             if (cn <= 0 || cn > countries.Count - 2) cn = 3;
             var co = countries[cn];
-            var cl = _resourceManager.GetCities(co);
+            var cl = _resourceService.GetCities(co);
             var ci = cl[GeneratorHelper.RND.Next(cl.Count)];
             var profile = new Profile {
                                           Name = GeneratorHelper.RandomString(10, true),

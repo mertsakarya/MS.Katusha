@@ -77,7 +77,9 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
+    <Compile Include="CountryCityCountRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationCountIndex.cs" />
+    <Compile Include="Indexes\CountryCityCountIndex.cs" />
     <Compile Include="StateRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationIndex.cs" />
     <Compile Include="Indexes\ProfileFacetsIndex.cs" />

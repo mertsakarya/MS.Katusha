@@ -59,7 +59,8 @@ namespace MS.Katusha.Infrastructure
 
         public static void CreateIndexes()
         {
-            IndexCreation.CreateIndexes(typeof (ProfileFacetsIndex).Assembly, RavenStore);
+            IndexCreation.CreateIndexes(typeof(CountryCityCountIndex).Assembly, RavenStore);
+            IndexCreation.CreateIndexes(typeof(ProfileFacetsIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, RavenStore);
             IndexCreation.CreateIndexes(typeof(UniqueVisitorsIndex).Assembly, RavenStore);

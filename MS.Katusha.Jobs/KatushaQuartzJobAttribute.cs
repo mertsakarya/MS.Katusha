@@ -1,6 +1,8 @@
 ﻿using System;
+using Autofac;
+using MS.Katusha.Interfaces.Services;
 
-namespace MS.Katusha.Infrastructure.Attributes
+namespace MS.Katusha.Jobs
 {
     public class KatushaQuartzJobAttribute : Attribute
     {
@@ -13,15 +15,15 @@ namespace MS.Katusha.Infrastructure.Attributes
             set
             {
                 _resourceString = value;
-                var rm = new ResourceManager();
+                var resourceService = DependencyHelper.Container.Resolve<IResourceService>();
                 TriggerName = value + "Trigger";
                 JobName = value;
                 StartTimeUtc = DateTime.Now;
                 EndTimeUtc = null;
-                var val = ResourceManager.ConfigurationValue(value);
+                var val = resourceService.ConfigurationValue(value);
                 CronExpression = val;
                 IntervalSeconds = 0;
-                val = ResourceManager.ConfigurationValue(value + ".Enabled");
+                val = resourceService.ConfigurationValue(value + ".Enabled");
                 Enabled = val == null || String.IsNullOrWhiteSpace(val) || val.ToLowerInvariant() == "true";
             }
         }

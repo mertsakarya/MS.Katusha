@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
@@ -9,7 +10,8 @@ namespace MS.Katusha.Infrastructure.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class KatushaStringLengthAttribute : StringLengthAttribute, IClientValidatable
     {
-        private readonly IResourceManager _resourceManager;
+        private static readonly IResourceService ResourceService = DependencyResolver.Current.GetService<IResourceService>();
+
         private const string ErrorMessageKeyName = "StringLengthErrorMessage";
         private const string MaximumLengthName = "MaximumLength";
         private const string MinimumLengthName = "MinimumLength";
@@ -18,7 +20,6 @@ namespace MS.Katusha.Infrastructure.Attributes
             : base(0)
         {
             PropertyName = propertyName;
-            _resourceManager = DependencyResolver.Current.GetService<IResourceManager>();
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -37,7 +38,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MaximumLengthName), out i) ? i : int.MaxValue;
+                return int.TryParse(ResourceService.ConfigurationValue(PropertyName, MaximumLengthName), out i) ? i : int.MaxValue;
             }
         }
 
@@ -46,14 +47,14 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MinimumLengthName), out i) ? i : int.MinValue;
+                return int.TryParse(ResourceService.ConfigurationValue(PropertyName, MinimumLengthName), out i) ? i : int.MinValue;
             }
         }
 
         public new string ErrorMessage
         {
             get {
-                return String.Format(_resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
+                return String.Format(ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
             }
         }
 

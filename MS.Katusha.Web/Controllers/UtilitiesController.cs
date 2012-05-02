@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Domain;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
@@ -150,7 +148,7 @@ namespace MS.Katusha.Web.Controllers
         private int GetValues(string key, out int extra)
         {
             Response.ContentType = "text/plain";
-            var count = 0;
+            int count;
             if (!int.TryParse(key, out count)) Response.Write("Wrong count!");
             var str = (Request.QueryString["extra"]);
             if (!int.TryParse(str, out extra)) extra = 0;

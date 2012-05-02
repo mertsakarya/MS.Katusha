@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
@@ -9,14 +10,13 @@ namespace MS.Katusha.Infrastructure.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class KatushaLookupListAttribute : ValidationAttribute, IClientValidatable
     {
-        private readonly IResourceManager _resourceManager;
+        private static readonly IResourceService ResourceService = DependencyResolver.Current.GetService<IResourceService>();
         private const string ErrorMessageKeyName = "RangeErrorMessage";
         private const string MaximumName = "Maximum";
         private const string MinimumName = "Minimum";
 
         public KatushaLookupListAttribute(string propertyName)
         {
-            _resourceManager = new ResourceManager();
             PropertyName = propertyName;
         }
 
@@ -25,7 +25,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MaximumName), out i) ? i : int.MaxValue;
+                return int.TryParse(ResourceService.ConfigurationValue(PropertyName, MaximumName), out i) ? i : int.MaxValue;
             }
         }
 
@@ -34,7 +34,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             get
             {
                 int i;
-                return int.TryParse(_resourceManager.ConfigurationValue(PropertyName, MinimumName), out i) ? i : int.MinValue;
+                return int.TryParse(ResourceService.ConfigurationValue(PropertyName, MinimumName), out i) ? i : int.MinValue;
             }
         }
 
@@ -46,7 +46,7 @@ namespace MS.Katusha.Infrastructure.Attributes
 
         public string PropertyName { get; private set; }
 
-        public new string ErrorMessage { get { return String.Format(_resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
+        public new string ErrorMessage { get { return String.Format(ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {

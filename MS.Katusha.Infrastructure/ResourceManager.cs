@@ -10,24 +10,7 @@ using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Infrastructure
 {
-    public interface IResourceManager
-    {
-        string ConfigurationValue(string propertyName, string key, bool mustFind = false);
-        string ResourceValue(string resourceName, string language = "");
-        string ResourceValue(string propertyName, string key, bool mustFind, string language);
-
-        IDictionary<string, string> GetLookup(string lookupName, string countryCode = "");
-        string GetLookupText(string lookupName, string key, string countryCode = "");
-        string GetLookupEnumKey(string lookupName, byte value, string language = "");
-
-        bool ContainsKey(string lookupName, string key, string countryCode = "");
-
-        IDictionary<string, string> GetCountries();
-        IDictionary<string, string> GetLanguages();
-        IList<string> GetCities(string countryCode);
-    }
-
-    public class ResourceManager : IResourceManager
+    public class ResourceManager
     {
         private static readonly IDictionary<string, string> ConfigurationList;
         private static readonly IDictionary<string, string> ResourceList;
@@ -47,7 +30,7 @@ namespace MS.Katusha.Infrastructure
             ListLock = new ReaderWriterLockSlim();
         }
 
-        public ResourceManager()
+        private ResourceManager()
         {
             ListLock.EnterReadLock();
             var isEmpty = ResourceLookupList.Count <= 0;
@@ -196,7 +179,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        public static string ConfigurationValue(string key)
+        public string ConfigurationValue(string key)
         {
             ListLock.EnterReadLock();
             try {
@@ -344,7 +327,7 @@ namespace MS.Katusha.Infrastructure
             return language;
         }
 
-        private static IResourceManager _instance = null;
-        public static IResourceManager GetInstance() { return _instance ?? (_instance = new ResourceManager()); }
+        private static ResourceManager _instance = null;
+        public static ResourceManager GetInstance() { return _instance ?? (_instance = new ResourceManager()); }
     }
 }

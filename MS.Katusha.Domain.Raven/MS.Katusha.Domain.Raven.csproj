@@ -51,14 +51,12 @@
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\ConversationResult.cs" />
     <Compile Include="Entities\ConversationCountResult.cs" />
+    <Compile Include="Entities\CountryCityCountResult.cs" />
     <Compile Include="Entities\NewVisits.cs" />
-    <Compile Include="Entities\ProfileCountryFacet.cs" />
-    <Compile Include="Entities\ProfileSearchFacet.cs" />
     <Compile Include="Entities\SearchCriteria.cs" />
     <Compile Include="Entities\SearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\ProfileFacet.cs" />
-    <Compile Include="Entities\ProfileLanguageFacet.cs" />
     <Compile Include="Entities\UniqueVisitorsResult.cs" />
   </ItemGroup>
   <ItemGroup>

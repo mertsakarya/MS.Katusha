@@ -20,7 +20,7 @@
     @Html.LabelFor(model => model.From)
 </div>
 <div class="editor-field">
-    @Html.AutoCompleteFor(model => model.From, "From", "Country", "/Search/GetCountries")
+    @Html.AutoCompleteFor(model => model.From, "From", "Country", "", "/Search/GetCountries")
     @Html.ValidationMessageFor(model => model.From)
 </div>
 
@@ -29,7 +29,7 @@
         @Html.LabelFor(model => model.City)
     </div>
     <div class="editor-field">
-        @Html.AutoCompleteFor(model => model.City, "City", "City", "/Search/GetCities", Model.From, "document.getElementById('From').value")
+        @Html.AutoCompleteFor(model => model.City, "City", "City", "", "/Search/GetCities", Model.From, "document.getElementById('From').value")
         @Html.ValidationMessageFor(model => model.City)
     </div>
 </div>

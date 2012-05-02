@@ -7,8 +7,8 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models.Entities;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
 
@@ -16,7 +16,7 @@ namespace MS.Katusha.Web.Helpers
 {
     public static class HtmlHelper
     {
-        private static readonly IResourceManager resourceManager =  ResourceManager.GetInstance(); //DependencyResolver.Current.GetService<IResourceManager>();
+        private static readonly IResourceService ResourceService =  DependencyResolver.Current.GetService<IResourceService>();
 
         private static Type GetNonNullableModelType(ModelMetadata modelMetadata)
         {
@@ -51,7 +51,7 @@ namespace MS.Katusha.Web.Helpers
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var type = GetNonNullableModelType(metadata);
-            var dict = resourceManager.GetLookup(type.Name);
+            var dict = ResourceService.GetLookup(type.Name);
             var list = new List<SelectListItem>();
             if (optional || metadata.IsNullableValueType)
                 list.Add(new SelectListItem { Text = htmlHelper.ResourceValue("EmptyText"), Value = "0" });
@@ -71,23 +71,23 @@ namespace MS.Katusha.Web.Helpers
 
         private static string ResourceValue<TModel>(this HtmlHelper<TModel> htmlHelper, string resourceName, string language = "")
         {
-            return resourceManager.ResourceValue(resourceName, language);
+            return ResourceService.ResourceValue(resourceName, language);
         }
 
         private static string LookupText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string name, string language = "")
         {
-            return resourceManager.GetLookupText(lookupName, name,  language);
+            return ResourceService.GetLookupText(lookupName, name,  language);
         }
 
         private static string LookupText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, byte value, string language = "")
         {
-            var key = resourceManager.GetLookupEnumKey(lookupName, value, language);
+            var key = ResourceService.GetLookupEnumKey(lookupName, value, language);
             return key;
         }
 
         public static string LocationText<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName, string key, string countryCode = "")
         {
-            return resourceManager.GetLookupText(lookupName, key, countryCode);
+            return ResourceService.GetLookupText(lookupName, key, countryCode);
         }
 
         public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false)
@@ -157,7 +157,7 @@ namespace MS.Katusha.Web.Helpers
 
         private static IHtmlString ToJson<TModel>(this HtmlHelper<TModel> htmlHelper, string lookupName)
         {
-            var keyValues = resourceManager.GetLookup(lookupName);
+            var keyValues = ResourceService.GetLookup(lookupName);
             var sb = new StringBuilder();
             sb.Append("[");
             var i = 0;
@@ -181,7 +181,7 @@ namespace MS.Katusha.Web.Helpers
             foreach (var item in list) {
                 if (!firstTime) sb.Append(',');
                 var v = Enum.GetName(enumType, compiledExpression.Invoke(item));
-                sb.Append(Append(resourceManager.GetLookupText(enumType.Name, v), v, "title"));
+                sb.Append(Append(ResourceService.GetLookupText(enumType.Name, v), v, "title"));
                 firstTime = false;
             }
             sb.Append("]");
@@ -193,7 +193,7 @@ namespace MS.Katusha.Web.Helpers
             var sb = new StringBuilder();
             sb.Append("[");
             var compiledExpression = expression.Compile();
-            var keyValues = resourceManager.GetLookup(lookupName);
+            var keyValues = ResourceService.GetLookup(lookupName);
             var firstTime = true;
             if (keyValues != null) {
                 foreach (var item in list) {
@@ -309,7 +309,7 @@ namespace MS.Katusha.Web.Helpers
             return htmlHelper.Raw(String.Format("{0}{1}{2}", label, edit, script));
         }
 
-        public static IHtmlString AutoCompleteFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, string>> expression, string name, string lookupName, string urlToCall, string serverCountryCode = "", string clientCountryCode = "", string onselect = "")
+        public static IHtmlString AutoCompleteFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, string>> expression, string name, string lookupName, string searchingFor, string urlToCall, string serverCountryCode = "", string clientCountryCode = "", string onselect = "")
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var id = name.Replace('[', '_').Replace(']', '_');
@@ -319,7 +319,7 @@ namespace MS.Katusha.Web.Helpers
             } catch {
                 if (name.IndexOf('[') < 0) throw;
             }
-            var value = resourceManager.GetLookupText(lookupName, key, serverCountryCode);
+            var value = ResourceService.GetLookupText(lookupName, key, serverCountryCode);
             var hiddenTag = new TagBuilder("input");
             hiddenTag.Attributes.Add("id", id);
             hiddenTag.Attributes.Add("name", name);
@@ -346,7 +346,7 @@ $(function() {{
                 url: '{1}',
                 type: 'POST',
                 dataType: 'json',
-                data: {{ query: request.term{2} }},
+                data: {{ searching:'{4}',query: request.term{2} }},
                 success: function (data) {{
                     response($.map(data, function(item) {{
                         return {{ label: item.Value, value: item.Value, key: item.Key }};
@@ -361,7 +361,7 @@ setInterval(function() {{
     var fl=document.getElementById('{0}Lookup'); 
     if(fl != null && fl.value.length==0) document.getElementById('{0}').value = ''; 
 }}, 7);
-", id, urlToCall, (!String.IsNullOrWhiteSpace(clientCountryCode) ? ", countryCode:" + clientCountryCode : ""), onselect)
+", id, urlToCall, (!String.IsNullOrWhiteSpace(clientCountryCode) ? ", countryCode:" + clientCountryCode : ""), onselect, searchingFor)
             };
             scriptTag.Attributes.Add("type", "text/javascript");
             return htmlHelper.Raw(String.Format("{0}{1}{2}", inputTag, hiddenTag, scriptTag));
@@ -377,7 +377,7 @@ setInterval(function() {{
                 var compiledPropertyExpression = collectionPropertyExpression.Compile();
                 var sb = new StringBuilder();
                 var first = true;
-                var lookup = resourceManager.GetLookup(lookupName);
+                var lookup = ResourceService.GetLookup(lookupName);
                 foreach (var item in list) {
                     if (!first) sb.Append(", "); else first = false;
                     var key = Convert.ToString(compiledPropertyExpression.Invoke(item));

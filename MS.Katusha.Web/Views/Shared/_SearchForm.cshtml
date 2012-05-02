@@ -16,10 +16,10 @@
                 <div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
             </li>
             <li>
-                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.From[0], "From[0]", "Country", "/Search/GetCountries")</div>
+                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.From[0], "From[0]", "Country", searching, "/Search/GetCountries")</div>
             </li>
             <li id="SearchCity">
-                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", "/Search/GetCities", from, "document.getElementById('From_0_').value")</div>
+                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", searching, "/Search/GetCities", from, "document.getElementById('From_0_').value")</div>
             </li>
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.Height)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>

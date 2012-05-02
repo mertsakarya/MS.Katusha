@@ -27,7 +27,8 @@ namespace MS.Katusha.Web.Helpers
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<ResourceManager>().As<IResourceManager>().SingleInstance();
+            builder.RegisterType<CountryCityCountRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<ResourceService>().As<IResourceService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
@@ -59,6 +60,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();
+            
 
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
             Container = builder.Build();

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using MS.Katusha.Domain;
-using MS.Katusha.Infrastructure;
-using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Repositories.DB;
+﻿using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Generators;
 
 namespace MS.Katusha.Services
@@ -11,9 +7,9 @@ namespace MS.Katusha.Services
     {
         private readonly SampleGenerator _generator;
 
-        public SamplesService(IUserService userService, IProfileService profileService, IPhotosService photosService, IConversationService conversationService, IVisitService visitService)
+        public SamplesService(IUserService userService, IProfileService profileService, IPhotosService photosService, IConversationService conversationService, IVisitService visitService, IResourceService resourceService)
         {
-            _generator = new SampleGenerator(profileService, userService, photosService, conversationService, visitService);
+            _generator = new SampleGenerator(profileService, userService, photosService, conversationService, visitService, resourceService);
         }
 
         public void GenerateRandomUserAndProfile(int count, int extra = 0)

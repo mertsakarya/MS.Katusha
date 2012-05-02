@@ -1,5 +1,4 @@
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Services.Generators
@@ -11,19 +10,21 @@ namespace MS.Katusha.Services.Generators
         private readonly IPhotosService _photosService;
         private readonly IConversationService _conversationService;
         private readonly IVisitService _visitService;
+        private readonly IResourceService _resourceService;
 
-        public SampleGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService, IConversationService conversationService, IVisitService visitService)
+        public SampleGenerator(IProfileService profileService, IUserService userService, IPhotosService photosService, IConversationService conversationService, IVisitService visitService, IResourceService resourceService)
         {
             _profileService = profileService;
             _userService = userService;
             _photosService = photosService;
             _conversationService = conversationService;
             _visitService = visitService;
+            _resourceService = resourceService;
         }
 
         public void CreateSamples(int count, int extra = 0)
         {
-            IGenerator<Profile> generator = new ProfileGenerator(_profileService, _userService, _photosService);
+            IGenerator<Profile> generator = new ProfileGenerator(_profileService, _userService, _photosService, _resourceService);
             for (var i = 0; i < count; i++) {
                 generator.Generate(extra);
             }

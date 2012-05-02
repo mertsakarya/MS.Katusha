@@ -19,15 +19,15 @@ namespace MS.Katusha.Web.Controllers
     public class SearchController : KatushaController
     {
         private readonly ISearchService _searchService;
-        private IResourceManager _resourceManager;
+        private readonly IResourceService _resourceService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, 
-            IConversationService conversationService)
+        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, IConversationService conversationService, IResourceService resourceService)
             : base(userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
-            _resourceManager = ResourceManager.GetInstance();
+            _resourceService = resourceService;
+
         }
 
         public ActionResult Men(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return Search(key, model); }
@@ -54,10 +54,21 @@ namespace MS.Katusha.Web.Controllers
             return View("Search", new SearchResultModel {SearchCriteria = model});
         }
 
-        public ActionResult GetCities(string query, string countryCode = "")
+        public ActionResult GetCities(string query, string searching, string countryCode = "")
         {
             if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
-            var coll = _resourceManager.GetCities(countryCode);
+            IList<string> coll;
+            switch(searching.ToLowerInvariant()) {
+                case "girls":
+                    coll = _resourceService.GetSearchableCities(Sex.Female, countryCode);
+                    break;
+                case "men":
+                    coll = _resourceService.GetSearchableCities(Sex.Male, countryCode);
+                    break;
+                default:
+                    coll = _resourceService.GetCities(countryCode);
+                    break;
+            }
             var list = (from u in coll
                         where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
                         select u).Take(20).ToArray();
@@ -66,11 +77,22 @@ namespace MS.Katusha.Web.Controllers
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetCountries(string query)
+        public ActionResult GetCountries(string query, string searching)
         {
             if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
-            var items = _resourceManager.GetCountries();
-            var list = (from u in items
+            IDictionary<string, string> coll;
+            switch (searching.ToLowerInvariant()) {
+                case "girls":
+                    coll = _resourceService.GetSearchableCountries(Sex.Female);
+                    break;
+                case "men":
+                    coll = _resourceService.GetSearchableCountries(Sex.Male);
+                    break;
+                default:
+                    coll = _resourceService.GetCountries();
+                    break;
+            }
+            var list = (from u in coll
                         where u.Value.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
                         select u).Take(20).ToArray();
             return Json(list, JsonRequestBehavior.AllowGet);

@@ -25,14 +25,14 @@ namespace MS.Katusha.Web.Controllers
     public class ProfilesController : KatushaController
     {
         private readonly IProfileService _profileService;
-        private readonly IResourceManager _resourceManager;
+        private readonly IResourceService _resourceService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public ProfilesController(IUserService userService, IProfileService profileService, IResourceManager resourceManager, IStateService stateService, IConversationService conversationService)
+        public ProfilesController(IUserService userService, IProfileService profileService, IResourceService resourceService, IStateService stateService, IConversationService conversationService)
             : base(userService, profileService, stateService, conversationService)
         {
             _profileService = profileService;
-            _resourceManager = resourceManager;
+            _resourceService = resourceService;
         }
 
         public ActionResult Online(int? key) {
@@ -150,7 +150,7 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceManager.ResourceValue("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", _resourceService.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -188,7 +188,7 @@ namespace MS.Katusha.Web.Controllers
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceManager.ResourceValue("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", _resourceService.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -218,8 +218,8 @@ namespace MS.Katusha.Web.Controllers
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
         {
             if (!performDataOperation) {
-                var languages = _resourceManager.GetLanguages();
-                var countries = _resourceManager.GetCountries();
+                var languages = _resourceService.GetLanguages();
+                var countries = _resourceService.GetCountries();
 
                 var formValue = Request.Form["CountriesToVisitModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {

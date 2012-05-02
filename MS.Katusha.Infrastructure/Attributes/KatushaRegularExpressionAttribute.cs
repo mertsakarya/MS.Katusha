@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
@@ -10,12 +11,12 @@ namespace MS.Katusha.Infrastructure.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class KatushaRegularExpressionAttribute : RegularExpressionAttribute, IClientValidatable
     {
-        private readonly IResourceManager _resourceManager;
+        private static readonly IResourceService ResourceService = DependencyResolver.Current.GetService<IResourceService>();
+
         private const string ErrorMessageKeyName = "RegularExpressionErrorMessage";
         private const string PatternName = "RegularExpressionPattern";
         public KatushaRegularExpressionAttribute(string propertyName) : base(propertyName)
         {
-            _resourceManager = DependencyResolver.Current.GetService<IResourceManager>();
             PropertyName = propertyName;
         }
 
@@ -30,9 +31,9 @@ namespace MS.Katusha.Infrastructure.Attributes
             return validationResult;
         }
 
-        public new string ErrorMessage { get { return _resourceManager.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "*"; } }
+        public new string ErrorMessage { get { return ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "*"; } }
 
-        public new string Pattern { get { return _resourceManager.ConfigurationValue(PropertyName, PatternName); } }
+        public new string Pattern { get { return ResourceService.ConfigurationValue(PropertyName, PatternName); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context) { yield return new ModelClientValidationRegexRule(ErrorMessage, Pattern); }
     }
