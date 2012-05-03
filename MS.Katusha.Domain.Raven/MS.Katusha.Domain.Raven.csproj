@@ -53,6 +53,7 @@
     <Compile Include="Entities\ConversationCountResult.cs" />
     <Compile Include="Entities\CountryCityCountResult.cs" />
     <Compile Include="Entities\NewVisits.cs" />
+    <Compile Include="Entities\PingResult.cs" />
     <Compile Include="Entities\SearchCriteria.cs" />
     <Compile Include="Entities\SearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Services
 {
@@ -14,46 +16,37 @@ namespace MS.Katusha.Services
         private readonly IStateRepositoryDB _stateRepository;
         private readonly IStateRepositoryRavenDB _stateRepositoryRaven;
         private readonly IVisitService _visitService;
+        private readonly IProfileService _profileService;
+        private readonly IConversationService _conversationService;
         private static readonly TimeSpan OnlineInterval = new TimeSpan(0, 0, 10, 0); 
 
-        public StateService(IStateRepositoryDB stateRepository, IStateRepositoryRavenDB stateRepositoryRaven, IVisitService visitService)
+        public StateService(IStateRepositoryDB stateRepository, IStateRepositoryRavenDB stateRepositoryRaven, IVisitService visitService, IProfileService profileService, IConversationService conversationService)
         {
             _stateRepository = stateRepository;
             _stateRepositoryRaven = stateRepositoryRaven;
             _visitService = visitService;
+            _profileService = profileService;
+            _conversationService = conversationService;
         }
 
-        public NewVisits Ping(long profileId, Sex gender) {
-            var lastVisitTime = _stateRepository.UpdateStatus(profileId, gender);
-            _stateRepositoryRaven.UpdateStatus(profileId, gender);
-            return _visitService.GetVisitorsSinceLastVisit(profileId, lastVisitTime);
+        public PingResult Ping(Profile profile) {
+            var lastVisitTime = _stateRepository.UpdateStatus(profile);
+            var state = Mapper.Map<State>(profile);
+            _stateRepositoryRaven.UpdateStatus(state);
+            var visits = _visitService.GetVisitorsSinceLastVisit(profile.Id, lastVisitTime);
+            var conversations = _conversationService.GetConversationStatistics(profile.Id);
+            return new PingResult { Visits = visits, Conversations = conversations };
         }
 
-        public bool IsOnline(long profileId) { 
-            var state = _stateRepositoryRaven.GetById(profileId);
-            var diff = DateTime.Now - state.LastOnline;
-            return ( diff < OnlineInterval);
-        }
-
-        public IEnumerable<State> OnlineGirls(out int total, int pageNo = 1, int pageSize = 20)
+        public IEnumerable<State> OnlineProfiles(byte sex, out int total, int pageNo = 1, int pageSize = 20)
         {
             var dt = DateTime.Now - OnlineInterval;
-            var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt && p.Gender == (byte)Sex.Female, pageNo, pageSize, out total, p => p.LastOnline, false);
-            //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt && p.Gender == (byte)Sex.Female);
-            return retval;
-        }
-        public IEnumerable<State> OnlineMen(out int total, int pageNo = 1, int pageSize = 20)
-        {
-            var dt = DateTime.Now - OnlineInterval;
-            var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt && p.Gender == (byte)Sex.Male, pageNo, pageSize, out total, p => p.LastOnline, false);
-            //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt && p.Gender == (byte)Sex.Male);
-            return retval;
-        }
-        public IEnumerable<State> OnlineProfiles(out int total, int pageNo = 1, int pageSize = 20)
-        {
-            var dt = DateTime.Now - OnlineInterval;
-            var retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt, pageNo, pageSize, out total, p => p.LastOnline, false);
-            //total = _stateRepositoryRaven.Count(p => p.LastOnline > dt);
+            IList<State> retval = null;
+            total = 0;
+            if (sex == 0)
+                retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt, pageNo, pageSize, out total, p => p.LastOnline, false);
+            else if (sex <= (byte)Sex.MAX)
+                retval = _stateRepositoryRaven.Query(p => p.LastOnline > dt && p.Gender == sex, pageNo, pageSize, out total, p => p.LastOnline, false);
             return retval;
         }
 
@@ -72,7 +65,9 @@ namespace MS.Katusha.Services
                         if (pr != null)
                             ravenRepository.Delete(pr);
                     }
-                    ravenRepository.UpdateStatus(item.ProfileId, (Sex)item.Gender);
+                    var profile = _profileService.GetProfile(item.ProfileId);
+                    if(profile != null)
+                        ravenRepository.UpdateStatus(Mapper.Map<State>(profile));
                 } catch (Exception ex) {
                     result.Add(String.Format("{0} - {1}", item.ProfileId, ex.Message));
                 }

@@ -62,18 +62,7 @@ namespace MS.Katusha.Web.Controllers
                 if(newProfiles != null)
                     ViewBag.KatushaNewProfiles = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
 
-                IEnumerable<State> onlineStates = null;
-                switch (KatushaUser.Gender) {
-                    case (byte)Sex.Male:
-                        onlineStates = StateService.OnlineGirls(out total, 1, ProfileCount).ToList();
-                        break;
-                    case (byte)Sex.Female:
-                        onlineStates = StateService.OnlineMen(out total, 1, ProfileCount).ToList();
-                        break;
-                    default:
-                        onlineStates = StateService.OnlineProfiles(out total, 1, ProfileCount).ToList();
-                        break;
-                }
+                var onlineStates = StateService.OnlineProfiles(KatushaUser.Gender, out total, 1, ProfileCount).ToList();
                 var onlineProfiles = new List<Profile>();
                 onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
                 if(onlineProfiles.Count > 0)
@@ -81,13 +70,7 @@ namespace MS.Katusha.Web.Controllers
             }
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
-            if (KatushaProfile != null) {
-                ViewBag.ConversationCount = ConversationService.GetConversationStatistics(KatushaProfile.Id);
-                ViewBag.NewVisits = StateService.Ping(KatushaProfile.Id, (Sex)KatushaProfile.Gender);
-            } else {
-                ViewBag.ConversationCount = new ConversationCountResult();
-                ViewBag.NewVisits = new NewVisits {LastVisitTime = DateTime.Now, Visits = new List<UniqueVisitorsResult>()};
-            }
+            ViewBag.PingResult = (KatushaProfile != null) ? StateService.Ping(KatushaProfile) : null;
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

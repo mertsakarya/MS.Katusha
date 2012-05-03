@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Interfaces.Services
@@ -22,6 +23,7 @@ namespace MS.Katusha.Interfaces.Services
 
         IDictionary<string, string> GetSearchableCountries(Sex gender);
         IList<string> GetSearchableCities(Sex gender, string countryCode);
-        
+
+        string UrlFriendlyDateTime(DateTime dateTime);
     }
 }

@@ -2,28 +2,51 @@
 @using MS.Katusha.Domain.Raven.Entities
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
-    var conversationCount = ViewBag.ConversationCount as ConversationCountResult;
-    var newVisits = ViewBag.NewVisits as NewVisits;
+    var pingResult = ViewBag.PingResult as PingResult;
     var name = (profile != null) ? profile.Name : User.Identity.Name;
     <div style="float:right">
-        @if (newVisits != null && newVisits.Visits != null && newVisits.Visits.Count > 0) {
-            <div style="float:right; border:1px #f0f0f0 solid">
-                <a href="@Url.Action("NewVisits", "Visitor", new { key = Html.GetUrlFriendlyDateTime(newVisits.LastVisitTime) })" title="@String.Format("{0} visitors.", newVisits.Visits.Count)">
-                    <img src="/Images/view.gif" /><br/>
-                    <b>@newVisits.Visits.Count </b> visitors
-                </a>
-            </div>
-        }
-
-        @if (conversationCount != null && conversationCount.UnreadCount > 0) {
-            <div style="float:right; border:1px #f0f0f0 solid">
-                <a style="background-color: #f0f0f0;"  href="@Url.Action("Conversations", "Messages", new { key = 1 })" title="@String.Format("{0}/{1}", conversationCount.UnreadCount, conversationCount.Count)">
-                    <img src="/Images/mail.jpg" /><br/>
-                    <b>@conversationCount.UnreadCount</b> / @conversationCount.Count
-                </a>
-            </div>
-        }
+        <div id="newVisits" style="float:right; border:1px #f0f0f0 solid;display:none;"></div>
+        <div id="newMessages" style="float:right; border:1px #f0f0f0 solid;display:none;"></div>
     </div>
+    <script type="text/javascript">
+        function showNewConversations(unreadCount, count) {
+            var action = '@Url.Action("Conversations", "Messages")/1';
+            var title = '' + unreadCount + ' / ' + count;
+            var text = '<img src="/Images/mail.jpg" /><br/><b>' + unreadCount + '</b> / ' + count;
+            var link = '<a href="' + action + '" title="' + title + '">' + text + '</a>';
+            $('#newMessages').html(link).show("slow");
+            
+        }
+        function showNewVisits(datetime, count) {
+            var action = '@Url.Action("NewVisits", "Visitor")/' + datetime;
+            var title = '' + count + ' visitors.';
+            var text = '<img src="/Images/view.gif" /><br/><b>' + count + ' </b> visitors';
+            var link = '<a href="' + action + '" title="' + title + '">' + text + '</a>';
+            $('#newVisits').html(link).show("slow");
+        }
+        @if(profile != null) {<text>
+            function ping() {
+                $.ajax({url: '@Url.Action("Ping","Profiles")', success: function (data) { 
+                    if(data) {
+                        if(data.ConversationUnreadCount && data.ConversationUnreadCount > 0) {
+                            showNewConversations(data.ConversationUnreadCount, data.ConversationCount); 
+                        }
+                        if(data.VisitCount && data.VisitCount > 0) {
+                            showNewVisits(data.VisitTime, data.VisitCount); 
+                        }
+                    }   
+                }, type: 'GET'})
+            }
+            $(function () { setInterval("ping()", 60000); });
+            </text>
+        }
+    </script>
+    if(pingResult != null) {
+         <script type="text/javascript">
+             @if(pingResult.Conversations != null && pingResult.Conversations.UnreadCount > 0) {<text>showNewConversations(@pingResult.Conversations.UnreadCount, @pingResult.Conversations.Count);</text>}
+             @if(pingResult.Visits != null && pingResult.Visits.Visits.Count > 0) {<text>showNewVisits('@Html.GetUrlFriendlyDateTime(pingResult.Visits.LastVisitTime)',@pingResult.Visits.Visits.Count);</text>}
+         </script>
+    }
     <br style="clear:both"/>
     <p>
         Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
@@ -77,20 +100,20 @@
                     var uid = response.authResponse.userID;
                     var accessToken = response.authResponse.accessToken;
                     $.post('/Account/FacebookLogin?dummy=' + Math.random(), {
-                        'accessToken': accessToken,
-                        uid: uid
-                    }, function (data, textStatus) {
-                        if (data) {
-                            if (data.status == "ok") {
-                                location = data.url;
-                            } else if (data.status == "new") {
-                                if (!(location.href.indexOf('Profiles') > 0 && location.href.indexOf('Facebook') > 0))
-                                    $('#facebookRegisterLink').click();
+                            'accessToken': accessToken,
+                            uid: uid
+                        }, function (data, textStatus) {
+                            if (data) {
+                                if (data.status == "ok") {
+                                    location = data.url;
+                                } else if (data.status == "new") {
+                                    if (!(location.href.indexOf('Profiles') > 0 && location.href.indexOf('Facebook') > 0))
+                                        $('#facebookRegisterLink').click();
+                                }
+                            } else {
+                                document.getElementById("fbResult").innerHTML = "Facebook Error";
                             }
-                        } else {
-                            document.getElementById("fbResult").innerHTML = "Facebook Error";
-                        }
-                    });
+                        });
                 } else if (response.status === 'not_authorized') {
                     // the user is logged in to Facebook, 
                     // but has not authenticated your app

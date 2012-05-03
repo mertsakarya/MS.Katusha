@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using System.Web.Security;
 using AutoMapper;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Exceptions;
 using MS.Katusha.Infrastructure.Exceptions.Services;
@@ -35,21 +33,22 @@ namespace MS.Katusha.Web.Controllers
             _resourceService = resourceService;
         }
 
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Ping()
+        {
+            var pingResult = StateService.Ping(KatushaProfile);
+            return Json(new {
+                                VisitTime = (pingResult.Visits == null) ? "" : _resourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
+                                VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
+                                ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
+                                ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Online(int? key) {
             var pageIndex = (key ?? 1);
             int total;
-            IEnumerable<State> onlineStates = null;
-            switch (KatushaUser.Gender) {
-                case (byte)Sex.Male:
-                    onlineStates = StateService.OnlineGirls(out total, pageIndex, PageSize).ToList();
-                    break;
-                case (byte)Sex.Female:
-                    onlineStates = StateService.OnlineMen(out total, pageIndex, PageSize).ToList();
-                    break;
-                default:
-                    onlineStates = StateService.OnlineProfiles(out total, pageIndex, PageSize).ToList();
-                    break;
-            }
+            IEnumerable<State> onlineStates = StateService.OnlineProfiles(KatushaUser.Gender, out total, pageIndex, PageSize).ToList();
             var onlineProfiles = new List<Profile>(PageSize);
             onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
 

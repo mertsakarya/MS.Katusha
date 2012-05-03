@@ -5,10 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using Raven.Client;
-using Raven.Client.Document;
 using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB
@@ -28,11 +26,10 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public State Delete(State entity)
+        public void Delete(State entity)
         {
             var name = String.Format("{0}s/{1}", typeof(State).Name.ToLower(CultureInfo.CreateSpecificCulture("en-US")), entity.Id);
             _documentStore.DatabaseCommands.Delete(name, null);
-            return entity;
         }
 
         public IList<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool @ascending)
@@ -48,24 +45,15 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public int Count(Expression<Func<State, bool>> filter) {
-            using (var session = _documentStore.OpenSession()) {
-                RavenQueryStatistics stats;
-                var q = session.Query<State>().Statistics(out stats).AsNoTracking();
-                if (filter != null) q = q.Where(filter);
-                var a = q.Take(0).ToList();
-                return stats.TotalResults;
-            }
-
-        }
-        public DateTime UpdateStatus(long profileId, Sex gender)
+        public void UpdateStatus(State state)
         {
-            var entity = new State {Id = profileId, ProfileId = profileId, Gender = (byte) gender, LastOnline = DateTime.Now};
+            //var entity = new State {Id = profile.Id, ProfileId = profile.Id, Gender = profile.Gender, LastOnline = DateTime.Now};
+            state.LastOnline = DateTime.Now;
+            state.ProfileId = state.Id;
             using (var session = _documentStore.OpenSession()) {
-                session.Store(entity);
+                session.Store(state);
                 session.SaveChanges();
             }
-            return new DateTime(1900, 1, 1);
         }
     }
 }

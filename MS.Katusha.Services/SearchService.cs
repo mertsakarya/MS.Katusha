@@ -16,10 +16,12 @@ namespace MS.Katusha.Services
     {
 
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
+        private readonly IStateRepositoryRavenDB _stateRepositoryRaven;
 
-        public SearchService(IProfileRepositoryRavenDB profileRepositoryRaven)
+        public SearchService(IProfileRepositoryRavenDB profileRepositoryRaven, IStateRepositoryRavenDB stateRepositoryRaven)
         {
             _profileRepositoryRaven = profileRepositoryRaven;
+            _stateRepositoryRaven = stateRepositoryRaven;
         }
 
         private IEnumerable<Profile> Search(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
@@ -39,12 +41,12 @@ namespace MS.Katusha.Services
                 var filter = GetFilter<Profile>(searchCriteria);
                 var facetFilter = GetFilter<ProfileFacet>(searchCriteria);
                 var facetSearch = FacetSearch(facetFilter, "ProfileFacets");
-              
-                return new SearchResult { 
+
+                return new SearchResult {
                     Profiles = Search(filter, pageNo, pageSize, out total),
-                    FacetValues = facetSearch, 
-                    SearchCriteria = searchCriteria, 
-                    Total = total 
+                    FacetValues = facetSearch,
+                    SearchCriteria = searchCriteria,
+                    Total = total
                 };
             }
             return new SearchResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };

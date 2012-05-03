@@ -1,3 +1,4 @@
+using System.Text;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
@@ -53,6 +54,8 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<VisitModel, Visit>();
 
             Mapper.CreateMap<Profile, ProfileModel>();
+            Mapper.CreateMap<Profile, State>().ConvertUsing<ProfileStateTypeConverter>();
+
             Mapper.CreateMap<ProfileModel, Profile>();
             Mapper.CreateMap<FacebookProfileModel, Profile>();
 

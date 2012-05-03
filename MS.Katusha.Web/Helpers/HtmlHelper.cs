@@ -27,22 +27,8 @@ namespace MS.Katusha.Web.Helpers
             return realModelType;
         }
 
-        public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTime dateTime)
-        {
-            var year = dateTime.Year;
-            var month = dateTime.Month;
-            var day = dateTime.Day;
-            var hour = dateTime.Hour;
-            var minute = dateTime.Minute;
-            var second = dateTime.Second;
-            return String.Format("{0}{1}{2}{3}{4}{5}",
-                                 year,
-                                 (month < 10) ? "0" + month: month.ToString(CultureInfo.InvariantCulture),
-                                 (day < 10) ? "0" + day: day.ToString(CultureInfo.InvariantCulture),
-                                 (hour < 10) ? "0" + hour: hour.ToString(CultureInfo.InvariantCulture),
-                                 (minute < 10) ? "0" + minute: minute.ToString(CultureInfo.InvariantCulture),
-                                 (second < 10) ? "0" + second:second.ToString(CultureInfo.InvariantCulture)
-                                 );
+        public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTime dateTime) {
+            return ResourceService.UrlFriendlyDateTime(dateTime);
         }
 
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false) { return EnumDropDownListFor(htmlHelper, expression, optional, null); }

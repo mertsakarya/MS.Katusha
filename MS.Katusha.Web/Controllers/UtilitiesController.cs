@@ -18,7 +18,6 @@ namespace MS.Katusha.Web.Controllers
         private readonly ISamplesService _samplesService;
         private readonly IVisitService _visitService;
         private readonly IConversationService _conversationService;
-        private readonly IStateService _stateService;
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
 
@@ -32,7 +31,6 @@ namespace MS.Katusha.Web.Controllers
             _samplesService = samplesService;
             _visitService = visitService;
             _conversationService = conversationService;
-            _stateService = stateService;
             _photosService = photosService;
             _utilityService = utilityService;
         }
@@ -74,7 +72,7 @@ namespace MS.Katusha.Web.Controllers
                     list = _conversationService.RestoreFromDB(null, delete);
                     break;
                 case "states":
-                    list = _stateService.RestoreFromDB(null, delete);
+                    list = StateService.RestoreFromDB(null, delete);
                     break;
                 default:
                     list = new List<string> {"Unnkown parameter: " + key};

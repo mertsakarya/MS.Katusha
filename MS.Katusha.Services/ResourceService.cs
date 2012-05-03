@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
@@ -44,6 +46,24 @@ namespace MS.Katusha.Services
         }
 
         public IList<string> GetSearchableCities(Sex gender, string countryCode) { return _countryCityCountRepository.GetSearchableCities(gender, countryCode); }
+
+        public string UrlFriendlyDateTime(DateTime dateTime)
+        {
+            var year = dateTime.Year;
+            var month = dateTime.Month;
+            var day = dateTime.Day;
+            var hour = dateTime.Hour;
+            var minute = dateTime.Minute;
+            var second = dateTime.Second;
+            return String.Format("{0}{1}{2}{3}{4}{5}",
+                                 year,
+                                 (month < 10) ? "0" + month : month.ToString(CultureInfo.InvariantCulture),
+                                 (day < 10) ? "0" + day : day.ToString(CultureInfo.InvariantCulture),
+                                 (hour < 10) ? "0" + hour : hour.ToString(CultureInfo.InvariantCulture),
+                                 (minute < 10) ? "0" + minute : minute.ToString(CultureInfo.InvariantCulture),
+                                 (second < 10) ? "0" + second : second.ToString(CultureInfo.InvariantCulture)
+                );
+        }
     }
 
 }
