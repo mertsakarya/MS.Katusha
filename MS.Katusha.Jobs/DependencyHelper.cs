@@ -27,7 +27,6 @@ namespace MS.Katusha.Jobs
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<SearchService>().As<ISearchService>().InstancePerLifetimeScope();
             builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerLifetimeScope();
-            builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerLifetimeScope();
             builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerLifetimeScope();
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerLifetimeScope();
             builder.RegisterType<StateService>().As<IStateService>().InstancePerLifetimeScope();

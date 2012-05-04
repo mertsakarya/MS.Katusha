@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Services
 {
@@ -27,6 +29,17 @@ namespace MS.Katusha.Services
         public void RegisterRaven()
         {
             RavenHelper.RegisterRaven();
+        }
+
+        public IEnumerable<string> ResetDatabaseResources()
+        {
+            ReloadResources.Delete(_dbContext);
+            var result = ReloadResources.Set(_dbContext);
+            ResourceManager.LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(_dbContext));
+            ResourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));
+            ResourceManager.LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(_dbContext));
+            ResourceManager.LoadGeoLocationDataFromDb(new GeoCountryRepositoryDB(_dbContext), new GeoLanguageRepositoryDB(_dbContext),  new GeoNameRepositoryDB(_dbContext), new GeoTimeZoneRepositoryDB(_dbContext));
+            return result;
         }
     }
 

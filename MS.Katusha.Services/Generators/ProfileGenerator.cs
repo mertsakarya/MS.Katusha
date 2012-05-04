@@ -46,22 +46,22 @@ namespace MS.Katusha.Services.Generators
             var cl = _resourceService.GetCities(co);
             var ci = cl[GeneratorHelper.RND.Next(cl.Count)];
             var profile = new Profile {
-                                          Name = GeneratorHelper.RandomString(10, true),
-                                          Gender = (byte) (GeneratorHelper.RND.Next((int) Sex.MAX) + 1), 
-                                          UserId = user.Id, 
-                                          Guid = user.Guid,
-                                          BodyBuild = (byte) (GeneratorHelper.RND.Next((int) BodyBuild.MAX) + 1), 
-                                          EyeColor = (byte) (GeneratorHelper.RND.Next((int) EyeColor.MAX) + 1), 
-                                          Smokes = (byte) (GeneratorHelper.RND.Next((int) Smokes.MAX) + 1), 
-                                          From = co, 
-                                          HairColor = (byte) (GeneratorHelper.RND.Next((int) HairColor.MAX) + 1), 
-                                          Alcohol = (byte) (GeneratorHelper.RND.Next(1 + (int) Alcohol.MAX)),
-                                          Religion = (byte) (GeneratorHelper.RND.Next((int)Religion.MAX) + 1),
-                                          City = ci, 
-                                          Description = GeneratorHelper.RandomString(1000, false), 
-                                          Height = GeneratorHelper.RandomNumber(150, 198), 
-                                          BirthYear = GeneratorHelper.RandomNumber(1960, 1989)
-                                      };
+                Name = GeneratorHelper.RandomString(10, true),
+                Gender = (byte) (GeneratorHelper.RND.Next((int) Sex.MAX) + 1), 
+                UserId = user.Id, 
+                Guid = user.Guid,
+                BodyBuild = (byte) (GeneratorHelper.RND.Next((int) BodyBuild.MAX) + 1), 
+                EyeColor = (byte) (GeneratorHelper.RND.Next((int) EyeColor.MAX) + 1), 
+                Smokes = (byte) (GeneratorHelper.RND.Next((int) Smokes.MAX) + 1), 
+                From = co, 
+                HairColor = (byte) (GeneratorHelper.RND.Next((int) HairColor.MAX) + 1), 
+                Alcohol = (byte) (GeneratorHelper.RND.Next(1 + (int) Alcohol.MAX)),
+                Religion = (byte) (GeneratorHelper.RND.Next((int)Religion.MAX) + 1),
+                City = ci, 
+                Description = GeneratorHelper.RandomString(1000, false), 
+                Height = GeneratorHelper.RandomNumber(150, 198), 
+                BirthYear = GeneratorHelper.RandomNumber(1960, 1989)
+            };
 
             if (profile.Gender == (byte)Sex.Male) {
                 profile.DickSize = (byte) (GeneratorHelper.RND.Next((int) DickSize.MAX) + 1);

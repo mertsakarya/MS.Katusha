@@ -14,21 +14,19 @@ namespace MS.Katusha.Web.Controllers
 {
     public class UtilitiesController : KatushaController
     {
-        private readonly IConfigurationService _configurationService;
         private readonly ISamplesService _samplesService;
         private readonly IVisitService _visitService;
         private readonly IConversationService _conversationService;
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
 
-        public UtilitiesController(IUserService userService, IProfileService profileService, IConfigurationService configurationService, 
+        public UtilitiesController(IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
             IPhotosService photosService, IUtilityService utilityService
             )
             : base(userService, profileService, stateService, conversationService)
         {
-            _configurationService = configurationService;
-            _samplesService = samplesService;
+           _samplesService = samplesService;
             _visitService = visitService;
             _conversationService = conversationService;
             _photosService = photosService;
@@ -42,7 +40,7 @@ namespace MS.Katusha.Web.Controllers
         public void InitConfiguration()
         {
             Response.ContentType = "text/plain";
-            var result = _configurationService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
+            var result = _utilityService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
             if (String.IsNullOrWhiteSpace(result)) result = "DONE!";
             Response.Write(result);
         }

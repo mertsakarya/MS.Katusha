@@ -52,7 +52,6 @@
     <Compile Include="IVisitService.cs" />
     <Compile Include="IPhotoBackupService.cs" />
     <Compile Include="ISearchService.cs" />
-    <Compile Include="IConfigurationService.cs" />
     <Compile Include="IConversationService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IProfileService.cs" />

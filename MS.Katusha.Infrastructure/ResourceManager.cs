@@ -56,7 +56,7 @@ namespace MS.Katusha.Infrastructure
             }
         }
 
-        private static void LoadGeoLocationDataFromDb(GeoCountryRepositoryDB countryRepository, GeoLanguageRepositoryDB languageRepository, GeoNameRepositoryDB nameRepository, GeoTimeZoneRepositoryDB timeZoneRepository)
+        public static void LoadGeoLocationDataFromDb(GeoCountryRepositoryDB countryRepository, GeoLanguageRepositoryDB languageRepository, GeoNameRepositoryDB nameRepository, GeoTimeZoneRepositoryDB timeZoneRepository)
         {
             ListLock.EnterWriteLock();
             try {

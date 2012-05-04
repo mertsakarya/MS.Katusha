@@ -147,7 +147,7 @@ namespace MS.Katusha.Infrastructure
             _geoLanguageRepository = new GeoLanguageRepositoryDB(dbContext);
         }
 
-        public string[] Parse()
+        public List<string> Parse()
         {
             var result = new List<string>();
             var mode = Section.Start;
@@ -227,7 +227,7 @@ namespace MS.Katusha.Infrastructure
                     typeof(int), typeof(string), typeof(string)
                 }
             ));
-            return result.ToArray();
+            return result;
         }
 
         private string BulkCopy(string basePath, string filename, string tableName, bool hasHeaders, string[] mapColumnNames, Type[] mapTypes)

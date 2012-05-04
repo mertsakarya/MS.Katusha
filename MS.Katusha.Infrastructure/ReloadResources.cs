@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using MS.Katusha.Domain;
-using MS.Katusha.Repositories.DB;
-using Raven.Client;
 
 namespace MS.Katusha.Infrastructure
 {
@@ -14,7 +11,7 @@ namespace MS.Katusha.Infrastructure
             Set(dbContext);
         }
 
-        public static string[] Set(KatushaDbContext dbContext)
+        public static List<string> Set(KatushaDbContext dbContext)
         {
             var parser = new ConfigParser(dbContext);
             return parser.Parse();

@@ -34,7 +34,6 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
             builder.RegisterType<SearchService>().As<ISearchService>().InstancePerHttpRequest();
             builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerHttpRequest();
-            builder.RegisterType<ConfigurationService>().As<IConfigurationService>().InstancePerHttpRequest();
             builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerHttpRequest();
             builder.RegisterType<PhotoBackupService>().As<IPhotoBackupService>().InstancePerHttpRequest();
             builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();

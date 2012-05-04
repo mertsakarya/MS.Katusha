@@ -81,7 +81,6 @@
     <Compile Include="PhotosService.cs" />
     <Compile Include="SearchService.cs" />
     <Compile Include="ProfileService.cs" />
-    <Compile Include="ConfigurationService.cs" />
     <Compile Include="ConversationService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
