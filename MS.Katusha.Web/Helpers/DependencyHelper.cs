@@ -27,7 +27,10 @@ namespace MS.Katusha.Web.Helpers
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<CountryCityCountRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().InstancePerHttpRequest();
+            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
+
+            builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();
             builder.RegisterType<ResourceService>().As<IResourceService>().InstancePerHttpRequest();
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
@@ -43,11 +46,11 @@ namespace MS.Katusha.Web.Helpers
 
             builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
-            builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IRepository<CacheObject>>().InstancePerHttpRequest();
-            builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
-            builder.RegisterType<VisitRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();
-            builder.RegisterType<ConversationRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IConversationRepositoryRavenDB>().InstancePerHttpRequest();
-            builder.RegisterType<StateRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), RavenHelper.RavenStore)).As<IStateRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().InstancePerHttpRequest();
             
             builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
@@ -61,10 +64,9 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();
             
 
-            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
-            ModelBinders.Binders[typeof(SearchCriteriaModel)] = new SearchCriteriaBinder();
+            //ModelBinders.Binders[typeof(SearchCriteriaModel)] = new SearchCriteriaBinder();
 
 
 #if DEBUG

@@ -4,21 +4,24 @@ using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.RavenDB;
 
 namespace MS.Katusha.Services
 {
     public class UtilityService : IUtilityService
     {
+        private readonly IKatushaRavenStore _ravenStore;
         private readonly KatushaDbContext _dbContext;
 
-        public UtilityService(IKatushaDbContext dbContext)
+        public UtilityService(IKatushaDbContext dbContext, IKatushaRavenStore ravenStore)
         {
+            _ravenStore = ravenStore;
             _dbContext = dbContext as KatushaDbContext;
         }
 
         public void ClearDatabase(string photosFolder) {
             ReloadResources.ClearDatabase(_dbContext);
-            RavenHelper.ClearRaven();
+            _ravenStore.ClearRaven();
             if (!Directory.Exists(photosFolder))
                 Directory.CreateDirectory(photosFolder);
             else
@@ -28,7 +31,7 @@ namespace MS.Katusha.Services
 
         public void RegisterRaven()
         {
-            RavenHelper.RegisterRaven();
+            _ravenStore.Create();
         }
 
         public IEnumerable<string> ResetDatabaseResources()

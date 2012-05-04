@@ -12,9 +12,9 @@ namespace MS.Katusha.Repositories.RavenDB
 {
     public class CountryCityCountRepositoryRavenDB : ICountryCityCountRepositoryRavenDB
     {
-        private readonly IDocumentStore _documentStore;
+        private readonly IKatushaRavenStore _documentStore;
 
-        public CountryCityCountRepositoryRavenDB(IDocumentStore documentStore) { _documentStore = documentStore; }
+        public CountryCityCountRepositoryRavenDB(IKatushaRavenStore documentStore) { _documentStore = documentStore; }
 
         public IList<string> GetSearchableCities(Sex gender, string countryCode)
         {

@@ -92,7 +92,6 @@
     <Compile Include="Exceptions\Web\KatushaNotAllowedException.cs" />
     <Compile Include="GeoLocation.cs" />
     <Compile Include="KatushaContextInitializer.cs" />
-    <Compile Include="RavenHelper.cs" />
     <Compile Include="ReloadResources.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

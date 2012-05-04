@@ -2,7 +2,7 @@
 @if (Request.IsAuthenticated) {
     var profile = ViewBag.KatushaProfile as Profile;
     var user = ViewBag.KatushaUser as User;
-    var searchResultModel = ViewBag.KatushaSearchResult as SearchResultModel;
+    var searchResultModel = ViewBag.KatushaSearchResult as BaseSearchResultModel;
     var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant();
     var actionName = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant();
     <ul>
@@ -31,7 +31,7 @@
             }
         }
     </ul>
-    Html.RenderPartial("_SearchForm", (searchResultModel != null) ? searchResultModel.SearchCriteria ?? SearchCriteriaModel.Empty()  : SearchCriteriaModel.Empty());
+    Html.RenderPartial("_SearchForm", (searchResultModel != null) ? searchResultModel.GetSearchCriteria() ?? SearchProfileCriteriaModel.Empty()  : SearchProfileCriteriaModel.Empty());
     if (searchResultModel != null && (searchResultModel.Total >= 0 && controllerName == "search" && (actionName == "girls" || actionName == "men"))) {
         Html.RenderPartial("_Search", searchResultModel);
     }

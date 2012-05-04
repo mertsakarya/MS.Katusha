@@ -1,15 +1,18 @@
 @using MS.Katusha.Domain.Entities
 @using MS.Katusha.Enumerations
-@model SearchCriteriaModel
+@model BaseSearchCriteriaModel
 @{
     var profile = ViewBag.KatushaProfile as Profile;
     var searching = "Girls";
     if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
     var from = Model.From.Count > 0 ? Model.From[0] : "";
+    var searchOnlineProfiles = (!String.IsNullOrWhiteSpace(Request.QueryString["online"]));
+    var searchFormAction = Url.Action(searching + ((searchOnlineProfiles) ? "" : "Online"), "Search");
 }
-<form id="searchForm" action="@Url.Action(searching, "Search")" method="get">
+<form id="searchForm" action="@searchFormAction" method="get">
     <hr style="clear: both"/>
     <h3 id="whereToSearch">Search @(searching)</h3>
+    <h4><input type="checkbox" name="online" id="online" onclick="setSearchAction(this.checked)" @((searchOnlineProfiles) ? "checked" : "") /> Search online profiles</h4>
     <fieldset>
         <ol>
             <li>
@@ -29,6 +32,12 @@
     </fieldset>
 </form>
 <script type="text/javascript">
+    var searchFormAction = '@(searchFormAction)';
+    var searching = '@(searching)';
+    function setSearchAction(isOnline) {
+        document.getElementById('searchForm').action = '/Search/' + searching + ((isOnline) ? 'Online' : '');
+    }
+
     function cf(cityArea, from, city) {
         var ca = document.getElementById(cityArea);
         var f = document.getElementById(from);

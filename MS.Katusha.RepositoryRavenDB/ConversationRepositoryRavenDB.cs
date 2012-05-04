@@ -11,7 +11,7 @@ namespace MS.Katusha.Repositories.RavenDB
 {
     public class ConversationRepositoryRavenDB : BaseGuidRepositoryRavenDB<Conversation>, IConversationRepositoryRavenDB
     {
-        public ConversationRepositoryRavenDB(IDocumentStore documentStore)
+        public ConversationRepositoryRavenDB(IKatushaRavenStore documentStore)
             : base(documentStore) { }
 
 

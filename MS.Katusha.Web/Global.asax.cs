@@ -50,11 +50,11 @@ namespace MS.Katusha.Web
             Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
             Database.SetInitializer(new KatushaContextInitializer());
 
-            RavenHelper.RegisterRaven();
+            //RavenHelper.RegisterRaven();
 
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
-            QuartzHelper.RegisterQuartz(RavenHelper.RavenStore);
+            QuartzHelper.RegisterQuartz();
             MapperHelper.HandleMappings();
             AreaRegistration.RegisterAllAreas();
 

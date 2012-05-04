@@ -13,9 +13,9 @@ namespace MS.Katusha.Jobs
     public static class QuartzHelper
     {
 
-        public static void RegisterQuartz(IDocumentStore ravenStore)
+        public static void RegisterQuartz()
         {
-            DependencyHelper.RegisterDependencies(ravenStore);
+            DependencyHelper.RegisterDependencies();
 
             var properties = new NameValueCollection {
                                                          {"quartz.scheduler.jobFactory.type", "MS.Katusha.Jobs.AutoMapperJobFactory, MS.Katusha.Jobs"},

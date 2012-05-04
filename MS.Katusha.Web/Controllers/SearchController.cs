@@ -30,28 +30,54 @@ namespace MS.Katusha.Web.Controllers
 
         }
 
-        public ActionResult Men(int? key, SearchCriteriaModel model) { model.Gender = Sex.Male; return Search(key, model); }
-        public ActionResult Girls(int? key, SearchCriteriaModel model) { model.Gender = Sex.Female; return Search(key, model); }
+        public ActionResult Men(int? key, SearchProfileCriteriaModel model) { model.Gender = Sex.Male; return SearchProfile(key, model); }
+        public ActionResult Girls(int? key, SearchProfileCriteriaModel model) { model.Gender = Sex.Female; return SearchProfile(key, model); }
 
-        private ActionResult Search(int? key, SearchCriteriaModel model)
+        public ActionResult MenOnline(int? key, SearchStateCriteriaModel model) { model.Gender = Sex.Male; return SearchState(key, model); }
+
+        public ActionResult GirlsOnline(int? key, SearchStateCriteriaModel model) { model.Gender = Sex.Female; return SearchState(key, model); }
+
+        private ActionResult SearchProfile(int? key, SearchProfileCriteriaModel model)
         {
-            var data = Mapper.Map<SearchCriteria>(model);
+            var data = Mapper.Map<SearchProfileCriteria>(model);
             var pageIndex = (key ?? 1);
-            var searchResult = _searchService.Search(data, pageIndex, PageSize);
+            var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             if (searchResult.Total > -1) {
                 var profiles = searchResult.Profiles;
                 var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
                 var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, searchResult.Total);
-                var searchResultModel = new SearchResultModel {
+                var searchResultModel = new SearchProfileResultModel {
                                                                   FacetValues = searchResult.FacetValues,
-                                                                  SearchCriteria = Mapper.Map<SearchCriteriaModel>(searchResult.SearchCriteria),
+                                                                  SearchCriteria = Mapper.Map<SearchProfileCriteriaModel>(searchResult.SearchCriteria),
                                                                   Total = searchResult.Total,
                                                                   Profiles = profilesAsIPagedList
                                                               };
                 ViewBag.KatushaSearchResult = searchResultModel;
                 return View("Search", searchResultModel);
             }
-            return View("Search", new SearchResultModel {SearchCriteria = model});
+            return View("Search", new SearchProfileResultModel {SearchCriteria = model});
+        }
+
+
+        private ActionResult SearchState(int? key, SearchStateCriteriaModel model)
+        {
+            var data = Mapper.Map<SearchStateCriteria>(model);
+            var pageIndex = (key ?? 1);
+            var searchResult = _searchService.SearchStates(data, pageIndex, PageSize);
+            if (searchResult.Total > -1) {
+                var profiles = searchResult.Profiles;
+                var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
+                var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, searchResult.Total);
+                var searchResultModel = new SearchStateResultModel {
+                    FacetValues = searchResult.FacetValues,
+                    SearchCriteria = Mapper.Map<SearchStateCriteriaModel>(searchResult.SearchCriteria),
+                    Total = searchResult.Total,
+                    Profiles = profilesAsIPagedList
+                };
+                ViewBag.KatushaSearchResult = searchResultModel;
+                return View("Search", searchResultModel);
+            }
+            return View("Search", new SearchStateResultModel { SearchCriteria = model });
         }
 
         public ActionResult GetCities(string query, string searching, string countryCode = "")

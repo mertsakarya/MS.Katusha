@@ -297,7 +297,6 @@
  		en	User.Gender.DisplayName	Gender
  		en	User.Gender.Description	What is your gender?
 
-
 [ResourceLookup]
 	en	Sex				Male			Man				2	1
 	en	Sex				Female			Girl			1	2

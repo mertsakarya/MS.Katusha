@@ -5,11 +5,20 @@ using Raven.Abstractions.Data;
 
 namespace MS.Katusha.Domain.Raven.Entities
 {
-    public class SearchResult : BaseModel
+    public abstract class BaseSearchResult : BaseModel
     {
-        public SearchCriteria SearchCriteria { get; set; }
         public int Total { get; set; }
         public IEnumerable<Profile> Profiles { get; set; }
         public IDictionary<string, IEnumerable<FacetValue>> FacetValues { get; set; }
+    }
+
+    public class SearchProfileResult : BaseSearchResult
+    {
+        public SearchProfileCriteria SearchCriteria { get; set; }
+    }
+
+    public class SearchStateResult : BaseSearchResult
+    {
+        public SearchStateCriteria SearchCriteria { get; set; }
     }
 }

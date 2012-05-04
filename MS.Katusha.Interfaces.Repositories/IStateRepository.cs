@@ -17,5 +17,6 @@ namespace MS.Katusha.Interfaces.Repositories
         void Delete(State state);
         void UpdateStatus(State state);
         IList<State> Query<TKey>(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<State, TKey>> orderByClause, bool ascending);
+        IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total);
     }
 }

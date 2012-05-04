@@ -7,15 +7,17 @@ using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
     public class StateRepositoryRavenDB : IStateRepositoryRavenDB
     {
-        private readonly IDocumentStore _documentStore;
+        private readonly IKatushaRavenStore _documentStore;
 
-        public StateRepositoryRavenDB(IDocumentStore documentStore) {
+        public StateRepositoryRavenDB(IKatushaRavenStore documentStore)
+        {
             _documentStore = documentStore;
         }
 
@@ -55,5 +57,16 @@ namespace MS.Katusha.Repositories.RavenDB
                 session.SaveChanges();
             }
         }
+
+        public IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total)
+        {
+            using (var session = _documentStore.OpenSession()) {
+                RavenQueryStatistics stats;
+                var query = Queryable.Skip(session.Query<T>().Statistics(out stats).Where(filter), (pageNo - 1) * pageSize).Take(pageSize).ToList();
+                total = stats.TotalResults;
+                return query;
+            }
+        }
+
     }
 }

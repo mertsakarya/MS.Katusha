@@ -5,11 +5,22 @@ using Raven.Abstractions.Data;
 
 namespace MS.Katusha.Web.Models.Entities
 {
-    public class SearchResultModel : BaseModel
+    public abstract class BaseSearchResultModel : BaseModel
     {
-        public SearchCriteriaModel SearchCriteria { get; set; }
         public int Total { get; set; }
         public StaticPagedList<ProfileModel> Profiles { get; set; }
         public IDictionary<string, IEnumerable<FacetValue>> FacetValues { get; set; }
+        public abstract BaseSearchCriteriaModel GetSearchCriteria();
+    }
+    public class SearchStateResultModel : BaseSearchResultModel
+    {
+        public SearchStateCriteriaModel SearchCriteria { get; set; }
+        public override BaseSearchCriteriaModel GetSearchCriteria() { return SearchCriteria; }
+    }
+
+    public class SearchProfileResultModel : BaseSearchResultModel
+    {
+        public SearchProfileCriteriaModel SearchCriteria { get; set; }
+        public override BaseSearchCriteriaModel GetSearchCriteria() { return SearchCriteria; }
     }
 }

@@ -1,8 +1,8 @@
 @using MS.Katusha.Enumerations
-@model SearchResultModel
+@model BaseSearchResultModel
 <div class="search">
     @if (Model != null && Model.Total >= 0) {
-        var criteria = Model.SearchCriteria;
+        var criteria = Model.GetSearchCriteria();
         var selectedFieldsList = criteria.GetSelectedFieldsList();
         <script type="text/javascript">
             function RemoveSearchKey(key, value) {
@@ -37,25 +37,30 @@
             @Html.CriteriaItem("BodyBuild", criteria.BodyBuild)
             @Html.CriteriaItem("EyeColor", criteria.EyeColor)
             @Html.CriteriaItem("HairColor", criteria.HairColor)
-            @Html.CriteriaItem("Religion", criteria.Religion)
-            @Html.CriteriaItem("Smokes", criteria.Smokes)
-
-            @Html.CriteriaItem("DickSize", criteria.DickSize)
-            @Html.CriteriaItem("DickThickness", criteria.DickThickness)
-            @Html.CriteriaItem("BreastSize", criteria.BreastSize)
 
             @Html.CriteriaItem("City", criteria.City)
 
             @Html.CriteriaItem("Age", criteria.Age)
             @Html.CriteriaItem("Height", criteria.Height)
+            @if (criteria is SearchProfileCriteriaModel) {
+                var profileCriteria = criteria as SearchProfileCriteriaModel;
+                @Html.CriteriaItem("Religion", profileCriteria.Religion)
+                @Html.CriteriaItem("Smokes", profileCriteria.Smokes)
+
+                @Html.CriteriaItem("DickSize", profileCriteria.DickSize)
+                @Html.CriteriaItem("DickThickness", profileCriteria.DickThickness)
+                @Html.CriteriaItem("BreastSize", profileCriteria.BreastSize)
+            } else if (criteria is SearchStateCriteriaModel) {
+                var stateCriteria = criteria as SearchStateCriteriaModel;
+            }
 
         </ul>
         <hr />
         <ul>            
             @foreach (var f in Model.FacetValues) {
                 if (f.Key == "Gender") { continue; }
-                if (Model.SearchCriteria.Gender == Sex.Female && (f.Key == "DickSize" || f.Key == "DickThickness")) { continue; }
-                if (Model.SearchCriteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
+                if (criteria.Gender == Sex.Female && (f.Key == "DickSize" || f.Key == "DickThickness")) { continue; }
+                if (criteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
                 if (selectedFieldsList.Contains(f.Key)) { continue; }
                 <li>
                     @Html.SearchCriteriaKeyText(f.Key)

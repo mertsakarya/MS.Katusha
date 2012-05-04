@@ -14,7 +14,7 @@ namespace MS.Katusha.Repositories.RavenDB
     public class VisitRepositoryRavenDB : BaseRepositoryRavenDB<Visit>, IVisitRepositoryRavenDB
     {
 
-        public VisitRepositoryRavenDB(IDocumentStore documentStore)
+        public VisitRepositoryRavenDB(IKatushaRavenStore documentStore)
             : base(documentStore)
         {
         }

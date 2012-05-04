@@ -44,11 +44,17 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<SearchingFor, SearchingForModel>();
             Mapper.CreateMap<SearchingForModel, SearchingFor>();
 
-            Mapper.CreateMap<SearchCriteria, SearchCriteriaModel>();
-            Mapper.CreateMap<SearchCriteriaModel, SearchCriteria>();
+            Mapper.CreateMap<SearchStateCriteria, SearchStateCriteriaModel>();
+            Mapper.CreateMap<SearchStateCriteriaModel, SearchStateCriteria>();
 
-            Mapper.CreateMap<SearchResult, SearchResultModel>();
-            Mapper.CreateMap<SearchResultModel, SearchResult>();
+            Mapper.CreateMap<SearchProfileCriteria, SearchProfileCriteriaModel>();
+            Mapper.CreateMap<SearchProfileCriteriaModel, SearchProfileCriteria>();
+
+            Mapper.CreateMap<SearchStateResult, SearchStateResultModel>();
+            Mapper.CreateMap<SearchStateResultModel, SearchStateResult>();
+
+            Mapper.CreateMap<SearchProfileResult, SearchProfileResultModel>();
+            Mapper.CreateMap<SearchProfileResultModel, SearchProfileResult>();
 
             Mapper.CreateMap<Visit, VisitModel>();
             Mapper.CreateMap<VisitModel, Visit>();

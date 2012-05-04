@@ -78,8 +78,11 @@
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
     <Compile Include="CountryCityCountRepositoryRavenDB.cs" />
+    <Compile Include="IKatushaRavenStore.cs" />
     <Compile Include="Indexes\ConversationCountIndex.cs" />
+    <Compile Include="Indexes\StateFacetsIndex.cs" />
     <Compile Include="Indexes\CountryCityCountIndex.cs" />
+    <Compile Include="KatushaRavenStore.cs" />
     <Compile Include="StateRepositoryRavenDB.cs" />
     <Compile Include="Indexes\ConversationIndex.cs" />
     <Compile Include="Indexes\ProfileFacetsIndex.cs" />

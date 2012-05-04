@@ -18,10 +18,13 @@ namespace MS.Katusha.Jobs
     {
         public static IContainer Container;
 
-        public static void RegisterDependencies(IDocumentStore ravenStore)
+        public static void RegisterDependencies()
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<ResourceService>().As<IResourceService>().SingleInstance();
+            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().InstancePerLifetimeScope();
+            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerLifetimeScope();
+
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerLifetimeScope();
@@ -34,12 +37,12 @@ namespace MS.Katusha.Jobs
 
             builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerLifetimeScope();
             //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerLifetimeScope();
-            builder.RegisterType<CacheObjectRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<IRepository<CacheObject>>().InstancePerLifetimeScope();
-            builder.RegisterType<ProfileRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<IProfileRepositoryRavenDB>().InstancePerLifetimeScope();
-            builder.RegisterType<VisitRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<IVisitRepositoryRavenDB>().InstancePerLifetimeScope();
-            builder.RegisterType<ConversationRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<IConversationRepositoryRavenDB>().InstancePerLifetimeScope();
-            builder.RegisterType<StateRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<IStateRepositoryRavenDB>().InstancePerLifetimeScope();
-            builder.RegisterType<CountryCityCountRepositoryRavenDB>().WithParameter(new TypedParameter(typeof(IDocumentStore), ravenStore)).As<ICountryCityCountRepositoryRavenDB>().InstancePerLifetimeScope();
+            builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().InstancePerLifetimeScope();
+            builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().InstancePerLifetimeScope();
+            builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().InstancePerLifetimeScope();
+            builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().InstancePerLifetimeScope();
+            builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().InstancePerLifetimeScope();
             
             builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerLifetimeScope();
@@ -50,8 +53,6 @@ namespace MS.Katusha.Jobs
             builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().InstancePerLifetimeScope();
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerLifetimeScope();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerLifetimeScope();
-
-            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerLifetimeScope();
 
             var dataAccess = Assembly.GetExecutingAssembly();
             

@@ -5,6 +5,7 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface ISearchService
     {
-        SearchResult Search(SearchCriteria searchCriteria, int pageNo = 1, int pageSize = 50);
+        SearchProfileResult SearchProfiles(SearchProfileCriteria searchCriteria, int pageNo = 1, int pageSize = 50);
+        SearchStateResult SearchStates(SearchStateCriteria searchCriteria, int pageNo = 1, int pageSize = 50);
     }
 }
