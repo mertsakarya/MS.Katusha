@@ -34,17 +34,20 @@ namespace MS.Katusha.Services.Generators
             var user = generator.Generate();
 
             var geoCountries = _resourceService.GetCountries();
-            var countries = new List<string>(geoCountries.Count);
-            countries.AddRange(geoCountries.Select(country => country.Key));
+            //var countries = new List<string>(geoCountries.Count);
+            //countries.AddRange(geoCountries.Select(country => country.Key));
+            var countries = new List<string> { "tr", "ua", "us" };
 
             var geoLanguages = _resourceService.GetLanguages();
             var languages = new List<string>(geoLanguages.Count);
             languages.AddRange(geoLanguages.Select(language => language.Key));
-            var cn = GeneratorHelper.RND.Next(countries.Count) + 1;
-            if (cn <= 0 || cn > countries.Count - 2) cn = 3;
+
+            var cn = GeneratorHelper.RND.Next(countries.Count);
+            //if (cn <= 0 || cn > countries.Count - 2) cn = 1;
             var co = countries[cn];
-            var cl = _resourceService.GetCities(co);
-            var ci = cl[GeneratorHelper.RND.Next(cl.Count)];
+            var cl = _resourceService.GetCities(co).Take(4).ToArray();
+            var ci = cl[GeneratorHelper.RND.Next(cl.Length)];
+            var location = new Location { CityCode = int.Parse(ci.Key), CityName = ci.Value, CountryCode = co, CountryName = geoCountries[co]};
             var profile = new Profile {
                 Name = GeneratorHelper.RandomString(10, true),
                 Gender = (byte) (GeneratorHelper.RND.Next((int) Sex.MAX) + 1), 
@@ -53,11 +56,10 @@ namespace MS.Katusha.Services.Generators
                 BodyBuild = (byte) (GeneratorHelper.RND.Next((int) BodyBuild.MAX) + 1), 
                 EyeColor = (byte) (GeneratorHelper.RND.Next((int) EyeColor.MAX) + 1), 
                 Smokes = (byte) (GeneratorHelper.RND.Next((int) Smokes.MAX) + 1), 
-                From = co, 
+                Location = location, 
                 HairColor = (byte) (GeneratorHelper.RND.Next((int) HairColor.MAX) + 1), 
                 Alcohol = (byte) (GeneratorHelper.RND.Next(1 + (int) Alcohol.MAX)),
                 Religion = (byte) (GeneratorHelper.RND.Next((int)Religion.MAX) + 1),
-                City = ci, 
                 Description = GeneratorHelper.RandomString(1000, false), 
                 Height = GeneratorHelper.RandomNumber(150, 198), 
                 BirthYear = GeneratorHelper.RandomNumber(1960, 1989)

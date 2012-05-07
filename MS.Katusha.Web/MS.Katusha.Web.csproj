@@ -263,6 +263,7 @@
     <Compile Include="Models\Entities\FacebookProfileModel.cs" />
     <Compile Include="Models\Entities\CountriesToVisitModel.cs" />
     <Compile Include="Models\Entities\LanguagesSpokenModel.cs" />
+    <Compile Include="Models\Entities\LocationModel.cs" />
     <Compile Include="Models\Entities\PhotoModel.cs" />
     <Compile Include="Models\Entities\ProfileModel.cs" />
     <Compile Include="Models\Entities\SearchingForModel.cs" />

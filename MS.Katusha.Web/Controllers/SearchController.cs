@@ -5,13 +5,11 @@ using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
-using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -19,14 +17,13 @@ namespace MS.Katusha.Web.Controllers
     public class SearchController : KatushaController
     {
         private readonly ISearchService _searchService;
-        private readonly IResourceService _resourceService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public SearchController(IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, IConversationService conversationService, IResourceService resourceService)
-            : base(userService, profileService, stateService, conversationService)
+        public SearchController(IResourceService resourceService, IUserService userService, IProfileService profileService, ISearchService searchService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
-            _resourceService = resourceService;
+            ResourceService = resourceService;
 
         }
 
@@ -58,7 +55,6 @@ namespace MS.Katusha.Web.Controllers
             return View("Search", new SearchProfileResultModel {SearchCriteria = model});
         }
 
-
         private ActionResult SearchState(int? key, SearchStateCriteriaModel model)
         {
             var data = Mapper.Map<SearchStateCriteria>(model);
@@ -83,23 +79,23 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult GetCities(string query, string searching, string countryCode = "")
         {
             if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
-            IList<string> coll;
-            switch(searching.ToLowerInvariant()) {
+            IDictionary<string, string> coll;
+            switch (searching.ToLowerInvariant()) {
                 case "girls":
-                    coll = _resourceService.GetSearchableCities(Sex.Female, countryCode);
+                    coll = ResourceService.GetSearchableCities(Sex.Female, countryCode);
                     break;
                 case "men":
-                    coll = _resourceService.GetSearchableCities(Sex.Male, countryCode);
+                    coll = ResourceService.GetSearchableCities(Sex.Male, countryCode);
                     break;
                 default:
-                    coll = _resourceService.GetCities(countryCode);
+                    coll = ResourceService.GetCities(countryCode);
                     break;
             }
             var list = (from u in coll
-                        where u.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
+                        where u.Value.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) //IndexOf(query, System.StringComparison.InvariantCultureIgnoreCase) >= 0
                         select u).Take(20).ToArray();
             var dict = new List<KeyValuePair<string, string>>(list.Length);
-            dict.AddRange(list.Select(item => new KeyValuePair<string, string>(item, item)));
+            dict.AddRange(list.Select(item => new KeyValuePair<string, string>(item.Key, item.Value)));
             return Json(dict, JsonRequestBehavior.AllowGet);
         }
 
@@ -109,13 +105,13 @@ namespace MS.Katusha.Web.Controllers
             IDictionary<string, string> coll;
             switch (searching.ToLowerInvariant()) {
                 case "girls":
-                    coll = _resourceService.GetSearchableCountries(Sex.Female);
+                    coll = ResourceService.GetSearchableCountries(Sex.Female);
                     break;
                 case "men":
-                    coll = _resourceService.GetSearchableCountries(Sex.Male);
+                    coll = ResourceService.GetSearchableCountries(Sex.Male);
                     break;
                 default:
-                    coll = _resourceService.GetCountries();
+                    coll = ResourceService.GetCountries();
                     break;
             }
             var list = (from u in coll

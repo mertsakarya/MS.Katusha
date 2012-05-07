@@ -19,8 +19,8 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : KatushaController
     {
-        public AccountController(IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(userService, profileService, stateService, conversationService) {}
+        public AccountController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService) {}
 
         [AllowAnonymous]
         public ActionResult Login() { return ContextDependentView(null, "Login"); }

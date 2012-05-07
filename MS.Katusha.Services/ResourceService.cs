@@ -29,23 +29,17 @@ namespace MS.Katusha.Services
         public bool ContainsKey(string lookupName, string key, string countryCode = "") { return _resourceManager.ContainsKey(lookupName, key, countryCode); }
         public IDictionary<string, string> GetCountries() { return _resourceManager.GetCountries(); }
         public IDictionary<string, string> GetLanguages() { return _resourceManager.GetLanguages(); }
-        public IList<string> GetCities(string countryCode) { return _resourceManager.GetCities(countryCode); }
+        public IDictionary<string, string> GetCities(string countryCode) { return _resourceManager.GetCities(countryCode); }
 
         public IDictionary<string, string> GetSearchableCountries(Sex gender)
         {
-            var countryCodeList = _countryCityCountRepository.GetSearchableCountries(gender);
-            var result = new Dictionary<string, string>(countryCodeList.Count);
-            if (countryCodeList.Count > 0) {
-                var countries = GetCountries();
-                foreach (var countryCode in countryCodeList) {
-                    if(countries.ContainsKey(countryCode))
-                        result.Add(countryCode, countries[countryCode]);
-                }
-            }
-            return result;
+            return _countryCityCountRepository.GetSearchableCountries(gender);
         }
 
-        public IList<string> GetSearchableCities(Sex gender, string countryCode) { return _countryCityCountRepository.GetSearchableCities(gender, countryCode); }
+        public IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode)
+        {
+            return _countryCityCountRepository.GetSearchableCities(gender, countryCode);
+        }
 
         public string UrlFriendlyDateTime(DateTime dateTime)
         {

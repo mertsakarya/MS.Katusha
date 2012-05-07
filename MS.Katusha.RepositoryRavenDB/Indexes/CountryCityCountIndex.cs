@@ -11,11 +11,25 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
     {
         public CountryCityCountIndex()
         {
-            Map = docs => from doc in docs select new CountryCityCountResult { Gender = doc.Gender, Country = doc.From, City = doc.City, Count = 1 };
+            Map = docs => from doc in docs select new CountryCityCountResult {
+                                                                                 Gender = doc.Gender, 
+                                                                                 CountryCode = doc.Location.CountryCode, 
+                                                                                 CityCode = doc.Location.CityCode, 
+                                                                                 CityName = doc.Location.CityName, 
+                                                                                 CountryName = doc.Location.CountryName, 
+                                                                                 Count = 1
+                                                                             };
             Reduce = results => from result in results
-                                group result by new {result.Gender, result.Country, result.City}
+                                group result by new {result.Gender, result.CountryCode, result.CityCode, result.CityName, result.CountryName}
                                 into g
-                                select new CountryCityCountResult { Gender = g.Key.Gender, Country = g.Key.Country, City = g.Key.City, Count = g.Sum(m => m.Count) };
+                                select new CountryCityCountResult {
+                                                                      Gender = g.Key.Gender, 
+                                                                      CountryCode = g.Key.CountryCode, 
+                                                                      CityCode = g.Key.CityCode,
+                                                                      CityName = g.Key.CityName,
+                                                                      CountryName = g.Key.CountryName,
+                                                                      Count = g.Sum(m => m.Count)
+                                                                  };
         }
     }
 }

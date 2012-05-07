@@ -4,7 +4,7 @@ using MS.Katusha.Enumerations;
 namespace MS.Katusha.Interfaces.Repositories
 {
     public interface ICountryCityCountRepositoryRavenDB {
-        IList<string> GetSearchableCities(Sex gender, string countryCode);
-        IList<string> GetSearchableCountries(Sex gender);
+        IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode);
+        IDictionary<string, string> GetSearchableCountries(Sex gender);
     }
 }

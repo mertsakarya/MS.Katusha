@@ -10,9 +10,8 @@
         @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium,"", true)
     }
     <hr />
-
-    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.From), _ => Model.From, Model.From)
-    @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.City), _ => Model.City)
+    
+    <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>
     @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
 
     @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)

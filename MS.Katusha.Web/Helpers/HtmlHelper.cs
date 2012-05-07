@@ -129,7 +129,7 @@ namespace MS.Katusha.Web.Helpers
         public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), htmlHelper.LocationText("Country", profile.From));
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), profile.Location.CountryName);
             var url = "/Profiles/Show/" + val;
             var anchor = new TagBuilder("a");
             anchor.Attributes.Add("title", title);

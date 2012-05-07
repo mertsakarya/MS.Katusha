@@ -1,52 +1,8 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MS.Katusha.Domain.Entities.BaseEntities;
 
 namespace MS.Katusha.Domain.Entities
 {
-    public class GeoLanguage
-    {
-        //ISO 639-3	ISO 639-2	ISO 639-1	Language Name
-        public string ISO639_3 { get; set; }
-        public string ISO639_2 { get; set; }
-        public string ISO639_1 { get; set; }
-        [Key]
-        public string LanguageName { get; set; }
-
-        public new string ToString() { return LanguageName; }
-    }
-
-    public class GeoCountry
-    {
-        //#ISO	ISO3	ISO-Numeric	fips	Country	Capital	Area(in sq km)	Population	Continent	tld	CurrencyCode	CurrencyName	Phone	Postal Code Format	Postal Code Regex	Languages	geonameid	neighbours	EquivalentFipsCode
-
-        [Key]
-        public string ISO { get; set; } //ISO
-        public string ISO3 { get; set; }
-        public int ISONumeric { get; set; }
-        public string FIPS { get; set; } //FIPS
-        public string Country { get; set; }
-        public string Capital { get; set; }
-        public int Area { get; set; }
-        public long Population { get; set; }
-        public string Continent { get; set; }
-        public string TLD { get; set; }
-        public string CurrencyCode { get; set; }
-        public string CurrencyName { get; set; }
-        public string Phone { get; set; }
-        public string PostalCodeFormat { get; set; }
-        public string PostalCodeRegEx { get; set; }
-        public string Languages { get; set; }
-        public IList<string> LanguagesList { get { return Languages.Split(','); } }
-        public int GeoNameId { get; set; }
-        public string Neighbors { get; set; }
-        public IList<string> NeighborsList { get { return Neighbors.Split(','); } }
-        public string EquivalentFipsCode { get; set; }
-
-        public new string ToString() { return Country; }
-    }
-
     public class GeoName
     {
         [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -87,16 +43,5 @@ namespace MS.Katusha.Domain.Entities
 
         public new string ToString() { return Name; }
 
-    }
-
-    public class GeoTimeZone
-    {
-        [Key]
-        public string TimeZoneId { get; set; }
-        public double GMTOffset { get; set; }
-        public double DSTOffset { get; set; }
-        public double RawOffset { get; set; }
-
-        public new string ToString() { return TimeZoneId; }
     }
 }

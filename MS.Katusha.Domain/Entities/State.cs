@@ -12,8 +12,8 @@ namespace MS.Katusha.Domain.Entities
 
         public int Birthyear { get; set; }
         public int Height { get; set; }
-        public string From { get; set; }
-        public string City { get; set; }
+        public string CountryCode { get; set; }
+        public int CityCode { get; set; }
         public byte BodyBuild { get; set; }
         public byte HairColor { get; set; }
         public byte EyeColor { get; set; }

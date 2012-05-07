@@ -41,6 +41,9 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<Photo, PhotoModel>();
             Mapper.CreateMap<PhotoModel, Photo>();
 
+            Mapper.CreateMap<Location, LocationModel>();
+            Mapper.CreateMap<LocationModel, Location>();
+
             Mapper.CreateMap<SearchingFor, SearchingForModel>();
             Mapper.CreateMap<SearchingForModel, SearchingFor>();
 

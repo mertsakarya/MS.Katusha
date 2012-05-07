@@ -20,6 +20,7 @@ namespace MS.Katusha.Domain.Entities
             RecievedMessages = new List<Conversation>();
             WhoVisited = new List<Visit>();
             Visited = new List<Visit>();
+            Location = new Location();
         }
 
         public long UserId { get; set; }
@@ -29,11 +30,8 @@ namespace MS.Katusha.Domain.Entities
         [StringLength(64)]
         public string Name { get; set; }
 
-        [StringLength(2)]
-        public string From { get; set; }
+        public Location Location { get; set; }
 
-        [StringLength(64)]
-        public string City { get; set; }
         public byte BodyBuild { get; set; }
         public byte EyeColor { get; set; }
         public byte HairColor { get; set; }
@@ -80,8 +78,7 @@ namespace MS.Katusha.Domain.Entities
                       String.Format(
                           " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | DickSize: {13} | DickThickness: {14} | BreastSize: {15} | Religion: {10} | Height: {11} | BirthYear: {12}",
                           (User == null) ? 0 : User.Id, "REMOVED", Name,
-                          From,
-                          City,
+                          Location, "",
                           Enum.GetName(typeof (BodyBuild), BodyBuild),
                           Enum.GetName(typeof (EyeColor), EyeColor),
                           Enum.GetName(typeof (HairColor), HairColor),

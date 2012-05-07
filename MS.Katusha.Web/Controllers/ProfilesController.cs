@@ -23,14 +23,12 @@ namespace MS.Katusha.Web.Controllers
     public class ProfilesController : KatushaController
     {
         private readonly IProfileService _profileService;
-        private readonly IResourceService _resourceService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public ProfilesController(IUserService userService, IProfileService profileService, IResourceService resourceService, IStateService stateService, IConversationService conversationService)
-            : base(userService, profileService, stateService, conversationService)
+        public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _profileService = profileService;
-            _resourceService = resourceService;
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
@@ -38,7 +36,7 @@ namespace MS.Katusha.Web.Controllers
         {
             var pingResult = StateService.Ping(KatushaProfile);
             return Json(new {
-                                VisitTime = (pingResult.Visits == null) ? "" : _resourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
+                                VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
                                 VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
                                 ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
                                 ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount
@@ -149,7 +147,7 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceService.ResourceValue("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", ResourceService.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -187,7 +185,7 @@ namespace MS.Katusha.Web.Controllers
                 _profileService.UpdateProfile(profile);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
-                ModelState.AddModelError("FriendlyName", _resourceService.ResourceValue("FriendlyNameExists"));
+                ModelState.AddModelError("FriendlyName", ResourceService.ResourceValue("FriendlyNameExists"));
                 return View(model);
             } catch (KatushaException) {
                 throw;
@@ -217,8 +215,8 @@ namespace MS.Katusha.Web.Controllers
         private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
         {
             if (!performDataOperation) {
-                var languages = _resourceService.GetLanguages();
-                var countries = _resourceService.GetCountries();
+                var languages = ResourceService.GetLanguages();
+                var countries = ResourceService.GetCountries();
 
                 var formValue = Request.Form["CountriesToVisitModelSelection[]"];
                 if (!String.IsNullOrWhiteSpace(formValue)) {

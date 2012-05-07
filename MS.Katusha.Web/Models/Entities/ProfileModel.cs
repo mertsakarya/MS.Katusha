@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
@@ -29,13 +30,11 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaRequired("Profile.Name")]
         public string Name { get; set; }
 
-        [KatushaField("Profile.From")]
-        [KatushaRequired("Profile.From")]
-        public string From { get; set; }
+        public LocationModel Location { get; set; }
 
-        [KatushaStringLength("Profile.City")]
-        [KatushaField("Profile.City")]
-        public string City { get; set; }
+        //[KatushaStringLength("Profile.City")]
+        //[KatushaField("Profile.City")]
+        //public City City { get; set; }
 
         [KatushaField("Profile.BodyBuild")]
         public BodyBuild? BodyBuild { get; set; }
@@ -108,8 +107,7 @@ namespace MS.Katusha.Web.Models.Entities
                       String.Format(
                           " | UserId: {0} | State: {1} | Name: {2} | From: {3} | City: {4} | BodyBuild: {5} | EyeColor: {6} | HairColor: {7} | Smokes: {8} | Alcohol: {9} | Religion: {10} | Height: {11} | BirthYear: {12}",
                           0/*(User == null) ? 0 : User.Id*/, "REMOVED", Name,
-                          From,
-                          City,
+                          Location,
                           Enum.GetName(typeof (BodyBuild), BodyBuild),
                           Enum.GetName(typeof (EyeColor), EyeColor),
                           Enum.GetName(typeof (HairColor), HairColor),

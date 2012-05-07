@@ -17,8 +17,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IVisitService _visitService;
         private const int PageSize = DependencyHelper.GlobalPageSize;
 
-        public VisitorController(IUserService userService, IProfileService profileService, IVisitService visitService, IStateService stateService, IConversationService conversationService)
-            : base(userService, profileService, stateService, conversationService)
+        public VisitorController(IResourceService resourceService, IUserService userService, IProfileService profileService, IVisitService visitService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _visitService = visitService;
         }

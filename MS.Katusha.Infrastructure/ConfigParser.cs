@@ -254,6 +254,13 @@ namespace MS.Katusha.Infrastructure
 
             try {
                 foreach (var row in rows) {
+                    if (tableName == "GeoNames") {
+                        long population;
+                        if(long.TryParse(row[14], out population)) {
+                            if(population > 2000000) 
+                                continue;
+                        }
+                    }
                     sb.AppendLine(String.Format(command, row));
                     counter++;
                     if (counter == 100) {

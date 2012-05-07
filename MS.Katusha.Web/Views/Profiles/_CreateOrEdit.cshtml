@@ -8,29 +8,31 @@
     @Html.ValidationMessageFor(model => model.Name)
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.FriendlyName)
-</div>
-<div class="editor-field">
-    @Html.EditorFor(model => model.FriendlyName)
-    @Html.ValidationMessageFor(model => model.FriendlyName)
+<div style="display:none">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.FriendlyName)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.FriendlyName)
+        @Html.ValidationMessageFor(model => model.FriendlyName)
+    </div>
 </div>
 
 <div class="editor-label">
-    @Html.LabelFor(model => model.From)
+    @Html.LabelFor(model => model.Location.CountryName)
 </div>
 <div class="editor-field">
-    @Html.AutoCompleteFor(model => model.From, "From", "Country", "", "/Search/GetCountries")
-    @Html.ValidationMessageFor(model => model.From)
+    @Html.AutoCompleteFor(model => model.Location.CountryName, "Country", "Country", "", "/Search/GetCountries")
+    @Html.ValidationMessageFor(model => model.Location.CountryName)
 </div>
 
 <div id="ProfileCity">
     <div class="editor-label">
-        @Html.LabelFor(model => model.City)
+        @Html.LabelFor(model => model.Location.CityName)
     </div>
     <div class="editor-field">
-        @Html.AutoCompleteFor(model => model.City, "City", "City", "", "/Search/GetCities", Model.From, "document.getElementById('From').value")
-        @Html.ValidationMessageFor(model => model.City)
+        @Html.AutoCompleteFor(model => model.Location.CityName, "City", "City", "", "/Search/GetCities", Model.Location.CountryCode, "document.getElementById('From').value")
+        @Html.ValidationMessageFor(model => model.Location.CityName)
     </div>
 </div>
 <script type="text/javascript">

@@ -20,11 +20,11 @@ namespace MS.Katusha.Web.Controllers
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
 
-        public UtilitiesController(IUserService userService, IProfileService profileService, 
+        public UtilitiesController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
             IPhotosService photosService, IUtilityService utilityService
             )
-            : base(userService, profileService, stateService, conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
            _samplesService = samplesService;
             _visitService = visitService;

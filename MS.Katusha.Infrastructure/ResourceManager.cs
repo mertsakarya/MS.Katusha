@@ -230,7 +230,7 @@ namespace MS.Katusha.Infrastructure
 
         public IDictionary<string, string> GetCountries() { return Location.GetCountries(); }
         public IDictionary<string, string> GetLanguages() { return Location.GetLanguages(); }
-        public IList<string> GetCities(string countryCode) { return Location.GetCities(countryCode); }
+        public IDictionary<string, string> GetCities(string countryCode) { return Location.GetCities(countryCode); }
 
         public IDictionary<string, string> GetLookup(string lookupName, string countryCode = "")
         {

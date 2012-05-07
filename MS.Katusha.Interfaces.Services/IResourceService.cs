@@ -19,10 +19,10 @@ namespace MS.Katusha.Interfaces.Services
 
         IDictionary<string, string> GetCountries();
         IDictionary<string, string> GetLanguages();
-        IList<string> GetCities(string countryCode);
+        IDictionary<string, string> GetCities(string countryCode);
 
         IDictionary<string, string> GetSearchableCountries(Sex gender);
-        IList<string> GetSearchableCities(Sex gender, string countryCode);
+        IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode);
 
         string UrlFriendlyDateTime(DateTime dateTime);
     }

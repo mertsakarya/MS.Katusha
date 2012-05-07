@@ -8,8 +8,8 @@ namespace MS.Katusha.Web.Controllers
 {
     public class MailController : KatushaController
     {
-        public MailController(IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(userService, profileService, stateService, conversationService) { }
+        public MailController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService) { }
 
         public ActionResult Confirm(string key)
         {

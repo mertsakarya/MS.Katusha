@@ -11,7 +11,7 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
         {
             Map = profiles => from p in profiles
                               select new {
-                                  p.From, p.City, p.Gender, p.BodyBuild, p.HairColor, p.EyeColor, p.Smokes, p.Alcohol, p.Religion, p.DickSize, p.DickThickness, p.BreastSize, p.BirthYear, p.Height
+                                  p.Location.CountryCode, p.Location.CityCode, p.Gender, p.BodyBuild, p.HairColor, p.EyeColor, p.Smokes, p.Alcohol, p.Religion, p.DickSize, p.DickThickness, p.BreastSize, p.BirthYear, p.Height
                               };
         }
     }

@@ -111,7 +111,7 @@ namespace MS.Katusha.Web.Models.Entities
 
         public static SearchProfileCriteriaModel Empty() { return new SearchProfileCriteriaModel(); }
 
-        public HashSet<string> GetSelectedFieldsList()
+        public new HashSet<string> GetSelectedFieldsList()
         {
             var hs = base.GetSelectedFieldsList();
             if (Smokes.Count > 0 && Smokes.Any(p => p > 0)) hs.Add("Smokes");
@@ -130,7 +130,7 @@ namespace MS.Katusha.Web.Models.Entities
         }
 
 
-        public HashSet<string> GetSelectedFieldsList()
+        public new HashSet<string> GetSelectedFieldsList()
         {
             var hs = base.GetSelectedFieldsList();
             return hs;

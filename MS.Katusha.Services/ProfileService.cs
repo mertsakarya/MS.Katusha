@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
@@ -12,6 +13,7 @@ namespace MS.Katusha.Services
 {
     public class ProfileService : IProfileService
     {
+        private readonly IResourceService _resourceService;
         private readonly IVisitService _visitService;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
@@ -23,11 +25,12 @@ namespace MS.Katusha.Services
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache
 ;
 
-        public ProfileService(IVisitService visitService,IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository,
+        public ProfileService(IResourceService resourceService, IVisitService visitService,IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, ISearchingForRepositoryDB searchingForRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, IProfileRepositoryRavenDB profileRepositoryRaven,
             IKatushaGlobalCacheContext globalCacheContext)
         {
+            _resourceService = resourceService;
             _visitService = visitService;
             _profileRepository = profileRepository;
             _userRepository = userRepository;
@@ -130,16 +133,20 @@ namespace MS.Katusha.Services
                     throw new KatushaFriendlyNameExistsException(profile);
             if (!(profile.Gender == (byte)Sex.Male || profile.Gender == (byte)Sex.Female))
                 throw new KatushaGenderNotExistsException(profile);
+            var cityName = _resourceService.GetLookupText("City", profile.Location.CityCode.ToString(CultureInfo.InvariantCulture), profile.Location.CountryCode);
+            var countryName = _resourceService.GetLookupText("Country", profile.Location.CountryCode);
             var dataProfile = _profileRepository.SingleAttached(p => p.Id == profile.Id);
             dataProfile.FriendlyName = profile.FriendlyName;
             dataProfile.Name = profile.Name;
             dataProfile.Alcohol = profile.Alcohol;
             dataProfile.BirthYear = profile.BirthYear;
             dataProfile.BodyBuild = profile.BodyBuild;
-            dataProfile.City = profile.City;
+            dataProfile.Location.CountryCode = profile.Location.CountryCode;
+            dataProfile.Location.CityCode = profile.Location.CityCode;
+            dataProfile.Location.CityName = cityName;
+            dataProfile.Location.CountryName = countryName;
             dataProfile.Description = profile.Description;
             dataProfile.EyeColor = profile.EyeColor;
-            dataProfile.From = profile.From;
             dataProfile.HairColor = profile.HairColor;
             dataProfile.Height = profile.Height;
             dataProfile.Religion = profile.Religion;

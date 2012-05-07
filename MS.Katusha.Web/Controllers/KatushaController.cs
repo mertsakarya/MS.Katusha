@@ -24,11 +24,13 @@ namespace MS.Katusha.Web.Controllers
         protected IUserService UserService { get; set; }
         protected IProfileService ProfileService { get; set; }
         protected IStateService StateService { get; set; }
+        protected IResourceService ResourceService { get; set; }
         protected IConversationService ConversationService { get; set; }
         private const int ProfileCount = 8;
 
-        public KatushaController(IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+        public KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
         {
+            ResourceService = resourceService;
             ConversationService = conversationService;
             ProfileService = profileService;
             UserService = userService;
