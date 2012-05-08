@@ -1,0 +1,52 @@
+﻿@using System.Web.Mvc
+@using MS.Katusha.Enumerations
+@using MS.Katusha.Interfaces.Services
+@using MS.Katusha.Web.Models.Entities
+
+@helper EditOrCreate(LocationModel location, string countryName, string cityName, string urlToCall, string onSelect="", bool selectExistingCountries = false, byte gender=0) {
+    var countryId = countryName.Replace('[', '_').Replace(']', '_');
+    var cityId = cityName.Replace('[', '_').Replace(']', '_');
+    var resourceManager = DependencyResolver.Current.GetService<IResourceService>();
+    var countries = (!selectExistingCountries) ? resourceManager.GetCountries() : resourceManager.GetSearchableCountries((gender == (byte)Sex.Male) ? Sex.Female : Sex.Male);
+    var searchingFor = (gender == (byte) Sex.Male) ? "Men" : "Girls";
+    <select id="@(countryId)" name="@(countryId)">
+        @foreach(var item in countries) {
+            <option value="@(item.Key)" @((item.Key == location.CountryCode) ? "selected" : "")>@(item.Value)</option>
+        }
+    </select>
+    <input type="text" id="@(cityId)" name="@(cityId)" value="@(location.CityName)" @((String.IsNullOrWhiteSpace(location.CountryCode)) ? "style=\"display:none;\"": "")/>
+    <input type="hidden" id="@(cityId)Key" name="@(cityId)Key" value="@(location.CityCode)" />
+    <script type="text/javascript">
+        $(function() {
+            $('input#@(cityId)').autocomplete({
+                select: function(event, ui) {
+                    $('input#@(cityId)Key')[0].value = ui.item.key;  
+                    $('input#@(cityId)')[0].value = ui.item.value;  
+                    @(onSelect)
+                },
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@(urlToCall)',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                             searching:'@(searchingFor)', 
+                             query: request.term @((!String.IsNullOrWhiteSpace(location.CountryCode)) ? ", countryCode:" + location.CountryCode : "")
+                        },
+                        success: function (data) {
+                            response($.map(data, function(item) {
+                                return { label: item.Value, value: item.Value, key: item.Key };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2 // require at least one character from the user
+            });
+        });
+        setInterval(function() {
+            var fl=document.getElementById('@(cityId)'); 
+            if(fl != null && fl.value.length==0) document.getElementById('@(cityId)').value = ''; 
+        }, 7);
+        setInterval("cf('@(cityId)', '@(countryId)', '@(cityId)')", 10);
+    </script>
+}

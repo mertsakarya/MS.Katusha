@@ -3,16 +3,13 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
-using MS.Katusha.Web.Models.Entities;
 using NLog;
-using Raven.Client;
 
 namespace MS.Katusha.Web.Helpers
 {

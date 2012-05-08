@@ -22,22 +22,10 @@
     @Html.LabelFor(model => model.Location.CountryName)
 </div>
 <div class="editor-field">
-    @Html.AutoCompleteFor(model => model.Location.CountryName, "Country", "Country", "", "/Search/GetCountries")
+    @CountryCity.EditOrCreate(Model.Location, "From", "City", "/Search/GetCountries")
     @Html.ValidationMessageFor(model => model.Location.CountryName)
 </div>
 
-<div id="ProfileCity">
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Location.CityName)
-    </div>
-    <div class="editor-field">
-        @Html.AutoCompleteFor(model => model.Location.CityName, "City", "City", "", "/Search/GetCities", Model.Location.CountryCode, "document.getElementById('From').value")
-        @Html.ValidationMessageFor(model => model.Location.CityName)
-    </div>
-</div>
-<script type="text/javascript">
-    setInterval("cf('ProfileCity', 'From', 'City')", 10);
-</script>
 
 <div class="editor-label">
     @Html.LabelFor(model => model.Height)

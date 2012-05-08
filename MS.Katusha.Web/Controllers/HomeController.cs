@@ -12,7 +12,7 @@ namespace MS.Katusha.Web.Controllers
 {
     public class HomeController : KatushaController
     {
-        public HomeCo ntroller(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+        public HomeController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
             : base(resourceService, userService, profileService, stateService, conversationService)
         {
         }
