@@ -174,7 +174,7 @@
 
 *	Profile.From
  	[Resource]
- 		en	Profile.From.DisplayName	Your country
+ 		en	Profile.From.DisplayName	Country / City
  		en	Profile.From.Description	The country currently you are living in.
  		en	Profile.From.RequiredErrorMessage	Where are you from? This is important for people finding you.
 

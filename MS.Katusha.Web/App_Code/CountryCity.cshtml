@@ -8,7 +8,7 @@
     var cityId = cityName.Replace('[', '_').Replace(']', '_');
     var resourceManager = DependencyResolver.Current.GetService<IResourceService>();
     var countries = (!selectExistingCountries) ? resourceManager.GetCountries() : resourceManager.GetSearchableCountries((gender == (byte)Sex.Male) ? Sex.Female : Sex.Male);
-    var searchingFor = (gender == (byte) Sex.Male) ? "Men" : "Girls";
+    var searchingFor = ((gender == (byte) Sex.Male) ? "Men" : (((gender == (byte) Sex.Female)) ? "Girls" : ""));
     <select id="@(countryId)" name="@(countryId)">
         @foreach(var item in countries) {
             <option value="@(item.Key)" @((item.Key == location.CountryCode) ? "selected" : "")>@(item.Value)</option>
@@ -31,7 +31,8 @@
                         dataType: 'json',
                         data: {
                              searching:'@(searchingFor)', 
-                             query: request.term @((!String.IsNullOrWhiteSpace(location.CountryCode)) ? ", countryCode:" + location.CountryCode : "")
+                             query: request.term,
+                             countryCode: document.getElementById('@(countryId)').options[document.getElementById('@(countryId)').selectedIndex].value
                         },
                         success: function (data) {
                             response($.map(data, function(item) {
