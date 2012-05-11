@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
@@ -40,7 +41,7 @@ namespace MS.Katusha.Web.Helpers
             _delete = delete;
         }
 
-        public void Process(HttpRequestBase request, ModelStateDictionary modelState, TModel viewModel, TModelData dataModel, bool performDataOperation = true)
+        public void Process(HttpRequestBase request, ModelStateDictionary modelState, TModel viewModel, TModelData dataModel)
         {
             var listData = _compiledListDataExpression.Invoke(dataModel);
             var listModel = _compiledListModelExpression.Invoke(viewModel);
@@ -50,24 +51,20 @@ namespace MS.Katusha.Web.Helpers
                 foreach(var item in listModel) setForm.Add(_compiledItemModelEnumExpression.Invoke(item));
 
                 var setData = new HashSet<TEnum>();
-                foreach (var line in listData) {
-                    var item = _compiledItemDataEnumExpression.Invoke(line);
+                foreach (var item in listData.Select(line => _compiledItemDataEnumExpression.Invoke(line))) {
                     setData.Add(item);
-                    if (!setForm.Contains(item)) {
-                        try {
-                            if(performDataOperation) _delete(dataModel, item);
-                        } catch (Exception) {
-                            validationResults.Add(item.ToString() + " Can't Delete");
-                        }
+                    if (setForm.Contains(item)) continue;
+                    try {
+                        _delete(dataModel, item);
+                    } catch (Exception) {
+                        validationResults.Add(item.ToString() + " Can't Delete");
                     }
                 }
-                foreach (var item in setForm) {
-                    if (!setData.Contains(item)) {
-                        try {
-                            if (performDataOperation) _add(dataModel, item);
-                        } catch (Exception) {
-                            validationResults.Add(item.ToString() + " Can't Add");
-                        }
+                foreach (var item in setForm.Where(item => !setData.Contains(item))) {
+                    try {
+                        _add(dataModel, item);
+                    } catch (Exception) {
+                        validationResults.Add(item.ToString() + " Can't Add");
                     }
                 }
             } catch (Exception ex) {

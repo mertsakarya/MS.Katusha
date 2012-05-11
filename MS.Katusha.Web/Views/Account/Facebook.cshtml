@@ -54,27 +54,13 @@
                 <div style="float: left;width:98%; display: block;">
                     <div style="width:48%; position: relative; display: inline-block;">
                         <div class="editor-label">
-                            @Html.LabelFor(model => model.From)
+                            @Html.LabelFor(model => model.Location.CountryName)
                         </div>
                         <div class="editor-field">
-                            @Html.AutoCompleteFor(model => model.From, "From", "Country", "", "/Search/GetCountries")
-                            @Html.ValidationMessageFor(model => model.From)
+                            @CountryCity.EditOrCreate(Model.Location, "Country", "City", "/Search/GetCities")
+                            @Html.ValidationMessageFor(model => model.Location.CountryName)
                         </div>
                     </div>
-                    <div id="FacebookCity" style="width:48%; position: relative; display: inline-block;">
-                        <div id="ProfileCity">
-                            <div class="editor-label">
-                                @Html.LabelFor(model => model.City)
-                            </div>
-                            <div class="editor-field">
-                                @Html.AutoCompleteFor(model => model.City, "City", "City", "", "/Search/GetCities", Model.From, "document.getElementById('From').value")
-                                @Html.ValidationMessageFor(model => model.City)
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        setInterval("cf('FacebookCity', 'From', 'City')", 10);
-                    </script>
                 </div>
             </li>
             <li>

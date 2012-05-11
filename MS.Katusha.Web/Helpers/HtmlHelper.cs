@@ -405,28 +405,24 @@ setInterval(function() {{
         {
             if (values.Count > 0) {
                 var hasValue = false;
-                var enumType = typeof (TEnum);
+                var enumType = typeof(TEnum);
                 var sb = new StringBuilder();
                 sb.AppendFormat("<li>{0}<ul>", key);
                 foreach (var value in values) {
                     var result = "";
                     var k = key;
-                    if(enumType.IsEnum) {
-                        if(key == "BirthYear") k = "Age";
+                    if (enumType.IsEnum) {
+                        if (key == "BirthYear") k = "Age";
                         var val = Convert.ToByte(value);
                         if (val > 0) hasValue = true;
                         var lookupName = k;
                         result = htmlHelper.LookupText(lookupName, htmlHelper.LookupText(lookupName, val));
-                    } else if (key == "From") {
-                        var val = Convert.ToString(value);
-                        if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
-                        result = htmlHelper.LocationText((key == "From") ? "Country" : key, val);
                     } else if (value is string) {
                         var val = Convert.ToString(value);
                         if (!String.IsNullOrWhiteSpace(val)) hasValue = true;
                         result = val;
                     }
-                    sb.AppendFormat("<li>{0}<a class='removeFacet' href='#' onclick=\"RemoveSearchKey('{1}', '{2}');\">[X]</a></li>", result, k, value);
+                    sb.AppendFormat("<li>{0}<a class='removeFacet' href='#' onclick=\"RemoveSearchKey([['{1}', '{2}']]);\">[X]</a></li>", result, k, value);
                 }
                 sb.Append("</ul></li>");
                 return htmlHelper.Raw(hasValue ? sb.ToString() : "");
@@ -434,13 +430,41 @@ setInterval(function() {{
             return htmlHelper.Raw("");
         }
 
-        public static string SearchCriteriaValueText<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string range, out string lookupKey)
+        public static IHtmlString CriteriaItem<TModel>(this HtmlHelper<TModel> htmlHelper, LocationModel location)
+        {
+            var sb = new StringBuilder();
+            if (!String.IsNullOrWhiteSpace(location.CountryCode)) {
+                sb.Append("<li>Location<ul><li>");
+                sb.Append(htmlHelper.LocationText("Country", location.CountryCode));
+                sb.Append("<a class='removeFacet' href='#' onclick=\"");
+                sb.Append("RemoveSearchKey([");
+                sb.AppendFormat("['CountryCode', '{0}']", location.CountryCode);
+                if(location.CityCode > 0)
+                    sb.AppendFormat(",['CityCode', '{0}']", location.CityCode);
+                sb.Append("]);\">[X]</a></li>");
+                if(location.CityCode > 0) {
+                    var locationCityCode = location.CityCode.ToString(CultureInfo.InvariantCulture);
+                    sb.Append("<li>");
+                    sb.Append(htmlHelper.LocationText("City", locationCityCode, location.CountryCode));
+                    sb.Append("<a class='removeFacet' href='#' onclick=\"");
+                    sb.AppendFormat("RemoveSearchKey([['CityCode', '{0}']]);", location.CityCode);
+                    sb.Append("\">[X]</a></li>");
+                }
+                sb.Append("</ul></li>");
+            }
+            return htmlHelper.Raw(sb.ToString());
+        }
+
+        public static string SearchCriteriaValueText<TModel>(this HtmlHelper<TModel> htmlHelper, string key, string range, out string lookupKey, string countryCode)
         {
             var value = "";
             lookupKey = range;
             switch (key) {
-                case "City":
-                    value = range;
+                case "CityCode":
+                    value = htmlHelper.LocationText("City", range, countryCode);
+                    break;
+                case "CountryCode":
+                    value = htmlHelper.LocationText("Country", range);
                     break;
                 case "BodyBuild":
                 case "HairColor":
@@ -457,11 +481,6 @@ setInterval(function() {{
                 case "Search":
                     lookupKey = htmlHelper.LookupText("LookingFor", Convert.ToByte(range));
                     value = htmlHelper.LookupText("LookingFor", lookupKey);
-                    break;
-                case "From":
-                    if (key == "From") key = "Country";
-                    lookupKey = range;
-                    value = htmlHelper.LocationText(key, range);
                     break;
                 case "BirthYear":
                     const string k = "Age";
@@ -484,9 +503,11 @@ setInterval(function() {{
             switch (key) {
                 case "BirthYear":
                     return htmlHelper.ResourceValue("Profile.Age.DisplayName");
+                case "CountryCode":
+                    return htmlHelper.ResourceValue("Profile.From.DisplayName");
+                case "CityCode":
+                    return htmlHelper.ResourceValue("Profile.City.DisplayName");
                 default:
-                    if (!(key == "From" || key == "City")) 
-                        return htmlHelper.ResourceValue(String.Format("Profile.{0}.DisplayName", key));
                     return key;
             }
         }

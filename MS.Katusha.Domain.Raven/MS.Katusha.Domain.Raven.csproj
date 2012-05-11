@@ -45,14 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseSearchCriteria.cs" />
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\ConversationResult.cs" />
     <Compile Include="Entities\ConversationCountResult.cs" />
     <Compile Include="Entities\CountryCityCountResult.cs" />
+    <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="ISearchExpression.cs" />
     <Compile Include="Entities\NewVisits.cs" />
     <Compile Include="Entities\PingResult.cs" />
-    <Compile Include="Entities\SearchCriteria.cs" />
+    <Compile Include="Entities\SearchStateCriteria.cs" />
     <Compile Include="Entities\SearchFacet.cs" />
+    <Compile Include="Entities\SearchProfileCriteria.cs" />
     <Compile Include="Entities\SearchResult.cs" />
     <Compile Include="Entities\StateFacet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

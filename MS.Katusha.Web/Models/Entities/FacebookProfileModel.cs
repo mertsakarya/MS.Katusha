@@ -15,13 +15,12 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaRequired("Profile.Name")]
         public string Name { get; set; }
 
-        [KatushaField("Profile.From")]
-        [KatushaRequired("Profile.From")]
-        public string From { get; set; }
+        public LocationModel Location { get; set; }
 
-        [KatushaStringLength("Profile.City")]
-        [KatushaField("Profile.City")]
-        public string City { get; set; }
+        //[KatushaStringLength("Profile.City")]
+        //[KatushaField("Profile.City")]
+        //public City City { get; set; }
+
 
         [KatushaField("Profile.Gender")]
         [KatushaRequired("Profile.Gender")]

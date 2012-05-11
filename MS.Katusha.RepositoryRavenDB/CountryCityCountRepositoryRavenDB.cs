@@ -38,7 +38,11 @@ namespace MS.Katusha.Repositories.RavenDB
                                      let o = new {Sum = g.Sum(x => x.Count), g.Key.CountryCode, g.Key.CountryName}
                                      orderby o.Sum descending
                                      select new {g.Key.CountryCode, g.Key.CountryName});
-                    return query.ToDictionary(item => item.CountryCode, item => item.CountryName);
+                    Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                    foreach (var item in query)
+                        if(item != null && !String.IsNullOrWhiteSpace(item.CountryCode))
+                            dictionary.Add(item.CountryCode, item.CountryName);
+                    return dictionary;
                 } catch(InvalidOperationException) {
                     return new Dictionary<string, string>();
                 }

@@ -135,8 +135,6 @@ namespace MS.Katusha.Web.Controllers
                 var profile = Mapper.Map<Profile>(model);
                 profile.UserId = KatushaUser.Id;
                 profile.Guid = KatushaUser.Guid;
-
-                ValidateProfileCollections(model, profile, false);
                 if (!ModelState.IsValid) return View(model);
 
                 _profileService.CreateProfile(profile);
@@ -173,7 +171,6 @@ namespace MS.Katusha.Web.Controllers
             try {
                 ViewBag.SameProfile = true;
                 var profileModel = KatushaProfile;
-                ValidateProfileCollections(model, profileModel, false);
                 if (!ModelState.IsValid) return View(model);
                 var profile = Mapper.Map<Profile>(model);
                 profile.Id = profileModel.Id;
@@ -212,29 +209,8 @@ namespace MS.Katusha.Web.Controllers
             return RedirectToAction("Girls");
         }
 
-        private void ValidateProfileCollections(ProfileModel profileModel, Profile model, bool performDataOperation = true)
+        private void ValidateProfileCollections(ProfileModel profileModel, Profile model)
         {
-            if (!performDataOperation) {
-                var languages = ResourceService.GetLanguages();
-                var countries = ResourceService.GetCountries();
-
-                var formValue = Request.Form["CountriesToVisitModelSelection[]"];
-                if (!String.IsNullOrWhiteSpace(formValue)) {
-                    var list = formValue.Split(',');
-                    foreach (var line in list) if(countries.ContainsKey(line)) profileModel.CountriesToVisit.Add(new CountriesToVisitModel { Country = line });
-                }
-                formValue = Request.Form["LanguagesSpokenModelSelection[]"];
-                if (!String.IsNullOrWhiteSpace(formValue)) {
-                    var list = formValue.Split(',');
-                    foreach (var line in list) if (languages.ContainsKey(line)) profileModel.LanguagesSpoken.Add(new LanguagesSpokenModel { Language = line });
-                }
-                formValue = Request.Form["SearchingForModelSelection[]"];
-                if (!String.IsNullOrWhiteSpace(formValue)) {
-                    var list = formValue.Split(',');
-                    LookingFor c;
-                    foreach (var line in list) if (Enum.TryParse(line, out c)) profileModel.Searches.Add(new SearchingForModel { Search = c });
-                }
-            }
 
             var llp = new LookupListProcessor<ProfileModel, Profile, CountriesToVisitModel, CountriesToVisit, string>(
                 p => p.CountriesToVisit,
@@ -263,9 +239,9 @@ namespace MS.Katusha.Web.Controllers
                 (modelData, search) => _profileService.AddSearches(modelData.Id, search)
                 );
 
-            llp.Process(Request, ModelState, profileModel, model, performDataOperation);
-            llp2.Process(Request, ModelState, profileModel, model, performDataOperation);
-            llp3.Process(Request, ModelState, profileModel, model, performDataOperation);
+            llp.Process(Request, ModelState, profileModel, model);
+            llp2.Process(Request, ModelState, profileModel, model);
+            llp3.Process(Request, ModelState, profileModel, model);
         }
     }
 }

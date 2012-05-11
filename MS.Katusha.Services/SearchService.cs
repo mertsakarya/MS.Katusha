@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven;
 using MS.Katusha.Domain.Raven.Entities;
-using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Raven.Abstractions.Data;
@@ -28,15 +27,14 @@ namespace MS.Katusha.Services
 
         private IEnumerable<Profile> SearchProfiles(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
         {
-            return _profileRepositoryRaven.Search<Profile>(filter, pageNo, pageSize, out total);
+            return _profileRepositoryRaven.Search(filter, pageNo, pageSize, out total);
         }
 
         private IEnumerable<Profile> SearchStates(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total)
         {
-            var stateList = _stateRepositoryRaven.Search<State>(filter, pageNo, pageSize, out total);
+            var stateList = _stateRepositoryRaven.Search(filter, pageNo, pageSize, out total);
             var profileList = new List<Profile>(stateList.Count);
-            foreach(var item in stateList)
-                profileList.Add(_profileService.GetProfile(item.ProfileId));
+            profileList.AddRange(stateList.Select(item => _profileService.GetProfile(item.ProfileId)));
             return profileList;
         }
 
@@ -45,43 +43,33 @@ namespace MS.Katusha.Services
             return _profileRepositoryRaven.FacetSearch(filter, facetName);
         }
 
-        public SearchProfileResult SearchProfiles(SearchProfileCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
+        public SearchResult SearchProfiles(ISearchCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
         {
-            if (searchCriteria.CanSearch) {
+            //if (searchCriteria.CanSearch) {
                 int total;
                 var filter = GetFilter<Profile>(searchCriteria);
                 var facetFilter = GetFilter<ProfileFacet>(searchCriteria);
                 var facetSearch = FacetSearch(facetFilter, "ProfileFacets");
-
-                return new SearchProfileResult {
-                    Profiles = SearchProfiles(filter, pageNo, pageSize, out total),
-                    FacetValues = facetSearch,
-                    SearchCriteria = searchCriteria,
-                    Total = total
-                };
-            }
-            return new SearchProfileResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };
+                var profiles = SearchProfiles(filter, pageNo, pageSize, out total);
+                return new SearchResult { Profiles = profiles, FacetValues = facetSearch, SearchCriteria = searchCriteria, Total = total };
+            //}
+            //return new SearchResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };
         }
 
-        public SearchStateResult SearchStates(SearchStateCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
+        public SearchResult SearchStates(ISearchCriteria searchCriteria, int pageNo = 1, int pageSize = 50)
         {
-            if (searchCriteria.CanSearch) {
+            //if (searchCriteria.CanSearch) {
                 int total;
                 var filter = GetFilter<State>(searchCriteria);
-                var facetFilter = GetFilter<StateFacet>(searchCriteria as ISearchExpression);
+                var facetFilter = GetFilter<StateFacet>(searchCriteria);
                 var facetSearch = FacetSearch(facetFilter, "StateFacets");
-
-                return new SearchStateResult {
-                    Profiles = SearchStates(filter, pageNo, pageSize, out total),
-                    FacetValues = facetSearch,
-                    SearchCriteria = searchCriteria,
-                    Total = total
-                };
-            }
-            return new SearchStateResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };
+                var profiles = SearchStates(filter, pageNo, pageSize, out total);
+                return new SearchResult { Profiles = profiles, FacetValues = facetSearch, SearchCriteria = searchCriteria, Total = total };
+            //}
+            //return new SearchResult { Profiles = null, FacetValues = null, SearchCriteria = searchCriteria, Total = -1 };
         }
 
-        private static Expression<Func<T, bool>> GetFilter<T>(ISearchExpression searchExpression)
+        private static Expression<Func<T, bool>> GetFilter<T>(ISearchCriteria searchExpression)
         {
             var type = typeof (T);
             var argParam = Expression.Parameter(type, "p");

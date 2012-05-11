@@ -9,6 +9,8 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
+using MS.Katusha.Web.Helpers.Binders;
+using MS.Katusha.Web.Models.Entities;
 using NLog;
 
 namespace MS.Katusha.Web.Helpers
@@ -63,7 +65,11 @@ namespace MS.Katusha.Web.Helpers
 
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
-            //ModelBinders.Binders[typeof(SearchCriteriaModel)] = new SearchCriteriaBinder();
+
+            ModelBinders.Binders[typeof(SearchProfileCriteriaModel)] = new SearchCriteriaBinder();
+            ModelBinders.Binders[typeof(SearchStateCriteriaModel)] = new SearchCriteriaBinder();
+            ModelBinders.Binders[typeof(ProfileModel)] = new ProfileModelBinder();
+            ModelBinders.Binders[typeof(FacebookProfileModel)] = new FacebookProfileModelBinder();
 
 
 #if DEBUG

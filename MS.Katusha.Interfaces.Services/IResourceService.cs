@@ -20,6 +20,7 @@ namespace MS.Katusha.Interfaces.Services
         IDictionary<string, string> GetCountries();
         IDictionary<string, string> GetLanguages();
         IDictionary<string, string> GetCities(string countryCode);
+        bool CountryHasCity(string countryCode, int cityCode);
 
         IDictionary<string, string> GetSearchableCountries(Sex gender);
         IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode);

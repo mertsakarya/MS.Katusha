@@ -4,12 +4,16 @@
 @{
     var profile = ViewBag.KatushaProfile as Profile;
     var searching = "Girls";
-    if(profile != null) {searching = (profile.Gender == (byte) Sex.Male) ? "Girls" : "Men";}
-    var from = Model.From.Count > 0 ? Model.From[0] : "";
-    var searchOnlineProfiles = (!String.IsNullOrWhiteSpace(Request.QueryString["online"]));
-    var searchFormAction = Url.Action(searching + ((searchOnlineProfiles) ? "" : "Online"), "Search");
+    var searchingGender = (byte) Sex.Female;
+    if(profile != null) {
+        searching = (profile.Gender == (byte)Sex.Male) ? "Girls" : "Men";
+        searchingGender = (profile.Gender == (byte) Sex.Male) ? (byte) Sex.Female : (byte) Sex.Male;
+    }
+    var qsOnline = Request.QueryString["online"];
+    var searchOnlineProfiles = (!String.IsNullOrWhiteSpace(qsOnline) && qsOnline.ToLowerInvariant() == "on");
+    var searchFormAction = Url.Action(searching + ((searchOnlineProfiles) ? "Online" : ""), "Search");
 }
-<form id="searchForm" action="@searchFormAction" method="get">
+<form id="searchForm" action="@searchFormAction" method="get" onsubmit="return checkSearchForm();">
     <hr style="clear: both"/>
     <h3 id="whereToSearch">Search @(searching)</h3>
     <h4><input type="checkbox" name="online" id="online" onclick="setSearchAction(this.checked)" @((searchOnlineProfiles) ? "checked" : "") /> Search online profiles</h4>
@@ -19,10 +23,12 @@
                 <div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
             </li>
             <li>
-                <div class="search-editor-label">@Html.LabelFor(model => model.From)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.From[0], "From[0]", "Country", searching, "/Search/GetCountries")</div>
-            </li>
-            <li id="SearchCity">
-                <div class="search-editor-label">@Html.LabelFor(model => Model.City)</div><div class="search-editor-field">@Html.AutoCompleteFor(model => model.City[0], "City[0]", "City", searching, "/Search/GetCities", from, "document.getElementById('From_0_').value")</div>
+                <div class="search-editor-label">
+                    @Html.LabelFor(model => model.Location.CountryName)
+                </div>
+                <div class="search-editor-field">
+                    @CountryCity.Search(Model.Location, "CountryCode", "City", "/Search/GetCities","", searchingGender)
+                </div>
             </li>
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.Height)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Height[0], true)</div>
@@ -34,8 +40,30 @@
 <script type="text/javascript">
     var searchFormAction = '@(searchFormAction)';
     var searching = '@(searching)';
-    function setSearchAction(isOnline) {
-        document.getElementById('searchForm').action = '/Search/' + searching + ((isOnline) ? 'Online' : '');
+    
+    function setSearchAction(isOnline) { document.getElementById('searchForm').action = '/Search/' + searching + ((isOnline) ? 'Online' : ''); }
+
+    function checkSearchForm() {
+        var isOnline = document.getElementById('online').checked;
+        var online = (isOnline) ? "online=on" : "";
+        var age = document.getElementById('Age_0_').options[document.getElementById('Age_0_').selectedIndex].value;
+        var height = document.getElementById('Height_0_').options[document.getElementById('Height_0_').selectedIndex].value;
+        var cityCode = document.getElementById('CityKey').value;
+        var countryCode = document.getElementById('CountryCode').options[document.getElementById('CountryCode').selectedIndex].value;
+
+        var arr = [];
+        if (age && "" + age != "" && "" + age != "0") arr.push("Age=" + encodeURIComponent(age));
+        if (height && "" + height != "" && "" + height != "0") arr.push("Height=" + encodeURIComponent(height));
+        if (cityCode && "" + cityCode != "" && "" + cityCode != "0") arr.push("CityCode=" + encodeURIComponent(cityCode));
+        if (countryCode && "" + countryCode != "") arr.push("CountryCode=" + encodeURIComponent(countryCode));
+        if (arr.length > 0 && online.length > 0) arr.push(online);
+        
+        //if (arr.length > 0) {
+            var action = document.getElementById('searchForm').action;
+            var location = action + '?' + arr.join('&');
+            window.location = location;
+        //} else alert("Please choose something!");
+        return false;
     }
 
     function cf(cityArea, from, city) {
@@ -47,8 +75,7 @@
             } else {
                 ca.style.display = "none";
                 document.getElementById(city).value = '';
-                document.getElementById(city+'Lookup').value = '';
+                document.getElementById(city+'Key').value = '';
             }
     }
-    setInterval("cf('SearchCity', 'From_0_', 'City_0_')", 10);
 </script>

@@ -27,12 +27,24 @@ namespace MS.Katusha.Web.Controllers
 
         }
 
-        public ActionResult Men(int? key, SearchProfileCriteriaModel model) { model.Gender = Sex.Male; return SearchProfile(key, model); }
-        public ActionResult Girls(int? key, SearchProfileCriteriaModel model) { model.Gender = Sex.Female; return SearchProfile(key, model); }
+        public ActionResult Men(int? key, SearchProfileCriteriaModel model)
+        {
+            model.Gender = Sex.Male; return SearchProfile(key, model);
+        }
+        public ActionResult Girls(int? key, SearchProfileCriteriaModel model)
+        {
+            model.Gender = Sex.Female; return SearchProfile(key, model);
+        }
 
-        public ActionResult MenOnline(int? key, SearchStateCriteriaModel model) { model.Gender = Sex.Male; return SearchState(key, model); }
+        public ActionResult MenOnline(int? key, SearchStateCriteriaModel model)
+        {
+            model.Gender = Sex.Male; return SearchState(key, model);
+        }
 
-        public ActionResult GirlsOnline(int? key, SearchStateCriteriaModel model) { model.Gender = Sex.Female; return SearchState(key, model); }
+        public ActionResult GirlsOnline(int? key, SearchStateCriteriaModel model)
+        {
+            model.Gender = Sex.Female; return SearchState(key, model);
+        }
 
         private ActionResult SearchProfile(int? key, SearchProfileCriteriaModel model)
         {

@@ -6,7 +6,6 @@ using System.Web.Security;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Exceptions;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
@@ -160,41 +159,40 @@ namespace MS.Katusha.Web.Controllers
         private IEnumerable<string> GetErrorsFromModelState() { return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage)); }
 
         #region Status Codes
-        private static string ErrorCodeToString(KatushaMembershipCreateStatus createStatus)
+        private string ErrorCodeToString(KatushaMembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
-            var resourceManager = ResourceManager.GetInstance();
             switch (createStatus) {
                 case KatushaMembershipCreateStatus.DuplicateUserName:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.DuplicateEmail:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidPassword:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidEmail:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidAnswer:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidQuestion:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.InvalidUserName:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.ProviderError:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 case KatushaMembershipCreateStatus.UserRejected:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus." + createStatus);
 
                 default:
-                    return resourceManager.ResourceValue("KatushaMembershipCreateStatus.Default");
+                    return ResourceService.ResourceValue("KatushaMembershipCreateStatus.Default");
             }
         }
         #endregion
@@ -220,30 +218,46 @@ namespace MS.Katusha.Web.Controllers
             var client = new Facebook.FacebookClient(accessToken);
             dynamic me = client.Get("/me?access_token=" + accessToken); //, new {fields = "name,id,email,birthday,email,gender,hometown,location,quotes,username,id"});
 
-            var location = "";
+            var facebookLocation = "";
             if (me.location != null && !String.IsNullOrWhiteSpace(me.location.name)){
-                location = me.location.name;
+                facebookLocation = me.location.name;
             } else if (me.hometown != null && !String.IsNullOrWhiteSpace(me.hometown.name)) {
-                location = me.hometown.name;
+                facebookLocation = me.hometown.name;
             }
-            string country = "";
-            string city = "";
-            if (!String.IsNullOrWhiteSpace(location)) {
-                var arr = location.Split(',');
+            var location = new LocationModel() {CityCode = 0, CountryCode = "", CityName = ""};
+            if (!String.IsNullOrWhiteSpace(facebookLocation)) {
+                var arr = facebookLocation.Split(',');
                 if (arr.Length >= 2) {
-                    country = arr[arr.Length - 1].Trim();
+                    location.CountryName = arr[arr.Length - 1].Trim();
                     for (int i = 0; i < arr.Length - 1; i++)
-                        city += arr[i] + ", ";
-                    city = city.Substring(0, city.Length - 2);
+                        location.CityName += arr[i] + ", ";
+                    location.CityName = location.CityName.Substring(0, location.CityName.Length - 2);
                 } else if (arr.Length == 1) {
-                    country = arr[0].Trim();
+                    location.CountryName = arr[0].Trim();
                 }
             }
-            var model = new FacebookProfileModel() { Name = me.name, Description = me.quotes, Gender = (me.gender == "male") ? Sex.Male : Sex.Female, City = city, FacebookId = me.id };
-            var rm = ResourceManager.GetInstance();
-            if(rm.ContainsKey("Country", country)) {
-                model.From = country;
+            var model = new FacebookProfileModel { Name = me.name, Description = me.quotes, Gender = (me.gender == "male") ? Sex.Male : Sex.Female, FacebookId = me.id };
+            var countries = ResourceService.GetCountries();
+            location.CountryName = location.CountryName.ToLowerInvariant();
+            foreach (var item in countries.Where(item => item.Value.ToLowerInvariant() == location.CountryName.ToLowerInvariant())) {
+                location.CountryCode = item.Key;
+                location.CountryName = item.Value;
+                break;
             }
+            if(location.CountryCode == "") location.CountryName = "";
+            if(location.CountryCode != "" && location.CityName != "") {
+                location.CityName = location.CityName.ToLowerInvariant();
+                var cities = ResourceService.GetCities(location.CountryCode);
+                var found = false;
+                foreach (var item in cities.Where(item => item.Value.ToLowerInvariant() == location.CityName)) {
+                    found = true;
+                    location.CityName = item.Value;
+                    location.CityCode = int.Parse(item.Key);
+                    break;
+                }
+                if(!found) location.CityName = "";
+            }
+            model.Location = location;
             return ContextDependentView(model, "Facebook");
         }
 
@@ -285,7 +299,7 @@ namespace MS.Katusha.Web.Controllers
                 ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }
             var errors = GetErrorsFromModelState();
-            return Json(new { errors = errors });
+            return Json(new { errors });
         }
 
     }

@@ -169,7 +169,6 @@ namespace MS.Katusha.Infrastructure
                         var i = text.IndexOf("]", StringComparison.Ordinal);
                         if (i > 2) {
                             if (!Enum.TryParse(text.Substring(1, i - 1), true, out mode)) mode = Section.None;
-
                         }
                     } else if (firstChar != '*' && firstChar != '!' && firstChar != '#' && mode != Section.None) {
                         var arr = text.Split('\t');
@@ -253,14 +252,9 @@ namespace MS.Katusha.Infrastructure
             var counter = 0;
 
             try {
+                long population;
                 foreach (var row in rows) {
-                    if (tableName == "GeoNames") {
-                        long population;
-                        if(long.TryParse(row[14], out population)) {
-                            if(population > 2000000) 
-                                continue;
-                        }
-                    }
+                    if (tableName == "GeoNames" && long.TryParse(row[14], out population) && population < 1000000) continue;
                     sb.AppendLine(String.Format(command, row));
                     counter++;
                     if (counter == 100) {

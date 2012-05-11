@@ -232,7 +232,9 @@
     <Compile Include="Content\CityIndex.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
+    <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
     <Compile Include="Helpers\Converters\ProfileStateTypeConverter.cs" />
+    <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
     <Compile Include="Helpers\LookupListProcessor.cs" />
     <Compile Include="Controllers\UtilitiesController.cs" />
     <Compile Include="Controllers\MailController.cs" />
@@ -251,7 +253,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\SearchCriteriaBinder.cs" />
+    <Compile Include="Helpers\Binders\SearchCriteriaBinder.cs" />
     <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Helpers\Converters\SearchingForFormatter.cs" />
     <Compile Include="Models\AccountModels.cs" />

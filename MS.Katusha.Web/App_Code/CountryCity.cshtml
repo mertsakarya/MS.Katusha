@@ -1,19 +1,64 @@
 ﻿@using System.Web.Mvc
+@using MS.Katusha.Domain.Entities
 @using MS.Katusha.Enumerations
 @using MS.Katusha.Interfaces.Services
 @using MS.Katusha.Web.Models.Entities
 
-@helper EditOrCreate(LocationModel location, string countryName, string cityName, string urlToCall, string onSelect="", bool selectExistingCountries = false, byte gender=0) {
+@helper EditOrCreate(LocationModel location, string countryName, string cityName, string urlToCall) {
     var countryId = countryName.Replace('[', '_').Replace(']', '_');
     var cityId = cityName.Replace('[', '_').Replace(']', '_');
     var resourceManager = DependencyResolver.Current.GetService<IResourceService>();
-    var countries = (!selectExistingCountries) ? resourceManager.GetCountries() : resourceManager.GetSearchableCountries((gender == (byte)Sex.Male) ? Sex.Female : Sex.Male);
-    var searchingFor = ((gender == (byte) Sex.Male) ? "Men" : (((gender == (byte) Sex.Female)) ? "Girls" : ""));
-    <select id="@(countryId)" name="@(countryId)">
+    var countries = resourceManager.GetCountries();
+    <select id="@(countryId)" name="@(countryId)" onchange="$('input#@(cityId)Key')[0].value=''; $('input#@(cityId)')[0].value='';">
         @foreach(var item in countries) {
             <option value="@(item.Key)" @((item.Key == location.CountryCode) ? "selected" : "")>@(item.Value)</option>
         }
     </select>
+    <input type="text" id="@(cityId)" name="@(cityId)" value="@(location.CityName)" @((String.IsNullOrWhiteSpace(location.CountryCode)) ? "style=\"display:none;\"": "")/>
+    <input type="hidden" id="@(cityId)Key" name="@(cityId)Key" value="@(location.CityCode)" />
+    <script type="text/javascript">
+        $(function() {
+            $('input#@(cityId)').autocomplete({
+                select: function(event, ui) {
+                    $('input#@(cityId)Key')[0].value = ui.item.key;  
+                    $('input#@(cityId)')[0].value = ui.item.value;  
+                },
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@(urlToCall)',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                             query: request.term,
+                             countryCode: document.getElementById('@(countryId)').options[document.getElementById('@(countryId)').selectedIndex].value
+                        },
+                        success: function (data) {
+                            response($.map(data, function(item) {
+                                return { label: item.Value, value: item.Value, key: item.Key };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2 // require at least one character from the user
+            });
+        });
+        setInterval("cf('@(cityId)', '@(countryId)', '@(cityId)')", 10);
+    </script>
+}
+
+@helper Search(LocationModel location, string countryName, string cityName, string urlToCall, string onSelect="", byte gender=0) {
+    var countryId = countryName.Replace('[', '_').Replace(']', '_');
+    var cityId = cityName.Replace('[', '_').Replace(']', '_');
+    var resourceManager = DependencyResolver.Current.GetService<IResourceService>();
+    var countries = resourceManager.GetSearchableCountries((gender == (byte)Sex.Male) ? Sex.Female : Sex.Male);
+    var searchingFor = ((gender == (byte) Sex.Male) ? "Men" : (((gender == (byte) Sex.Female)) ? "Girls" : ""));
+    <select id="@(countryId)" name="@(countryId)" onchange="$('input#@(cityId)Key')[0].value=''; $('input#@(cityId)')[0].value='';">
+        <option value=""></option>
+        @foreach(var item in countries) {
+            <option value="@(item.Key)" @((item.Key == location.CountryCode) ? "selected" : "")>@(item.Value)</option>
+        }
+    </select>
+    <br/>
     <input type="text" id="@(cityId)" name="@(cityId)" value="@(location.CityName)" @((String.IsNullOrWhiteSpace(location.CountryCode)) ? "style=\"display:none;\"": "")/>
     <input type="hidden" id="@(cityId)Key" name="@(cityId)Key" value="@(location.CityCode)" />
     <script type="text/javascript">
@@ -44,10 +89,7 @@
                 minLength: 2 // require at least one character from the user
             });
         });
-        setInterval(function() {
-            var fl=document.getElementById('@(cityId)'); 
-            if(fl != null && fl.value.length==0) document.getElementById('@(cityId)').value = ''; 
-        }, 7);
         setInterval("cf('@(cityId)', '@(countryId)', '@(cityId)')", 10);
     </script>
 }
+

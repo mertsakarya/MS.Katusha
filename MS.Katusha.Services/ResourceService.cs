@@ -27,6 +27,8 @@ namespace MS.Katusha.Services
         public string GetLookupText(string lookupName, string key, string countryCode = "") { return _resourceManager.GetLookupText(lookupName, key, countryCode); }
         public string GetLookupEnumKey(string lookupName, byte value, string language = "") { return _resourceManager.GetLookupEnumKey(lookupName, value, language); }
         public bool ContainsKey(string lookupName, string key, string countryCode = "") { return _resourceManager.ContainsKey(lookupName, key, countryCode); }
+        public bool CountryHasCity(string countryCode, int cityCode) { return _resourceManager.CountryHasCity(countryCode, cityCode); }
+
         public IDictionary<string, string> GetCountries() { return _resourceManager.GetCountries(); }
         public IDictionary<string, string> GetLanguages() { return _resourceManager.GetLanguages(); }
         public IDictionary<string, string> GetCities(string countryCode) { return _resourceManager.GetCities(countryCode); }

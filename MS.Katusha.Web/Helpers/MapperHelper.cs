@@ -53,11 +53,11 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<SearchProfileCriteria, SearchProfileCriteriaModel>();
             Mapper.CreateMap<SearchProfileCriteriaModel, SearchProfileCriteria>();
 
-            Mapper.CreateMap<SearchStateResult, SearchStateResultModel>();
-            Mapper.CreateMap<SearchStateResultModel, SearchStateResult>();
+            Mapper.CreateMap<SearchResult, SearchStateResultModel>();
+            Mapper.CreateMap<SearchStateResultModel, SearchResult>();
 
-            Mapper.CreateMap<SearchProfileResult, SearchProfileResultModel>();
-            Mapper.CreateMap<SearchProfileResultModel, SearchProfileResult>();
+            Mapper.CreateMap<SearchResult, SearchProfileResultModel>();
+            Mapper.CreateMap<SearchProfileResultModel, SearchResult>();
 
             Mapper.CreateMap<Visit, VisitModel>();
             Mapper.CreateMap<VisitModel, Visit>();

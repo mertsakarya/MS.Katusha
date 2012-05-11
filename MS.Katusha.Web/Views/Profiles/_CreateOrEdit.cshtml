@@ -22,10 +22,9 @@
     @Html.LabelFor(model => model.Location.CountryName)
 </div>
 <div class="editor-field">
-    @CountryCity.EditOrCreate(Model.Location, "From", "City", "/Search/GetCities")
+    @CountryCity.EditOrCreate(Model.Location, "Country", "City", "/Search/GetCities")
     @Html.ValidationMessageFor(model => model.Location.CountryName)
 </div>
-
 
 <div class="editor-label">
     @Html.LabelFor(model => model.Height)

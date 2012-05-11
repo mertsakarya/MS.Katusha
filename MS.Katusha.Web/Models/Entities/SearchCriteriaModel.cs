@@ -12,26 +12,21 @@ namespace MS.Katusha.Web.Models.Entities
         protected BaseSearchCriteriaModel()
         {
             BodyBuild = new List<BodyBuild>();
-            City = new List<string>();
-            Country = new List<string>();
+            CountryToGo = new List<string>();
             EyeColor = new List<EyeColor>();
             HairColor = new List<HairColor>();
             Height = new List<Height>();
             Age = new List<Age>();
             Language = new List<string>();
             LookingFor = new List<LookingFor>();
-            From = new List<string>();
+            Location = new LocationModel();
         }
 
         public Sex Gender { get; set; }
         
         [KatushaField("Profile.From")]
-        public IList<string> From { get; set; }
+        public LocationModel Location { get; set; }
         
-        [KatushaStringLength("Profile.City")]
-        [KatushaField("Profile.City")]
-        public IList<string> City { get; set; }
-
         [KatushaField("Profile.BodyBuild")]
         public IList<BodyBuild> BodyBuild { get; set; }
 
@@ -50,22 +45,21 @@ namespace MS.Katusha.Web.Models.Entities
         [KatushaField("Profile.Searches")]
         public IList<LookingFor> LookingFor { get; set; }
         [KatushaField("Profile.CountriesToVisit")]
-        public IList<string> Country { get; set; }
+        public IList<string> CountryToGo { get; set; }
         [KatushaField("Profile.LanguagesSpoken")]
         public IList<string> Language { get; set; }
 
         public virtual HashSet<string> GetSelectedFieldsList()
         {
             var hs = new HashSet<string>();
-            if (City.Count > 0 && City.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("City");
-            if (From.Count > 0 && From.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("From");
+            if (!String.IsNullOrEmpty(Location.CountryCode)) hs.Add("Location");
             if (BodyBuild.Count > 0 && BodyBuild.Any(p => p > 0)) hs.Add("BodyBuild");
             if (EyeColor.Count > 0 && EyeColor.Any(p => p > 0)) hs.Add("EyeColor");
             if (HairColor.Count > 0 && HairColor.Any(p => p > 0)) hs.Add("HairColor");
             if (Height.Count > 0 && Height.Any(p => p > 0)) hs.Add("Height");
             if (Age.Count > 0 && Age.Any(p => p > 0)) { hs.Add("Age"); hs.Add("BirthYear"); }
             if (LookingFor.Count > 0 && LookingFor.Any(p => p > 0)) hs.Add("LookingFor");
-            if (Country.Count > 0 && Country.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("Country");
+            if (CountryToGo.Count > 0 && CountryToGo.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("Country");
             if (Language.Count > 0 && Language.Any(p => !String.IsNullOrWhiteSpace(p))) hs.Add("Language");
             return hs;
         }
@@ -126,15 +120,6 @@ namespace MS.Katusha.Web.Models.Entities
 
     public class SearchStateCriteriaModel : BaseSearchCriteriaModel
     {
-        public SearchStateCriteriaModel() : base() { 
-        }
-
-
-        public new HashSet<string> GetSelectedFieldsList()
-        {
-            var hs = base.GetSelectedFieldsList();
-            return hs;
-        }
     }
 
 }

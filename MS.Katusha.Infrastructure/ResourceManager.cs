@@ -329,5 +329,6 @@ namespace MS.Katusha.Infrastructure
 
         private static ResourceManager _instance = null;
         public static ResourceManager GetInstance() { return _instance ?? (_instance = new ResourceManager()); }
+        public bool CountryHasCity(string countryCode, int cityCode) { return Location.GetCities(countryCode).ContainsKey(cityCode.ToString(CultureInfo.InvariantCulture)); }
     }
 }
