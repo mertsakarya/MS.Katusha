@@ -77,7 +77,7 @@ namespace MS.Katusha.Web
             if (store != null) {
                 Glimpse.RavenDb.Profiler.AttachTo(store);
                 Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
-                Application["MyDocStore"] = store;
+                Application["MyDocStore"] = store; 
             }
 
         }
