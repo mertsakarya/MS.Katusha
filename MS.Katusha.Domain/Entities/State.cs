@@ -9,8 +9,7 @@ namespace MS.Katusha.Domain.Entities
         public byte Gender { get; set; }
         public DateTime LastOnline { get; set; }
 
-
-        public int Birthyear { get; set; }
+        public int BirthYear { get; set; }
         public int Height { get; set; }
         public string CountryCode { get; set; }
         public int CityCode { get; set; }

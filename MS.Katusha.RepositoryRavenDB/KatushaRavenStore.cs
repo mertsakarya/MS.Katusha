@@ -67,38 +67,39 @@ namespace MS.Katusha.Repositories.RavenDB
         private void CreateFacets()
         {
             using (var session = OpenSession()) {
+
                 session.Store(new FacetSetup {
                     Id = "facets/ProfileFacets",
                     Facets = new List<Facet> {
-                                                                              new Facet {Name = "CountryCode"},
-                                                                              new Facet {Name = "CityCode"},
-                                                                              new Facet {Name = "Gender"},
-                                                                              new Facet {Name = "BodyBuild"},
-                                                                              new Facet {Name = "HairColor"},
-                                                                              new Facet {Name = "EyeColor"},
-                                                                              new Facet {Name = "Smokes"},
-                                                                              new Facet {Name = "Alcohol"},
-                                                                              new Facet {Name = "Religion"},
-                                                                              new Facet {Name = "DickSize"},
-                                                                              new Facet {Name = "DickThickness"},
-                                                                              new Facet {Name = "BreastSize"},
-                                                                              new Facet {Name = "BirthYear", Mode = FacetMode.Ranges, Ranges = AgeHelper.Ranges,},
-                                                                              new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges}
-                                                                          }
+                        new Facet {Name = "CountryCode"},
+                        new Facet {Name = "CityCode"},
+                        new Facet {Name = "Gender"},
+                        new Facet {Name = "BodyBuild"},
+                        new Facet {Name = "HairColor"},
+                        new Facet {Name = "EyeColor"},
+                        new Facet {Name = "Smokes"},
+                        new Facet {Name = "Alcohol"},
+                        new Facet {Name = "Religion"},
+                        new Facet {Name = "DickSize"},
+                        new Facet {Name = "DickThickness"},
+                        new Facet {Name = "BreastSize"},
+                        new Facet {Name = "BirthYear", Mode = FacetMode.Ranges, Ranges = AgeHelper.Ranges,},
+                        new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges}
+                    }
                 });
+
                 session.Store(new FacetSetup {
                     Id = "facets/StateFacets",
                     Facets = new List<Facet> {
-                                                                              new Facet {Name = "CountryCode"},
-                                                                              new Facet {Name = "CityCode"},
-                                                                              new Facet {Name = "Gender"},
-                                                                              new Facet {Name = "BodyBuild"},
-                                                                              new Facet {Name = "HairColor"},
-                                                                              new Facet {Name = "EyeColor"},
-                                                                              new Facet {Name = "HasPhoto"},
-                                                                              new Facet {Name = "BirthYear", Mode = FacetMode.Ranges, Ranges = AgeHelper.Ranges,},
-                                                                              new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges}
-                                                                          }
+                        new Facet {Name = "CountryCode"},
+                        new Facet {Name = "CityCode"},
+                        new Facet {Name = "Gender"},
+                        new Facet {Name = "BodyBuild"},
+                        new Facet {Name = "HairColor"},
+                        new Facet {Name = "EyeColor"},
+                        new Facet {Name = "BirthYear", Mode = FacetMode.Ranges, Ranges = AgeHelper.Ranges,},
+                        new Facet {Name = "Height", Mode = FacetMode.Ranges, Ranges = HeightHelper.Ranges}
+                    }
                 });
                 session.SaveChanges();
             }

@@ -14,7 +14,7 @@ namespace MS.Katusha.Web.Helpers.Converters
             var data = context.SourceValue as Domain.Entities.Profile;
             if (data == null) throw new ArgumentNullException();
             var model = new State {
-                Birthyear = data.BirthYear, BodyBuild = data.BodyBuild, CityCode = data.Location.CityCode, EyeColor = data.EyeColor, CountryCode = data.Location.CountryCode, HairColor = data.HairColor, Height = data.Height,
+                BirthYear = data.BirthYear, BodyBuild = data.BodyBuild, CityCode = data.Location.CityCode, EyeColor = data.EyeColor, CountryCode = data.Location.CountryCode, HairColor = data.HairColor, Height = data.Height,
                 Gender = data.Gender, ProfileId = data.Id, Id = data.Id, LastOnline = DateTime.Now, HasPhoto = (data.Photos.Count > 0)
             };
 
