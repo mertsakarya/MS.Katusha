@@ -6,7 +6,9 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Jobs;
+using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Web.Helpers;
+using Raven.Client.Document;
 using DependencyHelper = MS.Katusha.Web.Helpers.DependencyHelper;
 
 namespace MS.Katusha.Web
@@ -70,6 +72,13 @@ namespace MS.Katusha.Web
             //Bundle productionScripts = new Bundle("~/ProductionScripts", new NoTransform("text/javascript"));
             //productionScripts.AddDirectory("~/Scripts/Minified", "*.js");
             //BundleTable.Bundles.Add(productionScripts);
+
+            var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
+            if (store != null) {
+                Glimpse.RavenDb.Profiler.AttachTo(store);
+                Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
+                Application["MyDocStore"] = store;
+            }
 
         }
 
