@@ -24,6 +24,3 @@
         @Html.PagedListPager(model, page => Url.Action(action, new { key = page }) + "?" + Request.QueryString.ToString(), PagedListRenderOptions.OnlyShowFivePagesAtATime)
     }
 }
-<div>
-    @Html.ActionLink("Back to List", action)
-</div>

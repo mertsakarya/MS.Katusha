@@ -38,7 +38,3 @@
     <hr style="clear: both"/>
     @Html.PagedListPager(Model.List, key => Url.Action(action, new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 }
-
-<div>
-    @Html.ActionLink("Back to List", action)
-</div>
