@@ -12,7 +12,7 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
         public StateFacetsIndex()
         {
             Map = states => from p in states
-                              select new StateFacet {
+                              select new {
                                   CountryCode = p.CountryCode, CityCode = p.CityCode, Gender = p.Gender, BodyBuild = p.BodyBuild, HairColor = p.HairColor, EyeColor = p.EyeColor, Height = p.Height
                               };
         }
