@@ -10,5 +10,17 @@ namespace MS.Katusha.Repositories.DB
         public ProfileRepositoryDB(IKatushaDbContext dbContext) : base(dbContext)
         {
         }
+
+        public new Profile Add(Profile profile)
+        {
+            foreach (var item in profile.LanguagesSpoken)
+                item.PrepareForAdd();
+            foreach (var item in profile.Searches)
+                item.PrepareForAdd();
+            foreach (var item in profile.CountriesToVisit)
+                item.PrepareForAdd();
+            return base.Add(profile);
+        }
+
     }
 }

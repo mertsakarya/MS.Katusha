@@ -24,6 +24,15 @@
             var link = '<a href="' + action + '" title="' + title + '">' + text + '</a>';
             $('#newVisits').html(link).show("slow");
         }
+        function countryChanged(val, cityId) {
+            $('input#'+cityId+'Key')[0].value=''; 
+            $('input#'+cityId)[0].value=''; 
+            if(val != '') 
+                $('input#'+cityId).show('highlight'); 
+            else 
+                $('input#'+cityId).hide();
+        }
+
         @if(profile != null) {<text>
             function ping() {
                 $.ajax({url: '@Url.Action("Ping","Profiles")', success: function (data) { 

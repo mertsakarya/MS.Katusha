@@ -138,10 +138,9 @@ namespace MS.Katusha.Web.Controllers
                 if (!ModelState.IsValid) return View(model);
 
                 _profileService.CreateProfile(profile);
-                ValidateProfileCollections(model, profile);
-                //TODO: This is error prone. 
-                KatushaProfile = _profileService.GetProfileDB(profile.Id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.Photos);
-                ValidateProfileCollections(model, KatushaProfile);
+                //ValidateProfileCollections(model, profile);                
+                KatushaProfile = profile; // _profileService.GetProfileDB(profile.Id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches);
+                //ValidateProfileCollections(model, KatushaProfile);
                 if (!ModelState.IsValid) return View(key, model);
                 return RedirectToAction("Show", new { key = (String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName });
             } catch (KatushaFriendlyNameExistsException) {
@@ -149,8 +148,9 @@ namespace MS.Katusha.Web.Controllers
                 return View(model);
             } catch (KatushaException) {
                 throw;
-            } catch {
-                return View();
+            } catch (Exception ex) {
+                ModelState.AddModelError("Model", ex);
+                return View(model);
             }
         }
 

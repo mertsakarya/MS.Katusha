@@ -13,5 +13,30 @@ namespace MS.Katusha.Domain.Entities.BaseEntities
         {
             return base.ToString() + String.Format(" | ModifiedDate: {0} | CreationsDate: {1}", ModifiedDate, CreationDate);
         }
+
+        public void PrepareForAdd()
+        {
+            ModifiedDate = DateTime.Now;
+            CreationDate = ModifiedDate;
+            DeletionDate = new DateTime(1900, 1, 1);
+            Deleted = false;
+        }
+
+        public void PrepareForUpdate()
+        {
+            ModifiedDate = DateTime.Now;
+            CreationDate = ModifiedDate;
+            DeletionDate = new DateTime(1900, 1, 1);
+            Deleted = false;
+        }
+
+        public void PrepareForSoftDelete()
+        {
+            ModifiedDate = DateTime.Now;
+            DeletionDate = ModifiedDate;
+            Deleted = true;
+        }
+
+
     }
 }

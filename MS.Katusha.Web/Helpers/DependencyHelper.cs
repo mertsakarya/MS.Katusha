@@ -26,7 +26,7 @@ namespace MS.Katusha.Web.Helpers
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().InstancePerHttpRequest();
+            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
 
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();

@@ -27,7 +27,7 @@
                     @Html.LabelFor(model => model.Location.CountryName)
                 </div>
                 <div class="search-editor-field">
-                    @CountryCity.Search(Model.Location, "CountryCode", "City", "/Search/GetCities","", searchingGender)
+                    @CountryCity.Search(Model.Location, "SearchCountry", "SearchCity", "/Search/GetCities","", searchingGender)
                 </div>
             </li>
             <li>

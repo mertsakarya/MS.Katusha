@@ -92,7 +92,8 @@ namespace MS.Katusha.Web.Controllers
         {
             if (String.IsNullOrWhiteSpace(query)) return Json(new List<KeyValuePair<string, string>>(), JsonRequestBehavior.AllowGet);
             IDictionary<string, string> coll;
-            switch (searching.ToLowerInvariant()) {
+            searching = String.IsNullOrWhiteSpace(searching) ? "" : searching.ToLowerInvariant();
+            switch (searching) {
                 case "girls":
                     coll = ResourceService.GetSearchableCities(Sex.Female, countryCode);
                     break;
