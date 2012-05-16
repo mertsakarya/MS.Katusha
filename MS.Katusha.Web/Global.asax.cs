@@ -30,7 +30,6 @@ namespace MS.Katusha.Web
             routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new {action = "MakeProfilePhoto"});
             routes.MapRoute("Download", "{controller}/Download/{key}/{size}", new {action = "Download"});
 
-
             routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{key}",
@@ -48,11 +47,8 @@ namespace MS.Katusha.Web
         {
 
 
-            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Pooling=False");
             Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
             Database.SetInitializer(new KatushaContextInitializer());
-
-            //RavenHelper.RegisterRaven();
 
             ModelMetadataProviders.Current = new KatushaMetadataProvider();
             DependencyHelper.RegisterDependencies();
@@ -73,13 +69,14 @@ namespace MS.Katusha.Web
             //productionScripts.AddDirectory("~/Scripts/Minified", "*.js");
             //BundleTable.Bundles.Add(productionScripts);
 
+
+
             var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
             if (store != null) {
                 Glimpse.RavenDb.Profiler.AttachTo(store);
                 Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
                 Application["MyDocStore"] = store; 
             }
-
         }
 
    }

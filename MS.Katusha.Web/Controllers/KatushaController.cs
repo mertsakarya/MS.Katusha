@@ -55,20 +55,17 @@ namespace MS.Katusha.Web.Controllers
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
-                int total;
-                IEnumerable<Profile> newProfiles = null;
-                if (KatushaProfile != null)
-                    newProfiles = KatushaProfile.Gender == (byte)Sex.Male
-                        ? ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, 1, ProfileCount)
-                        : ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, 1, ProfileCount);
-                if(newProfiles != null)
+                if (KatushaProfile != null) {
+                    int total;
+                    var oppositeGender = (byte)((KatushaProfile.Gender == (byte)Sex.Female) ? Sex.Male : Sex.Female);
+                    var newProfiles = ProfileService.GetNewProfiles(p => p.Gender == oppositeGender, out total, 1, ProfileCount);
                     ViewBag.KatushaNewProfiles = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
-
-                var onlineStates = StateService.OnlineProfiles(KatushaUser.Gender, out total, 1, ProfileCount).ToList();
-                var onlineProfiles = new List<Profile>();
-                onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
-                if(onlineProfiles.Count > 0)
-                    ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
+                    var onlineProfiles = new List<Profile>();
+                    var onlineStates = StateService.OnlineProfiles(oppositeGender, out total, 1, ProfileCount).ToList();
+                    onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
+                    if (onlineProfiles.Count > 0)
+                        ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
+                }
             }
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;

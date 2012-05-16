@@ -13,12 +13,74 @@
     var searchOnlineProfiles = (!String.IsNullOrWhiteSpace(qsOnline) && qsOnline.ToLowerInvariant() == "on");
     var searchFormAction = Url.Action(searching + ((searchOnlineProfiles) ? "Online" : ""), "Search");
 }
+<script type="text/javascript">
+    var searchFormAction = '@(searchFormAction)';
+    var searching = '@(searching)';
+
+    function setSearchAction() {
+        var isOnline = document.getElementById('online').checked;
+        document.getElementById('searchForm').action = '/Search/' + searching + ((isOnline) ? 'Online' : '');
+    }
+
+    function checkSearchForm() {
+        var isOnline = document.getElementById('online').checked;
+        var online = (isOnline) ? "online=on" : "";
+        var age = document.getElementById('Age_0_').options[document.getElementById('Age_0_').selectedIndex].value;
+        var height = document.getElementById('Height_0_').options[document.getElementById('Height_0_').selectedIndex].value;
+        var cityCode = document.getElementById('SearchCityKey').value;
+        var countryCode = document.getElementById('SearchCountry').options[document.getElementById('SearchCountry').selectedIndex].value;
+
+        var arr = [];
+        if (age && "" + age != "" && "" + age != "0") arr.push("Age=" + encodeURIComponent(age));
+        if (height && "" + height != "" && "" + height != "0") arr.push("Height=" + encodeURIComponent(height));
+        if (cityCode && "" + cityCode != "" && "" + cityCode != "0") arr.push("CityCode=" + encodeURIComponent(cityCode));
+        if (countryCode && "" + countryCode != "") arr.push("CountryCode=" + encodeURIComponent(countryCode));
+        if (arr.length > 0 && online.length > 0) arr.push(online);
+
+        //if (arr.length > 0) {
+        setSearchAction();
+        var action = document.getElementById('searchForm').action;
+        var location = action + '?' + arr.join('&');
+        window.location = location;
+        //} else alert("Please choose something!");
+        return false;
+    }
+
+    function cf(cityArea, from, city) {
+        var ca = document.getElementById(cityArea);
+        var f = document.getElementById(from);
+        if (ca != null)
+            if (f != null && f.value.length > 0) {
+                ca.style.display = '';
+            } else {
+                ca.style.display = "none";
+                document.getElementById(city).value = '';
+                document.getElementById(city + 'Key').value = '';
+            }
+    }
+</script>
+
 <form id="searchForm" action="@searchFormAction" method="get" onsubmit="return checkSearchForm();">
     <hr style="clear: both"/>
     <h3 id="whereToSearch">Search @(searching)</h3>
-    <h4><input type="checkbox" name="online" id="online" onclick="setSearchAction(this.checked)" @((searchOnlineProfiles) ? "checked" : "") /> Search online profiles</h4>
+    <h4><input type="checkbox" name="online" id="online" onclick="setSearchAction()" @((searchOnlineProfiles) ? "checked" : "") /> Search online profiles</h4>
     <fieldset>
         <ol>
+            @if (ViewBag.KatushaProfile == null) {
+                var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLowerInvariant();
+                var actionName = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant();
+                if (controllerName == "search" && actionName.IndexOf("men", System.StringComparison.Ordinal) >= 0) {
+                    searching = "Men";
+                }
+                <li>
+                    <div class="search-editor-label">Search for</div>
+                </li>
+                <li>
+                    <div class="search-editor-field">
+                        <select id="SearchGender" name="SearchGender" onchange="searching=this.options[this.selectedIndex].value;"><option>Girls</option><option @(searching == "Men" ? "selected" : "")>Men</option></select>
+                    </div>
+                </li>
+            }
             <li>
                 <div class="search-editor-label">@Html.LabelFor(model => model.Age)</div><div class="search-editor-field">@Html.EnumDropDownListFor(model => Model.Age[0], true)</div>
             </li>
@@ -37,45 +99,3 @@
         <p><input type="submit" value="Search" /></p>
     </fieldset>
 </form>
-<script type="text/javascript">
-    var searchFormAction = '@(searchFormAction)';
-    var searching = '@(searching)';
-    
-    function setSearchAction(isOnline) { document.getElementById('searchForm').action = '/Search/' + searching + ((isOnline) ? 'Online' : ''); }
-
-    function checkSearchForm() {
-        var isOnline = document.getElementById('online').checked;
-        var online = (isOnline) ? "online=on" : "";
-        var age = document.getElementById('Age_0_').options[document.getElementById('Age_0_').selectedIndex].value;
-        var height = document.getElementById('Height_0_').options[document.getElementById('Height_0_').selectedIndex].value;
-        var cityCode = document.getElementById('CityKey').value;
-        var countryCode = document.getElementById('CountryCode').options[document.getElementById('CountryCode').selectedIndex].value;
-
-        var arr = [];
-        if (age && "" + age != "" && "" + age != "0") arr.push("Age=" + encodeURIComponent(age));
-        if (height && "" + height != "" && "" + height != "0") arr.push("Height=" + encodeURIComponent(height));
-        if (cityCode && "" + cityCode != "" && "" + cityCode != "0") arr.push("CityCode=" + encodeURIComponent(cityCode));
-        if (countryCode && "" + countryCode != "") arr.push("CountryCode=" + encodeURIComponent(countryCode));
-        if (arr.length > 0 && online.length > 0) arr.push(online);
-        
-        //if (arr.length > 0) {
-            var action = document.getElementById('searchForm').action;
-            var location = action + '?' + arr.join('&');
-            window.location = location;
-        //} else alert("Please choose something!");
-        return false;
-    }
-
-    function cf(cityArea, from, city) {
-        var ca = document.getElementById(cityArea);
-        var f = document.getElementById(from);
-        if (ca != null)
-            if (f != null && f.value.length > 0) {
-                ca.style.display = '';
-            } else {
-                ca.style.display = "none";
-                document.getElementById(city).value = '';
-                document.getElementById(city+'Key').value = '';
-            }
-    }
-</script>

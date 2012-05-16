@@ -10,6 +10,7 @@ using NLog;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Linq;
+using Raven.Json.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB.Base
 {
@@ -105,24 +106,44 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 
         private T AddRavenDB(T entity)
         {
-            using (var session = DocumentStore.OpenSession())
-            {
+            using (var session = DocumentStore.OpenSession()) {
                 session.Store(entity);
                 session.SaveChanges();
                 return entity;
             }
         }
 
+        private T AddRavenDB(T entity, DateTime expireTimeUtc)
+        {
+            using (var session = DocumentStore.OpenSession()) {
+                session.Advanced.GetMetadataFor(entity)["Raven-Expiration-Date"] = new RavenJValue(expireTimeUtc); 
+                session.Store(entity);
+                session.SaveChanges();
+                return entity;
+            }
+        }
+
+        public T Add(T entity, DateTime expireTimeUtc)
+        {
+            SetBaseDefaults(entity);
+            return AddRavenDB(entity, expireTimeUtc);
+        }
+
         public T Add(T entity)
         {
+            SetBaseDefaults(entity);
+            return AddRavenDB(entity);
+        }
+
+        private static void SetBaseDefaults(T entity)
+        {
 #if DEBUG
-            logger.Info(String.Format("Add<{0}>({1})", typeof(T).Name, entity));
+            logger.Info(String.Format("Add<{0}>({1})", typeof (T).Name, entity));
 #endif
             entity.ModifiedDate = DateTime.Now;
             entity.CreationDate = entity.ModifiedDate;
             entity.DeletionDate = new DateTime(1900, 1, 1);
             entity.Deleted = false;
-            return AddRavenDB(entity);
         }
 
         public T FullUpdate(T entity)
@@ -166,7 +187,8 @@ namespace MS.Katusha.Repositories.RavenDB.Base
 #if DEBUG
             logger.Info(String.Format("Patch<{0}>({1})", typeof(T).Name, id));
 #endif
-            DocumentStore.DatabaseCommands.Patch(id.ToString(), patchRequests);
+            DocumentStore.DatabaseCommands.Patch(id.ToString(CultureInfo.InvariantCulture), patchRequests);
         }
+
     }
 }

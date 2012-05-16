@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
 
@@ -12,9 +11,7 @@ namespace MS.Katusha.Interfaces.Repositories
         IList<T> GetAll(out int total);
         IList<T> GetAll(out int total, int pageNo, int pageSize);
 
-        //IEnumerable<T> Query      (Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams);
         IList<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams);
-        //IEnumerable<T> Query      (Expression<Func<T, bool>> filter, int pageNo, int pageSize, params Expression<Func<T, object>>[] includeExpressionParams);
         IList<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams);
 
         T Single(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeExpressionParams);

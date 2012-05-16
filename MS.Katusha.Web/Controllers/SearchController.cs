@@ -56,11 +56,11 @@ namespace MS.Katusha.Web.Controllers
                 var profilesModel = Mapper.Map<IList<ProfileModel>>(profiles);
                 var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, PageSize, searchResult.Total);
                 var searchResultModel = new SearchProfileResultModel {
-                                                                  FacetValues = searchResult.FacetValues,
-                                                                  SearchCriteria = Mapper.Map<SearchProfileCriteriaModel>(searchResult.SearchCriteria),
-                                                                  Total = searchResult.Total,
-                                                                  Profiles = profilesAsIPagedList
-                                                              };
+                    FacetValues = searchResult.FacetValues,
+                    SearchCriteria = Mapper.Map<SearchProfileCriteriaModel>(searchResult.SearchCriteria),
+                    Total = searchResult.Total,
+                    Profiles = profilesAsIPagedList
+                };
                 ViewBag.KatushaSearchResult = searchResultModel;
                 return View("Search", searchResultModel);
             }
