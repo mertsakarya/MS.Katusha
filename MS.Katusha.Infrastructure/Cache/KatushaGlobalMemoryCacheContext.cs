@@ -57,19 +57,5 @@ namespace MS.Katusha.Infrastructure.Cache
                 ListLock.ExitWriteLock();
             }
         }
-
-        public bool Contains(string key) { return ContainsKey(key); }
-        
-        public int Count(Expression<Func<CacheObject, bool>> expression)
-        {
-            ListLock.EnterReadLock();
-            try {
-                return Dictionary.Count;
-            } finally {
-                ListLock.ExitWriteLock();
-            }
-        }
-
-        public IList<CacheObject> Get(Expression<Func<CacheObject, bool>> expression) { throw new NotImplementedException(); }
     }
 }

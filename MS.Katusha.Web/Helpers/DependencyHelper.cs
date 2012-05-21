@@ -1,3 +1,5 @@
+using System;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -6,6 +8,7 @@ using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Redis;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
@@ -42,9 +45,23 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
             builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
+            var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
+            if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
+                switch(cacheProviderText.ToLowerInvariant()) {
+                    case "redis":
+                        builder.RegisterType<KatushaGlobalRedisCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        break;
+                    case "ravendb":
+                        builder.RegisterType<KatushaGlobalRavenCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        break;
+                    default:
+                        builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        break;
+                }
 
-            builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
-            //builder.RegisterType<KatushaRavenCacheContext>().As<IKatushaCacheContext>().InstancePerHttpRequest();
+            } else {
+                builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+            }
             builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().InstancePerHttpRequest();
             builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
             builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();

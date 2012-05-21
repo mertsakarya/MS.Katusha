@@ -47,6 +47,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{643D0F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{1EB00E00-0753-4067-BC69-A472BC26E353}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Redis", "MS.Katusha.Redis\MS.Katusha.Redis.csproj", "{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MS.Katusha1.vsmdi
@@ -190,6 +194,26 @@ Global
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4657C6AB-B567-4D15-B910-CFE5FFE1BA42}.Release|x86.ActiveCfg = Release|Any CPU
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Debug|x86.ActiveCfg = Debug|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Debug|x86.Build.0 = Debug|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Release|Any CPU.ActiveCfg = Release|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Release|x86.ActiveCfg = Release|x86
+		{1EB00E00-0753-4067-BC69-A472BC26E353}.Release|x86.Build.0 = Release|x86
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

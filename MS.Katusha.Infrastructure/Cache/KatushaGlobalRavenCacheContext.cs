@@ -41,9 +41,5 @@ namespace MS.Katusha.Infrastructure.Cache
                 _repository.Delete(existingObject);
             }
         }
-
-        public bool Contains(string key) { return _repository.Query(p => p.Key == key, null, false, null).Any(); }
-        public int Count(Expression<Func<CacheObject, bool>> expression) { return _repository.Query(expression, null, false, null).Count(); }
-        public IList<CacheObject> Get(Expression<Func<CacheObject, bool>> expression) { return _repository.Query(expression, null, false, null).ToList(); }
     }
 }
