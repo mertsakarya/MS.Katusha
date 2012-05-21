@@ -1,34 +1,27 @@
-using System;
-using System.Configuration;
 using MS.Katusha.Infrastructure.Cache;
-using MS.Katusha.Interfaces.Repositories;
 using ServiceStack.Redis;
 
 namespace MS.Katusha.Redis
 {
     public class KatushaGlobalRedisCacheContext : IKatushaGlobalCacheContext
     {
-        private readonly Uri _connectionUri;
-        private readonly PooledRedisClientManager _redisClientManager;
+        private readonly IRedisClientsManager _redisClientManager;
 
-        public KatushaGlobalRedisCacheContext(string redisUrlName = "REDISTOGO_URL")
+        public KatushaGlobalRedisCacheContext(IRedisClientsManager redisClientManager)
         {
-            var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
-            _connectionUri = new Uri("ubuntu.katusha.com:6379");
-            _redisClientManager = new PooledRedisClientManager(_connectionUri.ToString());
+            _redisClientManager = redisClientManager; 
         }
 
         public void Add<T>(string key, T value)
         {
             using (var redis = _redisClientManager.GetCacheClient()) {
                 redis.Add(key, value);
-                //value = redis.Get<string>("hello");
             }
         }
 
         public T Get<T>(string key)
         {
-            using (var redis = _redisClientManager.GetCacheClient()) {
+            using (var redis = _redisClientManager.GetReadOnlyCacheClient()) {
                 return redis.Get<T>(key);
             }
         }

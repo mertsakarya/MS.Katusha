@@ -15,6 +15,7 @@ using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers.Binders;
 using MS.Katusha.Web.Models.Entities;
 using NLog;
+using ServiceStack.Redis;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -27,9 +28,13 @@ namespace MS.Katusha.Web.Helpers
 
         public static void RegisterDependencies()
         {
+            const string redisUrlName = "REDISTOGO_URL";
+            var redisUrls = new string [] {ConfigurationManager.AppSettings.Get(redisUrlName)};
             var builder = new ContainerBuilder();
+
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
+            builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).SingleInstance();
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
 
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();
