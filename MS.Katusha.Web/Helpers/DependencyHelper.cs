@@ -39,7 +39,6 @@ namespace MS.Katusha.Web.Helpers
             if(!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute,  out redisUri)) {
                 throw new ArgumentException(redisUrl.ToString(CultureInfo.InvariantCulture));
             }
-            throw new ArgumentException(redisUrl.ToString(CultureInfo.InvariantCulture));
             var redisUrls = new string [] {redisUri.ToString()};
             var builder = new ContainerBuilder();
 
