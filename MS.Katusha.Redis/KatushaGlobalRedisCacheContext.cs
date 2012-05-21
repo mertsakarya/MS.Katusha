@@ -21,7 +21,7 @@ namespace MS.Katusha.Redis
 
         public T Get<T>(string key)
         {
-            using (var redis = _redisClientManager.GetReadOnlyCacheClient()) {
+            using (var redis = _redisClientManager.GetCacheClient()) {
                 return redis.Get<T>(key);
             }
         }

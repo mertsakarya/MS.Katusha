@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -29,7 +30,12 @@ namespace MS.Katusha.Web.Helpers
         public static void RegisterDependencies()
         {
             const string redisUrlName = "REDISTOGO_URL";
-            var redisUrls = new string [] {ConfigurationManager.AppSettings.Get(redisUrlName)};
+            var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
+            Uri redisUri;
+            if(!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute,  out redisUri)) {
+                throw new ArgumentException(redisUrl.ToString(CultureInfo.InvariantCulture));
+            }
+            var redisUrls = new string [] {redisUri.ToString()};
             var builder = new ContainerBuilder();
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
