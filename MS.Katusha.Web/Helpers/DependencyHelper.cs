@@ -30,7 +30,11 @@ namespace MS.Katusha.Web.Helpers
         public static void RegisterDependencies()
         {
             const string redisUrlName = "REDISTOGO_URL";
+            const string appHarborRedisToGo = "redis://redistogo-appharbor:";
             var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
+            if(redisUrl.IndexOf(appHarborRedisToGo, System.StringComparison.Ordinal) >= 0) {
+                redisUrl = redisUrl.Substring(appHarborRedisToGo.Length);
+            }
             Uri redisUri;
             if(!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute,  out redisUri)) {
                 throw new ArgumentException(redisUrl.ToString(CultureInfo.InvariantCulture));
