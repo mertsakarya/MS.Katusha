@@ -33,15 +33,16 @@ namespace MS.Katusha.Web.Helpers
             const string appHarborRedisToGo = "redis://redistogo-appharbor:";
             var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
             if(redisUrl.IndexOf(appHarborRedisToGo, System.StringComparison.Ordinal) >= 0) {
-                redisUrl = redisUrl.Substring(appHarborRedisToGo.Length);
+                // VERY BAD thing for appharbor
+                redisUrl = "ab3740aa6f5b0b2d567f7279ae6e2159@lab.redistogo.com:9071"; //redisUrl.Substring(appHarborRedisToGo.Length);
             }
             Uri redisUri;
             if(!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute,  out redisUri)) {
-                throw new ArgumentException(redisUrl.ToString(CultureInfo.InvariantCulture));
+                throw new ArgumentException("WRONG REDIS STRING");
             }
             var redisUrls = new string [] {redisUri.ToString()};
             var builder = new ContainerBuilder();
-
+            
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
             builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).SingleInstance();
