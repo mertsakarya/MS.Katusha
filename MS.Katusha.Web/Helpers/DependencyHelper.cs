@@ -64,13 +64,13 @@ namespace MS.Katusha.Web.Helpers
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch(cacheProviderText.ToLowerInvariant()) {
                     case "redis":
-                        builder.RegisterType<KatushaGlobalRedisCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        builder.RegisterType<KatushaGlobalRedisCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                     case "ravendb":
-                        builder.RegisterType<KatushaGlobalRavenCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        builder.RegisterType<KatushaGlobalRavenCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                     default:
-                        builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+                        builder.RegisterType<KatushaGlobalMemoryCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                 }
 
