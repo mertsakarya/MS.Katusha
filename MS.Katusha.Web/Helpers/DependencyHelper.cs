@@ -1,6 +1,5 @@
 using System;
 using System.Configuration;
-using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -32,7 +31,7 @@ namespace MS.Katusha.Web.Helpers
             const string redisUrlName = "REDISTOGO_URL";
             const string appHarborRedisToGo = "redis://redistogo-appharbor:";
             var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
-            if(redisUrl.IndexOf(appHarborRedisToGo, System.StringComparison.Ordinal) >= 0) {
+            if(redisUrl.IndexOf(appHarborRedisToGo, StringComparison.Ordinal) >= 0) {
                 // VERY BAD thing for appharbor
                 redisUrl = "ab3740aa6f5b0b2d567f7279ae6e2159@lab.redistogo.com:9071"; //redisUrl.Substring(appHarborRedisToGo.Length);
             }
@@ -40,7 +39,7 @@ namespace MS.Katusha.Web.Helpers
             if(!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute,  out redisUri)) {
                 throw new ArgumentException("WRONG REDIS STRING");
             }
-            var redisUrls = new string [] {redisUri.ToString()};
+            var redisUrls = new [] {redisUri.ToString()};
             var builder = new ContainerBuilder();
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

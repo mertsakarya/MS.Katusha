@@ -1,21 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using MS.Katusha.Interfaces.Repositories;
 
 namespace MS.Katusha.Infrastructure.Cache
 {
-    public class KatushaGlobalRavenCacheContext : IKatushaGlobalCacheContext
+    public class KatushaGlobalRavenCacheContext : KatushaGlobalBaseCacheContext
     {
         private readonly IRepository<CacheObject> _repository;
 
-        public KatushaGlobalRavenCacheContext(IRepository<CacheObject> repository) {
+        public KatushaGlobalRavenCacheContext(IRepository<CacheObject> repository, IKatushaGlobalCacheContext baseCacheContext = null) : base(baseCacheContext)  {
             _repository = repository;
         }
 
-        public void Add<T>(string key, T value)
+        public override void Add<T>(string key, T value)
         {
+            base.Add(key, value);
             var existingObject = _repository.SingleAttached(p => p.Key == key);
             if (existingObject != null) {
                 existingObject.Value = value;
@@ -26,16 +23,19 @@ namespace MS.Katusha.Infrastructure.Cache
             }
         }
 
-        public T Get<T>(string key)
+        public override T Get<T>(string key)
         {
+            var value = base.Get<T>(key);
+            if (value != null) return value;
             var existingObject = _repository.Single(p => p.Key == key);
             if (existingObject != null)
                 return (T)existingObject.Value;
             return default(T);
         }
 
-        public void Delete(string key)
+        public override void Delete(string key)
         {
+            base.Delete(key);
             var existingObject = _repository.SingleAttached(p => p.Key == key);
             if (existingObject != null) {
                 _repository.Delete(existingObject);

@@ -76,6 +76,7 @@
     <Compile Include="Attributes\KatushaRequiredAttribute.cs" />
     <Compile Include="Attributes\KatushaStringLengthAttribute.cs" />
     <Compile Include="Cache\CacheObjectRepositoryRavenDB.cs" />
+    <Compile Include="Cache\KatushaGlobalBaseCacheContext.cs" />
     <Compile Include="Cache\IKatushaGlobalCacheContext.cs" />
     <Compile Include="Cache\KatushaGlobalMemoryCacheContext.cs" />
     <Compile Include="Cache\KatushaGlobalRavenCacheContext.cs" />

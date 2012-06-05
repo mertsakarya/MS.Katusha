@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading;
 
 namespace MS.Katusha.Infrastructure.Cache
@@ -10,7 +8,7 @@ namespace MS.Katusha.Infrastructure.Cache
         private static readonly IDictionary<string, CacheObject> Dictionary = new Dictionary<string,CacheObject>();
         private static readonly ReaderWriterLockSlim ListLock = new ReaderWriterLockSlim();
 
-        public void Add<T>(string key, T value)
+        public void Add<T>(string key, T value) where T : class
         {
             var containsKey = ContainsKey(key);
             if (containsKey) {
@@ -35,7 +33,7 @@ namespace MS.Katusha.Infrastructure.Cache
             return containsKey;
         }
 
-        public T Get<T>(string key)
+        public T Get<T>(string key) where T : class
         {
             if (ContainsKey(key)) {
                 ListLock.EnterReadLock();
