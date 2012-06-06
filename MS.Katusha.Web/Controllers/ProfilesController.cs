@@ -46,7 +46,8 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult Online(int? key) {
             var pageIndex = (key ?? 1);
             int total;
-            IEnumerable<State> onlineStates = StateService.OnlineProfiles(KatushaUser.Gender, out total, pageIndex, PageSize).ToList();
+            var sex = (KatushaProfile.Gender == (byte) Sex.Female) ? (byte) Sex.Male : (byte) Sex.Female;
+            IEnumerable<State> onlineStates = StateService.OnlineProfiles(sex, out total, pageIndex, PageSize).ToList();
             var onlineProfiles = new List<Profile>(PageSize);
             onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
 

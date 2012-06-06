@@ -31,7 +31,6 @@ namespace MS.Katusha.Web.Controllers
                     profiles = ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, DependencyHelper.GlobalPageSize);
                 }
             }
-
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(profiles);
             var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, DependencyHelper.GlobalPageSize, total);
             var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total};
