@@ -60,6 +60,7 @@
     <Compile Include="Entities\GeoLanguage.cs" />
     <Compile Include="Entities\GeoName.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\PhotoBackup.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
