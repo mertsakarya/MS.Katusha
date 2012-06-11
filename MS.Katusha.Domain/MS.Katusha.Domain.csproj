@@ -69,7 +69,7 @@
     <Compile Include="Entities\Resource.cs" />
     <Compile Include="Entities\State.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\Photo.cs" />
+    <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\SearchingFor.cs" />
     <Compile Include="Entities\ViewDataUploadFilesResult.cs" />

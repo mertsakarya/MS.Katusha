@@ -27,4 +27,6 @@ namespace MS.Katusha.Enumerations
     public enum MailType: byte { MailConfirm = 1, PasswordChanged, YouveGotMessage }
 
     public enum PhotoType : byte  { Original = 0, Thumbnail = 1, Medium = 2, Large = 3, Icon = 4, MAX = 4 }
+
+    public enum Action : int { LoggedIn = 1, LoggedOut, CreatedProfile, EditedProfile, VisitedProfile, SendMessage, ReadMessage, BecameMember, CanceledMembership, MembershipEXpired, AddedPhoto, ChangedProfilePicture }
 }
