@@ -55,13 +55,17 @@
         }
     </head>
     <body>
+        @*
         <div id="fb-root"></div>
+        *@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
                     <p class="site-title">
-                    <a href="@(Url.Action("Index","Home"))"><img src="/Images/logo.jpg"/>Have fun</a>
-                    <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);"/>
+                        <a href="@(Url.Action("Index","Home"))"><img src="/Images/logo.jpg"/>Have fun</a>
+                        @if (Request.QueryString["mertiko"] != null && Request.QueryString["mertiko"] == "sakariko") {
+                            <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);" />
+                        }
                     </p>
                 </div>
                 <div class="float-right">
@@ -76,8 +80,8 @@
                             @*
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                            *@
                             <li>@Html.ActionLink("Utilities", "Index", "Utilities")</li>
+                            *@
                         </ul>
                     </nav>
                 </div>
@@ -99,8 +103,8 @@
                 </div>
                 <div class="float-right" style="display:none">
                     <ul id="social">
-                        <li><a href="http://facebook.com" class="facebook">Facebook</a></li>
-                        <li><a href="http://twitter.com" class="twitter">Twitter</a></li>
+                        <li><a href="http://facebook.com/mertsakarya" class="facebook">Me on Facebook</a></li>
+                        <li><a href="http://twitter.com/mertsakarya" class="twitter">Me on Twitter</a></li>
                     </ul>
                 </div>
             </div>

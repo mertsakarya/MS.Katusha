@@ -4,8 +4,13 @@
     ViewBag.Title = "All Profiles";
     var action = ViewContext.RouteData.Values["Action"].ToString();
 }
-
-<h2>All Profiles ( @Model.Total ) </h2>
+@if (!Request.IsAuthenticated) {
+    <h1>@Html.ActionLink("Register for free (limited time)", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</h1>
+    <h3>This site is new, it will help you to find your dream.</h3>
+    <br/>
+} else {
+    <h2>All Profiles ( @Model.Total ) </h2>
+}
        
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 @foreach (var profile in Model.List) {
