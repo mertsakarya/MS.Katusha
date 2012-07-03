@@ -12,11 +12,13 @@ namespace MS.Katusha.Services
 {
     public class ConversationService : IConversationService
     {
+        private readonly INotificationService _notificationService;
         private readonly IConversationRepositoryDB _conversationRepository;
         private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
 
-        public ConversationService(IConversationRepositoryDB conversationRepository, IConversationRepositoryRavenDB conversationRepositoryRaven)
+        public ConversationService(INotificationService notificationService, IConversationRepositoryDB conversationRepository, IConversationRepositoryRavenDB conversationRepositoryRaven)
         {
+            _notificationService = notificationService;
             _conversationRepository = conversationRepository;
             _conversationRepositoryRaven = conversationRepositoryRaven;
         }
@@ -45,6 +47,7 @@ namespace MS.Katusha.Services
             ravenMessage.ToName = message.ToName;
             ravenMessage.ToPhotoGuid = message.ToPhotoGuid;
             _conversationRepositoryRaven.Add(ravenMessage);
+            _notificationService.MessageSent(ravenMessage);
         }
 
         public void ReadMessage(long profileId, Guid messageGuid)

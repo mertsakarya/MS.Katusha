@@ -58,18 +58,9 @@ namespace MS.Katusha.Web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            //BundleTable.Bundles.RegisterTemplateBundles();
+
+            //BundleHelper.RegisterBundles();
             BundleTable.Bundles.EnableDefaultBundles();
-
-            //Bundle debugScripts = new Bundle("~/DebugScripts", new NoTransform("text/javascript"));
-            //debugScripts.AddDirectory("~/Scripts/Debug", "*.js");
-            //BundleTable.Bundles.Add(debugScripts);
-
-            //Bundle productionScripts = new Bundle("~/ProductionScripts", new NoTransform("text/javascript"));
-            //productionScripts.AddDirectory("~/Scripts/Minified", "*.js");
-            //BundleTable.Bundles.Add(productionScripts);
-
-
 
             var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
             if (store != null) {

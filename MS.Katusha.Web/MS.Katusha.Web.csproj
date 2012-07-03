@@ -112,6 +112,9 @@
       <HintPath>..\packages\ImageResizer.Mvc.3.1.5\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Schema, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Data.Schema.UnitTesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -248,9 +251,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigData\DatabaseSetup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
     <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
+    <Compile Include="Helpers\BundleHelper.cs" />
     <Compile Include="Helpers\Converters\ProfileStateTypeConverter.cs" />
     <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
     <Compile Include="Helpers\LookupListProcessor.cs" />
@@ -298,6 +303,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\glimpse.readme.txt" />
+    <Content Include="ConfigData\bundles.txt" />
     <Content Include="ConfigData\cities15000.txt" />
     <Content Include="ConfigData\cities5000.txt" />
     <Content Include="Content\Bootstrap\bootstrap-image-gallery.min.css" />
@@ -315,8 +321,12 @@
     <Content Include="Content\FileUpload\locale.js" />
     <Content Include="Content\FileUpload\main.js" />
     <Content Include="Content\FileUpload\tmpl.min.js" />
+    <Content Include="Content\img\bg-black.png" />
+    <Content Include="Content\img\bg-grid.png" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\hover-magnify.png" />
     <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\progress.gif" />
     <Content Include="Content\img\progressbar.gif" />
     <Content Include="Content\Mosaic\img\bg-black.png" />
     <Content Include="Content\Mosaic\img\bg-grid.png" />
@@ -326,6 +336,7 @@
     <Content Include="Content\Mosaic\mosaic.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Fcbk.css" />
+    <Content Include="ConfigData\app.config" />
     <None Include="Content\screen._css__" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -431,7 +442,7 @@
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.Template.html" />
     <Content Include="ConfigData\timeZones.txt" />
@@ -478,6 +489,7 @@
     <Content Include="Views\Account\Facebook.cshtml" />
     <Content Include="App_Code\CountryCity.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
+    <Content Include="Views\___MailTemplates\MailMessageSent_en.cshtml" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />

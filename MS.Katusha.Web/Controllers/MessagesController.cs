@@ -59,10 +59,34 @@ namespace MS.Katusha.Web.Controllers
         {
             var to = _profileService.GetProfile(key);
             var model = new ConversationModel {
-                                                ToId = to.Id, ToName = to.Name, ToPhotoGuid = to.ProfilePhotoGuid, ToGuid = to.Guid,
-                                                FromId = KatushaProfile.Id, FromName = KatushaProfile.Name, FromPhotoGuid = KatushaProfile.ProfilePhotoGuid, FromGuid = KatushaProfile.Guid
+                ToId = to.Id, ToName = to.Name, ToPhotoGuid = to.ProfilePhotoGuid, ToGuid = to.Guid,
+                FromId = KatushaProfile.Id, FromName = KatushaProfile.Name, FromPhotoGuid = KatushaProfile.ProfilePhotoGuid, FromGuid = KatushaProfile.Guid
             };
-            return View(model);
+            return ContextDependentView(model, "Send");
+            //return View(model);
+        }
+
+        [HttpPost]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public JsonResult JsonSend(string key, ConversationModel model)
+        {
+            if (!ModelState.IsValid) return Json(new { errors = GetErrorsFromModelState() });
+            var to = _profileService.GetProfile(key);
+            var data = Mapper.Map<Conversation>(model);
+
+            data.ToId = to.Id;
+            data.ToName = to.Name;
+            data.ToGuid = to.Guid;
+            data.ToPhotoGuid = to.ProfilePhotoGuid;
+
+            data.FromId = KatushaProfile.Id;
+            data.FromName = KatushaProfile.Name;
+            data.FromGuid = KatushaProfile.Guid;
+            data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
+
+            data.ReadDate = new DateTime(1900, 1, 1);
+            _conversationService.SendMessage(data);
+            return Json(new { success = true });
         }
 
         [HttpPost]

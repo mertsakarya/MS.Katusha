@@ -1,13 +1,20 @@
 @using MS.Katusha.Enumerations
 @model ProfileModel
 @{ ViewBag.Title = Model.Name + "'s Profile"; }
-
-<h2>@Model.Name</h2>
+@if(ViewBag.KatushaProfile != null) {
+    <table width="100%"><tr><td><h2>@Model.Name</h2></td><td style="text-align: right; padding-right: 10px;">
+        <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })'>
+            Send Message
+        </a>
+    </td></tr></table>
+} else {
+    <h2>@Model.Name</h2>
+}
 <hr />
 <fieldset>
     <legend>Profile</legend>
     @if (Model.ProfilePhotoGuid != Guid.Empty) {
-        @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium,"", true)
+        @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium, "", true)
     }
     <hr />
     
@@ -23,7 +30,7 @@
     @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
     @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
     @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
-    @if(Model.Gender == Sex.Male) {
+    @if (Model.Gender == Sex.Male) {
         @Html.DisplayDetailFor(Model.DickSize != 0, p => p.DickSize)
         @Html.DisplayDetailFor(Model.DickThickness != 0, p => p.DickThickness)
     } else if (Model.Gender == Sex.Female) {
@@ -35,7 +42,4 @@
     @Html.Partial("_Photo", Model)
 </fieldset>
 
-<p>
-    @Html.ActionLink("SEND MESSAGE", "Send", "Messages", new { key = Html.KeyFor(Model) }, null) |
-</p>
 

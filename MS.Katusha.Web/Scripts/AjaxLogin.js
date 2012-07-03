@@ -90,7 +90,7 @@
     };
 
     // List of link ids to have an ajax dialog
-    var links = ['#loginLink', '#registerLink', '#facebookRegisterLink'];
+    var links = ['#loginLink', '#registerLink', '#facebookRegisterLink', '#sendMessageButton'];
 
     $.each(links, function (i, id) {
         $(id).click(function (e) {

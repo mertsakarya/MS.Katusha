@@ -1,0 +1,22 @@
+#Javascripts
+JS	ALL	FILE	~/Scripts/jquery.min-1.7.1.js
+JS	ALL	FILE	~/Scripts/jquery-ui-1.8.19.js
+JS	ALL	FILE	~/Scripts/modernizr-2.5.3.js
+JS	ALL	FILE	~/Scripts/AjaxLogin.js
+JS	ALL	FILE	~/Scripts/jquery.validate.js
+JS	ALL	FILE	~/Scripts/jquery.validate.unobtrusive.js
+JS	ALL	FILE	~/Scripts/jquery.unobtrusive-ajax.js
+JS	ALL	FILE	~/Scripts/knockout-2.1.0.js
+JS	ALL	FILE	~/Content/Mosaic/mosaic.1.0.1.js
+JS	ALL	DIR	~/Content/Bootstrap/
+JS	ALL	DIR	~/Content/FileUpload/
+JS	ALL	FILE	~/Scripts/Fbck/jquery.fcbkcomplete.js
+
+#CSS Files
+CSS	ALL	DIR	~/Content/
+CSS	ALL	DIR	~/Content/Mosaic
+CSS	ALL	FILE	~/Content/FileUpload/jquery.fileupload-ui.css
+CSS	ALL	DIR	~/Content/Bootstrap
+CSS	DEBUG	DIR	~/Content/themes/base/
+#CSS	RUNTIME	DIR	~/Content/themes/base/minified/
+CSS	RUNTIME	DIR	~/Content/themes/base/

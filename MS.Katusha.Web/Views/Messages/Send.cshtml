@@ -2,16 +2,18 @@
 @model ConversationModel
 
 @{
-    ViewBag.Title = "Send message";
+    ViewBag.Title = "Send message to " + Model.ToName;
 }
 
-<h2>Create</h2>
+<h2>Send message to: <span style="color:red">@Model.ToName</span></h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm((string)ViewBag.FormAction, "Messages", new {key=Model.ToGuid})) {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Message To</legend>
         @Html.Photo(Model.ToPhotoGuid, PhotoType.Thumbnail)
+        
+
         <div class="editor-label">
                 @Html.LabelFor(model => model.Subject)
             </div>
@@ -24,11 +26,11 @@
                 @Html.LabelFor(model => model.Message)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Message)
+                @Html.TextAreaFor(model => model.Message, 7, 100, new {style="width:90%"})
                 @Html.ValidationMessageFor(model => model.Message)
             </div>
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Send message" />
         </p>
     </fieldset>
 }

@@ -60,6 +60,7 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
             builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
+            builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerHttpRequest();
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch(cacheProviderText.ToLowerInvariant()) {

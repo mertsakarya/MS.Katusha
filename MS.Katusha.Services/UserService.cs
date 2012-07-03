@@ -9,12 +9,14 @@ namespace MS.Katusha.Services
 {
     public class UserService : IUserService
     {
+        private readonly INotificationService _notificationService;
         private readonly IUserRepositoryDB _repository;
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
         private IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        public UserService(IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
+        public UserService(INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
         {
+            _notificationService = notificationService;
             _repository = repository;
             _profileRepositoryRaven = profileRepositoryRaven;
             _katushaGlobalCache = globalCacheContext; // new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
@@ -44,17 +46,12 @@ namespace MS.Katusha.Services
             var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100), EmailValidated = isApproved};
             _repository.Add(user);
             _repository.Save();
-            SendConfirmationMail(user);
+            _notificationService.UserRegistered(user);
             status = KatushaMembershipCreateStatus.Success;
             return user;
         }
 
         public void UpdateUser(User user) { _repository.FullUpdate(user); }
-
-        public void SendConfirmationMail(User user)
-        {
-            Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", "MailConfirm_en.cshtml", user);
-        }
 
         public User GetUser(long id) { return _repository.Single(u => u.Id == id); }
         public User GetUser(Guid guid) { return _repository.Single(u => u.Guid == guid); }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Domain.Entities;
@@ -71,6 +70,19 @@ namespace MS.Katusha.Web.Controllers
             ViewBag.KatushaProfile = KatushaProfile;
             ViewBag.PingResult = (KatushaProfile != null) ? StateService.Ping(KatushaProfile) : null;
         }
+
+        protected ActionResult ContextDependentView(object model = null, string viewName = "")
+        {
+            var actionName = ControllerContext.RouteData.GetRequiredString("action");
+            if (Request.QueryString["content"] != null) {
+                ViewBag.FormAction = "Json" + actionName;
+                return PartialView(viewName, model);
+            }
+            ViewBag.FormAction = actionName;
+            return View(viewName, model);
+        }
+
+        protected IEnumerable<string> GetErrorsFromModelState() { return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage)); }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {

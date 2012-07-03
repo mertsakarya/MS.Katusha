@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INotificationService.cs" />
     <Compile Include="IResourceService.cs" />
     <Compile Include="IPhotosService.cs" />
     <Compile Include="IRestore.cs" />

@@ -145,18 +145,6 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult ChangePasswordSuccess() { return View(); }
 
-        private ActionResult ContextDependentView(object model = null, string viewName = "")
-        {
-            var actionName = ControllerContext.RouteData.GetRequiredString("action");
-            if (Request.QueryString["content"] != null) {
-                ViewBag.FormAction = "Json" + actionName;
-                return PartialView(viewName, model);
-            }
-            ViewBag.FormAction = actionName;
-            return View(viewName, model);
-        }
-
-        private IEnumerable<string> GetErrorsFromModelState() { return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage)); }
 
         #region Status Codes
         private string ErrorCodeToString(KatushaMembershipCreateStatus createStatus)

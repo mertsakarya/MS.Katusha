@@ -8,8 +8,10 @@ namespace MS.Katusha.Web.Controllers
 {
     public class MailController : KatushaController
     {
-        public MailController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService) { }
+        private readonly INotificationService _notificationService;
+
+        public MailController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService) { _notificationService = notificationService; }
 
         public ActionResult Confirm(string key)
         {
@@ -20,7 +22,7 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult SendConfirmation()
         {
-            UserService.SendConfirmationMail(KatushaUser);
+            _notificationService.UserRegistered(KatushaUser);
             return View();
         }
     }
