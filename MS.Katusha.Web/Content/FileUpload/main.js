@@ -14,14 +14,15 @@
 
 $(function () {
     'use strict';
+    if (document.getElementById("fileupload") != null) {
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload').fileupload();
 
-    // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload();
-
-    $('#fileupload').fileupload('option', {
+        $('#fileupload').fileupload('option', {
             maxFileSize: 5000000,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i ,
             resizeMaxWidth: 1920,
             resizeMaxHeight: 1200
         });
+    }
 });
