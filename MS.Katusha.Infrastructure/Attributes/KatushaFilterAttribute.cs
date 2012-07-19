@@ -15,6 +15,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             IsAuthenticated = false;
             MustHaveGender = false;
             MustHaveProfile = false;
+            MustBeAdmin = false;
         }
 
         /// <summary>
@@ -33,6 +34,11 @@ namespace MS.Katusha.Infrastructure.Attributes
         public bool MustHaveProfile { get; set; }
 
         /// <summary>
+        /// Default value is false
+        /// </summary>
+        public bool MustBeAdmin { get; set; }
+
+        /// <summary>
         /// Default view is KatushaError
         /// </summary>
         public string ExceptionView { get; set; }
@@ -49,6 +55,10 @@ namespace MS.Katusha.Infrastructure.Attributes
             if (MustHaveProfile) {
                 if (user == null || user.Gender == 0 || profile == null)
                     throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NoProfile]");
+            }
+            if (MustBeAdmin) {
+                if (user == null || user.UserName != "mertiko")
+                    throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NoAdmin]");
             }
             if (MustHaveGender) {
                 if (user == null || user.Gender == 0 || (MustHaveProfile && (profile == null || profile.Gender == 0)))

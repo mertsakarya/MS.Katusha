@@ -6,6 +6,9 @@ namespace MS.Katusha.Interfaces.Services
     public interface INotificationService
     {
         void UserRegistered(User user);
+        void ProfileCreated(Profile profile);
+        void PhotoAdded(Photo photo);
         void MessageSent(Conversation conversation);
+        void MessageRead(Conversation conversation);
     }
 }

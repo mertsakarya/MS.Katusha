@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GridService.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="ResourceService.cs" />
     <Compile Include="UtilityService.cs" />

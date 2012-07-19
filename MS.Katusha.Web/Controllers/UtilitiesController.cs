@@ -162,5 +162,11 @@ namespace MS.Katusha.Web.Controllers
             _utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
             Response.Write("Done!");
         }
+
+        public void Users()
+        {
+            //_utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
+            Response.Write("Done!");
+        }
     }
 }

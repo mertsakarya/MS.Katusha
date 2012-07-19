@@ -52,15 +52,17 @@ namespace MS.Katusha.Services
 
         public void ReadMessage(long profileId, Guid messageGuid)
         {
-            var messageForRaven = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
-            if (messageForRaven == null) return;
-            messageForRaven.ReadDate = DateTime.Now;
-            _conversationRepositoryRaven.FullUpdate(messageForRaven);
+            var ravenMessage = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
+            if (ravenMessage == null) return;
+            ravenMessage.ReadDate = DateTime.Now;
+            _conversationRepositoryRaven.FullUpdate(ravenMessage);
 
             var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (message == null) return;
             message.ReadDate = DateTime.Now;
             _conversationRepository.FullUpdate(message);
+
+            _notificationService.MessageRead(ravenMessage);
         }
 
         public IList<string> RestoreFromDB(Expression<Func<Domain.Entities.Conversation, bool>> filter, bool deleteIfExists = false)

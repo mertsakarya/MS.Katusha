@@ -23,5 +23,10 @@ namespace MS.Katusha.Interfaces.Repositories
         T SoftDelete(T entity);
         void Save();
     }
+
+    public interface IDetailRepository<T> : IRepository<T> where T : BaseModel
+    {
+        IList<T> GetAllByKey<TKey>(long id, out int total, int pageNo, int pageSize, Expression<Func<T, TKey>> orderByClause, bool ascending);
+    }
 }
 

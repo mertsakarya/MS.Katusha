@@ -19,7 +19,7 @@ namespace MS.Katusha.Repositories.RavenDB
         {
             using (var session = DocumentStore.OpenSession()) {
                 RavenQueryStatistics stats;
-                var query = session.Query<ConversationResult, ConversationIndex>().Statistics(out stats).Where(p=> p.ToId == profileId ).Skip((pageNo - 1) * pageSize).Take( pageSize ).ToList();
+                var query = session.Query<ConversationResult, ConversationIndex>().Statistics(out stats).Where(p=> p.ToId == profileId || p.FromId == profileId).Skip((pageNo - 1) * pageSize).Take( pageSize ).ToList();
                 total = stats.TotalResults;
                 return query;
                 //.AsProjection<Profile>()

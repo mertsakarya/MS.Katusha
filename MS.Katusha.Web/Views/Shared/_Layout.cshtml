@@ -1,4 +1,4 @@
-@using ClientDependency.Core
+﻿@using ClientDependency.Core
 @using ClientDependency.Core.Mvc
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +67,7 @@
             Html.RequiresJs("FileUpload/main.js", "Content", 99);
         }
         
-    </head>
+    @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sunset.css")))</head>
     <body>
         @*
         <div id="fb-root"></div>
@@ -118,5 +118,5 @@
                 </div>
             </div>
         </footer>
-    </body>
+    @(Html.Telerik().ScriptRegistrar())</body>
 </html>

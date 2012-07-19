@@ -15,6 +15,7 @@ namespace MS.Katusha.Services
     {
         private readonly IResourceService _resourceService;
         private readonly IVisitService _visitService;
+        private readonly INotificationService _notificationService;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
         private readonly ICountriesToVisitRepositoryDB _countriesToVisitRepository;
@@ -25,13 +26,14 @@ namespace MS.Katusha.Services
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache
 ;
 
-        public ProfileService(IResourceService resourceService, IVisitService visitService,IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository,
+        public ProfileService(IResourceService resourceService, IVisitService visitService, INotificationService notificationService,  IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, ISearchingForRepositoryDB searchingForRepository,
             ILanguagesSpokenRepositoryDB languagesSpokenRepository, IProfileRepositoryRavenDB profileRepositoryRaven,
             IKatushaGlobalCacheContext globalCacheContext)
         {
             _resourceService = resourceService;
             _visitService = visitService;
+            _notificationService = notificationService;
             _profileRepository = profileRepository;
             _userRepository = userRepository;
             _countriesToVisitRepository = countriesToVisitRepository;
@@ -100,6 +102,8 @@ namespace MS.Katusha.Services
             _userRepository.FullUpdate(user);
             _katushaGlobalCache.Delete("U:" + user.UserName);
             UpdateRavenProfile(profile.Id);
+            _notificationService.ProfileCreated(profile);
+            
         }
 
         public void DeleteProfile(long profileId, bool force = false)

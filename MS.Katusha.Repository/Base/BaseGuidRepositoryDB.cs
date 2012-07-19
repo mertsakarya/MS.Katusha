@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities.BaseEntities;
@@ -30,5 +31,11 @@ namespace MS.Katusha.Repositories.DB.Base
         {
             return Single(p => p.Guid == guid, includeExpressionParams);
         }
+    }
+
+    public abstract class BaseDetailGuidRepositoryDB<T> : BaseGuidRepositoryDB<T>, IDetailGuidRepository<T> where T : BaseGuidModel
+    {
+        protected BaseDetailGuidRepositoryDB(IKatushaDbContext context) : base(context) { }
+        public abstract IList<T> GetAllByKey<TKey>(long id, out int total, int pageNo, int pageSize, Expression<Func<T, TKey>> orderByClause, bool @ascending);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
@@ -28,5 +29,11 @@ namespace MS.Katusha.Repositories.DB.Base
                 return Query(p => p.FriendlyName == friendlyName, null, false).Any();
             return Query(p => p.FriendlyName == friendlyName && p.Id != id, null, false).Any();
         }
+    }
+
+    public abstract class BaseDetailFriendlyNameRepositoryDB<T> : BaseFriendlyNameRepositoryDB<T>, IDetailFriendlyNameRepository<T> where T : BaseFriendlyModel
+    {
+        protected BaseDetailFriendlyNameRepositoryDB(IKatushaDbContext context) : base(context) { }
+        public abstract IList<T> GetAllByKey<TKey>(long id, out int total, int pageNo, int pageSize, Expression<Func<T, TKey>> orderByClause, bool @ascending);
     }
 }

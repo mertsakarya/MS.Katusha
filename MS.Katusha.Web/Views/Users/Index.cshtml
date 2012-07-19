@@ -1,0 +1,40 @@
+@model MS.Katusha.Web.Models.PagedListModel<MS.Katusha.Domain.Entities.User>
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+<h2>Users</h2>
+
+@(Html.Telerik().Grid(Model.List)
+    .Name("UsersGrid")
+    .DataBinding(dataBinding => dataBinding
+        .Ajax()
+        .Select("IndexAjax", "Users")
+        .Insert("Insert", "Users")
+        .Update("Update", "Users")
+        .Delete("Delete", "Users")
+    )
+    .DataKeys(dataKeys => dataKeys.Add(c => c.Id))
+    .ToolBar(commands => commands.Insert())
+    .Editable(editing => editing.Mode(GridEditMode.InLine))
+    .Columns(columns => {
+        columns.Bound(o => o.UserName);
+        columns.Command(commands => { commands.Edit(); commands.Delete(); });
+    })
+    .Pageable(settings => {
+        settings.Enabled(true);
+        settings.Total(Model.Total);
+        settings.PageTo(Model.List.PageNumber);
+        settings.PageSize(Model.List.PageSize);
+        settings.Position(GridPagerPosition.Bottom);
+        settings.Style(GridPagerStyles.PageInput | GridPagerStyles.Numeric | GridPagerStyles.NextPreviousAndDropDown);
+    })
+    .Sortable()
+    .Footer(true) 
+    .EnableCustomBinding(true)
+)
+
+
+    

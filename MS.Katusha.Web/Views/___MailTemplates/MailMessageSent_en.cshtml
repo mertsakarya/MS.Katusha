@@ -1,6 +1,7 @@
-@*
 @using System.Configuration
 @using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 @model Conversation
-*@
-Mail sent
+<h2>You have new message from @Model.FromName</h2><br/>
+<hr/>
+<a href="@(ConfigurationManager.AppSettings["VirtualPath"])">Go to Katusha</a><br/>
+@(ConfigurationManager.AppSettings["VirtualPath"])

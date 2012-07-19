@@ -15,6 +15,7 @@ namespace MS.Katusha.Services
     public class PhotosService : IPhotosService
     {
         private readonly IProfileService _profileService;
+        private readonly INotificationService _notificationService;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IPhotoBackupService _photoBackupService;
@@ -27,9 +28,10 @@ namespace MS.Katusha.Services
                 {(byte)PhotoType.Original, "format=jpg"}
             };
 
-        public PhotosService(IProfileService profileService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
+        public PhotosService(IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
         {
             _profileService = profileService;
+            _notificationService = notificationService;
             _profileRepository = profileRepository;
             _photoRepository = photoRepository;
             _photoBackupService = photoBackupService;
@@ -70,6 +72,8 @@ namespace MS.Katusha.Services
             }
 
             _profileService.UpdateRavenProfile(profile.Id);
+
+            _notificationService.PhotoAdded(photo);
            
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             return new ViewDataUploadFilesResult {

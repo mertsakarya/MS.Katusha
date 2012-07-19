@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -94,7 +95,9 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();
-            
+
+            builder.RegisterType<GridService<User>>().As<IGridService<User>>().InstancePerHttpRequest();
+            builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().InstancePerHttpRequest();
 
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));
