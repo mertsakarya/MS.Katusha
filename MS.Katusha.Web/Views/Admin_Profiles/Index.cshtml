@@ -1,0 +1,92 @@
+@using MS.Katusha.Domain.Entities
+@model MS.Katusha.Web.Models.PagedListModel<MS.Katusha.Domain.Entities.Profile>
+
+@{
+    ViewBag.Title = "Profiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+<h2>Profiles</h2>
+
+@(Html.Telerik().Grid(Model.List)
+    .Name("UsersGrid")
+    .DataBinding(dataBinding => dataBinding
+        .Ajax()
+        .Select("IndexAjax", "Admin_Profiles")
+        .Insert("Insert", "Admin_Profiles")
+        .Update("Update", "Admin_Profiles")
+        .Delete("Delete", "Admin_Profiles")
+    )
+    .DataKeys(dataKeys => dataKeys.Add(c => c.Id))
+    .ToolBar(commands => commands.Insert())
+    .Editable(editing => editing.Mode(GridEditMode.InLine))
+    .Columns(columns => {
+        columns.Bound(o => o.Id).ReadOnly();
+        columns.Bound(o => o.Guid).ReadOnly();
+        columns.Bound(o => o.Name);
+        columns.Bound(o => o.FriendlyName);
+        columns.Bound(o => o.BirthYear);
+        columns.Bound(o => o.Gender);
+        columns.Bound(o => o.Location);
+        columns.Bound(o => o.Photos);
+
+        columns.Bound(o => o.CreationDate);
+        columns.Bound(o => o.Deleted);
+        columns.Bound(o => o.DeletionDate);
+        columns.Command(commands => { commands.Edit(); commands.Delete(); });
+    })
+    .DetailView(detailView => detailView.ClientTemplate(
+        Html.Telerik().TabStrip()
+        .Name("UsersTabStrip_<#= Id #>")
+        .SelectedIndex(0)
+        .Items(items => {
+                items.Add().Text("Conversations").Content(
+                    Html.Telerik().Grid<Profile>()
+                    .ToolBar(commands => commands.Insert())
+                    .Editable(editing => editing.Mode(GridEditMode.InLine))
+                    .DataKeys(dataKeys => dataKeys.Add(c => c.Id))
+                    .Name("Conversation_<#= Id#>")
+                    .DataBinding(dataBinding => dataBinding
+                                                    .Ajax()
+                                                    .Select("IndexByKeyAjax", "Conversations", new {Id = "<#= Id #>"})
+                                                    .Insert("Insert", "CompanyLocation", new {CompanyId = "<#= Id #>"})
+                                                    .Update("Update", "CompanyLocation")
+                                                    .Delete("Delete", "CompanyLocation")
+                    )
+                    .Columns(columns => {
+                                columns.Bound(o => o.Name);
+                                columns.Bound(o => o.Height);
+                                columns.Bound(o => o.Location);
+                                columns.Bound(o => o.Description).Width(200);
+                                columns.Bound(o => o.CreationDate).Format("{0:d}");
+                                columns.Command(commands => {
+                                                    commands.Edit();
+                                                    commands.Delete();
+                                                });
+                            })
+                    .Pageable()
+                    .Sortable()
+                    .Filterable()
+                    .ToHtmlString()
+                );
+
+                items.Add().Text("Photos").Content("Hi" );
+            })
+            .ToHtmlString()
+        )
+    )
+    .Pageable(settings => {
+        settings.Enabled(true);
+        settings.Total(Model.Total);
+        settings.PageTo(Model.List.PageNumber);
+        settings.PageSize(Model.List.PageSize);
+        settings.Position(GridPagerPosition.Bottom);
+        settings.Style(GridPagerStyles.PageInput | GridPagerStyles.Numeric | GridPagerStyles.NextPreviousAndDropDown);
+    })
+    .Sortable()
+    .Footer(true) 
+    .EnableCustomBinding(true)
+)
+
+
+    

@@ -10,10 +10,10 @@ using MS.Katusha.Interfaces.Services;
 namespace MS.Katusha.Web.Controllers
 {
     [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-    public class UsersController : GridController<User>
+    public class Admin_UsersController : GridController<User>
     {
 
-        public UsersController(IResourceService resourceService, IUserService userService, IGridService<User> gridService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+        public Admin_UsersController(IResourceService resourceService, IUserService userService, IGridService<User> gridService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
             : base(resourceService, userService, gridService, profileService, stateService, conversationService)
         {
           

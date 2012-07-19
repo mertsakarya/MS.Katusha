@@ -62,12 +62,13 @@ namespace MS.Katusha.Web
             //BundleHelper.RegisterBundles();
             BundleTable.Bundles.EnableDefaultBundles();
 
-            var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
-            if (store != null) {
-                Glimpse.RavenDb.Profiler.AttachTo(store);
-                Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
-                Application["MyDocStore"] = store; 
-            }
+            //var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
+
+            //if (store != null) {
+            //    //Glimpse.RavenDb.Profiler.AttachTo(store);
+            //    //Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
+            //    //Application["MyDocStore"] = store; 
+            //}
         }
 
    }

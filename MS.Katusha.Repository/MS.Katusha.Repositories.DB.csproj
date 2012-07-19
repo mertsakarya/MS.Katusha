@@ -52,6 +52,7 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryDB.cs" />
     <Compile Include="Base\BaseRepositoryDB.cs" />
+    <Compile Include="Base\RepositoryDB.cs" />
     <Compile Include="GeoCountryRepositoryDB.cs" />
     <Compile Include="GeoLanguageRepositoryDB.cs" />
     <Compile Include="GeoNameRepositoryDB.cs" />

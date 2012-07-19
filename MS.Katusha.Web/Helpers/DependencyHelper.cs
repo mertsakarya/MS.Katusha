@@ -11,6 +11,7 @@ using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Redis;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers.Binders;
@@ -96,8 +97,11 @@ namespace MS.Katusha.Web.Helpers
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();
 
-            builder.RegisterType<GridService<User>>().As<IGridService<User>>().InstancePerHttpRequest();
-            builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().InstancePerHttpRequest();
+            //builder.RegisterType<GridService<User>>().As<IGridService<User>>().InstancePerHttpRequest();
+            //builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).InstancePerHttpRequest();
+
 
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Container));

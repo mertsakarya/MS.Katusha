@@ -1,3 +1,4 @@
+@using MS.Katusha.Domain.Entities
 @model MS.Katusha.Web.Models.PagedListModel<MS.Katusha.Domain.Entities.User>
 
 @{
@@ -11,16 +12,29 @@
     .Name("UsersGrid")
     .DataBinding(dataBinding => dataBinding
         .Ajax()
-        .Select("IndexAjax", "Users")
-        .Insert("Insert", "Users")
-        .Update("Update", "Users")
-        .Delete("Delete", "Users")
+        .Select("IndexAjax", "Admin_Users")
+        .Insert("Insert", "Admin_Users")
+        .Update("Update", "Admin_Users")
+        .Delete("Delete", "Admin_Users")
     )
     .DataKeys(dataKeys => dataKeys.Add(c => c.Id))
     .ToolBar(commands => commands.Insert())
     .Editable(editing => editing.Mode(GridEditMode.InLine))
     .Columns(columns => {
+        columns.Bound(o => o.Id).ReadOnly();
+        columns.Bound(o => o.Guid);
+        columns.Bound(o => o.FacebookUid);
         columns.Bound(o => o.UserName);
+        columns.Bound(o => o.Password);
+        columns.Bound(o => o.MembershipType);
+        columns.Bound(o => o.Phone);
+        columns.Bound(o => o.Gender);
+        columns.Bound(o => o.Email);
+        columns.Bound(o => o.EmailValidated);
+        columns.Bound(o => o.Expires);
+        columns.Bound(o => o.CreationDate);
+        columns.Bound(o => o.Deleted);
+        columns.Bound(o => o.DeletionDate);
         columns.Command(commands => { commands.Edit(); commands.Delete(); });
     })
     .Pageable(settings => {
