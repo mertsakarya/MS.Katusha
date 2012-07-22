@@ -4,15 +4,14 @@
 @{
     ViewBag.Title = "All Profiles";
     var action = ViewContext.RouteData.Values["Action"].ToString();
+    var katushaProfile = ViewBag.KatushaProfile;
 }
 @if (!Request.IsAuthenticated) {
-    
     <h1>@Html.ActionLink("Register for limited time.", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</h1>
     <h3>This site is new, it will help you to find your dream.</h3>
     <br/>
 } else {
-    var profile = ViewBag.KatushaProfile;
-    if(profile == null) {
+    if (katushaProfile == null) {
         <h2>Create a new 
             <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Girl" }, null)'>
                 <span>Girl Profile</span>
@@ -22,15 +21,17 @@
             </a>
         </h2>
     }
+}
+@if (!Request.IsAuthenticated || katushaProfile != null) {
     <hr />
     <h2>All Profiles ( @Model.Total ) </h2>
-}    
-<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-@foreach (var profile in Model.List) {
-    @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
-}
-</div>
-@if (Model.Total > Model.List.PageSize) {
-    <hr style="clear: both"/>
-    @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        @foreach (var profile in Model.List) {
+            @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
+        }
+    </div>
+    if (Model.Total > Model.List.PageSize) {
+         <hr style="clear: both"/>
+         @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new {key = page}, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+     }
 }

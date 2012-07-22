@@ -123,7 +123,7 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
-        public ActionResult ChangePassword() { return View(); }
+        public ActionResult ChangePassword() { return ContextDependentView(null, "ChangePassword"); }
 
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
@@ -141,6 +141,25 @@ namespace MS.Katusha.Web.Controllers
                 ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult JsonChangePassword(ChangePasswordModel model, string returnUrl)
+        {
+
+            if (ModelState.IsValid) {
+                bool changePasswordSucceeded;
+                try {
+                    changePasswordSucceeded = UserService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                } catch (Exception) {
+                    changePasswordSucceeded = false;
+                }
+                if (changePasswordSucceeded) {
+                    return Json(new { success = true, redirect = Url.Action("ChangePasswordSuccess", "Account") });
+                }
+                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+            }
+            return Json(new { errors = GetErrorsFromModelState() });
         }
 
         public ActionResult ChangePasswordSuccess() { return View(); }

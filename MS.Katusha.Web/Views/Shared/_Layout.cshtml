@@ -3,28 +3,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" >
+        <meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
         <title>@(ViewBag.Title) - Vacation</title>
 
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
-        @*
-        <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js")"></script>
-        *@
+
         <meta name="viewport" content="width=device-width" />
         
         @{
-            @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> {
-                new BasicPath("Base", "~/Content/themes/base"),
-                new BasicPath("Content", "~/Content")
-            }))
-            @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> {
-                new BasicPath("Scripts", "~/Scripts"),
-                //new BasicPath("googleCDN", "http://ajax.googleapis.com/ajax/libs/"),
-                new BasicPath("Content", "~/Content")
-           }))
+            @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> { new BasicPath("Base", "~/Content/themes/base"), new BasicPath("Content", "~/Content") }))
+            @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> { new BasicPath("Scripts", "~/Scripts"), new BasicPath("Content", "~/Content") }))
 
             Html.RequiresCss("Bootstrap/bootstrap.min.css", "Content", 2);
             Html.RequiresCss("Bootstrap/bootstrap-responsive.min.css", "Content", 3);
@@ -34,29 +25,26 @@
 
             Html.RequiresCss("Mosaic/mosaic.css", "Content", 6);
 
-            
             Html.RequiresJs("jquery.min-1.7.1.js", "Scripts", 1);
             Html.RequiresJs("jquery-ui-1.8.19.min.js", "Scripts", 2);
             Html.RequiresJs("modernizr-2.5.3.js", "Scripts", 2);
 
-            Html.RequiresJs("AjaxLogin.js", "Scripts", 2);
-            
-            Html.RequiresJs("jquery.unobtrusive-ajax.js", "Scripts", 3);
-            Html.RequiresJs("jquery.validate.min.js", "Scripts", 3);
-            //Html.RequiresJs("jquery.validate.unobtrusive.js", "Scripts", 3);
-            Html.RequiresJs("knockout-2.1.0.js", "Scripts", 3);
+            Html.RequiresJs("AjaxLogin.js", "Scripts", 3);
 
-            Html.RequiresJs("Fbck/jquery.fcbkcomplete.js", "Scripts", 3);
-            
-            
+            Html.RequiresJs("jquery.unobtrusive-ajax.js", "Scripts", 4);
+            Html.RequiresJs("jquery.validate.min.js", "Scripts", 4);
+            Html.RequiresJs("knockout-2.1.0.js", "Scripts", 4);
+
+            Html.RequiresJs("Mosaic/mosaic.1.0.1.js", "Content", 4);
+
+            Html.RequiresJs("Fbck/jquery.fcbkcomplete.js", "Scripts", 5);
+
             Html.RequiresJs("FileUpload/tmpl.min.js", "Content", 5);
             Html.RequiresJs("FileUpload/canvas-to-blob.min.js", "Content", 5);
             Html.RequiresJs("FileUpload/load-image.min.js", "Content", 5);
 
             Html.RequiresJs("Bootstrap/bootstrap-image-gallery.min.js", "Content", 6);
             Html.RequiresJs("Bootstrap/bootstrap.min.js", "Content", 6);
-
-            Html.RequiresJs("Mosaic/mosaic.1.0.1.js", "Content", 6);
 
             Html.RequiresJs("FileUpload/jquery.iframe-transport.js", "Content", 10);
             Html.RequiresJs("FileUpload/jquery.fileupload.js", "Content", 10);
@@ -66,17 +54,13 @@
             Html.RequiresJs("FileUpload/locale.js", "Content", 90);
             Html.RequiresJs("FileUpload/main.js", "Content", 99);
         }
-        
     @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sunset.css")))</head>
     <body>
-        @*
-        <div id="fb-root"></div>
-        *@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
                     <p class="site-title">
-                        <a href="@(Url.Action("Index","Home"))"><img src="/Images/logo.jpg"/>Have fun</a>
+                        <a href="@(Url.Action("Index", "Home"))"><img src="/Images/logo.jpg"/>Have fun</a>
                         @if (Request.QueryString["mertiko"] != null && Request.QueryString["mertiko"] == "sakariko") {
                             <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);" />
                         }
@@ -86,13 +70,15 @@
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Men", "Men", "Profiles")</li>
-                            <li>@Html.ActionLink("Girls", "Girls", "Profiles")</li>
-                        </ul>
-                    </nav>
+                    @if (ViewBag.KatushaProfile == null) {
+                        <nav>
+                            <ul id="menu">
+                                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                                <li>@Html.ActionLink("Men", "Men", "Profiles")</li>
+                                <li>@Html.ActionLink("Girls", "Girls", "Profiles")</li>
+                            </ul>
+                        </nav>
+                    }
                 </div>
             </div>
         </header>
@@ -118,5 +104,6 @@
                 </div>
             </div>
         </footer>
-    @(Html.Telerik().ScriptRegistrar())</body>
+        @(Html.Telerik().ScriptRegistrar().jQuery(false).jQueryValidation(false))
+    </body>
 </html>

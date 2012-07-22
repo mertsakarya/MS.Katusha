@@ -8,24 +8,23 @@
         });
 
         function MakeProfilePhoto(key, guid) {
-            javascript:$.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
+            $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
                 function () {
                     var img = document.getElementById("ProfilePhoto");
-                    if (img != null)
+                    if (img != null) {
+                        img.style.display = "";
                         img.src = "/Photos/@(photoType)-" + guid + ".jpg";
-                    alert('You have changed your profile picture!');
+                    }
                 }
             );
         }
 
         function DeletePhoto(key, guid) {
-            $.getJSON('/Photos/Delete/' + key + '/' + guid,
-                function() {
-                    document.getElementById("Photo:" + guid).style.display = "none";
-                    //$(document.getElementById("Photo:" + guid)).hide("slow");
-                    //alert('Photo deleted!');
-                }
-            );
+            $.post('/Photos/DeletePhoto', { key: key, photoGuid: guid }).done(function (json) {
+                json = json || {};
+                if (json.isProfilePhoto) { document.getElementById("ProfilePhoto").style.display = "none"; }
+                document.getElementById("Photo:" + guid).style.display = "none";
+            });
         }
     </script>
 }
@@ -92,22 +91,9 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
-                    <span>Add more photos...</span>
+                    <span>Add photos!</span>
                     <input type="file" name="files[]" multiple>
                 </span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="icon-ban-circle icon-white"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                    <i class="icon-trash icon-white"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" class="toggle">
             </div>
             <div class="span5">
                 <!-- The global progress bar -->
@@ -124,15 +110,13 @@
     </form>
     <script type="text/javascript">
         $(function () {
-            $('#fileupload').bind('fileuploadsubmit', function (e, data) {
-                var inputs = data.context.find(':input');
-                //                if (inputs.filter('[required][value=""]').first().focus().length) {
-                //                    return false;
-                //                }
-                data.formData = inputs.serializeArray();
-            }).bind('fileuploadstop', function (e) {
-                location = location;
-            });
+            $('#fileupload').fileupload('option', { autoUpload: true })
+               .bind('fileuploadsubmit', function (e, data) {
+                   var inputs = data.context.find(':input');
+                   data.formData = inputs.serializeArray();
+               }).bind('fileuploadstop', function (e) {
+                   window.location = '@(Url.Action("Show", "Profiles", new {key=Model.Guid}))';
+               });
 
         });
 
@@ -141,9 +125,8 @@
     <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
-        <td class="title"><label>Description:<br /><input name="description[]"></label></td>
         <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="name"><span>{%=file.name%}</span>@*<br /><span>Description: <input name="description[]"></span>*@</td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
@@ -160,12 +143,6 @@
         {% } else { %}
             <td colspan="2"></td>
         {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>{%=locale.fileupload.cancel%}</span>
-            </button>
-        {% } %}</td>
     </tr>
 {% } %}
 </script>
@@ -190,13 +167,6 @@
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td colspan="2"></td>
         {% } %}
-        <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-trash icon-white"></i>
-                <span>{%=locale.fileupload.destroy%}</span>
-            </button>
-            <input type="checkbox" name="delete" value="1">
-        </td>
     </tr>
 {% } %}
     </script>

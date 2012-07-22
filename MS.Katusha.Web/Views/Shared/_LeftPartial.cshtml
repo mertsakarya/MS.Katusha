@@ -12,7 +12,7 @@
             <li>@Html.ActionLink("View my profile", "Show", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
             <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
             <li>@Html.ActionLink("My Photos", "List", "Photos")</li>
-            <li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>
+            @*<li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>*@
         } else {
             if (user != null && !user.EmailValidated) {
                 <li>Email not confirmed yet!<br />

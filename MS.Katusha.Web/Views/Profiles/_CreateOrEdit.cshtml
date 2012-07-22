@@ -98,7 +98,7 @@
     @Html.ValidationMessageFor(model => model.Description)
 </div>
 
-@if (Model.Gender == Sex.Male) {
+@*@if (Model.Gender == Sex.Male) {
     <div class="editor-label">
         @Html.LabelFor(model => model.DickSize)
     </div>
@@ -122,7 +122,7 @@
         @Html.EnumDropDownListFor(model => model.BreastSize)
         @Html.ValidationMessageFor(model => model.BreastSize)
     </div>   
-}
+}*@
 
 @Html.FacebookListFor2("Profile.CountriesToVisit", Model.CountriesToVisit, "Country", p => p.CountriesToVisit, p => p.Country)
 

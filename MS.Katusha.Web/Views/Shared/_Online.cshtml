@@ -8,5 +8,7 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "onlinegallery", true)
         }
     </div>
-    @Html.ActionLink("More...", "Online", "Profiles", null, new {style="font-weight:bold" });
+    <a class="btn btn-warning cancel" href='@Url.Action("Online", "Profiles")' title="All users online">
+        All online users
+    </a>
 }

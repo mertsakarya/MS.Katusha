@@ -35,15 +35,14 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
-        [System.Web.Http.HttpGet]
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public void Delete(string key, string photoGuid)
+        public JsonResult DeletePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid), Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]));
+            var isProfilePhoto = _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid), Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]));
+            return Json(new { isProfilePhoto = isProfilePhoto });
         }
 
-        [HttpGet]
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public void MakeProfilePhoto(string key, string photoGuid)
         {

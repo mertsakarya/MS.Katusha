@@ -7,5 +7,7 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "newgallery", true)
         }
     </div>
-    @Html.ActionLink("More...", "New", "Profiles", null, new { style = "font-weight:bold" });
+    <a class="btn btn-warning cancel" href='@Url.Action("New", "Profiles")' title="All users registered recently">
+        All new users
+    </a>
 }

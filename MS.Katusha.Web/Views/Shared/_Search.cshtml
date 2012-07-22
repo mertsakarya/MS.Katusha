@@ -30,9 +30,9 @@
                 }
                 var queryString = qs.join("&");
                 if (queryString.length >= 0) {
-                    var i = location.href.indexOf("?");
-                    var l = location.href.substr(0, i);
-                    location = l + "?" + queryString;
+                    var j = window.location.href.indexOf("?");
+                    var loc = window.location.href.substr(0, j);
+                    window.location = loc + "?" + queryString;
                 }
             }
         </script>
@@ -54,9 +54,10 @@
                 @Html.CriteriaItem("Religion", profileCriteria.Religion)
                 @Html.CriteriaItem("Smokes", profileCriteria.Smokes)
 
-                @Html.CriteriaItem("DickSize", profileCriteria.DickSize)
+@*                @Html.CriteriaItem("DickSize", profileCriteria.DickSize)
                 @Html.CriteriaItem("DickThickness", profileCriteria.DickThickness)
                 @Html.CriteriaItem("BreastSize", profileCriteria.BreastSize)
+*@            
             }
 
         </ul>
@@ -64,8 +65,11 @@
         <ul>            
             @foreach (var f in Model.FacetValues) {
                 if (f.Key == "Gender") { continue; }
-                if (criteria.Gender == Sex.Female && (f.Key == "DickSize" || f.Key == "DickThickness")) { continue; }
-                if (criteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
+                if (f.Key == "DickSize" || f.Key == "DickThickness" || (f.Key == "BreastSize")) { continue; }
+
+                //if (criteria.Gender == Sex.Female && (f.Key == "DickSize" || f.Key == "DickThickness")) { continue; }
+                //if (criteria.Gender == Sex.Male && (f.Key == "BreastSize")) { continue; }
+                
                 if (selectedFieldsList.Contains(f.Key)) { continue; }
                 if (!String.IsNullOrWhiteSpace(locationCriteria.CountryCode) && f.Key == "CountryCode") { continue; }
                 if (String.IsNullOrWhiteSpace(locationCriteria.CountryCode) && f.Key == "CityCode") { continue; }

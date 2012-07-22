@@ -34,7 +34,7 @@
 
         getValidationSummaryErrors($form)
             .removeClass('validation-summary-errors')
-            .addClass('validation-summary-valid')
+            .addClass('validation-summary-valid');
     };
 
     var formSubmitHandler = function (e) {
@@ -90,7 +90,7 @@
     };
 
     // List of link ids to have an ajax dialog
-    var links = ['#loginLink', '#registerLink', '#facebookRegisterLink', '#sendMessageButton'];
+    var links = ['#loginLink', '#registerLink', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton'];
 
     $.each(links, function (i, id) {
         $(id).click(function (e) {

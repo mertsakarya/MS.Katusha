@@ -74,7 +74,7 @@ namespace MS.Katusha.Services
             _profileService.UpdateRavenProfile(profile.Id);
 
             _notificationService.PhotoAdded(photo);
-           
+
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             return new ViewDataUploadFilesResult {
                 name = hpf.FileName,
@@ -211,10 +211,11 @@ namespace MS.Katusha.Services
             return list;
         }
 
-        public void DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
+        public bool DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
+            var isProfilePhoto = false;
             var profile = _profileRepository.GetById(profileId, p => p.Photos);
-            if (profile == null) return;
+            if (profile == null) return isProfilePhoto;
             if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
                 throw new HttpException(404, "Photo not found!");
             var entity = _photoRepository.GetByGuid(photoGuid);
@@ -224,11 +225,13 @@ namespace MS.Katusha.Services
                     File.Delete(String.Format("{0}{1}-{2}.jpg", pathToPhotos, i, photoGuid));
             }
             if (profile.ProfilePhotoGuid == photoGuid) {
+                isProfilePhoto = true;
                 profile.ProfilePhotoGuid = Guid.Empty;
                 _profileRepository.FullUpdate(profile);
             }
             _profileService.UpdateRavenProfile(profile.Id);
             _photoBackupService.DeletePhoto(photoGuid);
+            return isProfilePhoto;
         }
     }
 }

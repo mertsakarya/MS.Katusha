@@ -58,8 +58,14 @@
     }
     <br style="clear:both"/>
     <p>
-        Hello, @Html.ActionLink(name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
-        <a href="#" onclick="logoff();">Log off</a>
+        Hello,
+        @if(profile == null) {
+            @name<text><br /><b>Please create a profile</b></text>
+        } else {
+            @Html.ActionLink(name, "Show", "Profiles", new {key = Html.KeyFor(profile)}, htmlAttributes: new {@class = "username", title = "View your profile"})
+            <text>!<small><a href="#" onclick="logoff();">Log off</a></small></text>
+        }
+        
     </p>
     @*
     <!-- script src="http://connect.facebook.net/en_US/all.js"></ script -->
@@ -155,7 +161,6 @@
     *@
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
-        <li><span id="fbResult" style="color:#800000"></span>
-        </li>
+        @*<li><span id="fbResult" style="color:#800000"></span></li>*@
     </ul>
 }

@@ -31,31 +31,41 @@ namespace MS.Katusha.Services
 
         public void UserRegistered(User user)
         {
-            Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", MailConfirm, user);
-            Mailer.Mailer.SendMail(AdminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
+            try {
+                Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", MailConfirm, user);
+                Mailer.Mailer.SendMail(AdminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
+            } catch(Exception) {}
         }
 
         public void MessageSent(Conversation conversation)
         {
-            var toUser = _userRepository.GetById(conversation.ToId);
-            Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, conversation);
-            Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, conversation);
+            try {
+                var toUser = _userRepository.GetById(conversation.ToId);
+                Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, conversation);
+                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, conversation);
+            } catch(Exception) {}
         }
 
         public void MessageRead(Conversation conversation) {
-            var fromUser = _userRepository.GetById(conversation.FromId);
-            Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, conversation);
-            Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
+            try {
+                var fromUser = _userRepository.GetById(conversation.FromId);
+                Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, conversation);
+                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
+            } catch(Exception) {}
         }
 
         public void ProfileCreated(Profile profile)
         {
-            Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, profile);
+            try {
+                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, profile);
+            } catch(Exception) {}
         }
 
         public void PhotoAdded(Photo photo)
         {
-            Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, photo);
+            try {
+                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, photo);
+            } catch(Exception) {}
         }
 
     }
