@@ -4,7 +4,6 @@ using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB.Base;
 using MS.Katusha.Repositories.RavenDB.Indexes;
-using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB

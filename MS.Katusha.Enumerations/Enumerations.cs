@@ -24,9 +24,11 @@ namespace MS.Katusha.Enumerations
 
     public enum KatushaMembershipCreateStatus : byte { Success = 1, DuplicateUserName, DuplicateEmail, InvalidPassword, InvalidEmail, InvalidAnswer, InvalidQuestion, InvalidUserName, ProviderError, UserRejected }
 
-    public enum MailType: byte { MailConfirm = 1, PasswordChanged, YouveGotMessage }
+    public enum MailType : byte { MailConfirm = 1, PasswordChanged, YouveGotMessage }
 
-    public enum PhotoType : byte  { Original = 0, Thumbnail = 1, Medium = 2, Large = 3, Icon = 4, MAX = 4 }
+    public enum MessageType : byte { Received = 1, Sent = 2, MAX = 2 }
+
+    public enum PhotoType : byte { Original = 0, Thumbnail = 1, Medium = 2, Large = 3, Icon = 4, MAX = 4 }
 
     public enum Action : int { LoggedIn = 1, LoggedOut, CreatedProfile, EditedProfile, VisitedProfile, SendMessage, ReadMessage, BecameMember, CanceledMembership, MembershipEXpired, AddedPhoto, ChangedProfilePicture }
 }

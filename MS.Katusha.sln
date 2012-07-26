@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Redis", "MS.Katusha.Redis\MS.Katusha.Redis.csproj", "{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.DependencyManagement", "MS.Katusha.DependencyManagement\MS.Katusha.DependencyManagement.csproj", "{6F22F616-A761-476C-A7E4-63CE3EB193C8}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MS.Katusha1.vsmdi
@@ -214,6 +216,16 @@ Global
 		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6F22F616-A761-476C-A7E4-63CE3EB193C8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

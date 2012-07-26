@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
@@ -28,6 +29,33 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Index() { return View(); }
+
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Received(int? key = 1)
+        {
+            int total;
+            var pageIndex = (key ?? 1);
+            var messages = _conversationService.GetMessages(KatushaProfile.Id, MessageType.Received, out total, pageIndex);
+            var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
+            var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
+            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
+            return View("_Messages", model);
+        }
+
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult Sent(int? key = 1)
+        {
+            int total;
+            var pageIndex = (key ?? 1);
+            var messages = _conversationService.GetMessages(KatushaProfile.Id, MessageType.Sent, out total, pageIndex);
+            var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
+            var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
+            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
+            return View("_Messages", model);
+        }
+
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult List(string key, int? page = 1)
         {
             int total;
@@ -36,7 +64,7 @@ namespace MS.Katusha.Web.Controllers
             var messages = _conversationService.GetMessages(KatushaProfile.Id, from.Id, out total, pageIndex);
             var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
             var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationModel> {List = messagesAsIPagedList, Total = total};
+            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
             return View(model);
         }
 
@@ -84,7 +112,6 @@ namespace MS.Katusha.Web.Controllers
             data.FromGuid = KatushaProfile.Guid;
             data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
 
-            data.ReadDate = new DateTime(1900, 1, 1);
             _conversationService.SendMessage(data);
             return Json(new { success = true });
         }

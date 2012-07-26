@@ -63,8 +63,6 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<VisitModel, Visit>();
 
             Mapper.CreateMap<Profile, ProfileModel>();
-            Mapper.CreateMap<Profile, State>().ConvertUsing<ProfileStateTypeConverter>();
-
             Mapper.CreateMap<ProfileModel, Profile>();
             Mapper.CreateMap<FacebookProfileModel, Profile>();
 

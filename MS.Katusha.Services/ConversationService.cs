@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
@@ -23,6 +24,11 @@ namespace MS.Katusha.Services
             _conversationRepositoryRaven = conversationRepositoryRaven;
         }
 
+        public IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            return _conversationRepositoryRaven.Query(q => (q.FromId == fromId && q.ToId == profileId) || (q.ToId == fromId && q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
+        }
+
         public IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
             return _conversationRepositoryRaven.MyConversations(profileId, out total, pageNo, pageSize);
@@ -30,15 +36,20 @@ namespace MS.Katusha.Services
 
         public ConversationCountResult GetConversationStatistics(long profileId) { return _conversationRepositoryRaven.GetConversationStatistics(profileId); }
 
-        public IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20)
+        public IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20)
         {
-            return _conversationRepositoryRaven.Query(q => (q.FromId == fromId && q.ToId == profileId) || (q.ToId == fromId && q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
+            if(messageType == MessageType.Received)
+                return _conversationRepositoryRaven.Query(q => (q.ToId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
+            return _conversationRepositoryRaven.Query(q => (q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
         }
 
         public void SendMessage(Conversation message)
         {
+            message.ReadDate = new DateTime(1900, 1, 1);
+
             var dbMessage = Mapper.Map<Domain.Entities.Conversation>(message);
             _conversationRepository.Add(dbMessage);
+            message.Guid = dbMessage.Guid;
             var ravenMessage = Mapper.Map<Conversation>(dbMessage);
             ravenMessage.FromGuid = message.FromGuid;
             ravenMessage.FromName = message.FromName;
@@ -52,17 +63,31 @@ namespace MS.Katusha.Services
 
         public void ReadMessage(long profileId, Guid messageGuid)
         {
+            var readTime = DateTime.Now;
             var ravenMessage = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (ravenMessage == null) return;
-            ravenMessage.ReadDate = DateTime.Now;
+            ravenMessage.ReadDate = readTime;
             _conversationRepositoryRaven.FullUpdate(ravenMessage);
 
             var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (message == null) return;
-            message.ReadDate = DateTime.Now;
+            message.ReadDate = readTime;
             _conversationRepository.FullUpdate(message);
 
             _notificationService.MessageRead(ravenMessage);
+        }
+
+        public void DeleteMessage(Guid messageGuid, bool softDelete = false) {
+            var ravenMessage = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid);
+            if (ravenMessage == null) return;
+            _conversationRepositoryRaven.Delete(ravenMessage);
+            var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid);
+            if (message == null) return;
+
+            if(softDelete)
+                _conversationRepository.SoftDelete(message);
+            else
+                _conversationRepository.Delete(message);
         }
 
         public IList<string> RestoreFromDB(Expression<Func<Domain.Entities.Conversation, bool>> filter, bool deleteIfExists = false)

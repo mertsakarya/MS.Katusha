@@ -1,0 +1,29 @@
+@{
+    ViewBag.Title = "Messages";
+}
+
+<h2>Messages</h2>
+<script>
+    $(function () {
+        var tabselected = (window.location.href.indexOf("Sent") >= 0) ? 1 : 0;
+        $("#tabs")
+            .tabs({
+                selected: tabselected,
+                ajaxOptions: {
+                    async: true, 
+                    error: function (xhr, status, index, anchor) {
+                        $(anchor.hash).html("Couldn't load this tab. We'll try to fix this as soon as possible. " + "If this wouldn't be a demo.");
+                    }
+                }
+            })
+            .bind('tabsselect', function (event, ui) {
+                //tabload(ui.index);
+            });
+    });
+</script>
+<div id="tabs">
+	<ul>
+		<li><a href="@(Url.Action("Received"))">Messages Received</a></li>
+		<li><a href="@(Url.Action("Sent"))">Messages Sent</a></li>
+	</ul>
+</div>

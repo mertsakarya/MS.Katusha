@@ -7,7 +7,7 @@
         @Html.Partial("_Online")
         <hr/>
         @if (profile != null) {
-            <li>@Html.ActionLink("My messages", "Conversations", "Messages", new {key = 1}, null)</li>
+            <li>@Html.ActionLink("My messages", "Index", "Messages", new {key = 1}, null)</li>
             <li>@Html.ActionLink("My visitors", "Index", "Visitor", new {key = 1}, null)</li>
             <li>@Html.ActionLink("View my profile", "Show", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>
             <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", new {key = Html.KeyFor(profile)}, null)</li>

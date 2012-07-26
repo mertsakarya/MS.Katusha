@@ -26,7 +26,9 @@ namespace MS.Katusha.Web.Helpers.Converters
             if (data == null) throw new ArgumentNullException();
             var model = new ConversationResultModel {
                 Count = data.Count,
+                
                 UnreadCount = data.UnreadCount,
+                Subject = data.Subject,
                 From = Mapper.Map<ProfileModel>(ProfileService.GetProfile(data.FromId)),
                 To = Mapper.Map<ProfileModel>(ProfileService.GetProfile(data.ToId))
             };
