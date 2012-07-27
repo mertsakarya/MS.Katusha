@@ -1,28 +1,60 @@
+@using MS.Katusha.Domain.Entities
 @using MS.Katusha.Enumerations
-@model MS.Katusha.Web.Models.PagedListModel<ConversationModel>
+@model MS.Katusha.Web.Models.MessagesModel
 @{
     Layout = "";
     var controller = ViewContext.RouteData.Values["Controller"];
+    var profile = ViewBag.KatushaProfile as Profile;
+    var items = Model.Conversations;
+    var statistics = Model.Statistics;
+    var messageType = Model.MessageType;
 }
 
-<h2>BETA ( @Model.Total )</h2>
-       
+<h3>@((messageType == MessageType.Received) ? "Received" : "Sent") Messages 
+@if(statistics != null) {
+    <text>( @statistics.UnreadCount / @statistics.Count )</text>
+}
+</h3>
+<script type="text/javascript">
+    function readM(guid) {
+        $.getJSON('/Messages/Read/' + guid, function(data) { $('#M'+guid).text(data).slideDown('slow'); });
+    }
+</script>       
 <ul>
-@foreach (var item in Model.List) {
-    if (item == null) { continue; }
-    var from = item.FromName;
-    var to = item.ToName;
-    var isRead = (item.FromId == ViewBag.KatushaProfile.Id) || (item.ReadDate != new DateTime(1900, 1, 1));
-    <li >@item.CreationDate.ToLocalTime() @(@from) > @to 
-        <a title="Read" href="#" onclick="@((isRead) ? "" : "$.getJSON('/" + (controller) + "/Read/" + item.Guid + "', function(data) {$('#M" + item.Guid + "').slideDown('slow');})")">@item.Subject</a>
-        <div id="M@(item.Guid)" class="@((isRead) ? "" : "hide")"><pre>@(item.Message ?? "")</pre></div>
+@foreach (var message in items.List) {
+    if (message == null) { continue; }
+    var name = (messageType == MessageType.Sent) ? message.ToName : message.FromName;
+    var profileGuid = (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
+    var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
+    var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
+    var canClickRead = (messageType == MessageType.Received);    
+    <li>
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.Photo(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
+                <td>
+                    <table>
+                        <tr><td><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
+                        <tr><td>
+                            <a href="#" title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"')":"")">@message.Subject</a><br/>
+                            <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
+                                @if(!(canClickRead && !isRead)) {
+                                <text>@(message.Message)</text>
+                                }
+                            </div>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        @*        @Html.DisplayMessage(item, messageType)
+        *@
     </li>
 }
-
 </ul>
 
-@if (Model.Total > Model.List.PageSize) {
+@if (Model.Conversations.Total > Model.Conversations.List.PageSize) {
     <hr style="clear: both"/>
-    @Html.PagedListPager(Model.List, key => Url.Action("List", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    @Html.PagedListPager(Model.Conversations.List, key => Url.Action("List", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 }
 

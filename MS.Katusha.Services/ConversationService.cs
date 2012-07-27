@@ -29,18 +29,22 @@ namespace MS.Katusha.Services
             return _conversationRepositoryRaven.Query(q => (q.FromId == fromId && q.ToId == profileId) || (q.ToId == fromId && q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
         }
 
+
+
         public IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
             return _conversationRepositoryRaven.MyConversations(profileId, out total, pageNo, pageSize);
         }
 
-        public ConversationCountResult GetConversationStatistics(long profileId) { return _conversationRepositoryRaven.GetConversationStatistics(profileId); }
+        public ConversationCountResult GetConversationStatistics(long profileId, MessageType messageType = MessageType.Received) { return _conversationRepositoryRaven.GetConversationStatistics(profileId, messageType); }
 
         public IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20)
         {
-            if(messageType == MessageType.Received)
+            if (messageType == MessageType.Received) {
                 return _conversationRepositoryRaven.Query(q => (q.ToId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
-            return _conversationRepositoryRaven.Query(q => (q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
+            } else {
+                return _conversationRepositoryRaven.Query(q => (q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
+            }
         }
 
         public void SendMessage(Conversation message)

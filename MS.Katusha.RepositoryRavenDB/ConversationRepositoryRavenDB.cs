@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MS.Katusha.Domain.Raven.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB.Base;
 using MS.Katusha.Repositories.RavenDB.Indexes;
@@ -25,11 +26,12 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public ConversationCountResult GetConversationStatistics(long profileId)
+        public ConversationCountResult GetConversationStatistics(long profileId, MessageType messageType = MessageType.Received)
         {
             using (var session = DocumentStore.OpenSession()) {
-                var query = session.Query<ConversationCountResult, ConversationCountIndex>().FirstOrDefault(p => p.ToId == profileId);
-                return query;
+                if(messageType == MessageType.Received)
+                 return session.Query<ConversationCountResult, ConversationToCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
+                return session.Query<ConversationCountResult, ConversationFromCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
             }
         }
     }

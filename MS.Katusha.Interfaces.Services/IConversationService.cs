@@ -7,7 +7,7 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface IConversationService : IRestore<Domain.Entities.Conversation>
     {
-        ConversationCountResult GetConversationStatistics(long profileId);
+        ConversationCountResult GetConversationStatistics(long profileId, MessageType messageType = MessageType.Received);
         IEnumerable<Conversation> GetMessages(long profileId, long fromId, out int total, int pageNo = 1, int pageSize = 20);
         IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20);
 

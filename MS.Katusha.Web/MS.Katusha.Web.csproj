@@ -478,6 +478,7 @@
     <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Helpers\Converters\SearchingForFormatter.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\MessagesModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseModel.cs" />

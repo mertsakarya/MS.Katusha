@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models.Entities;
@@ -510,6 +511,64 @@ setInterval(function() {{
                 default:
                     return key;
             }
+        }
+
+        public static IHtmlString DisplayMessage<TModel>(this HtmlHelper<TModel> htmlHelper, ConversationModel message, MessageType messageType )
+        {
+            var profile = htmlHelper.ViewBag.KatushaProfile as Profile;
+            if(profile == null) throw new ArgumentNullException("KatushaProfile");
+            var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
+            var controller = htmlHelper.ViewContext.RouteData.Values["Controller"];
+            var name = (messageType == MessageType.Sent) ? message.ToName : message.FromName;
+            var profileGuid = (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
+            var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
+            var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
+            var canClickRead = (messageType == MessageType.Received);
+
+            var timeSpan = new TagBuilder("span");
+            timeSpan.Attributes.Add("title", message.CreationDate.ToLongDateString());
+            timeSpan.SetInnerText(htmlHelper.GetFriendlyDate(message.CreationDate));
+
+            var profileLink = new TagBuilder("a");
+            profileLink.Attributes.Add("href", urlHelper.Action("Show", "Profiles", new { key = profileGuid } ));
+            profileLink.InnerHtml = htmlHelper.Photo(photoGuid, PhotoType.Icon).ToHtmlString() +   ("<br />" + name);
+
+            var subjectLink = new TagBuilder("a");
+            subjectLink.Attributes.Add("title", "Read");
+            subjectLink.Attributes.Add("href", "#");
+            subjectLink.SetInnerText(message.Subject);
+
+            var messageDiv = new TagBuilder("div");
+            if(canClickRead && !isRead) {
+                messageDiv.Attributes.Add("id", "M" + message.Guid);
+                messageDiv.AddCssClass("hide");
+                subjectLink.Attributes.Add("onclick", "readM('"+message.Guid+"')");
+            } else {
+                messageDiv.SetInnerText(message.Message);
+            }
+            
+            var sb = new StringBuilder();
+            sb.Append(timeSpan);
+            sb.Append(profileLink);
+            sb.Append(subjectLink);
+            sb.Append(messageDiv);
+            
+            return htmlHelper.Raw(sb.ToString());
+        }
+
+        public static string GetFriendlyDate<TModel>(this HtmlHelper<TModel> htmlHelper, DateTime date)
+        {
+            var now = DateTime.Now;
+            if(date.Month == now.Month && date.Year == now.Year) {
+                if (date.Day == now.Day) {
+                    return "Today " + date.ToShortTimeString();
+                } else if(date.Day + 1 == now.Day) {
+                    return "Yesterday " + date.ToShortTimeString();
+                }
+            }
+            var days = (date - now).Days;
+            if(days < 7) return String.Format("{0} days ago at {1}", days, date.ToShortTimeString());
+            return String.Format("{0}-{1}-{2} {3}:{4}:{5}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
         }
 
         private static byte[] ToBytes(string fileName)

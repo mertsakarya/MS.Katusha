@@ -14,7 +14,7 @@ using PagedList;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
+    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
     public class MessagesController : KatushaController
     {
         private readonly IProfileService _profileService;
@@ -28,34 +28,33 @@ namespace MS.Katusha.Web.Controllers
             _conversationService = conversationService;
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Index() { return View(); }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Received(int? key = 1)
-        {
-            int total;
-            var pageIndex = (key ?? 1);
-            var messages = _conversationService.GetMessages(KatushaProfile.Id, MessageType.Received, out total, pageIndex);
-            var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
-            var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
-            return View("_Messages", model);
+        public ActionResult Received(int? key = 1) {
+            return GetMessages(MessageType.Received,  key);
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Sent(int? key = 1)
         {
+            return GetMessages(MessageType.Sent, key);
+        }
+
+        private ActionResult GetMessages(MessageType messageType, int? key)
+        {
             int total;
             var pageIndex = (key ?? 1);
-            var messages = _conversationService.GetMessages(KatushaProfile.Id, MessageType.Sent, out total, pageIndex);
+            var statistics = _conversationService.GetConversationStatistics(KatushaProfile.Id, messageType);
+            var messages = _conversationService.GetMessages(KatushaProfile.Id, messageType, out total, pageIndex);
             var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
             var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
+            var model = new MessagesModel {
+                MessageType = messageType,
+                Statistics = statistics,
+                Conversations = new PagedListModel<ConversationModel> {List = messagesAsIPagedList, Total = total},
+            };
             return View("_Messages", model);
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult List(string key, int? page = 1)
         {
             int total;
@@ -68,7 +67,6 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Conversations(int? key = 1)
         {
             int total;
@@ -82,7 +80,6 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Send(string key)
         {
             var to = _profileService.GetProfile(key);
@@ -95,7 +92,6 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpPost]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public JsonResult JsonSend(string key, ConversationModel model)
         {
             if (!ModelState.IsValid) return Json(new { errors = GetErrorsFromModelState() });
@@ -117,7 +113,6 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpPost]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Send(string key, ConversationModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -140,7 +135,6 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
-        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public void Read(string key)
         {
             Guid guid;

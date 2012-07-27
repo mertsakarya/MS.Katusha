@@ -59,7 +59,8 @@ namespace MS.Katusha.Repositories.RavenDB
             IndexCreation.CreateIndexes(typeof(CountryCityCountIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(ProfileFacetsIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, this);
-            IndexCreation.CreateIndexes(typeof(ConversationCountIndex).Assembly, this);
+            IndexCreation.CreateIndexes(typeof(ConversationToCountIndex).Assembly, this);
+            IndexCreation.CreateIndexes(typeof(ConversationFromCountIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(UniqueVisitorsIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(StateFacetsIndex).Assembly, this);
         }
