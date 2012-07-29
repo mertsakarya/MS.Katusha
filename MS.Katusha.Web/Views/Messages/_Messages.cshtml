@@ -13,7 +13,6 @@
     if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
     <text>@statistics.Count messages</text>
 }
-</h3>
 <script type="text/javascript">
     function readM(guid) {
         $.post('/Messages/Read', {key:guid}).done(function (json) {

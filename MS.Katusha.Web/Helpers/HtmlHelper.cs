@@ -566,7 +566,7 @@ setInterval(function() {{
                     return "Yesterday " + date.ToShortTimeString();
                 }
             }
-            var days = (date - now).Days;
+            var days = (now - date).Days;
             if(days < 7) return String.Format("{0} days ago at {1}", days, date.ToShortTimeString());
             return String.Format("{0}-{1}-{2} {3}:{4}:{5}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
         }

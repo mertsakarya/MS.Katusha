@@ -11,14 +11,6 @@
     @foreach (var visit in Model.List) {
         var profile = visit.VisitorProfile;
         var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-        var date = visit.LastVisitTime;
-        var now = DateTime.Now;
-        var dateString = "";
-        if (now.Day == date.Day && now.Month == date.Month && now.Year == date.Year) {
-            dateString = date.ToShortTimeString();
-        } else {
-            dateString = date.ToShortDateString();
-        }
         <div class="gallery-item" style="display: inline-block;" >
             <div class="bar">
                 <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + profile.Location.CountryName)" href="/Profiles/Show/@(val)" rel="gallery">
@@ -26,7 +18,7 @@
                 </a>
                 <div style="border: 1 solid">
                     @profile.Name<br/>
-                    @(dateString)<br/>
+                    @Html.GetFriendlyDate(visit.LastVisitTime)<br/>
                     @(visit.Count) Time(s)<br/><br/>
                 </div>
             </div>
