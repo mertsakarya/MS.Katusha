@@ -9,15 +9,18 @@
     var statistics = Model.Statistics;
     var messageType = Model.MessageType;
 }
-
-<h3>@((messageType == MessageType.Received) ? "Received" : "Sent") Messages 
 @if(statistics != null) {
-    <text>( @statistics.UnreadCount / @statistics.Count )</text>
+    if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
+    <text>@statistics.Count messages</text>
 }
 </h3>
 <script type="text/javascript">
     function readM(guid) {
-        $.getJSON('/Messages/Read/' + guid, function(data) { $('#M'+guid).text(data).slideDown('slow'); });
+        $.post('/Messages/Read', {key:guid}).done(function (json) {
+            json = json || {};
+            $('#M' + guid).text(json.message).slideDown('slow');
+            $('#showReply').slideDown('fast');
+        });
     }
 </script>       
 <ul>
@@ -28,27 +31,32 @@
     var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
     var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
     var canClickRead = (messageType == MessageType.Received);    
-    <li>
+    <li style="list-style: none; border:1px solid #f0f0f0">
         <table>
             <tr>
-                <td><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.Photo(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
-                <td>
-                    <table>
-                        <tr><td><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
+                <td style="width:50px; overflow: hidden"><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.Photo(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
+                <td style="background-color: #ffe; width: 100%">
+                    <table width="100%">
+                        <tr><td style="background-color: goldenrod;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
+                        <tr><td style="background-color: gold;font-weight: bold;">
+                                <a href="#" title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"')":"void()")">@(String.IsNullOrWhiteSpace(message.Subject) ? "[No Subject]" : message.Subject)</a><br/>
+                            </td>
+                        </tr>
                         <tr><td>
-                            <a href="#" title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"')":"")">@message.Subject</a><br/>
                             <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
                                 @if(!(canClickRead && !isRead)) {
-                                <text>@(message.Message)</text>
+<text>@(message.Message)</text>
                                 }
+                            </div>
+                            <br/>
+                            <div id="showReply" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
+                                <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' title="Reply to this message">Reply</a>
                             </div>
                         </td></tr>
                     </table>
                 </td>
             </tr>
         </table>
-        @*        @Html.DisplayMessage(item, messageType)
-        *@
     </li>
 }
 </ul>

@@ -80,7 +80,7 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Send(string key)
+        public ActionResult Send(string key, string subject="")
         {
             var to = _profileService.GetProfile(key);
             var model = new ConversationModel {
@@ -134,12 +134,13 @@ namespace MS.Katusha.Web.Controllers
             return RedirectToAction("Conversations");
         }
 
-        [HttpGet]
-        public void Read(string key)
+        [HttpPost]
+        public JsonResult Read(string key)
         {
             Guid guid;
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !Guid.TryParse(key, out guid)) throw new HttpException(404, "Message not found!");
-            _conversationService.ReadMessage(KatushaProfile.Id, guid);
+            var message = _conversationService.ReadMessage(KatushaProfile.Id, guid);
+            return Json(new {message = message});
         }
     }
 }

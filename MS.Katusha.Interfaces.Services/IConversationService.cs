@@ -13,7 +13,7 @@ namespace MS.Katusha.Interfaces.Services
 
         IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
         void SendMessage(Conversation data);
-        void ReadMessage(long profileId, Guid messageGuid);
+        string ReadMessage(long profileId, Guid messageGuid);
         void DeleteMessage(Guid messageGuid, bool softDelete = false);
     }
 }

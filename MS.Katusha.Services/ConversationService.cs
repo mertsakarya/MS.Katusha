@@ -65,20 +65,22 @@ namespace MS.Katusha.Services
             _notificationService.MessageSent(ravenMessage);
         }
 
-        public void ReadMessage(long profileId, Guid messageGuid)
+        public string ReadMessage(long profileId, Guid messageGuid)
         {
+            //Todo: This should check if user can read the message!!!!
             var readTime = DateTime.Now;
             var ravenMessage = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
-            if (ravenMessage == null) return;
+            if (ravenMessage == null) return "";
             ravenMessage.ReadDate = readTime;
             _conversationRepositoryRaven.FullUpdate(ravenMessage);
 
             var message = _conversationRepository.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
-            if (message == null) return;
+            if (message == null) return "";
             message.ReadDate = readTime;
             _conversationRepository.FullUpdate(message);
 
             _notificationService.MessageRead(ravenMessage);
+            return message.Message;
         }
 
         public void DeleteMessage(Guid messageGuid, bool softDelete = false) {

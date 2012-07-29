@@ -5,15 +5,15 @@
     var pingResult = ViewBag.PingResult as PingResult;
     var name = (profile != null) ? profile.Name : User.Identity.Name;
     <div style="float:right">
-        <div id="newVisits" style="float:right; border:1px #f0f0f0 solid;display:none;"></div>
-        <div id="newMessages" style="float:right; border:1px #f0f0f0 solid;display:none;"></div>
+        <div id="newVisits" style="float:right; display:none;"></div>
+        <div id="newMessages" style="float:right; display:none;"></div>
     </div>
     <script type="text/javascript">
         function showNewConversations(unreadCount, count) {
-            var action = '@Url.Action("Conversations", "Messages")/1';
+            var action = '@Url.Action("Index", "Messages")';
             var title = '' + unreadCount + ' / ' + count;
             var text = '<img src="/Images/mail.jpg" /><br/><b>' + unreadCount + '</b> / ' + count;
-            var link = '<a href="' + action + '" title="' + title + '">' + text + '</a>';
+            var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';
             $('#newMessages').html(link).show("slow");
             
         }
@@ -21,7 +21,7 @@
             var action = '@Url.Action("NewVisits", "Visitor")/' + datetime;
             var title = '' + count + ' visitors.';
             var text = '<img src="/Images/view.gif" /><br/><b>' + count + ' </b> visitors';
-            var link = '<a href="' + action + '" title="' + title + '">' + text + '</a>';
+            var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';
             $('#newVisits').html(link).show("slow");
         }
         function countryChanged(val, cityId) {
