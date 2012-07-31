@@ -27,7 +27,7 @@
     @if (Model.ProfilePhotoGuid != Guid.Empty) {
         @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium, "", true)
     }
-    <hr />
+
     @Html.Partial("_Photo", Model)
 
     <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>

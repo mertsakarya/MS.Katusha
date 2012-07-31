@@ -7,8 +7,10 @@
     var katushaProfile = ViewBag.KatushaProfile;
 }
 @if (!Request.IsAuthenticated) {
-    <h1>@Html.ActionLink("Register for limited time.", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</h1>
-    <h3>This site is new, it will help you to find your dream.</h3>
+    <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account"))" id="registerLink" data_dialog_title="Registration">
+        <i class="icon-plus icon-white"></i>
+        <span>Register free for limited time only!</span>
+    </a>
     <br/>
 } else {
     if (katushaProfile == null) {
@@ -30,8 +32,26 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
         }
     </div>
-    if (Model.Total > Model.List.PageSize) {
+        if (Model.Total > Model.List.PageSize) {
          <hr style="clear: both"/>
-         @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new {key = page}, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-     }
+         @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+        }
+    <text><hr/>
+    <div style='font-family:"Segoe UI",Verdana,Helvetica,Sans-Serif'>
+        <h3>Welcome,</h3>
+        Our goal is to find the person you are looking for. <br />What we try to do on this site is to keep things very simple;
+        
+        <ul>
+            <li>Create a user. These informations will never be displayed to any other person.</li>
+            <li>Create a profile and let people know more about you.</li>
+            <li>Add photos. This is too easy, select any number of photos and upload.</li>
+            <li>Look for online people or recently registered users or make a search.</li>
+            <li>Look at their profile.</li>
+            <li>Send them a message to say hello.</li>
+            <li>You can see who visited your profile.</li>
+            <li>And sometimes you get a mail from us, if someone contacts you.</li>
+        </ul>
+    <h3>That&apos;s it. Enjoy!</h3>
+    </div>
+    </text>
 }

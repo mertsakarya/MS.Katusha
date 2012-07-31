@@ -121,7 +121,7 @@ namespace MS.Katusha.Web.Helpers
                 var container = new TagBuilder("div");
                 container.Attributes.Add("title", metadata.Description);
                 container.InnerHtml = label + text.ToString();
-                var result = htmlHelper.Raw(container.ToString());
+                var result = htmlHelper.Raw(container.ToString()+"<br />");
                 return result;
             }
             return htmlHelper.Raw("");
