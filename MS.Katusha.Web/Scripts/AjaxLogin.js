@@ -1,6 +1,7 @@
-﻿$(function () {
-    // Cache for dialogs
-    var dialogs = {};
+﻿// Cache for dialogs
+var dialogs = {};
+
+
 
     var getValidationSummaryErrors = function ($form) {
         // We verify if we created it beforehand
@@ -48,7 +49,12 @@
 
                     // In case of success, we redirect to the provided URL or the same page.
                     if (json.success) {
-                        location = json.redirect || location.href;
+                        if (json.message) {
+                            $("#dialog_content").hide();
+                            $("#dialog_message").text(json.message).show();
+                        } else {
+                            location = json.redirect || location.href;
+                        }
                     } else if (json.errors) {
                         displayErrors($form, json.errors);
                     }
@@ -71,7 +77,7 @@
         // Load the dialog with the content=1 QueryString in order to get a PartialView
         $.get(url + separator + 'content=1')
             .done(function (content) {
-                dialogs[id] = $('<div class="modal-popup">' + content + '</div>')
+                dialogs[id] = $('<div class="modal-popup"><div id="dialog_message" style="display:none; color:navy;"></div><div id="dialog_content">' + content + '</div></div>')
                     .hide() // Hide the dialog for now so we prevent flicker
                     .appendTo(document.body)
                     .filter('div') // Filter for the div tag only, script tags could surface
@@ -89,7 +95,8 @@
             });
     };
 
-    // List of link ids to have an ajax dialog
+$(function () {
+                // List of link ids to have an ajax dialog
     var links = ['#loginLink', '#registerLink', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton'];
 
     $.each(links, function (i, id) {

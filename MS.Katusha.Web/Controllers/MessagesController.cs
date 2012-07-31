@@ -28,7 +28,7 @@ namespace MS.Katusha.Web.Controllers
             _conversationService = conversationService;
         }
 
-        public ActionResult Index() { return View(); }
+        public ActionResult Index(int? key) { return View(); }
 
         public ActionResult Received(int? key = 1) {
             return GetMessages(MessageType.Received,  key);
@@ -109,7 +109,7 @@ namespace MS.Katusha.Web.Controllers
             data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
 
             _conversationService.SendMessage(data);
-            return Json(new { success = true });
+            return Json(new { success = true, message = "Your message has been sent." });
         }
 
         [HttpPost]

@@ -13,15 +13,7 @@
     if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
     <text>@statistics.Count messages</text>
 }
-<script type="text/javascript">
-    function readM(guid) {
-        $.post('/Messages/Read', {key:guid}).done(function (json) {
-            json = json || {};
-            $('#M' + guid).text(json.message).slideDown('slow');
-            $('#showReply').slideDown('fast');
-        });
-    }
-</script>       
+     
 <ul>
 @foreach (var message in items.List) {
     if (message == null) { continue; }
@@ -38,7 +30,7 @@
                     <table width="100%">
                         <tr><td style="background-color: goldenrod;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
                         <tr><td style="background-color: gold;font-weight: bold;">
-                                <a href="#" title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"')":"void()")">@(String.IsNullOrWhiteSpace(message.Subject) ? "[No Subject]" : message.Subject)</a><br/>
+                                <a title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"'); return false;":"void()")">@(String.IsNullOrWhiteSpace(message.Subject) ? "[No Subject]" : message.Subject)</a><br/>
                             </td>
                         </tr>
                         <tr><td>
@@ -48,9 +40,11 @@
                                 }
                             </div>
                             <br/>
-                            <div id="showReply" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
-                                <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' title="Reply to this message">Reply</a>
-                            </div>
+                            @if(messageType == MessageType.Received) {
+                                <div id="showReply@(message.Guid)" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
+                                    <a class="btn btn-warning cancel" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' onclick="sendMessage(this, event)" title="Reply to this message">Reply</a>
+                                </div>
+                            }
                         </td></tr>
                     </table>
                 </td>
@@ -62,6 +56,6 @@
 
 @if (Model.Conversations.Total > Model.Conversations.List.PageSize) {
     <hr style="clear: both"/>
-    @Html.PagedListPager(Model.Conversations.List, key => Url.Action("List", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    @Html.PagedListPager(Model.Conversations.List, key => Url.Action("Index", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
 }
 
