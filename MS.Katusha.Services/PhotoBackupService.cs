@@ -72,5 +72,12 @@ namespace MS.Katusha.Services
                 GeneratePhoto(guid, path, (PhotoType) suffix);
             }
         }
+
+        public byte[] GetPhotoData(Guid guid)
+        {
+            var photo = GetPhoto(guid);
+            return photo != null ? photo.Data : null;
+        }
+
     }
 }

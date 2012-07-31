@@ -22,13 +22,13 @@ namespace MS.Katusha.Services
         private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
         private readonly ISearchingForRepositoryDB _searchingForRepository;
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
+        private readonly IPhotoBackupService _photoBackupService;
 
-        private readonly IKatushaGlobalCacheContext _katushaGlobalCache
-;
+        private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
 
         public ProfileService(IResourceService resourceService, IVisitService visitService, INotificationService notificationService,  IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, ISearchingForRepositoryDB searchingForRepository,
-            ILanguagesSpokenRepositoryDB languagesSpokenRepository, IProfileRepositoryRavenDB profileRepositoryRaven,
+            ILanguagesSpokenRepositoryDB languagesSpokenRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IPhotoBackupService photoBackupService,
             IKatushaGlobalCacheContext globalCacheContext)
         {
             _resourceService = resourceService;
@@ -40,6 +40,7 @@ namespace MS.Katusha.Services
             _languagesSpokenRepository = languagesSpokenRepository;
             _searchingForRepository = searchingForRepository;
             _profileRepositoryRaven = profileRepositoryRaven;
+            _photoBackupService = photoBackupService;
             _katushaGlobalCache = globalCacheContext; 
         }
 
@@ -203,5 +204,20 @@ namespace MS.Katusha.Services
             }
             return result;
         }
+
+        public ExtendedProfile GetExtendedProfile(long profileId)
+        {
+            var includeExpressionParams = new Expression<Func<Profile, object>>[] {
+                p => p.CountriesToVisit, p => p.User,
+                p => p.LanguagesSpoken, p => p.LanguagesSpoken, p => p.Searches,
+                p => p.Photos, p=> p.SentMessages, p=>p.RecievedMessages, p=>p.Visited, p=>p.WhoVisited
+            };
+            var extendedProfile = new ExtendedProfile() {Profile = _profileRepository.GetById(profileId, includeExpressionParams)};
+            foreach( var photo in extendedProfile.Profile.Photos) {
+                extendedProfile.Photos.Add(photo.Guid, _photoBackupService.GetPhotoData(photo.Guid));
+            }
+            return extendedProfile;
+        }
+
     }
 }

@@ -40,5 +40,6 @@ namespace MS.Katusha.Interfaces.Services
         void AddLanguagesSpoken(long profileId, string language);
         void DeleteSearches(long profileId, LookingFor lookingFor);
         void AddSearches(long profileId, LookingFor lookingFor);
+        ExtendedProfile GetExtendedProfile(long profileId);
     }
 }

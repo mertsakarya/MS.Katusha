@@ -11,5 +11,6 @@ namespace MS.Katusha.Interfaces.Services
         PhotoBackup GetPhoto(Guid guid);
         void GeneratePhoto(Guid guid, string path);
         void GeneratePhoto(Guid guid, string path, PhotoType type);
+        byte[] GetPhotoData(Guid guid);
     }
 }
