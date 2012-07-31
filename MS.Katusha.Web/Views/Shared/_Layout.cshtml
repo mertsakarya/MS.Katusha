@@ -5,14 +5,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
         <title>@(ViewBag.Title) - Vacation</title>
-
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />        
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
-
-        <meta name="viewport" content="width=device-width" />
-        
         @{
             @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> { new BasicPath("Base", "~/Content/themes/base"), new BasicPath("Content", "~/Content") }))
             @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> { new BasicPath("Scripts", "~/Scripts"), new BasicPath("Content", "~/Content") }))
