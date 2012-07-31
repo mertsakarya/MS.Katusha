@@ -1,21 +1,25 @@
+@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.MessagesModel
 @{
     ViewBag.Title = "Messages";
+    var linkReceived = "#Messages";
+    var linkSent = "#Messages";
+    if (Model.MessageType == MessageType.Received) {
+        linkSent = Url.Action("Sent", "Messages", new {key = 1});
+    } else {
+        linkReceived = Url.Action("Received", "Messages", new {key = 1});
+    }
 }
 <script>
     $(function () {
-        var tabselected = (window.location.href.indexOf("Sent") >= 0) ? 1 : 0;
+        var tabselected = @((Model.MessageType == MessageType.Received) ? 0 : 1); 
         $("#tabs")
             .tabs({
-                selected: tabselected,
-                ajaxOptions: {
-                    async: true, 
-                    error: function (xhr, status, index, anchor) {
-                        $(anchor.hash).html("Couldn't load this tab. We'll try to fix this as soon as possible. " + "If this wouldn't be a demo.");
-                    }
-                }
+                selected: tabselected
             })
             .bind('tabsselect', function (event, ui) {
-                //tabload(ui.index);
+                if(ui.index != tabselected)
+                    window.location = '@((Model.MessageType == MessageType.Received) ? linkSent : linkReceived)';
             });
     });
 
@@ -51,8 +55,12 @@
 
 </script>  
 <div id="tabs">
-	<ul>
-		<li><a href="@(Url.Action("Received"))">Messages Received</a></li>
-		<li><a href="@(Url.Action("Sent"))">Messages Sent</a></li>
-	</ul>
+    <ul>
+        <li><a href="#Messages">Messages Received</a></li>
+        <li><a href="#Messages">Messages Sent</a></li>
+    </ul>
+    <div id="Messages">
+        @Html.Partial("Messages", Model)
+    </div>
+
 </div>

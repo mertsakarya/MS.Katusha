@@ -10,7 +10,7 @@
     </div>
     <script type="text/javascript">
         function showNewConversations(unreadCount, count) {
-            var action = '@Url.Action("Index", "Messages")';
+            var action = '@Url.Action("Received", "Messages")';
             var title = '' + unreadCount + ' / ' + count;
             var text = '<img src="/Images/mail.jpg" /><br/><b>' + unreadCount + '</b> / ' + count;
             var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';

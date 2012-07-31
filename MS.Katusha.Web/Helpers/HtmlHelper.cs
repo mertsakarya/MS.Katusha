@@ -567,7 +567,7 @@ setInterval(function() {{
                 }
             }
             var days = (now - date).Days;
-            if(days < 7) return String.Format("{0} days ago at {1}", days, date.ToShortTimeString());
+            if(days < 7) return String.Format("{0} days ago {1}", days, date.ToShortTimeString());
             return String.Format("{0}-{1}-{2}", date.Year, date.Month, date.Day);
         }
 

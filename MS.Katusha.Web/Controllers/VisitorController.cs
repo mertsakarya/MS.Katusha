@@ -39,6 +39,22 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
+
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+        public ActionResult MyVisits(int? key)
+        {
+            var pageIndex = (key ?? 1);
+            int total;
+
+            var visitors = _visitService.GetMyVisits(KatushaProfile.Id, out total, pageIndex, PageSize);
+
+            var visitorsModel = Mapper.Map<IList<NewVisitModel>>(visitors);
+
+            var visitorAsIPagedList = new StaticPagedList<NewVisitModel>(visitorsModel, pageIndex, PageSize, total);
+            var model = new PagedListModel<NewVisitModel> { List = visitorAsIPagedList, Total = total };
+
+            return View(model);
+        }
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult NewVisits(string key)
         {

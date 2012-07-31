@@ -23,7 +23,7 @@ namespace MS.Katusha.Services
 
         public void Visit(Profile visitorProfile, Profile profile)
         {
-            if (visitorProfile != null && profile.Id != visitorProfile.Id) {
+            if (visitorProfile != null && profile != null && profile.Id != visitorProfile.Id && profile.Guid != visitorProfile.Guid) {
                 var visit = _visitRepository.SingleAttached(p => p.ProfileId == profile.Id && p.VisitorProfileId == visitorProfile.Id);
 
                 if (visit == null) {
@@ -49,6 +49,12 @@ namespace MS.Katusha.Services
         public IList<UniqueVisitorsResult> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20)
         {
             var items = _visitRepositoryRaven.GetVisitors(profileId, out total, pageNo, pageSize);
+            return items;
+        }
+
+        public IList<UniqueVisitorsResult> GetMyVisits(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            var items = _visitRepositoryRaven.GetMyVisits(profileId, out total, pageNo, pageSize);
             return items;
         }
 

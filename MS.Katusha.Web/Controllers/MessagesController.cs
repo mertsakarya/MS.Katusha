@@ -28,8 +28,6 @@ namespace MS.Katusha.Web.Controllers
             _conversationService = conversationService;
         }
 
-        public ActionResult Index(int? key) { return View(); }
-
         public ActionResult Received(int? key = 1) {
             return GetMessages(MessageType.Received,  key);
         }
@@ -44,7 +42,7 @@ namespace MS.Katusha.Web.Controllers
             int total;
             var pageIndex = (key ?? 1);
             var statistics = _conversationService.GetConversationStatistics(KatushaProfile.Id, messageType);
-            var messages = _conversationService.GetMessages(KatushaProfile.Id, messageType, out total, pageIndex);
+            var messages = _conversationService.GetMessages(KatushaProfile.Id, messageType, out total, pageIndex, PageSize);
             var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
             var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
             var model = new MessagesModel {
@@ -52,7 +50,7 @@ namespace MS.Katusha.Web.Controllers
                 Statistics = statistics,
                 Conversations = new PagedListModel<ConversationModel> {List = messagesAsIPagedList, Total = total},
             };
-            return View("_Messages", model);
+            return View("Index", model);
         }
 
         public ActionResult List(string key, int? page = 1)

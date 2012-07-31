@@ -39,5 +39,14 @@ namespace MS.Katusha.Repositories.RavenDB
                 return result;
             }
         }
+
+        public IList<UniqueVisitorsResult> GetMyVisits(long profileId, out int total, int pageNo = 1, int pageSize = 20) {
+            using (var session = DocumentStore.OpenSession()) {
+                RavenQueryStatistics stats;
+                var result = Queryable.OrderByDescending(session.Query<UniqueVisitorsResult, UniqueVisitorsIndex>().Statistics(out stats).Where(p => p.VisitorProfileId == profileId), p => p.LastVisitTime).ToList();
+                total = stats.TotalResults;
+                return result;
+            }
+        }
     }
 }

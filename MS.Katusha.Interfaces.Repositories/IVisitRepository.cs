@@ -15,5 +15,6 @@ namespace MS.Katusha.Interfaces.Repositories
     {
         IList<UniqueVisitorsResult> GetVisitorsSinceLastVisit(long profileId, DateTime lastVisitTime);
         IList<UniqueVisitorsResult> GetVisitors(long profileId, out int total, int pageNo = 1, int pageSize = 20);
+        IList<UniqueVisitorsResult> GetMyVisits(long profileId, out int total, int pageNo = 1, int pageSize = 20);
     }
 }

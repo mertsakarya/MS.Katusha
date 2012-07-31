@@ -1,0 +1,32 @@
+﻿@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.PagedListModel<MS.Katusha.Web.Models.NewVisitModel>
+@{ 
+    ViewBag.Title = "My Visits";
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+}
+
+<h2>My Visits ( @Model.Total )</h2>
+
+<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+    @foreach (var visit in Model.List) {
+        var profile = visit.Profile;
+        var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+        <div class="gallery-item" style="display: inline-block;" >
+            <div class="bar">
+                <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + profile.Location.CountryName)" href="/Profiles/Show/@(val)" rel="gallery">
+                    @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
+                </a>
+                <div style="border: 1 solid">
+                    @profile.Name<br/>
+                    @Html.GetFriendlyDate(visit.LastVisitTime)<br/>
+                    @(visit.Count) Time(s)<br/><br/>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.Total > Model.List.PageSize) {
+    <hr style="clear: both"/>
+    @Html.PagedListPager(Model.List, key => Url.Action(action, new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
