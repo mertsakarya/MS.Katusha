@@ -32,4 +32,26 @@
     <loc>http://mskatusha.apphb.com/Profiles/Online</loc>
     <changefreq>hourly</changefreq>
   </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/8a17bb94-2411-464d-a6d1-eed9e62dee35</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/30f1b438-c6a4-4ef4-a012-5451a45972d6</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/f1ff99e4-29de-4068-b413-e761c9259b2c</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/b03075c2-463f-4568-b583-a3142569ab31</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/d5e81a4e-d6c2-478c-834c-26fc124dfa70</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/167efacf-d343-4dc2-9908-04cd5e0e96b9</loc>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Show/bcf639ed-f4fa-4f1f-88e8-009c1e845e85</loc>
+  </url>
+
 </urlset>
