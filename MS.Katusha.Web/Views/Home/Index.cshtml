@@ -6,24 +6,6 @@
     var action = ViewContext.RouteData.Values["Action"].ToString();
     var katushaProfile = ViewBag.KatushaProfile;
 }
-@if (!Request.IsAuthenticated) {
-    <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
-        <i class="icon-plus icon-white"></i>
-        <span>Register free for limited time only!</span>
-    </a>
-    <br/>
-} else {
-    if (katushaProfile == null) {
-        <h2>Create a new 
-            <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Girl" }, null)'>
-                <span>Girl Profile</span>
-            </a>
-            <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Man" }, null)'>
-                <span>Man Profile</span>
-            </a>
-        </h2>
-    }
-}
 @if (!Request.IsAuthenticated || katushaProfile != null) {
     <hr />
     <h2>All Profiles ( @Model.Total ) </h2>

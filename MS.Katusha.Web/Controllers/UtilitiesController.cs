@@ -61,7 +61,6 @@ namespace MS.Katusha.Web.Controllers
         public JsonResult GetExtendedProfile(string key)
         {
             long id;
-            Profile profile;
             if(!long.TryParse(key, out id)) {
                 Guid guid;
                 if(!Guid.TryParse(key, out guid)) {

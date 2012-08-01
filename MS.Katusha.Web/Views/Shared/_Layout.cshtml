@@ -10,7 +10,9 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />        
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
-        @{
+        @{    
+            var katushaProfile = ViewBag.KatushaProfile;
+
             @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> { new BasicPath("Base", "~/Content/themes/base"), new BasicPath("Content", "~/Content") }))
             @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> { new BasicPath("Scripts", "~/Scripts"), new BasicPath("Content", "~/Content") }))
 
@@ -85,7 +87,27 @@
             <section class="content-wrapper main-content clear-fix">
                 <div id="k_main" class="k_clearfix">
                     <div id="k_main_sidebar_left">@Html.Partial("_LeftPartial")</div>
-                    <div id="k_content">@RenderBody()</div>
+                    <div id="k_content">
+                        @if (!Request.IsAuthenticated) {
+                            <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Register free for limited time only!</span>
+                            </a>
+                            <br/>
+                        } else {
+                            if (katushaProfile == null) {
+                                <h2>Create a new 
+                                    <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Girl" }, null)'>
+                                        <span>Girl Profile</span>
+                                    </a>
+                                    <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Man" }, null)'>
+                                        <span>Man Profile</span>
+                                    </a>
+                                </h2>
+                            }
+                        }
+                        @RenderBody()
+                    </div>
                 </div>
             </section>
         </div>
