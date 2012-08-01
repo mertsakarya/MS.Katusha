@@ -115,3 +115,16 @@ $(function () {
         });
     });
 });
+
+function cf(cityArea, from, city) {
+    var ca = document.getElementById(cityArea);
+    var f = document.getElementById(from);
+    if (ca != null)
+        if (f != null && f.value.length > 0) {
+            ca.style.display = '';
+        } else {
+            ca.style.display = "none";
+            document.getElementById(city).value = '';
+            document.getElementById(city + 'Key').value = '';
+        }
+}

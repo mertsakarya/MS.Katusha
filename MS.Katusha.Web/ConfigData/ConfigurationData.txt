@@ -247,7 +247,7 @@
  		en	Profile.Description.DisplayName	Description
  		en	Profile.Description.Description	Fill this up for people know you better.
  		en	Profile.Description.StringLengthErrorMessage	You must write at least {0} and up to {1} letters.
- 		en	Profile.Description.RequiredErrorMessage	Why don't you write a little about yourself?
+ 		en	Profile.Description.RequiredErrorMessage	Why don't you write a little about yourself in Description field?
 
 *	Profile.Searches
  	[Resource]

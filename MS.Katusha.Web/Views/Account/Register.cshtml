@@ -1,45 +1,87 @@
+@using MS.Katusha.Enumerations
 @model MS.Katusha.Web.Models.RegisterModel
 
 @{
     ViewBag.Title = "Register";
+    var profileVisible = (Model.Gender > 0);
 }
+<script type="text/javascript">
+    function selectGender(val) {
+        document.getElementById('Gender').value = val;
+        $("#" + ((val == @( (byte) Sex.Male)) ? "girl" : "man")+ "Button").hide();
+        $("#registration_title").hide();
+        $("#registration_user").hide("slow");
+        $("#registration_profile").show("slow");
+        return false;
+    }
+    function selectUser(val) {
+        document.getElementById('Gender').value = 0;
+        $("#registration_title").show();
+        $("#registration_profile").hide("slow");
+        $("#registration_user").show("slow");
+        return false;
+    }
+</script>
+<div id="registration_title">
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>Use the form below to create a new account.</h2>
+    </hgroup>
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Use the form below to create a new account.</h2>
-</hgroup>
-
-<p class="message-info">
-    Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
-</p>
+    <p class="message-info">
+        Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
+    </p>
+</div>
 
 @using (Html.BeginForm((string)ViewBag.FormAction, "Account")) {
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
-
     <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-                @Html.ValidationMessageFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
+        <div id="registration_user">
+            <legend>Registration Form</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName)
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email)
+                    @Html.ValidationMessageFor(m => m.Email)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password)
+                    @Html.ValidationMessageFor(m => m.Password)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </li>
+            </ol>
+
+            <hr/>
+            @if (!profileVisible) {
+                <h4>Click to create a new  
+                    <div id="girlButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Female))">
+                        <span>Girl Profile</span>
+                    </div>
+                    <div id="manButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Male))">
+                        <span>Man Profile</span>
+                    </div>
+                </h4>
+            }
+        </div>
+        <div id="registration_profile" style="@((profileVisible)?"":"display: none;")">
+            @if (!profileVisible) {
+                <div class="btn btn-success" onclick="return selectUser();">
+                    <span>Modify user information</span>
+                </div>
+            }
+            @Html.HiddenFor(m => m.Gender)
+            @Html.Partial("_ProfileCreateOrEdit", Model)
+            <input type="submit" value="Register" />
+        </div>
     </fieldset>
 }

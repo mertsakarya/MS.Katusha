@@ -27,6 +27,11 @@ a:hover {
     background-color: #c7d1d6;
 }
 
+a.btn:link, a.btn:visited, a.btn:active, a.btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
 header, footer, hgroup,
 nav, section {
     display: block;

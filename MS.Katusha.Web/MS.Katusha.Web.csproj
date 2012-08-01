@@ -917,7 +917,7 @@
     <Content Include="Views\Utilities\Photos.cshtml" />
     <Content Include="Views\Utilities\Index.cshtml" />
     <Content Include="Views\Visitor\NewVisits.cshtml" />
-    <Content Include="Views\Profiles\_CreateOrEdit.cshtml" />
+    <Content Include="Views\Shared\_ProfileCreateOrEdit.cshtml" />
     <Content Include="Views\Account\Facebook.cshtml" />
     <Content Include="App_Code\CountryCity.cshtml" />
     <Content Include="Views\___MailTemplates\MailMessageSent_en.cshtml" />

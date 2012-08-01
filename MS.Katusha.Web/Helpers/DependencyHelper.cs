@@ -15,6 +15,7 @@ using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers.Binders;
+using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using NLog;
 using ServiceStack.Redis;
@@ -39,6 +40,7 @@ namespace MS.Katusha.Web.Helpers
             ModelBinders.Binders[typeof(SearchProfileCriteriaModel)] = new SearchCriteriaBinder();
             ModelBinders.Binders[typeof(SearchStateCriteriaModel)] = new SearchCriteriaBinder();
             ModelBinders.Binders[typeof(ProfileModel)] = new ProfileModelBinder();
+            ModelBinders.Binders[typeof(RegisterModel)] = new ProfileModelBinder();
             ModelBinders.Binders[typeof(FacebookProfileModel)] = new FacebookProfileModelBinder();
 
 

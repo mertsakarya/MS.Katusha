@@ -31,7 +31,7 @@ namespace MS.Katusha.Infrastructure.Attributes
             return validationResult;
         }
 
-        public new string ErrorMessage { get { return ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "*"; } }
+        public new string ErrorMessage { get { return ResourceService.ResourceValue(PropertyName + "." + ErrorMessageKeyName) ?? "*"; } }
 
         public new string Pattern { get { return ResourceService.ConfigurationValue(PropertyName, PatternName); } }
 

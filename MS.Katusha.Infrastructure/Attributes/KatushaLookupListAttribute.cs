@@ -46,7 +46,7 @@ namespace MS.Katusha.Infrastructure.Attributes
 
         public string PropertyName { get; private set; }
 
-        public new string ErrorMessage { get { return String.Format(ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
+        public new string ErrorMessage { get { return String.Format(ResourceService.ResourceValue(PropertyName + "." + ErrorMessageKeyName) ?? "({0} - {1})", Minimum, Maximum); } }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {

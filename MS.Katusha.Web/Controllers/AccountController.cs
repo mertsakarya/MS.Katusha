@@ -88,65 +88,56 @@ namespace MS.Katusha.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return ContextDependentView(null, "Register");
+            return ContextDependentView(new RegisterModel() {Location = new LocationModel()}, "Register");
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult JsonRegister(RegisterModel model)
-        {
-            if (ModelState.IsValid) {
-                KatushaMembershipCreateStatus createStatus;
-                UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
-                if (createStatus == KatushaMembershipCreateStatus.Success) {
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return Json(new {success = true});
-                }
-                ModelState.AddModelError("", ErrorCodeToString(createStatus));
-            }
-            return Json(new {errors = GetErrorsFromModelState()});
+        public ActionResult JsonRegister(RegisterModel model) {
+            return _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
+            return _Register(model, RedirectToAction("Index", "Home"), View(model));
+        }
+
+        private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
+        {
             if (ModelState.IsValid) {
                 KatushaMembershipCreateStatus createStatus;
-                UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
                 if (createStatus == KatushaMembershipCreateStatus.Success) {
+                    var profile = Mapper.Map<Profile>(model);
+                    profile.UserId = KatushaUser.Id;
+                    profile.Guid = KatushaUser.Guid;
+                    ProfileService.CreateProfile(profile);
+                    KatushaProfile = profile;
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return RedirectToAction("Index", "Home");
+                    return successResult;
                 }
                 ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }
-            return View(model);
+            return failResult;
         }
 
         public ActionResult ChangePassword() { return ContextDependentView(null, "ChangePassword"); }
 
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
-        {
-            if (ModelState.IsValid) {
-                bool changePasswordSucceeded;
-                try {
-                    changePasswordSucceeded = UserService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                } catch (Exception) {
-                    changePasswordSucceeded = false;
-                }
-                if (changePasswordSucceeded) {
-                    return RedirectToAction("ChangePasswordSuccess");
-                }
-                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-            }
-            return View(model);
+        public ActionResult ChangePassword(ChangePasswordModel model) {
+            return _ChangePassword(model, RedirectToAction("ChangePasswordSuccess"), View(model));
         }
 
         [HttpPost]
         public JsonResult JsonChangePassword(ChangePasswordModel model, string returnUrl)
         {
+            return (JsonResult) _ChangePassword(model, Json(new { success = true, redirect = Url.Action("ChangePasswordSuccess", "Account") }), Json(new { errors = GetErrorsFromModelState() }));
+        }
 
+        private ActionResult _ChangePassword(ChangePasswordModel model, ActionResult successResult, ActionResult failResult)
+        {
             if (ModelState.IsValid) {
                 bool changePasswordSucceeded;
                 try {
@@ -154,16 +145,13 @@ namespace MS.Katusha.Web.Controllers
                 } catch (Exception) {
                     changePasswordSucceeded = false;
                 }
-                if (changePasswordSucceeded) {
-                    return Json(new { success = true, redirect = Url.Action("ChangePasswordSuccess", "Account") });
-                }
+                if (changePasswordSucceeded) return successResult;
                 ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
-            return Json(new { errors = GetErrorsFromModelState() });
+            return failResult;
         }
 
         public ActionResult ChangePasswordSuccess() { return View(); }
-
 
         #region Status Codes
         private string ErrorCodeToString(KatushaMembershipCreateStatus createStatus)

@@ -54,7 +54,7 @@ namespace MS.Katusha.Infrastructure.Attributes
         public new string ErrorMessage
         {
             get {
-                return String.Format(ResourceService.ResourceValue(PropertyName, ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
+                return String.Format(ResourceService.ResourceValue(PropertyName + "." + ErrorMessageKeyName) ?? "({0} - {1})", MinimumLength, MaximumLength);
             }
         }
 

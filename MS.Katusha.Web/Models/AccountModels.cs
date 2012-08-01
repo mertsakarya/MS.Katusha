@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using MS.Katusha.Web.Models.Entities;
 
 namespace MS.Katusha.Web.Models
 {
@@ -49,7 +50,7 @@ namespace MS.Katusha.Web.Models
         public string UserName { get; set; }
     }
 
-    public class RegisterModel
+    public class RegisterModel : ProfileModel
     {
         [Required]
         [Display(Name = "User name")]

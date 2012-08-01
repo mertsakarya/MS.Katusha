@@ -66,6 +66,12 @@ namespace MS.Katusha.Web.Helpers
             Mapper.CreateMap<ProfileModel, Profile>();
             Mapper.CreateMap<FacebookProfileModel, Profile>();
 
+            Mapper.CreateMap<RegisterModel, Profile>()
+                .ForMember(dest => dest.BreastSize, opt => opt.MapFrom(src => (byte?)src.BreastSize))
+                .ForMember(dest => dest.DickSize, opt => opt.MapFrom(src => (byte?)src.DickSize))
+                .ForMember(dest => dest.DickThickness, opt => opt.MapFrom(src => (byte?)src.DickThickness));
+
+
             Mapper.CreateMap<UniqueVisitorsResult, NewVisitModel>().ConvertUsing(UniqueVisitorsResultConverter.GetInstance());
 
         }
