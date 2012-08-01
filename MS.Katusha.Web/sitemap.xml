@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <url>
+    <loc>http://mskatusha.apphb.com/</loc>
+    <changefreq>always</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Account/Register</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Account/Login</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Men</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Girls</loc>
+    <changefreq>always</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/New</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>http://mskatusha.apphb.com/Profiles/Online</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+</urlset>

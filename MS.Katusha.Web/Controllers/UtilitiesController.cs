@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
@@ -53,6 +54,27 @@ namespace MS.Katusha.Web.Controllers
             if (count <= 0) return;
             _samplesService.GenerateRandomUserAndProfile(count, extra);
             Response.Write(String.Format("({0}) items are created with extra {1}!", count, extra));
+        }
+
+        [HttpGet]
+        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        public JsonResult GetExtendedProfile(string key)
+        {
+            long id;
+            Profile profile;
+            if(!long.TryParse(key, out id)) {
+                Guid guid;
+                if(!Guid.TryParse(key, out guid)) {
+                    var user = UserService.GetUser(key);
+                    if (user == null) throw new NullReferenceException("Key invalid");
+                    id = ProfileService.GetProfileId(user.Guid);
+                } else {
+                    id = ProfileService.GetProfileId(guid);
+                }
+            }
+            if (id == 0) throw new NullReferenceException("Key invalid");
+            var extendedProfile = _utilityService.GetExtendedProfile(id);
+            return Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

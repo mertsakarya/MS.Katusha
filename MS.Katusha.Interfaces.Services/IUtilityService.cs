@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Interfaces.Services
 {
@@ -7,5 +8,7 @@ namespace MS.Katusha.Interfaces.Services
         void ClearDatabase(string photosFolder);
         void RegisterRaven();
         IEnumerable<string> ResetDatabaseResources();
+
+        ExtendedProfile GetExtendedProfile(long profileId);
     }
 }

@@ -795,6 +795,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="robots.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Glimpse.RavenDb.Readme.txt" />
     <Content Include="Global.asax" />
@@ -877,6 +878,7 @@
     <Content Include="Scripts\PagedList\PagedList.Mvc.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.Template.html" />
     <Content Include="ConfigData\timeZones.txt" />
+    <Content Include="sitemap.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

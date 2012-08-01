@@ -23,6 +23,7 @@ namespace TestConsole
             var conversationService = DependencyRegistrar.Container.Resolve<IConversationService>();
 
             var profileService = DependencyRegistrar.Container.Resolve<IProfileService>();
+            var utilityService = DependencyRegistrar.Container.Resolve<IUtilityService>();
             var userService = DependencyRegistrar.Container.Resolve<IUserService>();
             var profiles = new Profile[] {
                 profileService.GetProfile(1),
@@ -30,7 +31,7 @@ namespace TestConsole
             };
             var user = userService.GetUser("mertiko");
             var id = profileService.GetProfileId(user.Guid);
-            var profile = profileService.GetExtendedProfile(id);
+            var profile = utilityService.GetExtendedProfile(id);
             Console.WriteLine(profile.Profile.Name);
             var list = new List<Guid>();
             var readCount = new Dictionary<string, int>();
