@@ -214,11 +214,11 @@ namespace MS.Katusha.Services
         public bool DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
         {
             var isProfilePhoto = false;
-            var profile = _profileRepository.GetById(profileId, p => p.Photos);
-            if (profile == null) return isProfilePhoto;
+            var profile = _profileRepository.SingleAttached(p=>p.Id == profileId, p => p.Photos);
+            if (profile == null) return false;
             if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
                 throw new HttpException(404, "Photo not found!");
-            var entity = _photoRepository.GetByGuid(photoGuid);
+            var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
             if (entity != null) {
                 _photoRepository.Delete(entity);
                 for (byte i = 0; i < (byte)PhotoType.MAX; i++)

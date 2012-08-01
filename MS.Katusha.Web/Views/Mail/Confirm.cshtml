@@ -1,9 +1,14 @@
 ﻿@model MS.Katusha.Web.Models.MailConfirmModel
 @{ ViewBag.Title = "Mail Confirmation"; }
 
-<h2>Mail Confirmation</h2>
-
-Congratulations! Your email address has been validated for <b>"@Model.UserName"</b><br/>
-<br/>
-@Html.ActionLink("Create Girl Profile", "Create", "Profiles", new {key = "Girl"}, null);
-@Html.ActionLink("Create Man Profile", "Create", "Profiles", new { key = "Man" }, null);
+@if (String.IsNullOrWhiteSpace(Model.UserName)) {
+    <h1>User not found!</h1>
+} else {
+    <span>
+        <h2>Mail Confirmation</h2>
+        Congratulations! Your email address has been validated for <b>"@Model.UserName"</b><br/>
+        <br/>
+        @Html.ActionLink("Create Girl Profile", "Create", "Profiles", new {key = "Girl"}, null);
+        @Html.ActionLink("Create Man Profile", "Create", "Profiles", new {key = "Man"}, null);
+    </span>
+}

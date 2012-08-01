@@ -68,7 +68,7 @@ namespace MS.Katusha.Services
 
         public bool ChangePassword(string userName, string oldPassword, string newPassword)
         {
-            var user = _repository.Single(u => u.UserName == userName);
+            var user = _repository.SingleAttached(u => u.UserName == userName);
             if (user == null) return false;
             if (user.Password != oldPassword) return false;
             user.Password = newPassword;
@@ -79,7 +79,8 @@ namespace MS.Katusha.Services
 
         public User ConfirmEMailAddresByGuid(Guid guid)
         {
-            var user = _repository.GetByGuid(guid);
+            var user = _repository.SingleAttached(p=>p.Guid == guid);
+            if (user == null) return null;
             user.EmailValidated = true;
             _repository.FullUpdate(user);
             _repository.Save();

@@ -107,10 +107,16 @@ namespace MS.Katusha.Services
 
         public void DeleteProfile(long profileId, bool force = false)
         {
-            var profile = _profileRepository.GetById(profileId);
-            if (profile != null) {
-                ExecuteDeleteProfile(profile, force);
-            }
+            var profile = _profileRepository.SingleAttached(p=>p.Id == profileId);
+            if (profile == null) return;
+            var userId = profile.UserId;
+            ExecuteDeleteProfile(profile, force);
+            if (userId <= 0) return;
+            var user = _userRepository.SingleAttached(p => p.Id == userId);
+            if (user == null) return;
+            user.Gender = 0;
+            user.Guid = Guid.Empty;
+            _userRepository.FullUpdate(user);
         }
 
         private void ExecuteDeleteProfile(Profile profile, bool softDelete)

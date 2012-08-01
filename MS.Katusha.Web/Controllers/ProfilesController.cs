@@ -97,7 +97,16 @@ namespace MS.Katusha.Web.Controllers
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = false)]
         public ActionResult Create(string key)
         {
-            if (KatushaUser.Gender > 0) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, "CREATE GET");
+            if (KatushaUser.Gender > 0) {
+                if(KatushaUser.Guid != Guid.Empty) {
+                    var id = ProfileService.GetProfileId(KatushaUser.Guid);
+                    if(id > 0) { // profile exists
+                        return RedirectToAction("Show", new {key = KatushaUser.Guid});
+                    }
+                } else {
+                    throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, "CREATE GET");
+                }
+            }
             var model = new ProfileModel();
             if(key == null)
                 throw new KatushaGenderNotExistsException(null);
