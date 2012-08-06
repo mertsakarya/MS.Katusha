@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProductService.cs" />
+    <Compile Include="PaypalServiceSOAP.cs" />
     <Compile Include="GridService.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="ResourceService.cs" />
@@ -124,6 +126,10 @@
     <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PayPal_Merchant_SDK\PayPal_Merchant_SDK.csproj">
+      <Project>{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266}</Project>
+      <Name>PayPal_Merchant_SDK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

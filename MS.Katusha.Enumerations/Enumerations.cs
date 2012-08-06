@@ -1,8 +1,11 @@
+using System.ComponentModel;
+
 namespace MS.Katusha.Enumerations
 {
     public enum Sex : byte { Male = 1, Female = 2, MAX = 2 }
     public enum Status : byte { Online = 1, Away, Offline }
-    public enum MembershipType : byte { Normal = 1, Gold = 2, Platinium = 3 }
+    public enum MembershipType : byte { Normal = 1, Gold = 2, Platinium = 3, Administrator = 4, MAX = 4 }
+    public enum TimeFrameType : byte { Year = 1, Month = 2, Day = 3, Hour = 4, MAX = 4 }
     public enum Existance : byte { Active = 1, Expired = 2 }
     public enum BreastSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
     public enum DickSize : byte { Small = 1, Medium = 2, Large = 3, ExtraLarge = 4, MAX = 4 }
@@ -31,4 +34,10 @@ namespace MS.Katusha.Enumerations
     public enum PhotoType : byte { Original = 0, Thumbnail = 1, Medium = 2, Large = 3, Icon = 4, MAX = 4 }
 
     public enum Action : int { LoggedIn = 1, LoggedOut, CreatedProfile, EditedProfile, VisitedProfile, SendMessage, ReadMessage, BecameMember, CanceledMembership, MembershipEXpired, AddedPhoto, ChangedProfilePicture }
+
+    public enum CheckoutStatus { PaymentActionNotInitiated, PaymentActionFailed, PaymentActionInProgress, PaymentCompleted }
+    public enum ProductNames { MonthlyKatusha }
+
+    public enum PaypalEnvironment { Sandbox, Live }
+
 }

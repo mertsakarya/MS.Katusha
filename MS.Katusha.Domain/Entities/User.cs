@@ -14,6 +14,7 @@ namespace MS.Katusha.Domain.Entities
         [MinLength(3), MaxLength(64)]
         public string UserName { get; set; }
         public string FacebookUid { get; set; }
+        public string PaypalPayerId { get; set; }
 
         [Required]
         [MinLength(7), MaxLength(64)]
@@ -34,7 +35,7 @@ namespace MS.Katusha.Domain.Entities
 
         public override string ToString()
         {
-            return base.ToString() + String.Format(" | FacebookUid: {0} | Gender: {1} | UserName: {2} | Email: {3} | EmailValidated: {7} | Phone: {4} | Password: {5} | Expires: {6}", FacebookUid, Enum.GetName(typeof(Sex), Gender), UserName, Email, Phone, Password, Expires, EmailValidated);
+            return base.ToString() + String.Format(" | FacebookUid: {0} | PaypalPayerId: {8} | Gender: {1} | UserName: {2} | Email: {3} | EmailValidated: {7} | Phone: {4} | Password: {5} | Expires: {6}", FacebookUid, Enum.GetName(typeof(Sex), Gender), UserName, Email, Phone, Password, Expires, EmailValidated, PaypalPayerId);
         }
 
     }

@@ -8,15 +8,11 @@
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Profile</legend>
-
 		@Html.Partial("_ProfileCreateOrEdit", Model)
 
         <p>
             <input type="submit" value="Create" />
         </p>
-    </fieldset>
 }
 
 <div>

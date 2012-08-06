@@ -10,8 +10,8 @@
             <li>@Html.ActionLink("My messages", "Received", "Messages", new {key = 1}, null)</li>
             <li>@Html.ActionLink("My visitors", "Index", "Visitor", new { key = 1 }, null)</li>
             <li>@Html.ActionLink("My visits", "MyVisits", "Visitor", new { key = 1 }, null)</li>
-            <li>@Html.ActionLink("View my profile", "Show", "Profiles", new { key = Html.KeyFor(profile) }, null)</li>
-            <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", new { key = Html.KeyFor(profile) }, null)</li>
+            <li>@Html.ActionLink("View my profile", "Me", "Profiles", null, null)</li>
+            <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", null, null)</li>
             <li>@Html.ActionLink("My Photos", "List", "Photos")</li>
             @*<li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>*@
         } else {

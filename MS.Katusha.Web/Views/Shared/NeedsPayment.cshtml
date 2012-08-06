@@ -1,0 +1,18 @@
+﻿@using MS.Katusha.Domain.Entities
+@using MS.Katusha.Enumerations
+@model ProductNames
+@{
+    var user = ViewBag.KatushaUser as User;
+    if (!(ViewBag.HasLayout != null && ViewBag.HasLayout == true)) {
+        Layout = "";
+    }
+    if (user != null) {
+         <div style="text-align: center">
+             <h2>You need to upgrade your membership to contact others!</h2>
+             <h3>@Html.DisplayProductData(Model)</h3>
+             <hr/>
+             <h2>We have 30 days refund policy.</h2>
+             @PaypalHelper.ExpressCheckoutButton(Model)
+         </div>
+     }
+}

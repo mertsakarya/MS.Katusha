@@ -17,7 +17,8 @@ namespace MS.Katusha.Web.Helpers
 {
     public static class HtmlHelper
     {
-        private static readonly IResourceService ResourceService =  DependencyResolver.Current.GetService<IResourceService>();
+        private static readonly IResourceService ResourceService = DependencyResolver.Current.GetService<IResourceService>();
+        private static readonly IProductService ProductService = DependencyResolver.Current.GetService<IProductService>();
 
         private static Type GetNonNullableModelType(ModelMetadata modelMetadata)
         {
@@ -511,6 +512,13 @@ setInterval(function() {{
                 default:
                     return key;
             }
+        }
+
+        public static IHtmlString DisplayProductData<TModel>(this HtmlHelper<TModel> htmlHelper, ProductNames productName)
+        {
+            var product = ProductService.GetProductByName(productName);
+            var result = "<b>" + product.Name + "</b> for <b>$" + product.Amount + "</b>";
+            return htmlHelper.Raw(result);
         }
 
         public static IHtmlString DisplayMessage<TModel>(this HtmlHelper<TModel> htmlHelper, ConversationModel message, MessageType messageType )

@@ -1,5 +1,7 @@
-﻿@using ClientDependency.Core
+﻿@using System.Configuration
+@using ClientDependency.Core
 @using ClientDependency.Core.Mvc
+@using MS.Katusha.Enumerations
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +14,9 @@
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
         @{    
             var katushaProfile = ViewBag.KatushaProfile;
+            var controller = ViewContext.RouteData.Values["Controller"].ToString();
+            var action = ViewContext.RouteData.Values["Action"].ToString();
+
 
             @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> { new BasicPath("Base", "~/Content/themes/base"), new BasicPath("Content", "~/Content") }))
             @MvcHtmlString.Create(Html.RenderJsHere(new List<IClientDependencyPath> { new BasicPath("Scripts", "~/Scripts"), new BasicPath("Content", "~/Content") }))
@@ -89,11 +94,13 @@
                     <div id="k_main_sidebar_left">@Html.Partial("_LeftPartial")</div>
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
-                            <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
-                                <i class="icon-plus icon-white"></i>
-                                <span>Register free for limited time only!</span>
-                            </a>
-                            <br/>
+                            if (!(controller == "Account" && action == "Register")) {
+                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
+                                    <i class="icon-plus icon-white"></i>
+                                    <span>Register free for limited time only!</span>
+                                </a>
+                                <br/>
+                            }
                         } else {
                             if (katushaProfile == null) {
                                 <h2>Create a new 

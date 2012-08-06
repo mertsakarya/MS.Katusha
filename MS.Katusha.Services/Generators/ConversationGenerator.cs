@@ -41,6 +41,8 @@ namespace MS.Katusha.Services.Generators
             }
             var num = GeneratorHelper.RND.Next(_total - 2) + 1;
             var from = _profiles[num];
+            var user = _userService.GetUser(from.UserId);
+            user.Expires = DateTime.Now.AddDays(1);
             num = GeneratorHelper.RND.Next(_total - 1);
             var to = _profiles[num];
             if (from.Id == to.Id) return Generate();
@@ -52,7 +54,7 @@ namespace MS.Katusha.Services.Generators
             message.ToGuid = to.Guid;
             message.ToName = to.Name;
             message.ToPhotoGuid = to.ProfilePhotoGuid;
-            _conversationService.SendMessage(message);
+            _conversationService.SendMessage(user, message);
 #if DEBUG
             Logger.Info("Conversation END:");
 #endif

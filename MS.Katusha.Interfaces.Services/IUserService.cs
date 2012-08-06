@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 
@@ -17,5 +18,6 @@ namespace MS.Katusha.Interfaces.Services
 
         Profile GetProfile(Guid guid);
         User GetUserByFacebookUId(string uid);
+        void Purchase(User user, ProductNames productName, string PayerId);
     }
 }

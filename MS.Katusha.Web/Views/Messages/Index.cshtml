@@ -26,9 +26,18 @@
     function readM(guid, e) {
         $.post('/Messages/Read', { key: guid }).done(function (json) {
             json = json || {};
-            $('#M' + guid).text(json.message).slideDown('slow');
-            $('#showReply'+guid).slideDown('fast');
-            if (ping) ping();
+            if(json.error != null && json.error == "NeedsPayment") {
+                var id = "NeedsPayment"+json.product;
+                if (!dialogs[id]) {
+                    loadAndShowDialog(id, {data:function (x) { return "";}}, "/Payments/Needed/"+json.product);
+                } else {
+                    dialogs[id].dialog('open');
+                }
+            } else {
+                $('#M' + guid).text(json.message).slideDown('slow');
+                $('#showReply' + guid).slideDown('fast');
+                if (ping) ping();
+            }
         });
         // Prevent the normal behavior since we use a dialog
         if (e) e.preventDefault();

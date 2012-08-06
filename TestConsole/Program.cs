@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using Autofac;
 using MS.Katusha.DependencyManagement;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Generators;
 using MS.Katusha.Services.Helpers;
-using MySql.Data.MySqlClient;
+using MS.Payment.SpreedlyCore.Domain;
+using MS.Payment.SpreedlyCore.Manager;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace TestConsole
@@ -17,7 +17,16 @@ namespace TestConsole
 
         static void Main(string[] args)
         {
-
+            IPaymentManager paymentManager = new CoreApiPaymentManager();
+            var gateway = paymentManager.Gateway("test");
+            Console.Write(gateway.Token);
+            var paymentMethodToken = paymentManager.PostForm("mert", "sakarya", "4111111111111111", "699", "03", "2005");
+            Console.WriteLine(paymentMethodToken);
+            if (!String.IsNullOrWhiteSpace(paymentMethodToken)) {
+                var purchase = paymentManager.Purchase(gateway, "100", paymentMethodToken);
+                Console.Write(purchase.IsTest);
+            }
+            Console.ReadLine();
             DependencyRegistrar.BuildContainer();
             MapperHelper.HandleMappings();
             var conversationService = DependencyRegistrar.Container.Resolve<IConversationService>();
@@ -61,9 +70,14 @@ namespace TestConsole
                                                   Subject = subject,
                                                   Message = message
                                               };
-                conversationService.SendMessage(data);
+                var fromUser = userService.GetUser(fromProfile.UserId);
+                fromUser.Expires = DateTime.Now.AddDays(1);
+                var toUser = userService.GetUser(toProfile.UserId);
+                toUser.Expires = DateTime.Now.AddDays(1);
+                
+                conversationService.SendMessage(fromUser, data);
                 if (isRead) {
-                    conversationService.ReadMessage(toProfile.Id, data.Guid);
+                    conversationService.ReadMessage(toUser, toProfile.Id, data.Guid);
                     if (readCount.ContainsKey(key)) {
                         readCount[key] = readCount[key] + 1;
                     } else {

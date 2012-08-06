@@ -31,11 +31,12 @@ var dialogs = {};
 
     var resetForm = function ($form) {
         // We reset the form so we make sure unobtrusive errors get cleared out.
-        $form[0].reset();
-
-        getValidationSummaryErrors($form)
-            .removeClass('validation-summary-errors')
-            .addClass('validation-summary-valid');
+        if ($form.length > 0) {
+            $form[0].reset();
+            getValidationSummaryErrors($form)
+                .removeClass('validation-summary-errors')
+                .addClass('validation-summary-valid');
+        }
     };
 
     var formSubmitHandler = function (e) {
@@ -77,7 +78,7 @@ var dialogs = {};
         // Load the dialog with the content=1 QueryString in order to get a PartialView
         $.get(url + separator + 'content=1')
             .done(function (content) {
-                dialogs[id] = $('<div class="modal-popup"><div id="dialog_message" style="display:none; color:navy;"></div><div id="dialog_content">' + content + '</div></div>')
+                dialogs[id] = $('<div class="modal-popup" style="overflow: auto; overflow-scrolling: auto"><div id="dialog_message" style="display:none; color:navy;"></div><div id="dialog_content">' + content + '</div></div>')
                     .hide() // Hide the dialog for now so we prevent flicker
                     .appendTo(document.body)
                     .filter('div') // Filter for the div tag only, script tags could surface
@@ -97,7 +98,7 @@ var dialogs = {};
 
 $(function () {
                 // List of link ids to have an ajax dialog
-    var links = ['#loginLink', '#registerLink', '#registerLink2', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton'];
+    var links = ['#loginLink', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton' /*, '#registerLink', '#registerLink2'*/];
 
     $.each(links, function (i, id) {
         $(id).click(function (e) {

@@ -63,14 +63,15 @@
 
             <hr/>
             @if (!profileVisible) {
-                <h4>Click to create a new  
+                <h3>Continue as a
                     <div id="girlButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Female))">
-                        <span>Girl Profile</span>
+                        <span>Girl</span>
                     </div>
+                    /
                     <div id="manButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Male))">
-                        <span>Man Profile</span>
-                    </div>
-                </h4>
+                        <span>Man</span>
+                    </div>?
+                </h3>
             }
         </div>
         <div id="registration_profile" style="@((profileVisible)?"":"display: none;")">

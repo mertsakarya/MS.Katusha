@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Cache;
@@ -9,13 +10,15 @@ namespace MS.Katusha.Services
 {
     public class UserService : IUserService
     {
+        private readonly IProductService _productService;
         private readonly INotificationService _notificationService;
         private readonly IUserRepositoryDB _repository;
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
         private IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        public UserService(INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
+        public UserService(IProductService productService, INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
         {
+            _productService = productService;
             _notificationService = notificationService;
             _repository = repository;
             _profileRepositoryRaven = profileRepositoryRaven;
@@ -43,7 +46,7 @@ namespace MS.Katusha.Services
             //    status = KatushaMembershipCreateStatus.DuplicateEmail;
             //    return null;
             //}
-            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddYears(100), EmailValidated = isApproved};
+            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddMinutes(5.0), EmailValidated = isApproved};
             _repository.Add(user);
             _repository.Save();
             _notificationService.UserRegistered(user);
@@ -52,6 +55,34 @@ namespace MS.Katusha.Services
         }
 
         public void UpdateUser(User user) { _repository.FullUpdate(user); }
+
+        public void Purchase(User user, ProductNames productName, string payerId)
+        {
+            var userData = _repository.SingleAttached(u => u.Id == user.Id);
+            var product = _productService.GetProductByName(productName);
+
+            var data = product.GetProductExecutionData();
+            userData.MembershipType = data.Membership;
+            userData.PaypalPayerId = payerId;
+            var date = (DateTime.Now > userData.Expires) ? DateTime.Now : userData.Expires;
+            switch((TimeFrameType)data.TimeFrame) {
+                case TimeFrameType.Year:
+                    userData.Expires = date.AddYears(data.Value);
+                    break;
+                case TimeFrameType.Month:
+                    userData.Expires = date.AddMonths(data.Value);
+                    break;
+                case TimeFrameType.Day:
+                    userData.Expires = date.AddDays(data.Value);
+                    break;
+                case TimeFrameType.Hour:
+                    userData.Expires = date.AddHours(data.Value);
+                    break;
+            }
+            _repository.FullUpdate(userData);
+            _repository.Save();
+            _notificationService.Purchase(user, product);
+        }
 
         public User GetUser(long id) { return _repository.Single(u => u.Id == id); }
         public User GetUser(Guid guid) { return _repository.Single(u => u.Guid == guid); }

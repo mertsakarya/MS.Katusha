@@ -25,6 +25,7 @@
 *		[Configuration]
 *		[Resource]
 *		[ResourceLookup]
+*		[Product]
 *
 *	[Configuration] is two tab delimited line for, Key and Value
 *	[Resource]	is three tab delimited line for, Language, Key and Value
@@ -317,6 +318,7 @@
 	en	MembershipType	Normal			Normal			1	1
 	en	MembershipType	Gold			Gold			2	2
 	en	MembershipType	Platinium		Platinium		3	3
+	en	MembershipType	Administrator	Administrator	4	4
 
 	en	Existance		Active			Active			1	1
 	en	Existance		Expired			Expired			2	2

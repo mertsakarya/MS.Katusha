@@ -18,7 +18,7 @@ namespace MS.Katusha.Web.Helpers.Binders
             var formValues = controllerContext.HttpContext.Request.Form;
 
             var gender = formValues["Gender"];
-            profileModel.Gender = (String.IsNullOrWhiteSpace(gender)) ? 0 : ((gender == "1") ? Sex.Male : ((gender == "2") ? Sex.Female : 0));
+            profileModel.Gender = (String.IsNullOrWhiteSpace(gender)) ? 0 : ((gender == "1" || gender.ToLowerInvariant() == "male") ? Sex.Male : ((gender == "2" || gender.ToLowerInvariant() == "female") ? Sex.Female : 0));
 
             var countryCode = formValues["Country"];
             profileModel.Location = new LocationModel();

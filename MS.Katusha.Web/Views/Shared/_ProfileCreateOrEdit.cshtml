@@ -4,7 +4,7 @@
     <legend>Profile Form</legend>
     <ol>
         <li>
-            <div class="editor-label">
+            <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.Name)
             </div>
         </li>
@@ -26,7 +26,7 @@
             </div>
         </li>
         <li>
-            <div class="editor-label">
+            <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.Location.CountryName)
             </div>
             <div class="editor-field">
@@ -35,7 +35,7 @@
             </div>
         </li>
         <li>
-            <div class="editor-label">
+            <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.Height)
             </div>
             <div class="editor-field">
@@ -44,12 +44,21 @@
             </div>
         </li>
         <li>
-            <div class="editor-label">
+            <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.BirthYear)
             </div>
             <div class="editor-field">
                 @Html.EditorFor(model => model.BirthYear)
                 @Html.ValidationMessageFor(model => model.BirthYear)
+            </div>
+        </li>
+        <li>
+            <div class="editor-label mandatory">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
             </div>
         </li>
         <li>
@@ -104,15 +113,6 @@
             <div class="editor-field">
                 @Html.EnumDropDownListFor(model => model.Alcohol)
                 @Html.ValidationMessageFor(model => model.Alcohol)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Description)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Description)
-                @Html.ValidationMessageFor(model => model.Description)
             </div>
         </li>
         @*

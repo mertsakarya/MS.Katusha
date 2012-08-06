@@ -25,6 +25,8 @@ namespace MS.Katusha.Services
 
         private const string PhotoAddedAdmin = "PhotoAdded_en.cshtml";
 
+        private const string PurchaseMade = "PurchaseMade_en.cshtml";
+
         public NotificationService(IUserRepositoryDB userRepository ) {
             _userRepository = userRepository;
         }
@@ -32,7 +34,7 @@ namespace MS.Katusha.Services
         public void UserRegistered(User user)
         {
             try {
-                Mailer.Mailer.SendMail(user.Email, "Welcome! You need one more step to open a new world!", MailConfirm, user);
+                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", MailConfirm, user);
                 Mailer.Mailer.SendMail(AdminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
             } catch(Exception) {}
         }
@@ -52,6 +54,13 @@ namespace MS.Katusha.Services
                 Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, conversation);
                 Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
             } catch(Exception) {}
+        }
+
+        public void Purchase(User user, Product product) {
+            try {
+                Mailer.Mailer.SendMail(user.Email, String.Format("Katusha says: {0} enjoy your membership. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
+                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PURCHASE] for {0}. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
+            } catch (Exception) { }
         }
 
         public void ProfileCreated(Profile profile)

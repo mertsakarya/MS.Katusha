@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
+using MS.Katusha.Infrastructure.Exceptions.Services;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
@@ -78,6 +80,7 @@ namespace MS.Katusha.Web.Controllers
             return View(model);
         }
 
+        [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha)]
         public ActionResult Send(string key, string subject="")
         {
             var to = _profileService.GetProfile(key);
@@ -90,30 +93,22 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpPost]
+        [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha, IsJson = true)]
         public JsonResult JsonSend(string key, ConversationModel model)
         {
-            if (!ModelState.IsValid) return Json(new { errors = GetErrorsFromModelState() });
-            var to = _profileService.GetProfile(key);
-            var data = Mapper.Map<Conversation>(model);
-
-            data.ToId = to.Id;
-            data.ToName = to.Name;
-            data.ToGuid = to.Guid;
-            data.ToPhotoGuid = to.ProfilePhotoGuid;
-
-            data.FromId = KatushaProfile.Id;
-            data.FromName = KatushaProfile.Name;
-            data.FromGuid = KatushaProfile.Guid;
-            data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
-
-            _conversationService.SendMessage(data);
-            return Json(new { success = true, message = "Your message has been sent." });
+            return (JsonResult) _Send(key, model, Json(new { success = true, message = "Your message has been sent." }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
         [HttpPost]
+        [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha)]
         public ActionResult Send(string key, ConversationModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            return _Send(key, model, RedirectToAction("Received"), View(model));
+        }
+
+        private ActionResult _Send(string key, ConversationModel model, ActionResult successResult, ActionResult failResult)
+        {
+            if (!ModelState.IsValid) return failResult;
             var to = _profileService.GetProfile(key);
             var data = Mapper.Map<Conversation>(model);
 
@@ -128,16 +123,17 @@ namespace MS.Katusha.Web.Controllers
             data.FromPhotoGuid = KatushaProfile.ProfilePhotoGuid;
 
             data.ReadDate = new DateTime(1900, 1, 1);
-            _conversationService.SendMessage(data);
-            return RedirectToAction("Conversations");
+            _conversationService.SendMessage(KatushaUser, data);
+            return successResult;
         }
 
         [HttpPost]
+        [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha, IsJson = true)]
         public JsonResult Read(string key)
         {
             Guid guid;
             if (!User.Identity.IsAuthenticated || KatushaUser.Gender == 0 || !Guid.TryParse(key, out guid)) throw new HttpException(404, "Message not found!");
-            var message = _conversationService.ReadMessage(KatushaProfile.Id, guid);
+            var message = _conversationService.ReadMessage(KatushaUser, KatushaProfile.Id, guid);
             return Json(new {message = message});
         }
     }

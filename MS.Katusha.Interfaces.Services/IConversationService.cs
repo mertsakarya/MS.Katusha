@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Interfaces.Services
 {
@@ -12,8 +14,8 @@ namespace MS.Katusha.Interfaces.Services
         IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20);
 
         IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
-        void SendMessage(Conversation data);
-        string ReadMessage(long profileId, Guid messageGuid);
+        void SendMessage(User user, Conversation data);
+        string ReadMessage(User user, long profileId, Guid messageGuid);
         void DeleteMessage(Guid messageGuid, bool softDelete = false);
     }
 }

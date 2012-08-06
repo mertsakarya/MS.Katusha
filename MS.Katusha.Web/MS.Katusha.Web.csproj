@@ -120,7 +120,7 @@
     <Reference Include="le_nlog">
       <HintPath>..\packages\le_nlog.2.0.3\lib\4.0\le_nlog.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -453,6 +453,7 @@
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
     <Compile Include="Helpers\BundleHelper.cs" />
     <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
@@ -477,6 +478,11 @@
     <Compile Include="Helpers\Binders\SearchCriteriaBinder.cs" />
     <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Helpers\Converters\SearchingForFormatter.cs" />
+    <Compile Include="Migrations\201208041408086_AddPaypalPayerId.cs" />
+    <Compile Include="Migrations\201208041408086_AddPaypalPayerId.Designer.cs">
+      <DependentUpon>201208041408086_AddPaypalPayerId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessagesModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
@@ -493,6 +499,7 @@
     <Compile Include="Models\Entities\SearchingForModel.cs" />
     <Compile Include="Models\Entities\SearchResultModel.cs" />
     <Compile Include="Models\Entities\VisitModel.cs" />
+    <Compile Include="Models\NeedsPaymentModel.cs" />
     <Compile Include="Models\NewVisitModel.cs" />
     <Compile Include="Models\NewVisitsModel.cs" />
     <Compile Include="Models\PagedListModel.cs" />
@@ -738,6 +745,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Fcbk.css" />
     <Content Include="ConfigData\app.config" />
+    <Content Include="App_Code\PaypalHelper.cshtml" />
     <None Include="Content\screen._css__" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -795,6 +803,29 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="PayPalHelper\Docs\startHere.htm" />
+    <Content Include="PayPalHelper\Docs\startHere.html\html\DocSet_default.html" />
+    <Content Include="PayPalHelper\Docs\startHere.html\html\images\19fb5f20-19a2-4d76-a2b0-fd753895da1e.png" />
+    <Content Include="PayPalHelper\Docs\startHere.html\html\images\45d9257f-f452-491c-a16e-20d3cd1370db.png" />
+    <Content Include="PayPalHelper\Docs\startHere.html\html\images\8b52f348-d854-4a8f-9132-863e0fce5da9.png" />
+    <Content Include="PayPalHelper\Docs\startHere.html\html\images\c3431829-bc93-4403-921f-b35745aedb75.png" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\Classic.css" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\collall.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\collapse_all.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\copycode.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\copycodeHighlight.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\Dropdown.js" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\drpdown.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\drpdown_orange.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\EventUtilities.js" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\exp.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\expall.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\expand_all.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\note.gif" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\samples.js" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\script.js" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\script_chm.js" />
+    <Content Include="PayPalHelper\Docs\startHere.html\local\SplitScreen.js" />
     <Content Include="robots.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Glimpse.RavenDb.Readme.txt" />
@@ -933,6 +964,13 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\KatushaException.cshtml" />
+    <None Include="PayPalHelper\Docs\startHere.docx" />
+    <None Include="PayPalHelper\Docs\startHere.pdf" />
+    <Content Include="_AppStart.cshtml" />
+    <Content Include="Views\Shared\NeedsPayment.cshtml" />
+    <Content Include="Views\Payments\PaypalGetCheckout.cshtml" />
+    <Content Include="Views\Payments\PaypalDoCheckout.cshtml" />
+    <Content Include="Views\___MailTemplates\PurchaseMade_en.cshtml" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />

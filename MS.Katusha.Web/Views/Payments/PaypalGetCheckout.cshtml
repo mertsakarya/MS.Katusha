@@ -1,0 +1,34 @@
+@model MS.Katusha.Domain.Entities.CheckoutDetailResult
+@{ ViewBag.Title = "Confirmation"; }
+<h3>Welcome back!</h3>
+@if (Model.Errors.Count > 0) {
+    <h1>Unfortunately following errors occured.</h1>
+    <ul>
+    @foreach(var error in Model.Errors) {
+        <li>@error</li>
+    }
+    </ul>
+} else {
+    <form id="theForm" action="/Payments/PaypalDoCheckout" method="POST">
+        <div style="text-align: center">
+            <h3>Congratulations! You bought @Html.DisplayProductData(Model.ProductName)!</h3>
+            <br/>
+            <h3>Please Confirm your order. By clicking this button the payment will be made and your membership will be activated.</h3>
+            <h2>We have 30 days refund policy.</h2>
+
+            <br/><br/>
+
+            @Html.HiddenFor(p => p.Token)
+            @Html.HiddenFor(p => p.PayerId)
+            @*@Url.Action("PaypalDoCheckout", "Payments", new {Token = Model.Token, PayerId = Model.PayerId})*@
+            <a href="javascript:document.getElementById('theForm').submit();" title="Confirm">
+                <i class="icon-plus icon-white"></i>
+                <span>Confirm</span>
+            </a>
+
+            <p class="btn btn-success fileinput-button">
+                <input type="submit" value="Confirm" />
+            </p>
+        </div>
+    </form>
+}

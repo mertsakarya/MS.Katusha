@@ -1,0 +1,14 @@
+@model MS.Katusha.Domain.Entities.CheckoutPaymentResult
+@{ ViewBag.Title = "Confirmation"; }
+<h3>Welcome back!</h3>
+@if (Model.Errors.Count > 0) {
+    <h1>Unfortunately following errors occured.</h1>
+    <ul>
+    @foreach(var error in Model.Errors) {
+        <li>@error</li>
+    }
+    </ul>
+} else {
+    <h1>Your transaction has finished!</h1>
+    @Html.ActionLink("Go Home", "Index", "Home")
+}

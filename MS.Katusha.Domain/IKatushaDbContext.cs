@@ -22,6 +22,5 @@ namespace MS.Katusha.Domain
         DbSet<GeoLanguage> GeoLanguages { get; set; }
         DbSet<GeoName> GeoNames { get; set; }
         DbSet<GeoTimeZone> GeoTimeZones { get; set; }
-
     }
 }

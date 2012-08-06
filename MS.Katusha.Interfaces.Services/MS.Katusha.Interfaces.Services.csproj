@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProductService.cs" />
+    <Compile Include="IPaypalService.cs" />
     <Compile Include="IGridService.cs" />
     <Compile Include="INotificationService.cs" />
     <Compile Include="IResourceService.cs" />

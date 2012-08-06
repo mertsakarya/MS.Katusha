@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Exceptions.Services;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
@@ -47,8 +49,12 @@ namespace MS.Katusha.Services
             }
         }
 
-        public void SendMessage(Conversation message)
+        public void SendMessage(User user, Conversation message)
         {
+            if (user.Gender == (byte)Sex.Male)
+                if (user.Expires < DateTime.Now)
+                    throw new KatushaNeedsPaymentException(user, ProductNames.MonthlyKatusha);
+
             message.ReadDate = new DateTime(1900, 1, 1);
 
             var dbMessage = Mapper.Map<Domain.Entities.Conversation>(message);
@@ -65,9 +71,13 @@ namespace MS.Katusha.Services
             _notificationService.MessageSent(ravenMessage);
         }
 
-        public string ReadMessage(long profileId, Guid messageGuid)
+        public string ReadMessage(User user, long profileId, Guid messageGuid)
         {
-            //Todo: This should check if user can read the message!!!!
+            if (user.Gender == (byte)Sex.Male)
+                if (user.Expires < DateTime.Now)
+                    throw new KatushaNeedsPaymentException(user, ProductNames.MonthlyKatusha);
+
+
             var readTime = DateTime.Now;
             var ravenMessage = _conversationRepositoryRaven.SingleAttached(p => p.Guid == messageGuid && p.ToId == profileId);
             if (ravenMessage == null) return "";

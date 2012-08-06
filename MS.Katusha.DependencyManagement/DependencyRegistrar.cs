@@ -50,6 +50,7 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<ResourceService>().As<IResourceService>().SingleInstance();
 
+            builder.RegisterType<PaypalServiceSOAP>().As<IPaypalService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<ProfileService>().As<IProfileService>().SingleInstance();
             builder.RegisterType<SearchService>().As<ISearchService>().SingleInstance();
@@ -61,6 +62,7 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<SamplesService>().As<ISamplesService>().SingleInstance();
             builder.RegisterType<UtilityService>().As<IUtilityService>().SingleInstance();
             builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
+            builder.RegisterType<ProductService>().As<IProductService>().SingleInstance();
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch (cacheProviderText.ToLowerInvariant()) {

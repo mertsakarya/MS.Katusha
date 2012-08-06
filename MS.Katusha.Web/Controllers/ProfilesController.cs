@@ -86,12 +86,22 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [KatushaFilter(IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
+        [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha, HasLayout = true)]
         public ActionResult Show(string key)
         {
             var profile = _profileService.GetProfile(key, KatushaProfile);
             ViewBag.SameProfile = IsKeyForProfile(key);
             var model = Mapper.Map<ProfileModel>(profile);
             return View(model);
+        }
+
+        [KatushaFilter(IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
+        public ActionResult Me()
+        {
+            var profile = _profileService.GetProfile(KatushaProfile.Id, KatushaProfile);
+            ViewBag.SameProfile = true;
+            var model = Mapper.Map<ProfileModel>(profile);
+            return View("Show", model);
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = false)]
@@ -165,9 +175,8 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Edit(string key)
+        public ActionResult Edit()
         {
-            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
             ViewBag.SameProfile = true;
             var model = Mapper.Map<ProfileModel>(KatushaProfile);
             return View(model);
@@ -175,9 +184,8 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpPost]
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
-        public ActionResult Edit(string key, ProfileModel model)
+        public ActionResult Edit(ProfileModel model)
         {
-            if (!IsKeyForProfile(key)) throw new KatushaNotAllowedException(KatushaProfile, KatushaUser, key);
             try {
                 ViewBag.SameProfile = true;
                 var profileModel = KatushaProfile;

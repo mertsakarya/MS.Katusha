@@ -10,5 +10,6 @@ namespace MS.Katusha.Interfaces.Services
         void PhotoAdded(Photo photo);
         void MessageSent(Conversation conversation);
         void MessageRead(Conversation conversation);
+        void Purchase(User user, Product product);
     }
 }

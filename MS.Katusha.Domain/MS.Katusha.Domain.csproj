@@ -41,8 +41,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +56,8 @@
     <Compile Include="Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Entities\BaseEntities\BaseModel.cs" />
     <Compile Include="Entities\BaseEntities\IdModel.cs" />
+    <Compile Include="Entities\CheckoutDetailResult.cs" />
+    <Compile Include="Entities\CheckoutPaymentResult.cs" />
     <Compile Include="Entities\ConfigurationData.cs" />
     <Compile Include="Entities\ExtendedProfile.cs" />
     <Compile Include="Entities\GeoTimeZone.cs" />
@@ -61,8 +65,11 @@
     <Compile Include="Entities\GeoLanguage.cs" />
     <Compile Include="Entities\GeoName.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\PaypalSettings.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\PhotoBackup.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\ProductExecutionData.cs" />
     <Compile Include="Entities\ResourceLookup.cs" />
     <Compile Include="Entities\MailModel.cs" />
     <Compile Include="Entities\Conversation.cs" />

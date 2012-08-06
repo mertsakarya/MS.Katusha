@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\KatushaNeedsPaymentAttribute.cs" />
     <Compile Include="Attributes\KatushaFieldAttribute.cs" />
     <Compile Include="Attributes\KatushaFilterAttribute.cs" />
     <Compile Include="Attributes\KatushaLookupListAttribute.cs" />
@@ -87,6 +88,9 @@
     <Compile Include="Exceptions\Resources\KatushaConfigurationException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceLookupException.cs" />
+    <Compile Include="Exceptions\Services\KatushaNeedsPaymentButUserEmptyException.cs" />
+    <Compile Include="Exceptions\Services\KatushaProductNameNotFoundException.cs" />
+    <Compile Include="Exceptions\Services\KatushaNeedPaymentException.cs" />
     <Compile Include="Exceptions\Services\KatushaFriendlyNameExistsException.cs" />
     <Compile Include="Exceptions\Services\KatushaFriendlyNameNotFoundException.cs" />
     <Compile Include="Exceptions\Services\KatushaGenderNotExistsException.cs" />
