@@ -9,8 +9,8 @@ namespace MS.Katusha.Services
     public class NotificationService : INotificationService
     {
         private readonly IUserRepositoryDB _userRepository;
-        
-        private const string AdminMailAddress = "mertsakarya@gmail.com";
+
+        private const string AdminMailAddress = "mskatusha.info@gmail.com";
 
         private const string MailConfirm = "MailConfirm_en.cshtml";
         private const string MailConfirmAdmin = "MailConfirm_en.cshtml";

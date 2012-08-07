@@ -15,7 +15,7 @@ namespace MS.Katusha.Mailer
         {
 
 
-            var @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mertsakarya@gmail.com";
+            var @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mskatusha.info@gmail.com";
 
             var templateFolder = HttpContext.Current.Server.MapPath(@"~\") + @"Views\___MailTemplates\";
             

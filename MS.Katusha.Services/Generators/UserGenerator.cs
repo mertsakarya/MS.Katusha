@@ -16,7 +16,7 @@ namespace MS.Katusha.Services.Generators
 
         public User Generate(int extra = 0) { 
             KatushaMembershipCreateStatus createStatus;
-            var user = _userService.CreateUser(GeneratorHelper.RandomString(4, true), "123456", "mertsakarya@gmail.com", passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+            var user = _userService.CreateUser(GeneratorHelper.RandomString(4, true), "123456", "mskatusha.info@gmail.com", passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
             
 #if DEBUG
             Logger.Info("User Created: " + user.UserName);
