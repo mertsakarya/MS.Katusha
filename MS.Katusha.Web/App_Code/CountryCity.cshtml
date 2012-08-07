@@ -7,7 +7,7 @@
     var countryId = countryName.Replace('[', '_').Replace(']', '_');
     var cityId = cityName.Replace('[', '_').Replace(']', '_');
     var resourceManager = DependencyResolver.Current.GetService<IResourceService>();
-    var countries = resourceManager.GetSearchableCountries((gender == (byte)Sex.Male) ? Sex.Female : Sex.Male);
+    var countries = resourceManager.GetSearchableCountries((Sex)gender);
     var searchingFor = ((gender == (byte) Sex.Male) ? "Men" : (((gender == (byte) Sex.Female)) ? "Girls" : ""));
     <select id="@(countryId)" name="@(countryId)" onchange="countryChanged(this.options[this.selectedIndex].value, '@(cityId)');">
         <option value=""></option>
