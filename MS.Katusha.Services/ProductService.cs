@@ -20,7 +20,7 @@ namespace MS.Katusha.Services
                     Description = "Your monthly subscription for MS.Katusha",
                     Notes = "Ms.Katusha notes",
                     RecurringInformation = "Every month MS.Katusha",
-                    Amount = "1.12",
+                    Amount = "9.95",
                     Tax = "0.00",
                     ExecutionData = "{Value:31,TimeFrame:3,Recurring:false,Membership:3}",
 
