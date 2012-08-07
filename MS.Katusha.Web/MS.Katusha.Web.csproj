@@ -966,7 +966,6 @@
     <Content Include="Views\Shared\KatushaException.cshtml" />
     <None Include="PayPalHelper\Docs\startHere.docx" />
     <None Include="PayPalHelper\Docs\startHere.pdf" />
-    <Content Include="_AppStart.cshtml" />
     <Content Include="Views\Shared\NeedsPayment.cshtml" />
     <Content Include="Views\Payments\PaypalGetCheckout.cshtml" />
     <Content Include="Views\Payments\PaypalDoCheckout.cshtml" />

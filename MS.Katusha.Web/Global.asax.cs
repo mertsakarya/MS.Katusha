@@ -18,58 +18,59 @@ namespace MS.Katusha.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
-   //     public static void RegisterGlobalFilters(GlobalFilterCollection filters) { filters.Add(new HandleErrorAttribute()); }
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters) { filters.Add(new HandleErrorAttribute()); }
 
-   //     public static void RegisterRoutes(RouteCollection routes)
-   //     {
-   //         routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-   //         routes.MapRoute("Photo", "{controller}/Photo/{key}/{size}", new {action = "Photo"});
-   //         //routes.MapRoute("SetFacet", "{controller}/SetFacet/{key}/{value}", new { action = "SetFacet" });
-   //         //routes.MapRoute("DeletePhoto", "{controller}/DeletePhoto/{key}/{photoGuid}", new {action = "DeletePhoto"});
-   //         routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new {action = "MakeProfilePhoto"});
-   //         routes.MapRoute("Download", "{controller}/Download/{key}/{size}", new {action = "Download"});
+            routes.MapRoute("Photo", "{controller}/Photo/{key}/{size}", new { action = "Photo" });
+            //routes.MapRoute("SetFacet", "{controller}/SetFacet/{key}/{value}", new { action = "SetFacet" });
+            //routes.MapRoute("DeletePhoto", "{controller}/DeletePhoto/{key}/{photoGuid}", new {action = "DeletePhoto"});
+            routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new { action = "MakeProfilePhoto" });
+            routes.MapRoute("Download", "{controller}/Download/{key}/{size}", new { action = "Download" });
 
-   //         routes.MapHttpRoute(
-   //             name: "DefaultApi",
-   //             routeTemplate: "api/{controller}/{key}",
-   //             defaults: new {guid = RouteParameter.Optional}
-   //             );
+            routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{key}",
+                defaults: new { guid = RouteParameter.Optional }
+                );
 
-   //         routes.MapRoute(
-   //             name: "Default",
-   //             url: "{controller}/{action}/{key}",
-   //             defaults: new {controller = "Home", action = "Index", key = UrlParameter.Optional}
-   //             );
-   //     }
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{key}",
+                defaults: new { controller = "Home", action = "Index", key = UrlParameter.Optional }
+                );
+        }
 
-   //     protected void Application_Start()
-   //     {
+        protected void Application_Start()
+        {
+            Context.Application.Lock();
+            try {
+                //Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+                Database.SetInitializer(new KatushaContextInitializer());
 
+                ModelMetadataProviders.Current = new KatushaMetadataProvider();
+                DependencyHelper.RegisterDependencies();
+                //QuartzHelper.RegisterQuartz();
+                MapperHelper.HandleMappings();
+                AreaRegistration.RegisterAllAreas();
 
-   //         Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
-   //         Database.SetInitializer(new KatushaContextInitializer());
+                RegisterGlobalFilters(GlobalFilters.Filters);
+                RegisterRoutes(RouteTable.Routes);
 
-   //         ModelMetadataProviders.Current = new KatushaMetadataProvider();
-   //         DependencyHelper.RegisterDependencies();
-   //         QuartzHelper.RegisterQuartz();
-   //         MapperHelper.HandleMappings();
-   //         AreaRegistration.RegisterAllAreas();
+                //BundleHelper.RegisterBundles();
+                BundleTable.Bundles.EnableDefaultBundles();
+                //var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
 
-   //         RegisterGlobalFilters(GlobalFilters.Filters);
-   //         RegisterRoutes(RouteTable.Routes);
-
-   //         //BundleHelper.RegisterBundles();
-   //         BundleTable.Bundles.EnableDefaultBundles();
-
-   //         //var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
-
-   //         //if (store != null) {
-   //         //    //Glimpse.RavenDb.Profiler.AttachTo(store);
-   //         //    //Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
-   //         //    //Application["MyDocStore"] = store; 
-   //         //}
-   //     }
-
+                //if (store != null) {
+                //    //Glimpse.RavenDb.Profiler.AttachTo(store);
+                //    //Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
+                //    //Application["MyDocStore"] = store; 
+                //}
+            } finally {
+                Context.Application.Lock();
+            }
+        }
    }
 }

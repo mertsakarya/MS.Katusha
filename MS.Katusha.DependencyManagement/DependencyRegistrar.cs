@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using Autofac;
+using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
@@ -42,62 +43,62 @@ namespace MS.Katusha.DependencyManagement
             var redisUrls = new[] { redisUri.ToString() };
 
 
-            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
-            builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).SingleInstance();
+            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().InstancePerHttpRequest();
+            builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).InstancePerHttpRequest();
             //InstancePerHttpRequest
-            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().SingleInstance();
+            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
 
-            builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
-            builder.RegisterType<ResourceService>().As<IResourceService>().SingleInstance();
+            builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<ResourceService>().As<IResourceService>().InstancePerHttpRequest();
 
-            builder.RegisterType<PaypalServiceSOAP>().As<IPaypalService>().SingleInstance();
-            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
-            builder.RegisterType<ProfileService>().As<IProfileService>().SingleInstance();
-            builder.RegisterType<SearchService>().As<ISearchService>().SingleInstance();
-            builder.RegisterType<ConversationService>().As<IConversationService>().SingleInstance();
-            builder.RegisterType<PhotosService>().As<IPhotosService>().SingleInstance();
-            builder.RegisterType<PhotoBackupService>().As<IPhotoBackupService>().SingleInstance();
-            builder.RegisterType<VisitService>().As<IVisitService>().SingleInstance();
-            builder.RegisterType<StateService>().As<IStateService>().SingleInstance();
-            builder.RegisterType<SamplesService>().As<ISamplesService>().SingleInstance();
-            builder.RegisterType<UtilityService>().As<IUtilityService>().SingleInstance();
-            builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
-            builder.RegisterType<ProductService>().As<IProductService>().SingleInstance();
+            builder.RegisterType<PaypalServiceSOAP>().As<IPaypalService>().InstancePerHttpRequest();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileService>().As<IProfileService>().InstancePerHttpRequest();
+            builder.RegisterType<SearchService>().As<ISearchService>().InstancePerHttpRequest();
+            builder.RegisterType<ConversationService>().As<IConversationService>().InstancePerHttpRequest();
+            builder.RegisterType<PhotosService>().As<IPhotosService>().InstancePerHttpRequest();
+            builder.RegisterType<PhotoBackupService>().As<IPhotoBackupService>().InstancePerHttpRequest();
+            builder.RegisterType<VisitService>().As<IVisitService>().InstancePerHttpRequest();
+            builder.RegisterType<StateService>().As<IStateService>().InstancePerHttpRequest();
+            builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
+            builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
+            builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerHttpRequest();
+            builder.RegisterType<ProductService>().As<IProductService>().InstancePerHttpRequest();
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch (cacheProviderText.ToLowerInvariant()) {
                     case "redis":
-                        builder.RegisterType<KatushaGlobalRedisCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().SingleInstance();
+                        builder.RegisterType<KatushaGlobalRedisCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                     case "ravendb":
-                        builder.RegisterType<KatushaGlobalRavenCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().SingleInstance();
+                        builder.RegisterType<KatushaGlobalRavenCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                     default:
-                        builder.RegisterType<KatushaGlobalMemoryCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().SingleInstance();
+                        builder.RegisterType<KatushaGlobalMemoryCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
                         break;
                 }
-            } else builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().SingleInstance();
-            builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().SingleInstance();
-            builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().SingleInstance();
-            builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().SingleInstance();
-            builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().SingleInstance();
-            builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().SingleInstance();
+            } else builder.RegisterType<KatushaGlobalMemoryCacheContext>().As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
+            builder.RegisterType<CacheObjectRepositoryRavenDB>().As<IRepository<CacheObject>>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().InstancePerHttpRequest();
+            builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().InstancePerHttpRequest();
 
-            builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().SingleInstance();
-            builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().SingleInstance();
-            builder.RegisterType<ProfileRepositoryDB>().As<IProfileRepositoryDB>().SingleInstance();
-            builder.RegisterType<CountriesToVisitRepositoryDB>().As<ICountriesToVisitRepositoryDB>().SingleInstance();
-            builder.RegisterType<SearchingForRepositoryDB>().As<ISearchingForRepositoryDB>().SingleInstance();
-            builder.RegisterType<LanguagesSpokenRepositoryDB>().As<ILanguagesSpokenRepositoryDB>().SingleInstance();
-            builder.RegisterType<PhotoBackupRepositoryDB>().As<IPhotoBackupRepositoryDB>().SingleInstance();
-            builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().SingleInstance();
-            builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().SingleInstance();
-            builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().SingleInstance();
+            builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<UserRepositoryDB>().As<IUserRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<ProfileRepositoryDB>().As<IProfileRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<CountriesToVisitRepositoryDB>().As<ICountriesToVisitRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<SearchingForRepositoryDB>().As<ISearchingForRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<LanguagesSpokenRepositoryDB>().As<ILanguagesSpokenRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<PhotoBackupRepositoryDB>().As<IPhotoBackupRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<PhotoRepositoryDB>().As<IPhotoRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().InstancePerHttpRequest();
+            builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().InstancePerHttpRequest();
 
-            //builder.RegisterType<GridService<User>>().As<IGridService<User>>().SingleInstance();
-            //builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().SingleInstance();
-            builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).SingleInstance();
-            builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).SingleInstance();
+            //builder.RegisterType<GridService<User>>().As<IGridService<User>>().InstancePerHttpRequest();
+            //builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).InstancePerHttpRequest();
         }
 
     }
