@@ -55,7 +55,7 @@ namespace MS.Katusha.Services
                 Name = product.Name,
                 Amount = new BasicAmountType(MSKatushaCurrencyCode, product.Amount), 
                 Quantity = quantity, 
-                ItemCategory = ItemCategoryType.DIGITAL,
+                //ItemCategory = ItemCategoryType.PHYSICAL,
                 Tax = new BasicAmountType(MSKatushaCurrencyCode, product.Tax), 
                 Description = product.Description,
             };
