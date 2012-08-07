@@ -14,8 +14,9 @@ namespace MS.Katusha.Infrastructure.Attributes
             IsJson = false;
             ViewName = "NeedsPayment";
             HasLayout = false;
-        }
 
+        }
+          
         public string ViewName { get; set; }
         public ProductNames Product { get; set; }
         public bool IsJson { get; set; }
