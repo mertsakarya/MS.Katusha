@@ -1,3 +1,3 @@
 git add -A
-git commit -am "publish.cmd"
+git commit -am %1
 git push
