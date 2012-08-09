@@ -141,7 +141,6 @@ namespace MS.Katusha.Web.Controllers
                     s3PhotoBackupService.AddPhoto(photoData);
                     Response.Write(photoData.Guid);
                 }
-
             }
         }
 
@@ -150,10 +149,7 @@ namespace MS.Katusha.Web.Controllers
         {
             int total;
             int pageNo;
-            if (!int.TryParse(key, out pageNo)) {
-                pageNo = 1;
-            }
-
+            if (!int.TryParse(key, out pageNo)) pageNo = 1;
             var list = _photosService.AllPhotos(out total, "0-", pageNo, DependencyHelper.GlobalPageSize);
             var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyHelper.GlobalPageSize, total);
             var photoGuids = new PagedListModel<Guid> { List = pagedList, Total = total };
