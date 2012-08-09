@@ -71,7 +71,7 @@
     <Compile Include="NotificationService.cs" />
     <Compile Include="ResourceService.cs" />
     <Compile Include="UtilityService.cs" />
-    <Compile Include="PhotoBackupService.cs" />
+    <Compile Include="DBPhotoBackupService.cs" />
     <Compile Include="StateService.cs" />
     <Compile Include="Generators\VisitGenerator.cs" />
     <Compile Include="SamplesService.cs" />

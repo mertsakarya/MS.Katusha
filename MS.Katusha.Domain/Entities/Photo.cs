@@ -15,6 +15,8 @@ namespace MS.Katusha.Domain.Entities
 
         public string FileName { get; set; }
 
+        public byte Status { get; set; }
+
         public override string ToString()
         {
             return base.ToString() + String.Format(" | ProfileId: {0} | Description: [\r\n{1}\r\n]", ProfileId, Description);

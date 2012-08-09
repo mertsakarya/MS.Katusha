@@ -9,6 +9,7 @@ using MS.Katusha.Redis;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
+using MS.Katusha.S3;
 using MS.Katusha.Services;
 using ServiceStack.Redis;
 
@@ -31,20 +32,20 @@ namespace MS.Katusha.DependencyManagement
             const string redisUrlName = "REDISTOGO_URL";
             const string appHarborRedisToGo = "redis://redistogo-appharbor:";
             var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
-            if (redisUrl.IndexOf(appHarborRedisToGo, StringComparison.Ordinal) >= 0) {
-                // VERY BAD thing for appharbor
+            if (redisUrl.IndexOf(appHarborRedisToGo, StringComparison.Ordinal) >= 0) 
                 redisUrl = "ab3740aa6f5b0b2d567f7279ae6e2159@lab.redistogo.com:9071"; //redisUrl.Substring(appHarborRedisToGo.Length);
-            }
             Uri redisUri;
-            if (!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute, out redisUri)) {
+            if (!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute, out redisUri)) 
                 throw new ArgumentException("WRONG REDIS STRING");
-            }
             var redisUrls = new[] { redisUri.ToString() };
 
+            //InstancePerHttpRequest
 
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
             builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).SingleInstance();
-            //InstancePerHttpRequest
+            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().SingleInstance();
+            builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
+
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().SingleInstance();
 
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
@@ -56,7 +57,7 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<SearchService>().As<ISearchService>().SingleInstance();
             builder.RegisterType<ConversationService>().As<IConversationService>().SingleInstance();
             builder.RegisterType<PhotosService>().As<IPhotosService>().SingleInstance();
-            builder.RegisterType<PhotoBackupService>().As<IPhotoBackupService>().SingleInstance();
+            builder.RegisterType<S3PhotoBackupService>().As<IPhotoBackupService>().SingleInstance();
             builder.RegisterType<VisitService>().As<IVisitService>().SingleInstance();
             builder.RegisterType<StateService>().As<IStateService>().SingleInstance();
             builder.RegisterType<SamplesService>().As<ISamplesService>().SingleInstance();
@@ -94,8 +95,6 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<VisitRepositoryDB>().As<IVisitRepositoryDB>().SingleInstance();
             builder.RegisterType<StateRepositoryDB>().As<IStateRepositoryDB>().SingleInstance();
 
-            //builder.RegisterType<GridService<User>>().As<IGridService<User>>().SingleInstance();
-            //builder.RegisterType<UserRepositoryDB>().As<IRepository<User>>().SingleInstance();
             builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).SingleInstance();
             builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).SingleInstance();
         }

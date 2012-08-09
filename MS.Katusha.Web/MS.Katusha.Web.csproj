@@ -488,6 +488,10 @@
     <Compile Include="Migrations\201208041408086_AddPaypalPayerId.Designer.cs">
       <DependentUpon>201208041408086_AddPaypalPayerId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201208082101011_AddPhotoStatus.cs" />
+    <Compile Include="Migrations\201208082101011_AddPhotoStatus.Designer.cs">
+      <DependentUpon>201208082101011_AddPhotoStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessagesModel.cs" />
@@ -1051,6 +1055,10 @@
     <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.S3\MS.Katusha.S3.csproj">
+      <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
+      <Name>MS.Katusha.S3</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>

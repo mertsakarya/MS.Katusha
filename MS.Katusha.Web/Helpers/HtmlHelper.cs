@@ -19,6 +19,7 @@ namespace MS.Katusha.Web.Helpers
     {
         private static readonly IResourceService ResourceService = DependencyResolver.Current.GetService<IResourceService>();
         private static readonly IProductService ProductService = DependencyResolver.Current.GetService<IProductService>();
+        private static readonly IPhotosService PhotosService = DependencyResolver.Current.GetService<IPhotosService>();
 
         private static Type GetNonNullableModelType(ModelMetadata modelMetadata)
         {
@@ -84,15 +85,15 @@ namespace MS.Katusha.Web.Helpers
             if(setId) {
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
             }
-            string str = GetPhotoPath(photoGuid, photoType);
-            if (encode) {
-                try {
-                    var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
-                    var bytes = ToBytes(fileName);
-                    var encodedBytes = EncodeBytes(bytes);
-                    str = @"data:image/jpg;base64," + encodedBytes;
-                } catch {}
-            }
+            var str = GetPhotoPath(photoGuid, photoType);
+            //if (encode) {
+            //    try {
+            //        var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
+            //        var bytes = ToBytes(fileName);
+            //        var encodedBytes = EncodeBytes(bytes);
+            //        str = @"data:image/jpg;base64," + encodedBytes;
+            //    } catch {}
+            //}
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
@@ -101,9 +102,11 @@ namespace MS.Katusha.Web.Helpers
 
         public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Large) { return GetPhotoPath(photoGuid, photoType); }
 
+        public static string GetPhotoBaseUrl<TModel>(this HtmlHelper<TModel> htmlHelper) { return PhotosService.GetPhotoBaseUrl(); }
+
         private static string GetPhotoPath(Guid photoGuid, PhotoType photoType)
         {
-            return String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? "Images": "Photos"), (byte)photoType, photoGuid);
+            return PhotosService.GetPhotoUrl(photoGuid, photoType);
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression, string countryCode = "")

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure.Attributes;
+using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.S3;
+using MS.Katusha.S3.Configuration;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
@@ -125,6 +129,23 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
+        public void PhotosDB2S3(string key)
+        {
+            var bucket = (S3ConfigurationManager.Instance.GetBucket(key));
+            if(bucket == null) throw new Exception("Empty bucket " + key);
+            var dbPhotoBackupService = new DBPhotoBackupService(DependencyResolver.Current.GetService<IKatushaFileSystem>(), DependencyResolver.Current.GetService<IPhotoBackupRepositoryDB>());
+            var s3PhotoBackupService = new S3PhotoBackupService(key);
+            foreach (var profile in DependencyResolver.Current.GetService<IProfileRepositoryDB>().Query(p=> p.Id != 0, null, false, p=>p.Photos)) {
+                foreach (var photo in profile.Photos) {
+                    var photoData = dbPhotoBackupService.GetPhoto(photo.Guid);
+                    s3PhotoBackupService.AddPhoto(photoData);
+                    Response.Write(photoData.Guid);
+                }
+
+            }
+        }
+
+        [HttpGet]
         public ActionResult Photos(string key)
         {
             int total;
@@ -133,7 +154,7 @@ namespace MS.Katusha.Web.Controllers
                 pageNo = 1;
             }
 
-            var list = _photosService.Dir(DependencyHelper.PhotosFolder, out total, pageNo, DependencyHelper.GlobalPageSize);
+            var list = _photosService.AllPhotos(out total, "0-", pageNo, DependencyHelper.GlobalPageSize);
             var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyHelper.GlobalPageSize, total);
             var photoGuids = new PagedListModel<Guid> { List = pagedList, Total = total };
             var dictionaryPhotos = new Dictionary<Guid, PhotoModel>();
@@ -152,10 +173,10 @@ namespace MS.Katusha.Web.Controllers
         [HttpGet]
         public void CheckPhotos()
         {
-            var path = DependencyHelper.PhotosFolder;
-            List<string> list = _photosService.CheckPhotos(path);
-            list.AddRange(_photosService.CheckPhotoFiles(path));
-            list.AddRange(_photosService.CheckProfilePhotos(path));
+            //var path = DependencyHelper.PhotosFolder;
+            List<string> list = _photosService.CheckPhotos();
+            list.AddRange(_photosService.CheckPhotoFiles());
+            list.AddRange(_photosService.CheckProfilePhotos());
             foreach (var line in list) {
                 Response.Write(line + "<br/>");
             }

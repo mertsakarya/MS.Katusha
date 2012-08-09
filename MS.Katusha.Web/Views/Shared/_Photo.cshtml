@@ -13,7 +13,7 @@
                     var img = document.getElementById("ProfilePhoto");
                     if (img != null) {
                         img.style.display = "";
-                        img.src = "/Photos/@(photoType)-" + guid + ".jpg";
+                        img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
                     }
                 }
             );
@@ -83,7 +83,6 @@
 
 @if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
     <br/>
-    <hr/>
     <form id="fileupload" action="@Url.Action("UploadFiles", "Photos", new { key = Html.KeyFor(Model) })" method="POST" enctype="multipart/form-data">
         <!-- The} fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
@@ -110,7 +109,7 @@
     </form>
     <script type="text/javascript">
         $(function () {
-            $('#fileupload').fileupload('option', { autoUpload: true })
+            $('#fileupload').fileupload('option', { autoUpload: true, sequentialUploads: true })
                .bind('fileuploadsubmit', function (e, data) {
                    var inputs = data.context.find(':input');
                    data.formData = inputs.serializeArray();

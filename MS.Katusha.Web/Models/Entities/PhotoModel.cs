@@ -18,6 +18,8 @@ namespace MS.Katusha.Web.Models.Entities
         //[JsonIgnore]
         //public byte[] SmallFileContents { get; set; }
 
+        public byte Status { get; set; }
+
         public string ContentType { get; set; }
 
         public string FileName { get; set; }

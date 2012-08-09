@@ -92,7 +92,7 @@ namespace MS.Katusha.Services.Generators
                     for (var i = 1; i <= photoCount; i++) {
                         var filename = "me" + i.ToString(CultureInfo.InvariantCulture) + ".jpg";
                         var filepath = samples + filename;
-                        var photo = _photosService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), root + "Photos\\", filename, filepath);
+                        var photo = _photosService.AddSamplePhoto(profile.Id, GeneratorHelper.RandomString(20, false), filename, filepath);
                         if (GeneratorHelper.RND.Next(3) + 1 == 1)
                             _photosService.MakeProfilePhoto(profile.Id, photo.Guid);
                     }

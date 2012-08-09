@@ -36,8 +36,17 @@ namespace MS.Katusha.Enumerations
     public enum Action : int { LoggedIn = 1, LoggedOut, CreatedProfile, EditedProfile, VisitedProfile, SendMessage, ReadMessage, BecameMember, CanceledMembership, MembershipEXpired, AddedPhoto, ChangedProfilePicture }
 
     public enum CheckoutStatus { PaymentActionNotInitiated, PaymentActionFailed, PaymentActionInProgress, PaymentCompleted }
-    public enum ProductNames { MonthlyKatusha }
+    public enum ProductNames { MonthlyKatusha = 1}
 
-    public enum PaypalEnvironment { Sandbox, Live }
+    public enum PaypalEnvironment { Sandbox = 1, Live = 2}
 
+
+    public enum PhotoStatus { Ready = 1, WaitingApproval = 2, Uploading = 3, NotExist = 4, MAX = 4 }
+    
+    public static class PhotoFolders
+    {
+        public static string Photos = "Photos";
+        public static string PhotoBackups = "PhotoBackups";
+        public static string Images = "Images";
+    }
 }

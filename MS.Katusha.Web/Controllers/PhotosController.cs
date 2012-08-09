@@ -39,7 +39,7 @@ namespace MS.Katusha.Web.Controllers
         public JsonResult DeletePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            var isProfilePhoto = _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid), Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]));
+            var isProfilePhoto = _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
             return Json(new { isProfilePhoto = isProfilePhoto });
         }
 
@@ -61,7 +61,7 @@ namespace MS.Katusha.Web.Controllers
             var list = new List<ViewDataUploadFilesResult>();
             foreach (string file in Request.Files) {
                 var hpf = Request.Files[file];
-                var viewDataUploadResult = _photosService.AddPhoto(KatushaProfile.Id, description, Server.MapPath(ConfigurationManager.AppSettings["Photos_Folder"]), hpf);
+                var viewDataUploadResult = _photosService.AddPhoto(KatushaProfile.Id, description, hpf);
                 if (hpf != null) if (hpf.ContentLength != 0 && hpf.FileName != null) list.Add(viewDataUploadResult);
             }
             return new ContentResult {

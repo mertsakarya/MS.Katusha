@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,24 +11,44 @@ using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Services
 {
+    public class PhotoManager
+    {
+        public void AddPhoto(IKatushaFileSystem fileSystem, IPhotoBackupService photoBackupService, Photo photo, HttpPostedFileBase hpf, byte[] thumbnailBytes)
+        {
+            foreach (var suffix in PhotoTypes.Versions.Keys) {
+                var bytes = (suffix == (byte) PhotoType.Thumbnail) ? thumbnailBytes : BuildImage(hpf, suffix);
+                fileSystem.WritePhoto(photo, (PhotoType)suffix, bytes);
+                if (suffix == (byte)PhotoType.Original)
+                    photoBackupService.AddPhoto(new PhotoBackup { Guid = photo.Guid, Data = bytes });
+            }
+        }
+
+        public static byte[] BuildImage(HttpPostedFileBase hpf, byte suffix)
+        {
+            byte[] bytes;
+            using (var stream = new MemoryStream()) {
+                ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+                bytes = stream.ToArray();
+            }
+            return bytes;
+        }
+    }
+
+    public delegate void AsyncAddPhotoCaller(IKatushaFileSystem fileSystem, IPhotoBackupService photoBackupService, Photo photo, HttpPostedFileBase hpf, byte[] thumbnailBytes);
+
+
     public class PhotosService : IPhotosService
     {
+        private readonly IKatushaFileSystem _fileSystem;
         private readonly IProfileService _profileService;
         private readonly INotificationService _notificationService;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IPhotoBackupService _photoBackupService;
 
-        private readonly IDictionary<byte, string> _versions = new Dictionary<byte, string> {
-                {(byte)PhotoType.Thumbnail, "width=80&height=106&crop=auto&format=jpg&quality=90"}, 
-                {(byte)PhotoType.Medium, "maxwidth=400&maxheight=530&format=jpg&quality=90"},
-                {(byte)PhotoType.Large, "maxwidth=800&maxheight=1060&format=jpg&quality=90"},
-                {(byte)PhotoType.Icon, "width=40&height=53&format=jpg&quality=90"},
-                {(byte)PhotoType.Original, "format=jpg"}
-            };
-
-        public PhotosService(IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
+        public PhotosService(IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
         {
+            _fileSystem = fileSystem;
             _profileService = profileService;
             _notificationService = notificationService;
             _profileRepository = profileRepository;
@@ -48,134 +67,85 @@ namespace MS.Katusha.Services
             _profileService.UpdateRavenProfile(profile.Id);
         }
 
-        public ViewDataUploadFilesResult AddPhoto(long profileId, string description, string pathToPhotos, HttpPostedFileBase hpf)
+        public ViewDataUploadFilesResult AddPhoto(long profileId, string description, HttpPostedFileBase hpf)
         {
             if (hpf.ContentLength <= 0) return null;
-
-            var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
+            var profile = _profileRepository.SingleAttached(p => p.Id == profileId);
             if (profile == null) return null;
             var guid = Guid.NewGuid();
-            var photo = new Photo { Description = description, ProfileId = profileId, FileName = hpf.FileName, ContentType = "image/jpeg", Guid = guid };
+            var photo = new Photo { Description = description, ProfileId = profileId, Status = (byte)PhotoStatus.Uploading, FileName = hpf.FileName, ContentType = "image/jpeg", Guid = guid };
+            _photoRepository.Add(photo, photo.Guid);
+            var bytes = PhotoManager.BuildImage(hpf, (byte)PhotoType.Thumbnail);
+
             if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
                 profile.ProfilePhotoGuid = photo.Guid;
                 _profileRepository.FullUpdate(profile);
             }
-            _photoRepository.Add(photo, photo.Guid);
-
-
-            if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
-            foreach (var suffix in _versions.Keys) {
-                var fileName = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
-                ImageBuilder.Current.Build(hpf, fileName, new ResizeSettings(_versions[suffix]), false, true);
-                if(suffix == (byte) PhotoType.Original) 
-                    _photoBackupService.AddPhoto(new PhotoBackup { Guid = guid, Data = File.ReadAllBytes(fileName + ".jpg") });
-            }
-
             _profileService.UpdateRavenProfile(profile.Id);
-
             _notificationService.PhotoAdded(photo);
+            //(new PhotoManager()).AddPhoto(_fileSystem, _photoBackupService, photo, hpf, bytes);
+            (new AsyncAddPhotoCaller((new PhotoManager()).AddPhoto)).BeginInvoke(_fileSystem, _photoBackupService, photo, hpf, bytes, null, null);
 
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             return new ViewDataUploadFilesResult {
                 name = hpf.FileName,
                 size = hpf.ContentLength,
                 type = hpf.ContentType,
-                url = String.Format("/Photos/{1}-{0}.jpg", guid, (byte)PhotoType.Large),
+                url = _fileSystem.GetPhotoUrl(guid, PhotoType.Large),
                 delete_url = String.Format("/Profiles/DeletePhoto/{0}/{1}", id, guid),
                 delete_type = "GET",
-                thumbnail_url = String.Format("/Photos/{1}-{0}.jpg", guid, (byte)PhotoType.Thumbnail) //@"data:image/jpg;base64," + EncodeBytes(smallFileContents)
+                thumbnail_url = @"data:image/jpg;base64," + Convert.ToBase64String(bytes) //fileSystem.GetPhotoUrl(guid, PhotoType.Thumbnail)
             };
         }
 
-        public Photo AddSamplePhoto(long profileId, string description, string pathToPhotos, string fileName, string filePath)
+        public Photo AddSamplePhoto(long profileId, string description, string fileName, string filePath)
         {
-            ///// INTERNAL USE /////
-            var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
-            if (profile == null) return null;
-            var guid = Guid.NewGuid();
-            var photo = new Photo { Description = description, ProfileId = profileId, FileName = fileName, ContentType = "image/jpg", Guid = guid };
+            /////// INTERNAL USE /////
+            //var profile = _profileRepository.SingleAttached(p => p.Id == profileId);
+            //if (profile == null) return null;
+            //var guid = Guid.NewGuid();
+            //var photo = new Photo { Description = description, ProfileId = profileId, FileName = fileName, ContentType = "image/jpg", Guid = guid };
 
-            if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
-                profile.ProfilePhotoGuid = photo.Guid;
-                _profileRepository.FullUpdate(profile);
-            }
-            _photoRepository.Add(photo, photo.Guid);
+            //if (profile.ProfilePhotoGuid == Guid.Empty) { //set first photo as default photo
+            //    profile.ProfilePhotoGuid = photo.Guid;
+            //    _profileRepository.FullUpdate(profile);
+            //}
+            //_photoRepository.Add(photo, photo.Guid);
 
-            if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
+            //if (!Directory.Exists(pathToPhotos)) Directory.CreateDirectory(pathToPhotos);
 
-            foreach (var suffix in _versions.Keys) {
-                var fn = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
-                ImageBuilder.Current.Build(filePath, fn, new ResizeSettings(_versions[suffix]), false, true);
-                if (suffix == (byte)PhotoType.Original)
-                    _photoBackupService.AddPhoto(new PhotoBackup { Guid = guid, Data = File.ReadAllBytes(fn + ".jpg") });
+            //foreach (var suffix in PhotoTypes.Versions.Keys) {
+            //    var fn = Path.Combine(pathToPhotos, suffix.ToString(CultureInfo.InvariantCulture) + "-" + guid.ToString());
+            //    ImageBuilder.Current.Build(filePath, fn, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+            //    if (suffix == (byte)PhotoType.Original)
+            //        _photoBackupService.AddPhoto(new PhotoBackup { Guid = guid, Data = File.ReadAllBytes(fn + ".jpg") });
 
-            }
+            //}
 
-            _profileService.UpdateRavenProfile(profile.Id);
-            return _photoRepository.SingleAttached(p => p.Id == photo.Id);
+            //_profileService.UpdateRavenProfile(profile.Id);
+            //return _photoRepository.SingleAttached(p => p.Id == photo.Id);
+            return null;
         }
 
-        public IList<Guid> Dir(string pathToPhotos, out int total, int pageNo = 1, int pageSize = 20)
-        {
-            var files = Directory.GetFiles(pathToPhotos, ((byte)PhotoType.Original).ToString(CultureInfo.InvariantCulture) + "-*.jpg");
-            total = files.Length;
-            var fileList = files.Skip((pageNo - 1)*pageSize).Take(pageSize);
-            var list = new List<Guid>(fileList.Count());
-            var start = 3 + pathToPhotos.Length;
-            foreach(var fileName in fileList) {
-                Guid guid;
-                if (Guid.TryParse(fileName.Substring(start, 36), out guid)) {
-                    list.Add(guid);
-                }
-            }
-            return list;
-        }
+
 
         public Photo GetByGuid(Guid guid) { return _photoRepository.GetByGuid(guid); }
 
-        public List<string> CheckPhotoFiles(string path)
-        {
-            var guids = new List<Guid>();
-            var list = new List<string>();
-            foreach (var file in Directory.EnumerateFiles(path)) {
-                var fileName = Path.GetFileNameWithoutExtension(file);
-                if (fileName == null) continue;
-                var extension = Path.GetExtension(file);
-                if (extension == null || extension.ToLowerInvariant() != ".jpg") {
-                    list.Add("EXTENSION\t" + file);
-                    continue;
-                }
+        public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false) { return _fileSystem.GetPhotoUrl(photoGuid, photoType, encode); }
+        public string GetPhotoBaseUrl() { return _fileSystem.GetPhotoBaseUrl(); }
 
-                var photoType = fileName[0] - 48;
-                if (photoType > (int) PhotoType.MAX && fileName[1] != '-') {
-                    list.Add("PHOTOTYPE\t" + file);
-                    continue;
-                }
-                var strGuid = fileName.Substring(2);
-                Guid guid;
-                if (!Guid.TryParse(strGuid, out guid)) {
-                    list.Add("GUIDPARSE\t" + file);
-                    continue;
-                }
-                if (!guids.Contains(guid)) {
-                    guids.Add(guid);
-                    foreach(var suffix in _versions.Keys) {
-                        var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", guid, suffix, path);
-                        if(!File.Exists(fileShouldExist)) {
-                            _photoBackupService.GeneratePhoto(guid, path, (PhotoType) suffix);
-                            list.Add("CREATED\t" + fileShouldExist);
-                        }
-                    }
-                    var photo = _photoRepository.GetByGuid(guid);
-                    if (photo == null) {
-                        list.Add("NOPHOTO\t" + guid.ToString());
-                    }
-                }
-            }
+        public IList<Guid> AllPhotos(out int total, string prefix = "", int pageNo = 1, int pageSize = 20)
+        {
+            IList<string> badFiles;
+            var files = _fileSystem.GetPhotoNames(out badFiles, prefix);
+            total = files.Count;
+            var fileList = files.Skip((pageNo - 1)*pageSize).Take(pageSize).ToArray();
+            var list = new List<Guid>(fileList.Count());
+            list.AddRange(fileList.Select(file => file.Guid));
             return list;
         }
 
-        List<string> IPhotosService.CheckPhotos(string path)
+        public List<string> CheckPhotos()
         {
             var list = new List<string>();
             int total;
@@ -185,33 +155,50 @@ namespace MS.Katusha.Services
                 if(profile == null) {
                     list.Add("NOPROFILE\t" + photo.Guid.ToString());
                 }
-                foreach (var suffix in _versions.Keys) {
-                    var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", photo.Guid, suffix, path);
-                    if (!File.Exists(fileShouldExist)) {
-                        _photoBackupService.GeneratePhoto(photo.Guid, path, (PhotoType)suffix);
-                        list.Add("CREATED\t" + fileShouldExist);
-                    }
+                foreach (var suffix in PhotoTypes.Versions.Keys) {
+                    if(_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
+                        list.Add("CREATED\t" + photo.Guid);
                 }
             }
             return list;
         }
 
-        List<string> IPhotosService.CheckProfilePhotos(string path) {
+        public List<string> CheckPhotoFiles()
+        {
+            var guids = new List<Guid>();
+            var list = new List<string>();
+            IList<string> badFiles;
+            foreach (var file in _fileSystem.GetPhotoNames(out badFiles, "")) {
+                if (file.Guid == Guid.Empty) continue;
+                if (guids.Contains(file.Guid)) continue;
+                guids.Add(file.Guid);
+                foreach (var suffix in PhotoTypes.Versions.Keys)
+                    if (_photoBackupService.GeneratePhoto(file.Guid, (PhotoType)suffix))
+                        list.Add("CREATED\t" + file.Guid);
+                var photo = _photoRepository.GetByGuid(file.Guid);
+                if (photo == null) {
+                    list.Add("NOPHOTO\t" + file.Guid.ToString());
+                }
+            }
+            list.AddRange(badFiles.Select(item => "BADFILE\t" + item));
+            return list;
+        }
+
+        public List<string> CheckProfilePhotos()
+        {
             var list = new List<string>();
             foreach (var profile in _profileRepository.Query(p=>p.ProfilePhotoGuid != Guid.Empty, null, false).ToList()) {
                 var photo = _photoRepository.GetByGuid(profile.ProfilePhotoGuid);
-                foreach (var suffix in _versions.Keys) {
-                    var fileShouldExist = String.Format("{2}\\{1}-{0}.jpg", photo.Guid, suffix, path);
-                    if (!File.Exists(fileShouldExist)) {
-                        _photoBackupService.GeneratePhoto(photo.Guid, path, (PhotoType)suffix);
-                        list.Add("CREATED\t" + fileShouldExist);
+                foreach (var suffix in PhotoTypes.Versions.Keys) {
+                    if(_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix)) {
+                        list.Add("CREATED\t" + photo.Guid);
                     }
                 }
             }
             return list;
         }
 
-        public bool DeletePhoto(long profileId, Guid photoGuid, string pathToPhotos)
+        public bool DeletePhoto(long profileId, Guid photoGuid)
         {
             var isProfilePhoto = false;
             var profile = _profileRepository.SingleAttached(p=>p.Id == profileId, p => p.Photos);
@@ -221,8 +208,9 @@ namespace MS.Katusha.Services
             var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
             if (entity != null) {
                 _photoRepository.Delete(entity);
-                for (byte i = 0; i < (byte)PhotoType.MAX; i++)
-                    File.Delete(String.Format("{0}{1}-{2}.jpg", pathToPhotos, i, photoGuid));
+                for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
+                    _fileSystem.DeletePhoto(photoGuid, (PhotoType)i);
+                }
             }
             if (profile.ProfilePhotoGuid == photoGuid) {
                 isProfilePhoto = true;
@@ -230,7 +218,7 @@ namespace MS.Katusha.Services
                 _profileRepository.FullUpdate(profile);
             }
             _profileService.UpdateRavenProfile(profile.Id);
-            _photoBackupService.DeletePhoto(photoGuid);
+            _photoBackupService.DeleteBackupPhoto(photoGuid);
             return isProfilePhoto;
         }
     }

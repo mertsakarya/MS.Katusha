@@ -27,7 +27,7 @@ namespace MS.Katusha.Web.Helpers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public const int GlobalPageSize = 40;
         public static IContainer Container;
-        public static readonly string PhotosFolder = HttpContext.Current.Server.MapPath("/Photos");
+        public static readonly string PhotosFolder = HttpContext.Current.Server.MapPath("/"+Enumerations.PhotoFolders.Photos);
 
         public static void RegisterDependencies()
         {
