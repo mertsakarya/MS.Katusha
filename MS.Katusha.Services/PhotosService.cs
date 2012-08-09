@@ -83,8 +83,8 @@ namespace MS.Katusha.Services
             }
             _profileService.UpdateRavenProfile(profile.Id);
             _notificationService.PhotoAdded(photo);
-            //(new PhotoManager()).AddPhoto(_fileSystem, _photoBackupService, photo, hpf, bytes);
-            (new AsyncAddPhotoCaller((new PhotoManager()).AddPhoto)).BeginInvoke(_fileSystem, _photoBackupService, photo, hpf, bytes, null, null);
+            (new PhotoManager()).AddPhoto(_fileSystem, _photoBackupService, photo, hpf, bytes);
+            //(new AsyncAddPhotoCaller((new PhotoManager()).AddPhoto)).BeginInvoke(_fileSystem, _photoBackupService, photo, hpf, bytes, null, null);
 
             var id = (String.IsNullOrEmpty(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName;
             return new ViewDataUploadFilesResult {

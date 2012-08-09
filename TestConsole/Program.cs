@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using Autofac;
 using MS.Katusha.DependencyManagement;
 using MS.Katusha.Domain.Entities;
@@ -17,6 +19,33 @@ namespace TestConsole
 
         static void Main(string[] args)
         {
+            var connectionString = "Server=9b87ca92-887e-495e-8260-a03100cdb926.sqlserver.sequelizer.com;Database=db9b87ca92887e495e8260a03100cdb926;User ID=neezyiesavjqrlst;Password=PZtqfpXkraxZUrmrUA8eT68hUKwxKFsasMcxCf6qu7L65s7RNg3pCMaSZkCB2zGS;";
+            using (SqlConnection con = new SqlConnection(connectionString)) {
+                //
+                // Open the SqlConnection.
+                //
+                con.Open();
+                //
+                // The following code shows how you can use an SqlCommand based on the SqlConnection.
+                //
+                using (SqlCommand command = new SqlCommand("SELECT * FROM PhotoBackups(nolock)", con))
+                using (SqlDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        var num = reader.GetInt64(0);
+                        
+                        var binaryData = (byte[])reader.GetValue(1);
+                        var guid = reader.GetGuid(2);
+                        Console.WriteLine(guid);
+                        using(var writer = new FileStream("p:\\photos\\"+ guid.ToString() + ".jpg", FileMode.Create, FileAccess.Write)) {
+                            writer.Write(binaryData, 0, binaryData.Length);
+                        }
+                    }
+                }
+                con.Close();
+            }
+
+            Console.ReadLine();
+
             IPaymentManager paymentManager = new CoreApiPaymentManager();
             var gateway = paymentManager.Gateway("test");
             Console.Write(gateway.Token);
