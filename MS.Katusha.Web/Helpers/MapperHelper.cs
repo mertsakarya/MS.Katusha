@@ -23,7 +23,6 @@ namespace MS.Katusha.Web.Helpers
                 .ForMember(dest => dest.DickSize, opt => opt.MapFrom(src => (byte?) src.DickSize))
                 .ForMember(dest => dest.DickThickness, opt => opt.MapFrom(src => (byte?) src.DickThickness));
 
-
             Mapper.CreateMap<ConversationModel, Conversation>();
             Mapper.CreateMap<Conversation, ConversationModel>();
 
