@@ -122,7 +122,6 @@ namespace MS.Katusha.S3
                             }
                         }
                     }
-
                 }
            }
             return list;
