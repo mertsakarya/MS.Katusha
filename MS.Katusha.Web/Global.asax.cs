@@ -69,7 +69,7 @@ namespace MS.Katusha.Web
                 //    //Application["MyDocStore"] = store; 
                 //}
             } finally {
-                Context.Application.Lock();
+                Context.Application.UnLock();
             }
         }
    }

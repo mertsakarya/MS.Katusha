@@ -31,7 +31,6 @@ namespace MS.Katusha.S3
 
         public void DeletePhoto(Guid photoGuid)
         {
-            var list = new List<string>();
             for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
                 Delete(String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, i, photoGuid));
             }

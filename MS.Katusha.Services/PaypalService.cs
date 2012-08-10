@@ -11,7 +11,7 @@ using PayPal.PayPalAPIInterfaceService.Model;
 
 namespace MS.Katusha.Services
 {
-    public class PaypalServiceSOAP : IPaypalService
+    public class PaypalService : IPaypalService
     {
         private readonly IUserService _userService;
         private readonly PayPalAPIInterfaceServiceService _payPalApiService;
@@ -27,7 +27,7 @@ namespace MS.Katusha.Services
             return paypalPaymentTest ? "mertm_1344098150_biz_api1.hotmail.com" : "mertsakarya_api1.hotmail.com";
         }
 
-        public PaypalServiceSOAP(IUserService userService) {
+        public PaypalService(IUserService userService) {
             _userService = userService;
             _payPalApiService = new PayPalAPIInterfaceServiceService();
             _settings = PaypalSettings.ParseConfiguration();

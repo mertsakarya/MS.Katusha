@@ -30,12 +30,17 @@ namespace MS.Katusha.Services
         }
 
         public PingResult Ping(Profile profile) {
-            var lastVisitTime = _stateRepository.UpdateStatus(profile);
-            var state = Mapper.Map<State>(profile);
-            _stateRepositoryRaven.UpdateStatus(state);
-            var visits = _visitService.GetVisitorsSinceLastVisit(profile.Id, lastVisitTime);
-            var conversations = _conversationService.GetConversationStatistics(profile.Id);
-            return new PingResult { Visits = visits, Conversations = conversations };
+            if(profile == null) return null;
+            try {
+                var lastVisitTime = _stateRepository.UpdateStatus(profile);
+                var state = Mapper.Map<State>(profile);
+                _stateRepositoryRaven.UpdateStatus(state);
+                var visits = _visitService.GetVisitorsSinceLastVisit(profile.Id, lastVisitTime);
+                var conversations = _conversationService.GetConversationStatistics(profile.Id);
+                return new PingResult {Visits = visits, Conversations = conversations};
+            } catch {
+                return null;
+            }
         }
 
         public IEnumerable<State> OnlineProfiles(byte sex, out int total, int pageNo = 1, int pageSize = 20)

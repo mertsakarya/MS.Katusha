@@ -18,6 +18,7 @@ namespace MS.Katusha.Repositories.DB
 
         public DateTime UpdateStatus(Profile profile)
         {
+            if (profile == null) return new DateTime(1900, 1, 1);
             var state = _dbContext.States.FirstOrDefault(p => p.ProfileId == profile.Id);
             DateTime retVal;
             if (state == null) {
