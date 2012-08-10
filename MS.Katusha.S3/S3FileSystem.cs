@@ -55,8 +55,24 @@ namespace MS.Katusha.S3
             }
         }
 
-        public void DeletePhoto(Guid photoGuid, PhotoType photoType) { 
-            Delete(String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, (byte)photoType, photoGuid));
+        private void Delete(params string[] paths)
+        {
+            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+                var request = new DeleteObjectsRequest();
+                foreach (var key in paths)
+                    request.AddKey(key);
+                request.WithBucketName(_bucket.BucketName);
+                client.DeleteObjects(request);
+            }
+        }
+
+        public void DeletePhoto(Guid photoGuid)
+        {
+            var list = new List<string>();
+            for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
+                list.Add(String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, i, photoGuid));
+            }
+            Delete(list.ToArray());
         }
 
         public void DeleteBackupPhoto(Guid guid)
@@ -87,17 +103,19 @@ namespace MS.Katusha.S3
                 unparseableFiles = new List<string>();
                 foreach(var s3Object in response.S3Objects) {
                     var fileName = s3Object.Key;
-                    var pos = fileName.LastIndexOf('/');
+                    var pos = fileName.LastIndexOf('/') + 1;
                     fileName = fileName.Substring(pos);
                     pos = fileName.LastIndexOf(".jpg", StringComparison.Ordinal);
-                    if(pos <= 0) unparseableFiles.Add(fileName);
+                    if(pos <= 0) unparseableFiles.Add(s3Object.Key);
                     else {
-                        if (fileName[1] != '-') unparseableFiles.Add(fileName);
+                        if (fileName[1] != '-') unparseableFiles.Add(s3Object.Key);
                         else {
                             try {
                                 var type = (byte)(fileName[0] - 48);
-                                var guid = fileName.Substring(2, fileName.Length - 6);
-                                var photoFile = new PhotoFile {PhotoType = type, Guid = Guid.Parse(guid)};
+                                var guidText = fileName.Substring(2, fileName.Length - 6);
+                                Guid guid;
+                                if (Guid.TryParse(guidText, out guid)) unparseableFiles.Add(s3Object.Key);
+                                var photoFile = new PhotoFile {PhotoType = type, Guid = guid};
                                 list.Add(photoFile);
                             } catch {
                                 unparseableFiles.Add(fileName);
@@ -110,25 +128,18 @@ namespace MS.Katusha.S3
             return list;
         }
 
-        //public Stream GetStream(string path)
-        //{
-        //    using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
-        //        var request = new GetObjectRequest();
-        //        request.WithBucketName(_bucket.BucketName).WithKey(path);
-        //        using (var response = client.GetObject(request)) {
-        //            return response.ResponseStream;
-        //        }
-        //    }
-        //}
-
-        //public byte[] GetData(string path)
-        //{
-        //    using (var stream = GetStream(path)) {
-        //        var data = new byte[(int) stream.Length];
-        //        stream.Read(data, 0, (int) stream.Length);
-        //        return data;
-        //    }
-        //}
+        private byte[] GetData(string path)
+        {
+            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+                var request = new GetObjectRequest();
+                request.WithBucketName(_bucket.BucketName).WithKey(path);
+                using (var response = client.GetObject(request)) {
+                    var data = new byte[(int)response.ContentLength];
+                    response.ResponseStream.Read(data, 0, (int)response.ContentLength);
+                    return data;
+                }
+            }
+        }
 
         //public string GetString(string path)
         //{
@@ -140,10 +151,14 @@ namespace MS.Katusha.S3
         //}
 
         private string GetUrl(string path) { return _bucket.RootUrl + path; }
-        
+
         public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
         {
-            return GetUrl(String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? "Images" : "Photos"), (byte)photoType, photoGuid));
+            var key = String.Format("{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? "Images" : "Photos"), (byte) photoType, photoGuid);
+            if (!encode) return GetUrl(key);
+            var bytes = GetData(key);
+            var base64 = Convert.ToBase64String(bytes);
+            return base64;
         }
 
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)

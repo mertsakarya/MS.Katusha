@@ -6,6 +6,7 @@ using System.Web;
 using ImageResizer;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 
@@ -45,9 +46,11 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IPhotoBackupService _photoBackupService;
+        private IKatushaGlobalCacheContext _cacheContext;
 
-        public PhotosService(IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
+        public PhotosService(IKatushaGlobalCacheContext cacheContext, IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
         {
+            _cacheContext = cacheContext;
             _fileSystem = fileSystem;
             _profileService = profileService;
             _notificationService = notificationService;
@@ -127,11 +130,23 @@ namespace MS.Katusha.Services
             return null;
         }
 
-
-
         public Photo GetByGuid(Guid guid) { return _photoRepository.GetByGuid(guid); }
 
-        public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false) { return _fileSystem.GetPhotoUrl(photoGuid, photoType, encode); }
+        public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
+        {
+            if (_cacheContext == null || photoGuid == Guid.Empty) return _fileSystem.GetPhotoUrl(photoGuid, photoType);
+            var key = "F:" + (byte) photoType + photoGuid;
+            if (photoType == PhotoType.Icon) encode = true;
+            var encodingText = (encode) ? @"data:image/jpg;base64," : "";
+            if (!encode) return encodingText + _fileSystem.GetPhotoUrl(photoGuid, photoType);
+            var result = _cacheContext.Get<string>(key);
+            if (String.IsNullOrWhiteSpace(result)) {
+                result = encodingText + _fileSystem.GetPhotoUrl(photoGuid, photoType, true);
+                _cacheContext.Add(key, result);
+            }
+            return result;
+        }
+
         public string GetPhotoBaseUrl() { return _fileSystem.GetPhotoBaseUrl(); }
 
         public IList<Guid> AllPhotos(out int total, string prefix = "", int pageNo = 1, int pageSize = 20)
@@ -208,9 +223,7 @@ namespace MS.Katusha.Services
             var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
             if (entity != null) {
                 _photoRepository.Delete(entity);
-                for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
-                    _fileSystem.DeletePhoto(photoGuid, (PhotoType)i);
-                }
+                _fileSystem.DeletePhoto(photoGuid);
             }
             if (profile.ProfilePhotoGuid == photoGuid) {
                 isProfilePhoto = true;

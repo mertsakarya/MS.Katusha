@@ -11,7 +11,7 @@ namespace MS.Katusha.Infrastructure.Cache
         public void Add<T>(string key, T value) where T : class
         {
             var containsKey = ContainsKey(key);
-            if (containsKey) {
+            if (!containsKey) {
                 ListLock.EnterWriteLock();
                 try {
                     Dictionary[key] = new CacheObject {Key = key, Value = value};

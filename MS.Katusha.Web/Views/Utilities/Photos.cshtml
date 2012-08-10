@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
-                    <div class="mosaic-backdrop">@Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
+                    <div class="mosaic-backdrop">@Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
                 </a>
             </div>
         </div>
@@ -70,7 +70,7 @@
                 function () {
                     var img = document.getElementById("ProfilePhoto");
                     if (img != null)
-                        img.src = "/Photos/@(photoType)-" + guid + ".jpg";
+                        img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
                     alert('You have changed your profile picture!');
                 }
             );

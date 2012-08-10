@@ -26,7 +26,7 @@
 <fieldset>
     <legend>Profile</legend>
     @if (Model.ProfilePhotoGuid != Guid.Empty) {
-        @Html.Photo(Model.ProfilePhotoGuid, PhotoType.Medium, "", true)
+        @Html.PhotoImg(Model.ProfilePhotoGuid, PhotoType.Medium)
     }
 
     @Html.Partial("_Photo", Model)

@@ -44,12 +44,12 @@
                         </div>
                     </div>
                     <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
-                        <div class="mosaic-backdrop">@Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
+                        <div class="mosaic-backdrop">@Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
                     </a>
                 </div>
             } else {
                 <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
-                    @Html.Photo(photo.Guid, PhotoType.Thumbnail, photo.Description)
+                    @Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)
                 </a>
             }
         </div>

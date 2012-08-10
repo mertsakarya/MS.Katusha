@@ -12,7 +12,7 @@ namespace MS.Katusha.S3
     public class S3PhotoBackupService : IPhotoBackupService
     {
         private readonly Bucket _bucket;
-        private readonly S3FileSystem _fileSystem ;
+        private readonly IKatushaFileSystem _fileSystem ;
 
         public S3PhotoBackupService(string bucketName="")
         {

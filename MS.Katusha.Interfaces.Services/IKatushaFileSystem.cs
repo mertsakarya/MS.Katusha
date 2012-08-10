@@ -16,7 +16,7 @@ namespace MS.Katusha.Interfaces.Services
     {
         void Add(string path, Stream stream);
         bool FileExists(string path);
-        void DeletePhoto(Guid photoGuid, PhotoType photoType);
+        void DeletePhoto(Guid photoGuid);
         void DeleteBackupPhoto(Guid guid);
         IList<PhotoFile> GetPhotoNames(out IList<string> unparseableFiles, string prefix = "");
         string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false);

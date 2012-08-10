@@ -79,34 +79,39 @@ namespace MS.Katusha.Web.Helpers
             return ResourceService.GetLookupText(lookupName, key, countryCode);
         }
 
-        public static IHtmlString Photo<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false)
+        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Large) { return GetPhotoUrl(photoGuid, photoType); }
+
+        public static string GetPhotoBaseUrl<TModel>(this HtmlHelper<TModel> htmlHelper) { return PhotosService.GetPhotoBaseUrl(); }
+
+        private static string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
+        {
+            return PhotosService.GetPhotoUrl(photoGuid, photoType, encode);
+        }
+
+        public static IHtmlString PhotoImg<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Original, string description = "", bool setId = false, bool encode = false)
         {
             var tb = new TagBuilder("img");
-            if(setId) {
+            if (setId) {
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
             }
-            var str = GetPhotoPath(photoGuid, photoType);
-            //if (encode) {
-            //    try {
-            //        var fileName = htmlHelper.ViewContext.HttpContext.Server.MapPath(str);
-            //        var bytes = ToBytes(fileName);
-            //        var encodedBytes = EncodeBytes(bytes);
-            //        str = @"data:image/jpg;base64," + encodedBytes;
-            //    } catch {}
-            //}
+            var str = GetPhotoUrl(photoGuid, photoType, encode);
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
             return htmlHelper.Raw(tb.ToString());
         }
 
-        public static string PhotoLink<TModel>(this HtmlHelper<TModel> htmlHelper, Guid photoGuid, PhotoType photoType = PhotoType.Large) { return GetPhotoPath(photoGuid, photoType); }
-
-        public static string GetPhotoBaseUrl<TModel>(this HtmlHelper<TModel> htmlHelper) { return PhotosService.GetPhotoBaseUrl(); }
-
-        private static string GetPhotoPath(Guid photoGuid, PhotoType photoType)
+        public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
         {
-            return PhotosService.GetPhotoUrl(photoGuid, photoType);
+            var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
+            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), profile.Location.CountryName);
+            var url = "/Profiles/Show/" + val;
+            var anchor = new TagBuilder("a");
+            anchor.Attributes.Add("title", title);
+            anchor.Attributes.Add("href", url);
+            anchor.Attributes.Add("rel", galleryName);
+            anchor.InnerHtml = htmlHelper.PhotoImg(profile.ProfilePhotoGuid, photoType, "", false, encode).ToString();
+            return htmlHelper.Raw(anchor.ToString());
         }
 
         public static IHtmlString DisplayDetailFor<TModel, TProp>(this HtmlHelper<TModel> htmlHelper, bool condition, Expression<Func<TModel, TProp>> expression, string countryCode = "")
@@ -129,19 +134,6 @@ namespace MS.Katusha.Web.Helpers
                 return result;
             }
             return htmlHelper.Raw("");
-        }
-
-        public static IHtmlString DisplayProfilePhoto<TModel>(this HtmlHelper<TModel> htmlHelper, ProfileModel profile, PhotoType photoType, string galleryName, bool encode = false)
-        {
-            var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
-            var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), profile.Location.CountryName);
-            var url = "/Profiles/Show/" + val;
-            var anchor = new TagBuilder("a");
-            anchor.Attributes.Add("title", title);
-            anchor.Attributes.Add("href", url);
-            anchor.Attributes.Add("rel", galleryName);
-            anchor.InnerHtml = htmlHelper.Photo(profile.ProfilePhotoGuid, photoType, "", false, encode).ToString();
-            return htmlHelper.Raw(anchor.ToString());
         }
 
         private static string Append(string key, string value, string keyName = "key", string valueName = "value") { return String.Format("{{{0}:\"{1}\",{2}:\"{3}\"}}", keyName, key, valueName, value.Replace("\n", "\\n").Replace("\t", "\\t").Replace("\r", "\\r").Replace("'", "\\'").Replace("\"", "\\\"")); }
@@ -542,7 +534,7 @@ setInterval(function() {{
 
             var profileLink = new TagBuilder("a");
             profileLink.Attributes.Add("href", urlHelper.Action("Show", "Profiles", new { key = profileGuid } ));
-            profileLink.InnerHtml = htmlHelper.Photo(photoGuid, PhotoType.Icon).ToHtmlString() +   ("<br />" + name);
+            profileLink.InnerHtml = htmlHelper.PhotoImg(photoGuid, PhotoType.Icon).ToHtmlString() +   ("<br />" + name);
 
             var subjectLink = new TagBuilder("a");
             subjectLink.Attributes.Add("title", "Read");

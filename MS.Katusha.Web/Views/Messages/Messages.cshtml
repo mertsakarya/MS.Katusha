@@ -26,7 +26,7 @@
     <li style="list-style: none; border:1px solid #f0f0f0">
         <table>
             <tr>
-                <td style="width:50px; overflow: hidden"><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.Photo(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
+                <td style="width:50px; overflow: hidden"><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
                 <td style="background-color: #ffe; width: 100%">
                     <table width="100%">
                         <tr><td style="background-color: goldenrod;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>

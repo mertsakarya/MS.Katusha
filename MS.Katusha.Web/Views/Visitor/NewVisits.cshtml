@@ -19,7 +19,7 @@
         <div class="gallery-item" style="display: inline-block;" >
             <div class="bar">
                 <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + profile.Location.CountryName)" href="/Profiles/Show/@(val)" rel="gallery">
-                    @Html.Photo(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
+                    @Html.PhotoImg(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
                 </a>
                 <div style="border: 1 solid">
                     @profile.Name<br/>

@@ -29,9 +29,12 @@ namespace MS.Katusha.S3
 
         private static void Delete(string path) { File.Delete(path); }
 
-        public void DeletePhoto(Guid photoGuid, PhotoType photoType)
+        public void DeletePhoto(Guid photoGuid)
         {
-            Delete(String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte)photoType, photoGuid));
+            var list = new List<string>();
+            for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
+                Delete(String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, i, photoGuid));
+            }
         }
 
         public void DeleteBackupPhoto(Guid guid)
@@ -69,8 +72,16 @@ namespace MS.Katusha.S3
         }
 
         private string GetUrl(string path) { return ConfigurationManager.AppSettings["VirtualPath"] + ((path[0] == '/') ? path.Substring(1) : path); }
-        
-        public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false) { return GetUrl(String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? PhotoFolders.Images : PhotoFolders.Photos), (byte)photoType, photoGuid)); }
+
+        public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
+        {
+            if (encode) return GetUrl(String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? PhotoFolders.Images : PhotoFolders.Photos), (byte) photoType, photoGuid));
+            var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte) photoType, photoGuid);
+            var bytes = File.ReadAllBytes(path);
+            var base64 = Convert.ToBase64String(bytes);
+            return base64;
+        }
+
         public string GetPhotoBaseUrl() { return ConfigurationManager.AppSettings["VirtualPath"]; }
 
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)
