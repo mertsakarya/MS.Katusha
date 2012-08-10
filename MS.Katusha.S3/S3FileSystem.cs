@@ -150,7 +150,7 @@ namespace MS.Katusha.S3
         //    }
         //}
 
-        private string GetUrl(string path) { return _bucket.RootUrl + path; }
+        private string GetUrl(string path) { return _bucket.RootUrl + "/" + path; }
 
         public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
         {

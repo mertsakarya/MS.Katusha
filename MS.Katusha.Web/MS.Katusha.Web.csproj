@@ -862,7 +862,6 @@
     <Content Include="Images\SamplePhotos\Male\me3.jpg" />
     <Content Include="Images\view.gif" />
     <Content Include="ConfigData\iso-languagecodes.txt" />
-    <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.all.min.js" />
