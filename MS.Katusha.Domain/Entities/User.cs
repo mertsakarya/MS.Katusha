@@ -26,7 +26,6 @@ namespace MS.Katusha.Domain.Entities
 
         [Required]
         [MinLength(6), MaxLength(14)]
-        [JsonIgnore]
         public string Password { get; set; }
 
         public DateTime Expires { get; set; }
