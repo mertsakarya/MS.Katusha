@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -52,7 +53,8 @@ namespace MS.Katusha.Web
                 MapperHelper.HandleMappings();
                 AreaRegistration.RegisterAllAreas();
 
-                //ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+                //ValueProviderFactories.Factories.Remove(ValueProviderFactories.Factories.OfType<JsonValueProviderFactory>().FirstOrDefault());
+                //ValueProviderFactories.Factories.Add(new KatushaJsonValueProviderFactory());
                 
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);

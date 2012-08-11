@@ -463,6 +463,7 @@
     <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
     <Compile Include="Helpers\BundleHelper.cs" />
     <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
+    <Compile Include="Helpers\KatushaJsonValueProviderFactory.cs" />
     <Compile Include="Helpers\LookupListProcessor.cs" />
     <Compile Include="Controllers\UtilitiesController.cs" />
     <Compile Include="Controllers\MailController.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -12,6 +14,7 @@ using MS.Katusha.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
+using Newtonsoft.Json;
 using PagedList;
 
 namespace MS.Katusha.Web.Controllers
@@ -61,7 +64,7 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public JsonResult GetExtendedProfile(string key)
+        public void GetExtendedProfile(string key)
         {
             long id;
             if (!long.TryParse(key, out id)) {
@@ -76,13 +79,19 @@ namespace MS.Katusha.Web.Controllers
             }
             if (id == 0) throw new NullReferenceException("Key invalid");
             var extendedProfile = _utilityService.GetExtendedProfile(id);
-            return Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
+            Response.Write(JsonConvert.SerializeObject(extendedProfile));
+                
+                //Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         //[KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public void SetExtendedProfile(ExtendedProfile extendedProfile)
+        public void SetExtendedProfile()
         {
+            string extendedProfileText;
+            using (var str = new StreamReader(Request.InputStream))
+                extendedProfileText = str.ReadToEnd();
+            var extendedProfile = JsonConvert.DeserializeObject<ExtendedProfile>(extendedProfileText);
             var lines = _utilityService.SetExtendedProfile(extendedProfile);
             Response.ContentType = "text/plain";
             if (String.IsNullOrWhiteSpace(Request.Headers["X-MSKATUSHA"])) return;
