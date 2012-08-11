@@ -26,12 +26,21 @@ namespace MS.Katusha.Services
         private readonly ISearchingForRepositoryDB _searchingForRepository;
         private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
         private readonly ICountriesToVisitRepositoryDB _countriesToVisitRepository;
-        private IConversationRepositoryDB _conversationRepository;
+        private readonly IConversationRepositoryDB _conversationRepository;
+        private readonly IProfileService _profileService;
+        private IConversationService _conversationService;
+        private IPhotosService _photoService;
+        private IPhotoRepositoryDB _photoRepository;
 
-        public UtilityService(IKatushaDbContext dbContext, IKatushaRavenStore ravenStore, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
+        public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore, 
+            IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
             IConversationRepositoryDB conversationRepository)
         {
+            _photoRepository = photoRepository;
+            _photoService = photoService;
+            _conversationService = conversationService;
+            _profileService = profileService;
             _conversationRepository = conversationRepository;
             _countriesToVisitRepository = countriesToVisitRepository;
             _languagesSpokenRepository = languagesSpokenRepository;
@@ -88,13 +97,96 @@ namespace MS.Katusha.Services
                 LanguagesSpoken = _languagesSpokenRepository.Query(p => p.ProfileId == profileId, null, false).Select(ls => ls.Language).ToArray(),
                 Searches = _searchingForRepository.Query(p => p.ProfileId == profileId, null, false).Select(s => ((LookingFor)s.Search).ToString()).ToArray(),
             };
-            foreach (var photo in profile.Photos) {
-                extendedProfile.Images.Add(new KeyValuePair<string, string>(photo.Guid.ToString(), Convert.ToBase64String(_photoBackupService.GetPhotoData(photo.Guid))));
+            if (profile.Photos.Count > 0) {
+                extendedProfile.PhotoBackups = new List<PhotoBackup>(profile.Photos.Count);
+                foreach (var photo in profile.Photos) {
+                    extendedProfile.PhotoBackups.Add(_photoBackupService.GetPhoto(photo.Guid));
+                }
             }
             var list = _conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e=>e.From, e=>e.To).ToList();
             extendedProfile.Messages = AutoMapper.Mapper.Map<IList<Domain.Raven.Entities.Conversation>>(list).ToList();
 
             return extendedProfile;
+        }
+
+        public IList<string> SetExtendedProfile(ExtendedProfile extendedProfile)
+        {
+            var list = new List<string>();
+            var userDb = _userRepository.SingleAttached(p=>p.Guid == extendedProfile.User.Guid);
+            if (userDb == null) {
+                extendedProfile.User.Id = 0;
+                userDb = _userRepository.Add(extendedProfile.User);
+            } else {
+                userDb.Email = extendedProfile.User.Email;
+                userDb.EmailValidated = extendedProfile.User.EmailValidated;
+                userDb.CreationDate = extendedProfile.User.CreationDate;
+                userDb.FacebookUid = extendedProfile.User.FacebookUid;
+                userDb.PaypalPayerId = extendedProfile.User.PaypalPayerId;
+                userDb.Phone = extendedProfile.User.Phone;
+                userDb.UserName = extendedProfile.User.UserName;
+                _userRepository.FullUpdate(userDb);
+            }
+
+            extendedProfile.Profile.UserId = userDb.Id;
+            extendedProfile.Profile.Guid = userDb.Guid;
+            var profileId = _profileService.GetProfileId(userDb.Guid);
+            extendedProfile.Profile.Id = profileId;
+            Profile profile;
+            if (profileId == 0) {
+                if (!String.IsNullOrEmpty(extendedProfile.Profile.FriendlyName))
+                    if (_profileRepository.CheckIfFriendlyNameExists(extendedProfile.Profile.FriendlyName))
+                        extendedProfile.Profile.FriendlyName = "";
+                profile = _profileService.CreateProfile(extendedProfile.Profile);
+            } else {
+                extendedProfile.Profile.Id = profileId;
+                profile = _profileService.UpdateProfile(extendedProfile.Profile);
+            }
+            if (extendedProfile.CountriesToVisit != null)
+                foreach (var item in extendedProfile.CountriesToVisit)
+                    _profileService.AddCountriesToVisit(profile.Id, item);
+            if (extendedProfile.Searches != null) {
+                LookingFor searches;
+                foreach (var item in extendedProfile.Searches)
+                    if (Enum.TryParse(item, out searches))
+                        _profileService.AddSearches(profile.Id, searches);
+            }
+            if(extendedProfile.LanguagesSpoken != null)
+                foreach (var item in extendedProfile.LanguagesSpoken)
+                    _profileService.AddLanguagesSpoken(profile.Id, item);
+            if (extendedProfile.PhotoBackups.Count > 0) {
+                foreach (var photoBackup in extendedProfile.PhotoBackups) {
+                    _photoBackupService.AddPhoto(photoBackup);
+                }
+                foreach(var photo in extendedProfile.Profile.Photos) {
+                    var photoDb = _photoRepository.GetByGuid(photo.Guid);
+                    photo.Id = 0;
+                    photo.ProfileId = profile.Id;
+                    if (photoDb == null) {
+                        _photoRepository.Add(photo);
+                        foreach (var suffix in PhotoTypes.Versions.Keys) {
+                            if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
+                                list.Add("CREATED\t" + photo.Guid);
+                        }
+                    }
+                }
+            }
+            foreach(var message in extendedProfile.Messages) {
+                Guid otherGuid;
+                if(message.ToId == extendedProfile.Profile.Id) {
+                    message.ToId = profile.Id;
+                    otherGuid = message.FromGuid;
+                } else {
+                    message.FromId = profile.Id;
+                    otherGuid = message.ToGuid;
+                }
+                var otherUser = _userRepository.GetByGuid(otherGuid);
+                if (otherUser == null) continue;
+                var messageDb = _conversationRepository.SingleAttached(p => p.Guid == message.Guid);
+                if (messageDb == null) {
+                    _conversationService.SendMessage((message.FromId == profile.Id) ? userDb : otherUser, message);
+                } 
+            }
+            return list;
         }
     }
 

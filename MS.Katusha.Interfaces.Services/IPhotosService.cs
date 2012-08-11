@@ -19,5 +19,6 @@ namespace MS.Katusha.Interfaces.Services
         List<string> CheckProfilePhotos();
         string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false);
         string GetPhotoBaseUrl();
+
     }
 }

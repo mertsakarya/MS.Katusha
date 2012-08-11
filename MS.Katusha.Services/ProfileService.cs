@@ -86,7 +86,7 @@ namespace MS.Katusha.Services
             return id > 0 ? GetProfile(id, visitorProfile, includeExpressionParams) : null;
         }
 
-        public virtual void CreateProfile(Profile profile)
+        public virtual Profile CreateProfile(Profile profile)
         {
             if (!String.IsNullOrEmpty(profile.FriendlyName))
                 if (_profileRepository.CheckIfFriendlyNameExists(profile.FriendlyName, profile.Id))
@@ -102,7 +102,7 @@ namespace MS.Katusha.Services
             _katushaGlobalCache.Delete("U:" + user.UserName);
             UpdateRavenProfile(profile.Id);
             _notificationService.ProfileCreated(profile);
-            
+            return profile;
         }
 
         public void DeleteProfile(long profileId, bool force = false)
@@ -133,7 +133,7 @@ namespace MS.Katusha.Services
             _profileRepositoryRaven.Delete(profile);
         }
 
-        public virtual void UpdateProfile(Profile profile)
+        public virtual Profile UpdateProfile(Profile profile)
         {
             if(profile == null)
                 throw new ArgumentNullException("profile");
@@ -169,6 +169,7 @@ namespace MS.Katusha.Services
             _profileRepository.FullUpdate(dataProfile);
 
             UpdateRavenProfile(dataProfile.Id);
+            return dataProfile;
         }
 
         public void UpdateRavenProfile(long id)

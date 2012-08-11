@@ -52,6 +52,8 @@ namespace MS.Katusha.Web
                 MapperHelper.HandleMappings();
                 AreaRegistration.RegisterAllAreas();
 
+                //ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+                
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);
 

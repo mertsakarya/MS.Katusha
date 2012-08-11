@@ -13,17 +13,13 @@ namespace MS.Katusha.Interfaces.Services
         IEnumerable<string> ResetDatabaseResources();
 
         ExtendedProfile GetExtendedProfile(long profileId);
+        IList<string> SetExtendedProfile(ExtendedProfile extendedProfile);
     }
 
     public class ExtendedProfile
     {
-        public ExtendedProfile()
-        {
-            Images = new Dictionary<string, string>();
-        }
-
         public Profile Profile { get; set; }
-        public IDictionary<string, string> Images { get; set; }
+        public IList<PhotoBackup> PhotoBackups { get; set; }
         public string[] CountriesToVisit { get; set; }
         public string[] LanguagesSpoken { get; set; }
         public string[] Searches { get; set; }

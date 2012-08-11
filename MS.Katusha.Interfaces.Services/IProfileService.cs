@@ -28,9 +28,9 @@ namespace MS.Katusha.Interfaces.Services
         /// </summary>
         Profile GetProfile(string key, Profile visitorProfile = null, params Expression<Func<Profile, object>>[] includeExpressionParams);
 
-        void CreateProfile(Profile profile);
+        Profile CreateProfile(Profile profile);
         void DeleteProfile(long profileId, bool force = false);
-        void UpdateProfile(Profile profile);
+        Profile UpdateProfile(Profile profile);
         void UpdateRavenProfile(long id);
 
 

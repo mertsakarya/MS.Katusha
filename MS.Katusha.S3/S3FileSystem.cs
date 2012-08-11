@@ -155,9 +155,13 @@ namespace MS.Katusha.S3
         {
             var key = String.Format("{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? "Images" : "Photos"), (byte) photoType, photoGuid);
             if (!encode) return GetUrl(key);
-            var bytes = GetData(key);
-            var base64 = Convert.ToBase64String(bytes);
-            return base64;
+            try {
+                var bytes = GetData(key);
+                var base64 = Convert.ToBase64String(bytes);
+                return base64;
+            } catch {
+                return "";
+            }
         }
 
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)

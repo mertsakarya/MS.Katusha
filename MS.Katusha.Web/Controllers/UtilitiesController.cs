@@ -64,9 +64,9 @@ namespace MS.Katusha.Web.Controllers
         public JsonResult GetExtendedProfile(string key)
         {
             long id;
-            if(!long.TryParse(key, out id)) {
+            if (!long.TryParse(key, out id)) {
                 Guid guid;
-                if(!Guid.TryParse(key, out guid)) {
+                if (!Guid.TryParse(key, out guid)) {
                     var user = UserService.GetUser(key);
                     if (user == null) throw new NullReferenceException("Key invalid");
                     id = ProfileService.GetProfileId(user.Guid);
@@ -77,6 +77,22 @@ namespace MS.Katusha.Web.Controllers
             if (id == 0) throw new NullReferenceException("Key invalid");
             var extendedProfile = _utilityService.GetExtendedProfile(id);
             return Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        //[KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        public void SetExtendedProfile(ExtendedProfile extendedProfile)
+        {
+            var lines = _utilityService.SetExtendedProfile(extendedProfile);
+            Response.ContentType = "text/plain";
+            if (String.IsNullOrWhiteSpace(Request.Headers["X-MSKATUSHA"])) return;
+            if (Request.Headers["X-MSKATUSHA"] != "valid") return;
+            if (lines.Count == 0)
+                Response.Write("OK");
+            else {
+                foreach (var line in lines)
+                    Response.Write(line + "\r\n");
+            }
         }
 
         [HttpGet]

@@ -14,8 +14,8 @@ namespace MS.Katusha.Interfaces.Services
         IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20);
 
         IList<ConversationResult> GetConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
-        void SendMessage(User user, Conversation data);
-        string ReadMessage(User user, long profileId, Guid messageGuid);
+        void SendMessage(User user, Conversation data,  bool force = false);
+        string ReadMessage(User user, long profileId, Guid messageGuid, bool force = false);
         void DeleteMessage(Guid messageGuid, bool softDelete = false);
     }
 }

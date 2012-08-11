@@ -49,13 +49,12 @@ namespace MS.Katusha.Services
             }
         }
 
-        public void SendMessage(User user, Conversation message)
+        public void SendMessage(User user, Conversation message, bool force = false)
         {
-            if (user.Gender == (byte)Sex.Male)
-                if (user.Expires < DateTime.Now)
-                    throw new KatushaNeedsPaymentException(user, ProductNames.MonthlyKatusha);
-
-            message.ReadDate = new DateTime(1900, 1, 1);
+            if(!force)
+                if (user.Gender == (byte)Sex.Male)
+                    if (user.Expires < DateTime.Now)
+                        throw new KatushaNeedsPaymentException(user, ProductNames.MonthlyKatusha);
 
             var dbMessage = Mapper.Map<Domain.Entities.Conversation>(message);
             _conversationRepository.Add(dbMessage);
@@ -71,7 +70,7 @@ namespace MS.Katusha.Services
             _notificationService.MessageSent(ravenMessage);
         }
 
-        public string ReadMessage(User user, long profileId, Guid messageGuid)
+        public string ReadMessage(User user, long profileId, Guid messageGuid, bool force = false)
         {
             if (user.Gender == (byte)Sex.Male)
                 if (user.Expires < DateTime.Now)
