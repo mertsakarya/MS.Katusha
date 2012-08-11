@@ -112,11 +112,14 @@ namespace MS.Katusha.Services
         public IList<string> SetExtendedProfile(ExtendedProfile extendedProfile)
         {
             var list = new List<string>();
-            var userDb = _userRepository.SingleAttached(p=>p.Guid == extendedProfile.User.Guid);
+            var userDb = _userRepository.SingleAttached(p => p.UserName == extendedProfile.User.UserName);
             if (userDb == null) {
                 extendedProfile.User.Id = 0;
                 userDb = _userRepository.Add(extendedProfile.User);
             } else {
+                if (userDb.Guid != extendedProfile.User.Guid) {
+                    userDb.Guid = userDb.Guid;
+                }
                 userDb.Email = extendedProfile.User.Email;
                 userDb.EmailValidated = extendedProfile.User.EmailValidated;
                 userDb.CreationDate = extendedProfile.User.CreationDate;
@@ -159,14 +162,13 @@ namespace MS.Katusha.Services
                 }
                 foreach(var photo in extendedProfile.Profile.Photos) {
                     var photoDb = _photoRepository.GetByGuid(photo.Guid);
+                    if (photoDb != null) continue;
                     photo.Id = 0;
                     photo.ProfileId = profile.Id;
-                    if (photoDb == null) {
-                        _photoRepository.Add(photo);
-                        foreach (var suffix in PhotoTypes.Versions.Keys) {
-                            if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
-                                list.Add("CREATED\t" + photo.Guid);
-                        }
+                    _photoRepository.Add(photo);
+                    foreach (var suffix in PhotoTypes.Versions.Keys) {
+                        if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
+                            list.Add("CREATED\t" + photo.Guid);
                     }
                 }
             }
@@ -182,7 +184,7 @@ namespace MS.Katusha.Services
                 var otherUser = _userRepository.GetByGuid(otherGuid);
                 if (otherUser == null) continue;
                 var messageDb = _conversationRepository.SingleAttached(p => p.Guid == message.Guid);
-                if (messageDb == null) {
+                if (messageDb != null) {
                     _conversationService.SendMessage((message.FromId == profile.Id) ? userDb : otherUser, message);
                 } 
             }

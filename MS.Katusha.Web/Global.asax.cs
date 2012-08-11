@@ -53,8 +53,8 @@ namespace MS.Katusha.Web
                 MapperHelper.HandleMappings();
                 AreaRegistration.RegisterAllAreas();
 
-                //ValueProviderFactories.Factories.Remove(ValueProviderFactories.Factories.OfType<JsonValueProviderFactory>().FirstOrDefault());
-                //ValueProviderFactories.Factories.Add(new KatushaJsonValueProviderFactory());
+                ValueProviderFactories.Factories.Remove(ValueProviderFactories.Factories.OfType<JsonValueProviderFactory>().FirstOrDefault());
+                ValueProviderFactories.Factories.Add(new KatushaJsonValueProviderFactory());
                 
                 RegisterGlobalFilters(GlobalFilters.Filters);
                 RegisterRoutes(RouteTable.Routes);

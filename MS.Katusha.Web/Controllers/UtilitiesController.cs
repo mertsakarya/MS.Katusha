@@ -79,6 +79,7 @@ namespace MS.Katusha.Web.Controllers
             }
             if (id == 0) throw new NullReferenceException("Key invalid");
             var extendedProfile = _utilityService.GetExtendedProfile(id);
+            Response.ContentType = "application/json";
             Response.Write(JsonConvert.SerializeObject(extendedProfile));
                 
                 //Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
