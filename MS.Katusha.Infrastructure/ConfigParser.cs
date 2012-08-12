@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
-using System.Data.Common;
-using System.Data.OleDb;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Entities.BaseEntities;
-using MS.Katusha.Enumerations;
-using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
 
 namespace MS.Katusha.Infrastructure
 {
     public class ConfigParser
     {
-        private readonly KatushaDbContext _dbContext;
+        private readonly Dictionary<Section, ConfigurationType> _dependencies;
+        private static readonly string root = HttpContext.Current.Server.MapPath(@"~\ConfigData\");
+        private static readonly string ConfigurationFilename = root + @"ConfigurationData.txt";
+        //private static readonly string GeoNamesFilename = root + @"allCountries.txt";
+        private const string GeoNamesFilename = @"cities15000.txt";
+        private const string GeoCountryFilename = @"countryInfo.txt";
+        private const string GeoTimeZoneFilename = @"timeZones.txt";
+        private const string GeoLanguageFilename = @"iso-languagecodes.txt";
+        //private readonly GeoTimeZoneRepositoryDB _geoTimeZoneRepository;
+        //private readonly GeoNameRepositoryDB _geoNameRepository;
+        //private readonly GeoCountryRepositoryDB _geoCountryRepository;
+        //private readonly GeoLanguageRepositoryDB _geoLanguageRepository;
 
-        protected enum Section
+        private enum Section
         {
             None = 0,
             Configuration,
@@ -32,7 +36,7 @@ namespace MS.Katusha.Infrastructure
             Start
         };
 
-        protected class ConfigurationType
+        private class ConfigurationType
         {
             public object Repository { get; set; }
             public int MinimumAllowed { get; set; }
@@ -95,45 +99,31 @@ namespace MS.Katusha.Infrastructure
 
         }
 
-        private readonly Dictionary<Section, ConfigurationType> _dependencies;
-        private static readonly string root = HttpContext.Current.Server.MapPath(@"~\ConfigData\");
-        private static readonly string ConfigurationFilename = root + @"ConfigurationData.txt";
-        //private static readonly string GeoNamesFilename = root + @"allCountries.txt";
-        private static readonly string GeoNamesFilename = @"cities15000.txt";
-        private static readonly string GeoCountryFilename = @"countryInfo.txt";
-        private static readonly string GeoTimeZoneFilename = @"timeZones.txt";
-        private static readonly string GeoLanguageFilename = @"iso-languagecodes.txt";
-        private readonly GeoTimeZoneRepositoryDB _geoTimeZoneRepository;
-        private readonly GeoNameRepositoryDB _geoNameRepository;
-        private readonly GeoCountryRepositoryDB _geoCountryRepository;
-        private readonly GeoLanguageRepositoryDB _geoLanguageRepository;
-
-        public ConfigParser(KatushaDbContext dbContext)
+        public ConfigParser(IKatushaDbContext dbContext)
         {
-            _dbContext = dbContext;
             var configurationData = new ConfigurationType(Section.Configuration) {
-                                                                                     Repository = new ConfigurationDataRepositoryDB(dbContext),
-                                                                                     MinimumAllowed = 2,
-                                                                                     MaximumAllowed = 2,
-                                                                                     LanguageOrder = -1,
-                                                                                     OrderOrder = -1
-                                                                                 };
+                Repository = new ConfigurationDataRepositoryDB(dbContext),
+                MinimumAllowed = 2,
+                MaximumAllowed = 2,
+                LanguageOrder = -1,
+                OrderOrder = -1
+            };
 
             var resource = new ConfigurationType(Section.Resource) {
-                                                                       Repository = new ResourceRepositoryDB(dbContext),
-                                                                       MinimumAllowed = 3,
-                                                                       MaximumAllowed = 3,
-                                                                       LanguageOrder = 0,
-                                                                       OrderOrder = -1
-                                                                   };
+                Repository = new ResourceRepositoryDB(dbContext),
+                MinimumAllowed = 3,
+                MaximumAllowed = 3,
+                LanguageOrder = 0,
+                OrderOrder = -1
+            };
 
             var resourceLookup = new ConfigurationType(Section.ResourceLookup) {
-                                                                                   Repository = new ResourceLookupRepositoryDB(dbContext),
-                                                                                   MinimumAllowed = 6,
-                                                                                   MaximumAllowed = 6,
-                                                                                   LanguageOrder = 0,
-                                                                                   OrderOrder = 4
-                                                                               };
+                Repository = new ResourceLookupRepositoryDB(dbContext),
+                MinimumAllowed = 6,
+                MaximumAllowed = 6,
+                LanguageOrder = 0,
+                OrderOrder = 4
+            };
 
             _dependencies = new Dictionary<Section, ConfigurationType> {
                                                                            {Section.Configuration, configurationData},
@@ -141,10 +131,10 @@ namespace MS.Katusha.Infrastructure
                                                                            {Section.ResourceLookup, resourceLookup}
                                                                        };
 
-            _geoTimeZoneRepository = new GeoTimeZoneRepositoryDB(dbContext);
-            _geoNameRepository = new GeoNameRepositoryDB(dbContext);
-            _geoCountryRepository = new GeoCountryRepositoryDB(dbContext);
-            _geoLanguageRepository = new GeoLanguageRepositoryDB(dbContext);
+            //_geoTimeZoneRepository = new GeoTimeZoneRepositoryDB(dbContext);
+            //_geoNameRepository = new GeoNameRepositoryDB(dbContext);
+            //_geoCountryRepository = new GeoCountryRepositoryDB(dbContext);
+            //_geoLanguageRepository = new GeoLanguageRepositoryDB(dbContext);
         }
 
         public List<string> Parse()

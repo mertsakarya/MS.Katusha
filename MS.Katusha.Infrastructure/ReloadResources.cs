@@ -5,26 +5,26 @@ namespace MS.Katusha.Infrastructure
 {
     public static class ReloadResources
     {
-        public static void Reset(KatushaDbContext dbContext)
+        public static void Reset(IKatushaDbContext dbContext)
         {
             Delete(dbContext);
             Set(dbContext);
         }
 
-        public static List<string> Set(KatushaDbContext dbContext)
+        public static List<string> Set(IKatushaDbContext dbContext)
         {
             var parser = new ConfigParser(dbContext);
             return parser.Parse();
         }
 
-        public static void Delete(KatushaDbContext dbContext)
+        public static void Delete(IKatushaDbContext dbContext)
         {
             foreach (var tableName in new string[] {"Resources", "ConfigurationDatas", "ResourceLookups","GeoCountries", "GeoLanguages", "GeoNames", "GeoTimeZones" }) {
                 dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [" + tableName + "]");
             }
         }
 
-        public static void ClearDatabase(KatushaDbContext dbContext)
+        public static void ClearDatabase(IKatushaDbContext dbContext)
         {
 
             foreach (var tableName in new string[] { "CountriesToVisits", "Conversations", "LanguagesSpokens", "SearchingFors", "Visits", "PhotoBackups", "Photos", "States" }) {

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
-using Newtonsoft.Json;
 
 namespace MS.Katusha.Interfaces.Services
 {
@@ -14,6 +12,7 @@ namespace MS.Katusha.Interfaces.Services
 
         ExtendedProfile GetExtendedProfile(long profileId);
         IList<string> SetExtendedProfile(ExtendedProfile extendedProfile);
+        void DeleteProfile(long profileId);
     }
 
     public class ExtendedProfile
@@ -25,6 +24,7 @@ namespace MS.Katusha.Interfaces.Services
         public string[] Searches { get; set; }
         public User User { get; set; }
         public IList<Domain.Raven.Entities.Conversation> Messages { get; set; }
+        public Visit[] Visits { get; set; }
     }
 
 

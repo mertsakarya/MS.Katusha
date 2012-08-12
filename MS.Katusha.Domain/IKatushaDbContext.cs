@@ -1,3 +1,4 @@
+using System;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 
@@ -5,6 +6,8 @@ namespace MS.Katusha.Domain
 {
     public interface IKatushaDbContext
     {
+        Database Database { get; }
+
         DbSet<Profile> Profiles { get; set; }
         DbSet<User> Users { get; set; }
 
@@ -22,5 +25,7 @@ namespace MS.Katusha.Domain
         DbSet<GeoLanguage> GeoLanguages { get; set; }
         DbSet<GeoName> GeoNames { get; set; }
         DbSet<GeoTimeZone> GeoTimeZones { get; set; }
+        
+        void DeleteProfile(Guid guid);
     }
 }

@@ -525,6 +525,7 @@
     <Content Include="ConfigData\bundles.txt" />
     <Content Include="ConfigData\cities15000.txt" />
     <Content Include="ConfigData\cities5000.txt" />
+    <Content Include="ConfigData\DeleteUser.sql" />
     <Content Include="Content\2012.2.607\Black\editor.png" />
     <Content Include="Content\2012.2.607\Black\imagebrowser.png" />
     <Content Include="Content\2012.2.607\Black\loading.gif" />

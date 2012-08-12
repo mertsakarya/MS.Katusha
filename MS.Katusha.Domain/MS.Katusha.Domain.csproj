@@ -83,6 +83,7 @@
     <Compile Include="Entities\ViewDataUploadFilesResult.cs" />
     <Compile Include="Entities\Visit.cs" />
     <Compile Include="IKatushaDbContext.cs" />
+    <Compile Include="KatushaDbSqlStatements.cs" />
     <Compile Include="KatushaDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

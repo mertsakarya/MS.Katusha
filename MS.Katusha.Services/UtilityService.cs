@@ -13,6 +13,7 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace MS.Katusha.Services
 {
@@ -22,7 +23,7 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
         private readonly IPhotoBackupService _photoBackupService;
-        private readonly KatushaDbContext _dbContext;
+        private readonly IKatushaDbContext _dbContext;
         private readonly ISearchingForRepositoryDB _searchingForRepository;
         private readonly ILanguagesSpokenRepositoryDB _languagesSpokenRepository;
         private readonly ICountriesToVisitRepositoryDB _countriesToVisitRepository;
@@ -31,12 +32,14 @@ namespace MS.Katusha.Services
         private IConversationService _conversationService;
         private IPhotosService _photoService;
         private IPhotoRepositoryDB _photoRepository;
+        private IVisitRepositoryDB _visitRepository;
 
         public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore, 
-            IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
+            IVisitRepositoryDB visitRepository, IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
             ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
             IConversationRepositoryDB conversationRepository)
         {
+            _visitRepository = visitRepository;
             _photoRepository = photoRepository;
             _photoService = photoService;
             _conversationService = conversationService;
@@ -49,7 +52,7 @@ namespace MS.Katusha.Services
             _profileRepository = profileRepository;
             _userRepository = userRepository;
             _photoBackupService = photoBackupService;
-            _dbContext = dbContext as KatushaDbContext;
+            _dbContext = dbContext;// as KatushaDbContext;
         }
 
         public void ClearDatabase(string photosFolder) {
@@ -83,8 +86,8 @@ namespace MS.Katusha.Services
         {
             var includeExpressionParams = new Expression<Func<Profile, object>>[] {
                 p => p.Photos, 
-                //p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches,
                 //p => p.User,
+                //p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches,
                 //p=> p.SentMessages, p=>p.RecievedMessages, p=>p.Visited, p=>p.WhoVisited
             };
             var profile = _profileRepository.GetById(profileId, includeExpressionParams);
@@ -96,6 +99,7 @@ namespace MS.Katusha.Services
                 CountriesToVisit = _countriesToVisitRepository.Query(p=>p.ProfileId == profileId, null, false).Select(ctv => ctv.Country).ToArray(),
                 LanguagesSpoken = _languagesSpokenRepository.Query(p => p.ProfileId == profileId, null, false).Select(ls => ls.Language).ToArray(),
                 Searches = _searchingForRepository.Query(p => p.ProfileId == profileId, null, false).Select(s => ((LookingFor)s.Search).ToString()).ToArray(),
+                Visits = _visitRepository.Query(p => p.ProfileId == profileId || p.VisitorProfileId == profileId, null, false).ToArray(),
             };
             if (profile.Photos.Count > 0) {
                 extendedProfile.PhotoBackups = new List<PhotoBackup>(profile.Photos.Count);
@@ -103,8 +107,8 @@ namespace MS.Katusha.Services
                     extendedProfile.PhotoBackups.Add(_photoBackupService.GetPhoto(photo.Guid));
                 }
             }
-            var list = _conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e=>e.From, e=>e.To).ToList();
-            extendedProfile.Messages = AutoMapper.Mapper.Map<IList<Domain.Raven.Entities.Conversation>>(list).ToList();
+            var messagesList = _conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList();
+            extendedProfile.Messages = AutoMapper.Mapper.Map<IList<Domain.Raven.Entities.Conversation>>(messagesList).ToList();
 
             return extendedProfile;
         }
@@ -161,11 +165,6 @@ namespace MS.Katusha.Services
                     _photoBackupService.AddPhoto(photoBackup);
                 }
                 foreach(var photo in extendedProfile.Profile.Photos) {
-                    var photoDb = _photoRepository.GetByGuid(photo.Guid);
-                    if (photoDb != null) continue;
-                    photo.Id = 0;
-                    photo.ProfileId = profile.Id;
-                    _photoRepository.Add(photo);
                     foreach (var suffix in PhotoTypes.Versions.Keys) {
                         if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
                             list.Add("CREATED\t" + photo.Guid);
@@ -189,6 +188,16 @@ namespace MS.Katusha.Services
                 } 
             }
             return list;
+        }
+
+        public void DeleteProfile(long profileId)
+        {
+            var profile = _profileService.GetProfile(profileId);
+            if (profile == null) return;
+            var visits = _visitRepository.Query(p => p.ProfileId == profileId || p.VisitorProfileId == profileId, null, false).ToArray();
+            var messages = _conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false).ToArray();
+            _ravenStore.DeleteProfile(profileId, visits, messages);
+            //_dbContext.DeleteProfile(profile.Guid);
         }
     }
 

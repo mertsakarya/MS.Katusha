@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Domain
@@ -26,6 +27,11 @@ namespace MS.Katusha.Domain
         public DbSet<GeoLanguage> GeoLanguages { get; set; }
         public DbSet<GeoName> GeoNames { get; set; }
         public DbSet<GeoTimeZone> GeoTimeZones { get; set; }
+
+        public void DeleteProfile(Guid guid)
+        {
+            Database.ExecuteSqlCommand(KatushaDbSqlStatements.DeleteUserSql, guid);
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

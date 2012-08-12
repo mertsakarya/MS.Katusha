@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Repositories.RavenDB.Indexes;
+using Raven.Abstractions.Commands;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
+using Raven.Json.Linq;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Repositories.RavenDB
@@ -52,6 +57,18 @@ namespace MS.Katusha.Repositories.RavenDB
                 }
                 session.SaveChanges();
             }
+        }
+
+
+        public void DeleteProfile(long profileId, Visit[] visits, MS.Katusha.Domain.Entities.Conversation[] messages)
+        {
+            var list = new List<DeleteCommandData> {
+                new DeleteCommandData {Etag = null, Key = "profiles/" + profileId},
+                new DeleteCommandData {Etag = null, Key = "states/" + profileId}
+            };
+            list.AddRange(visits.Select(visit => new DeleteCommandData { Etag = null, Key = "visits/" + visit.Id }));
+            list.AddRange(messages.Select(message => new DeleteCommandData { Etag = null, Key = "conversations/" + message.Id }));
+            DatabaseCommands.Batch(list.ToArray());
         }
 
         private void CreateIndexes()
