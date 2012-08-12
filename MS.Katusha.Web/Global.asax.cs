@@ -27,11 +27,11 @@ namespace MS.Katusha.Web
             routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new { action = "MakeProfilePhoto" });
             routes.MapRoute("Download", "{controller}/Download/{key}/{size}", new { action = "Download" });
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{key}",
-                defaults: new { guid = RouteParameter.Optional }
-                );
+            //routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{key}",
+            //    defaults: new { guid = RouteParameter.Optional }
+            //    );
 
             routes.MapRoute(
                 name: "Default",
