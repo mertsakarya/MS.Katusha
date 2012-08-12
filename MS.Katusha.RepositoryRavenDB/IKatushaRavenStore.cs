@@ -1,4 +1,6 @@
-using MS.Katusha.Domain.Entities;
+using System.Collections.Generic;
+using MS.Katusha.Domain.Raven.Entities;
+using Raven.Abstractions.Commands;
 using Raven.Client;
 
 namespace MS.Katusha.Repositories.RavenDB
@@ -7,6 +9,7 @@ namespace MS.Katusha.Repositories.RavenDB
         void ClearRaven();
         void Create();
         void DeleteAll<T>();
-        void DeleteProfile(long profileId, Visit[] visits, Conversation[] messages);
+        List<ICommandData> DeleteProfile(long profileId, Domain.Entities.Visit[] visits, Conversation[] messages);
+        void Batch(List<ICommandData> list);
     }
 }

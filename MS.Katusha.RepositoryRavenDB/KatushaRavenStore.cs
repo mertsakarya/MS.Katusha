@@ -60,16 +60,20 @@ namespace MS.Katusha.Repositories.RavenDB
         }
 
 
-        public void DeleteProfile(long profileId, Visit[] visits, MS.Katusha.Domain.Entities.Conversation[] messages)
+        public List<ICommandData> DeleteProfile(long profileId, Domain.Entities.Visit[] visits, Conversation[] messages)
         {
-            var list = new List<DeleteCommandData> {
+            var list = new List<ICommandData> {
                 new DeleteCommandData {Etag = null, Key = "profiles/" + profileId},
                 new DeleteCommandData {Etag = null, Key = "states/" + profileId}
             };
-            list.AddRange(visits.Select(visit => new DeleteCommandData { Etag = null, Key = "visits/" + visit.Id }));
-            list.AddRange(messages.Select(message => new DeleteCommandData { Etag = null, Key = "conversations/" + message.Id }));
-            DatabaseCommands.Batch(list.ToArray());
+            foreach (var item in visits) 
+                list.Add(new DeleteCommandData() { Etag = null, Key = "visits/" + item.Id });
+            foreach (var item in messages) 
+                list.Add(new DeleteCommandData() { Etag = null, Key = "conversations/" + item.Id });
+            return list;
         }
+
+        public void Batch(List<ICommandData> list) { DatabaseCommands.Batch(list.ToArray()); }
 
         private void CreateIndexes()
         {

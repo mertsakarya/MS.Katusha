@@ -22,9 +22,7 @@ namespace MS.Katusha.Services.Helpers
                 .ForMember(dest => dest.ToPhotoGuid, opt => opt.MapFrom(src => src.To.ProfilePhotoGuid))
                 ;
             Mapper.CreateMap<MS.Katusha.Domain.Raven.Entities.Conversation, MS.Katusha.Domain.Entities.Conversation>();
-
             Mapper.CreateMap<Profile, State>().ConvertUsing<ProfileStateTypeConverter>();
-
         }
     }
 
@@ -55,6 +53,5 @@ namespace MS.Katusha.Services.Helpers
             return model;
         }
     }
-
 
 }

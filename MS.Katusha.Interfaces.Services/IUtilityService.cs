@@ -12,7 +12,7 @@ namespace MS.Katusha.Interfaces.Services
 
         ExtendedProfile GetExtendedProfile(long profileId);
         IList<string> SetExtendedProfile(ExtendedProfile extendedProfile);
-        void DeleteProfile(long profileId);
+        void DeleteProfile(Guid guid);
     }
 
     public class ExtendedProfile
@@ -24,8 +24,5 @@ namespace MS.Katusha.Interfaces.Services
         public string[] Searches { get; set; }
         public User User { get; set; }
         public IList<Domain.Raven.Entities.Conversation> Messages { get; set; }
-        public Visit[] Visits { get; set; }
     }
-
-
 }

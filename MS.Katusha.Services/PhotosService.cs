@@ -215,23 +215,23 @@ namespace MS.Katusha.Services
 
         public bool DeletePhoto(long profileId, Guid photoGuid)
         {
-            var isProfilePhoto = false;
-            var profile = _profileRepository.SingleAttached(p=>p.Id == profileId, p => p.Photos);
-            if (profile == null) return false;
-            if (!profile.Photos.Any(photo => photo.Guid == photoGuid))
-                throw new HttpException(404, "Photo not found!");
             var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
             if (entity != null) {
                 _photoRepository.Delete(entity);
                 _fileSystem.DeletePhoto(photoGuid);
             }
-            if (profile.ProfilePhotoGuid == photoGuid) {
-                isProfilePhoto = true;
-                profile.ProfilePhotoGuid = Guid.Empty;
-                _profileRepository.FullUpdate(profile);
-            }
-            _profileService.UpdateRavenProfile(profile.Id);
             _photoBackupService.DeleteBackupPhoto(photoGuid);
+
+            var isProfilePhoto = false;
+            var profile = _profileRepository.SingleAttached(p => p.Id == profileId, p => p.Photos);
+            if (profile != null) {
+                if (profile.ProfilePhotoGuid == photoGuid) {
+                    isProfilePhoto = true;
+                    profile.ProfilePhotoGuid = Guid.Empty;
+                    _profileRepository.FullUpdate(profile);
+                }
+                _profileService.UpdateRavenProfile(profileId);
+            }
             return isProfilePhoto;
         }
     }

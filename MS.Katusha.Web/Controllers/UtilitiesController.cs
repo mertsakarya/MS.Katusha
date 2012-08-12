@@ -64,7 +64,7 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public void GetExtendedProfile(string key)
+        public void GetProfile(string key)
         {
             long id;
             if (!long.TryParse(key, out id)) {
@@ -237,10 +237,9 @@ namespace MS.Katusha.Web.Controllers
         {
             Guid guid;
             if (!Guid.TryParse(key, out guid)) Response.Write("Wrong Guid!");
-            var profileId = ProfileService.GetProfileId(guid);
-            if (profileId <= 0) return;
             //GetExtendedProfile(key);
-            _utilityService.DeleteProfile(profileId);
+            _utilityService.DeleteProfile(guid);
+            Response.Write("OK");
         }
     }
 }

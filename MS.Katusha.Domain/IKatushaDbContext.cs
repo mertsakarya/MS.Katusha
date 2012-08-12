@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using MS.Katusha.Domain.Entities;
 
@@ -25,7 +26,8 @@ namespace MS.Katusha.Domain
         DbSet<GeoLanguage> GeoLanguages { get; set; }
         DbSet<GeoName> GeoNames { get; set; }
         DbSet<GeoTimeZone> GeoTimeZones { get; set; }
-        
-        void DeleteProfile(Guid guid);
+
+        string DeleteProfile(Guid guid);
+        void ExecuteNonQuery(List<string> commands);
     }
 }

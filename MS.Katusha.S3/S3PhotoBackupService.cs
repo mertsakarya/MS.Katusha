@@ -67,9 +67,20 @@ namespace MS.Katusha.S3
                 var request = new GetObjectRequest();
                 request.WithBucketName(_bucket.BucketName).WithKey(String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid));
                 using (var response = client.GetObject(request)) {
-                    var data = new byte[(int)response.ContentLength];
-                    response.ResponseStream.Read(data, 0, (int)response.ContentLength);
-                    return data;
+                    byte[] bytes;
+                    using(var memory = new MemoryStream()) {
+                        using (var stream = response.ResponseStream) {
+                            var data = new byte[32768];
+                            int bytesRead;
+                            do {
+                                bytesRead = stream.Read(data, 0, data.Length);
+                                memory.Write(data, 0, bytesRead);
+                            } while (bytesRead > 0);
+                            memory.Flush();
+                            bytes = memory.ToArray();
+                        }
+                    }
+                    return bytes;
                 }
             }
         }
