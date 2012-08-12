@@ -456,6 +456,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin_ProfilesController.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
@@ -495,6 +496,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ApiSearchResultModel.cs" />
     <Compile Include="Models\MessagesModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />

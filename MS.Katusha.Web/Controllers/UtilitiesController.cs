@@ -63,49 +63,6 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
-        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public void GetProfile(string key)
-        {
-            long id;
-            if (!long.TryParse(key, out id)) {
-                Guid guid;
-                if (!Guid.TryParse(key, out guid)) {
-                    var user = UserService.GetUser(key);
-                    if (user == null) throw new NullReferenceException("Key invalid");
-                    id = ProfileService.GetProfileId(user.Guid);
-                } else {
-                    id = ProfileService.GetProfileId(guid);
-                }
-            }
-            if (id == 0) throw new NullReferenceException("Key invalid");
-            var extendedProfile = _utilityService.GetExtendedProfile(id);
-            Response.ContentType = "application/json";
-            Response.Write(JsonConvert.SerializeObject(extendedProfile));
-                
-                //Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        //[KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public void SetExtendedProfile()
-        {
-            string extendedProfileText;
-            using (var str = new StreamReader(Request.InputStream))
-                extendedProfileText = str.ReadToEnd();
-            var extendedProfile = JsonConvert.DeserializeObject<ExtendedProfile>(extendedProfileText);
-            var lines = _utilityService.SetExtendedProfile(extendedProfile);
-            Response.ContentType = "text/plain";
-            if (String.IsNullOrWhiteSpace(Request.Headers["X-MSKATUSHA"])) return;
-            if (Request.Headers["X-MSKATUSHA"] != "valid") return;
-            if (lines.Count == 0)
-                Response.Write("OK");
-            else {
-                foreach (var line in lines)
-                    Response.Write(line + "\r\n");
-            }
-        }
-
-        [HttpGet]
         public void Restore(string key, bool delete = false)
         {
             IList<string> list;
@@ -230,16 +187,6 @@ namespace MS.Katusha.Web.Controllers
         {
             //_utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
             Response.Write("Done!");
-        }
-
-        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
-        public void DeleteProfile(string key)
-        {
-            Guid guid;
-            if (!Guid.TryParse(key, out guid)) Response.Write("Wrong Guid!");
-            //GetExtendedProfile(key);
-            _utilityService.DeleteProfile(guid);
-            Response.Write("OK");
         }
     }
 }
