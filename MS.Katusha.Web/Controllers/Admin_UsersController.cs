@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using AutoMapper;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Domain.Raven.Entities;
+﻿using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+    [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
     public class Admin_UsersController : GridController<User>
     {
 

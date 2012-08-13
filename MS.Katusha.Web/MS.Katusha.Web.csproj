@@ -486,13 +486,9 @@
     <Compile Include="Helpers\Binders\SearchCriteriaBinder.cs" />
     <Compile Include="Helpers\KatushaMetadataProvider.cs" />
     <Compile Include="Helpers\Converters\SearchingForFormatter.cs" />
-    <Compile Include="Migrations\201208041408086_AddPaypalPayerId.cs" />
-    <Compile Include="Migrations\201208041408086_AddPaypalPayerId.Designer.cs">
-      <DependentUpon>201208041408086_AddPaypalPayerId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201208082101011_AddPhotoStatus.cs" />
-    <Compile Include="Migrations\201208082101011_AddPhotoStatus.Designer.cs">
-      <DependentUpon>201208082101011_AddPhotoStatus.cs</DependentUpon>
+    <Compile Include="Migrations\201208131611102_AddUserUserRole.cs" />
+    <Compile Include="Migrations\201208131611102_AddUserUserRole.Designer.cs">
+      <DependentUpon>201208131611102_AddUserUserRole.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -1079,9 +1075,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Mail\SendConfirmation.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\KatushaError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConfigData\ConfigurationData.txt" />

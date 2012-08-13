@@ -129,6 +129,7 @@ namespace MS.Katusha.Services
                 userDb.CreationDate = extendedProfile.User.CreationDate;
                 userDb.FacebookUid = extendedProfile.User.FacebookUid;
                 userDb.PaypalPayerId = extendedProfile.User.PaypalPayerId;
+                userDb.UserRole = extendedProfile.User.UserRole;
                 userDb.Phone = extendedProfile.User.Phone;
                 userDb.UserName = extendedProfile.User.UserName;
                 _userRepository.FullUpdate(userDb);

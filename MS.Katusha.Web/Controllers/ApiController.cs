@@ -4,6 +4,7 @@ using System.IO;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
+using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models.Entities;
@@ -29,7 +30,7 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
-        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
         public void Search(int? key, SearchProfileCriteriaModel model)
         {
             var data = Mapper.Map<SearchProfileCriteria>(model);
@@ -50,7 +51,7 @@ namespace MS.Katusha.Web.Controllers
 
 
         [HttpGet]
-        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
         public void GetProfile(string key)
         {
             long id;
@@ -73,7 +74,7 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpPost]
-        //[KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        //[KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
         public void SetProfile()
         {
             string extendedProfileText;
@@ -94,7 +95,7 @@ namespace MS.Katusha.Web.Controllers
             }
         }
 
-        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, MustBeAdmin = true)]
+        [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
         public void DeleteProfile(string key)
         {
             Guid guid;

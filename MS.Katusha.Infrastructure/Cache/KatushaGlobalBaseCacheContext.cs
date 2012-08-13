@@ -16,5 +16,6 @@ namespace MS.Katusha.Infrastructure.Cache
         }
 
         public virtual void Delete(string key) { if (_containerCacheContext != null) _containerCacheContext.Delete(key); }
+        public virtual void Clear(string prefix = "") { if(_containerCacheContext != null) _containerCacheContext.Clear(prefix); }
     }
 }

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace MS.Katusha.Infrastructure.Cache
 {
     public class KatushaGlobalMemoryCacheContext : IKatushaGlobalCacheContext
     {
-        private static readonly IDictionary<string, CacheObject> Dictionary = new Dictionary<string,CacheObject>();
+        private static IDictionary<string, CacheObject> _dictionary = new Dictionary<string,CacheObject>();
         private static readonly ReaderWriterLockSlim ListLock = new ReaderWriterLockSlim();
 
         public void Add<T>(string key, T value) where T : class
@@ -14,7 +15,7 @@ namespace MS.Katusha.Infrastructure.Cache
             if (!containsKey) {
                 ListLock.EnterWriteLock();
                 try {
-                    Dictionary[key] = new CacheObject {Key = key, Value = value};
+                    _dictionary[key] = new CacheObject {Key = key, Value = value};
                 } finally {
                     ListLock.ExitWriteLock();
                 }
@@ -26,7 +27,7 @@ namespace MS.Katusha.Infrastructure.Cache
             bool containsKey;
             ListLock.EnterReadLock();
             try {
-                containsKey = Dictionary.ContainsKey(key);
+                containsKey = _dictionary.ContainsKey(key);
             } finally {
                 ListLock.ExitReadLock();
             }
@@ -38,7 +39,7 @@ namespace MS.Katusha.Infrastructure.Cache
             if (ContainsKey(key)) {
                 ListLock.EnterReadLock();
                 try {
-                    return (T) Dictionary[key].Value;
+                    return (T) _dictionary[key].Value;
                 }finally {
                     ListLock.ExitReadLock();
                 }
@@ -50,7 +51,24 @@ namespace MS.Katusha.Infrastructure.Cache
         {
             ListLock.EnterWriteLock();
             try {
-                Dictionary.Remove(key);
+                _dictionary.Remove(key);
+            } finally {
+                ListLock.ExitWriteLock();
+            }
+        }
+
+        public void Clear(string prefix = "")
+        {
+            ListLock.EnterWriteLock();
+            try {
+                if (string.IsNullOrWhiteSpace(prefix)) {
+                    _dictionary = new Dictionary<string, CacheObject>();
+
+                } else {
+                    foreach (var item in _dictionary.Where(item => item.Key.StartsWith(prefix))) {
+                        _dictionary.Remove(item.Key);
+                    }
+                }
             } finally {
                 ListLock.ExitWriteLock();
             }

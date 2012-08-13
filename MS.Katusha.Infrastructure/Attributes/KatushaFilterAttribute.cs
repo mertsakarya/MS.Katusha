@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure.Exceptions.Web;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
@@ -11,11 +12,11 @@ namespace MS.Katusha.Infrastructure.Attributes
     public class KatushaFilterAttribute : ActionFilterAttribute, IExceptionFilter
     {
         public KatushaFilterAttribute() { 
-            ExceptionView = "KatushaError";
+            ExceptionView = "KatushaException";
             IsAuthenticated = false;
             MustHaveGender = false;
             MustHaveProfile = false;
-            MustBeAdmin = false;
+            AllowedRole = UserRole.Normal;
         }
 
         /// <summary>
@@ -34,9 +35,9 @@ namespace MS.Katusha.Infrastructure.Attributes
         public bool MustHaveProfile { get; set; }
 
         /// <summary>
-        /// Default value is false
+        /// Default value is UserRole.Normal
         /// </summary>
-        public bool MustBeAdmin { get; set; }
+        public UserRole AllowedRole { get; set; }
 
         /// <summary>
         /// Default view is KatushaError
@@ -51,18 +52,25 @@ namespace MS.Katusha.Infrastructure.Attributes
             var profile = filterContext.Controller.ViewBag.KatushaProfile as Profile;
             var actionName = (string)filterContext.RouteData.Values["action"];
             if (IsAuthenticated && !filterContext.HttpContext.User.Identity.IsAuthenticated)
-                throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NotAuthenticated]");
+                throw new KatushaNotAllowedException(profile, user, "You need to log in.");
             if (MustHaveProfile) {
                 if (user == null || user.Gender == 0 || profile == null)
-                    throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NoProfile]");
-            }
-            if (MustBeAdmin) {
-                if (user == null || user.UserName != "mertiko")
-                    throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NoAdmin]");
+                    throw new KatushaNotAllowedException(profile, user, "You have to create a profle.");
             }
             if (MustHaveGender) {
                 if (user == null || user.Gender == 0 || (MustHaveProfile && (profile == null || profile.Gender == 0)))
-                    throw new KatushaNotAllowedException(profile, user, controllerName + "." + actionName + " [NoGender]");
+                    throw new KatushaNotAllowedException(profile, user, "You must have a gender. :)");
+            }
+            if (user != null && (long)AllowedRole > 0) {
+                var userRole = (UserRole) user.UserRole;
+                if ((AllowedRole & UserRole.Normal) > 0 && (userRole & UserRole.Normal) == 0)
+                    throw new KatushaNotAllowedException(profile, user, "You are not a normal user.");
+                if ((AllowedRole & UserRole.Editor) > 0 && (userRole & UserRole.Editor) == 0)
+                    throw new KatushaNotAllowedException(profile, user, "You are not an editor.");
+                if ((AllowedRole & UserRole.ApiUser) > 0 && (userRole & UserRole.ApiUser) == 0)
+                    throw new KatushaNotAllowedException(profile, user, "You are not an API user.");
+                if ((AllowedRole & UserRole.Administrator) > 0 && (userRole & UserRole.Administrator) == 0)
+                    throw new KatushaNotAllowedException(profile, user, "You are not an administrator.");
             }
         }
 

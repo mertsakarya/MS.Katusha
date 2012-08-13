@@ -287,6 +287,7 @@ namespace MS.Katusha.Web.Controllers
 
                     ProfileService.CreateProfile(profile);
                     user.FacebookUid = model.FacebookId;
+                    user.UserRole = (long)UserRole.Normal;
                     UserService.UpdateUser(user);
                     FormsAuthentication.SetAuthCookie(tmpGuid, createPersistentCookie: false);
                     return Json(new { success = true });

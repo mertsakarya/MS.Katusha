@@ -1,17 +1,6 @@
-﻿@using MS.Katusha.Infrastructure.Exceptions.Web
-@model HandleErrorInfo
-@{ ViewBag.Title = "Web site error"; }
-
+﻿@model HandleErrorInfo
+@{ ViewBag.Title = Model.Exception.Message + " - MS.Katusha"; }
+<br /><br />
 <hgroup class="title">
-    <h1 class="error">An error occurred while processing your request.</h1><br/>
-    <pre>@Model.Exception.Message
-    @if(Model.Exception is KatushaNotAllowedException) {
-        var ex = Model.Exception as KatushaNotAllowedException;
-<text>
-User: @ex.User     
-Profile: @ex.Profile
-</text>
-    }
-    </pre>
-
+    <h2 class="error">@Model.Exception.Message</h2>
 </hgroup>

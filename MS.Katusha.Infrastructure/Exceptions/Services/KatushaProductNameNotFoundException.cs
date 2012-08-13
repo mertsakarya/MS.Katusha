@@ -9,5 +9,4 @@ namespace MS.Katusha.Infrastructure.Exceptions.Services
 
         public string ProductName { get; private set; }
     }
-
 }

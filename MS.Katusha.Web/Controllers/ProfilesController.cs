@@ -19,7 +19,7 @@ using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
+    [KatushaFilter(IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
     public class ProfilesController : KatushaController
     {
         private readonly IProfileService _profileService;
@@ -90,6 +90,7 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult Show(string key)
         {
             var profile = _profileService.GetProfile(key, KatushaProfile);
+            if(profile == null) throw new KatushaProfileNotFoundException(key);
             ViewBag.SameProfile = IsKeyForProfile(key);
             var model = Mapper.Map<ProfileModel>(profile);
             return View(model);

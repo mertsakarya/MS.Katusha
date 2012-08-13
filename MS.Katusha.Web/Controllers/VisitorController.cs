@@ -11,7 +11,7 @@ using PagedList;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
+    [KatushaFilter(IsAuthenticated = false, MustHaveGender = false, MustHaveProfile = false)]
     public class VisitorController : KatushaController
     {
         private readonly IVisitService _visitService;

@@ -16,7 +16,7 @@ using PagedList;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaFilter(ExceptionView = "KatushaException", IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
+    [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
     public class MessagesController : KatushaController
     {
         private readonly IProfileService _profileService;

@@ -7,5 +7,7 @@ namespace MS.Katusha.Infrastructure.Cache
         void Add<T>(string key, T value) where T : class;
         T Get<T>(string key) where T : class;
         void Delete(string key);
+        void Clear(string prefix = "");
+
     }
 }

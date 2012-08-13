@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Infrastructure.Attributes;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.S3;
@@ -26,14 +27,16 @@ namespace MS.Katusha.Web.Controllers
         private readonly IConversationService _conversationService;
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
+        private IKatushaGlobalCacheContext _globalCacheContext;
 
         public UtilitiesController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
-            IPhotosService photosService, IUtilityService utilityService
+            IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext
             )
             : base(resourceService, userService, profileService, stateService, conversationService)
         {
-           _samplesService = samplesService;
+            _globalCacheContext = globalCacheContext;
+            _samplesService = samplesService;
             _visitService = visitService;
             _conversationService = conversationService;
             _photosService = photosService;
@@ -124,6 +127,12 @@ namespace MS.Katusha.Web.Controllers
                     Response.Write(photoData.Guid);
                 }
             }
+        }
+
+        [HttpGet]
+        public void ClearCache(string key)
+        {
+            _globalCacheContext.Clear(key ?? "");
         }
 
         [HttpGet]
