@@ -17,7 +17,19 @@ namespace MS.Katusha.Infrastructure.Attributes
             MustHaveGender = false;
             MustHaveProfile = false;
             AllowedRole = UserRole.Normal;
+            IsJson = false;
+            HasLayout = true;
         }
+
+        /// <summary>
+        /// Default value is false
+        /// </summary>
+        public bool IsJson { get; set; }
+
+        /// <summary>
+        /// Default value is true
+        /// </summary>
+        public bool HasLayout { get; set; }
 
         /// <summary>
         /// Default value is false
@@ -40,17 +52,15 @@ namespace MS.Katusha.Infrastructure.Attributes
         public UserRole AllowedRole { get; set; }
 
         /// <summary>
-        /// Default view is KatushaError
+        /// Default view is KatushaException
         /// </summary>
         public string ExceptionView { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            var controllerName = (string)filterContext.RouteData.Values["controller"];
             var user = filterContext.Controller.ViewBag.KatushaUser as User;
             var profile = filterContext.Controller.ViewBag.KatushaProfile as Profile;
-            var actionName = (string)filterContext.RouteData.Values["action"];
             if (IsAuthenticated && !filterContext.HttpContext.User.Identity.IsAuthenticated)
                 throw new KatushaNotAllowedException(profile, user, "You need to log in.");
             if (MustHaveProfile) {
@@ -77,39 +87,27 @@ namespace MS.Katusha.Infrastructure.Attributes
         public void OnException(ExceptionContext filterContext)
         {
             
-            if (filterContext == null) {
-                throw new ArgumentNullException("filterContext");
-            }
-
-            // If custom errors are disabled, we need to let the normal ASP.NET exception handler
-            // execute so that the user can see useful debugging information.
-            if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled) {
-                return;
-            }
-
-            Exception exception = filterContext.Exception;
-
-            // If this is not an HTTP 500 (for example, if somebody throws an HTTP 404 from an action method),
-            // ignore it.
-            if (new HttpException(null, exception).GetHttpCode() != 500) {
-                return;
-            }
-
+            if (filterContext == null) throw new ArgumentNullException("filterContext");
+            if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)  return;
+            var exception = filterContext.Exception;
+            if (new HttpException(null, exception).GetHttpCode() != 500)  return;
             var controllerName = (string)filterContext.RouteData.Values["controller"];
             var actionName = (string)filterContext.RouteData.Values["action"];
             var model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
-            filterContext.Result = new ViewResult {
-                ViewName = ExceptionView,
-                ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
-                TempData = filterContext.Controller.TempData
-            };
+            ActionResult result;
+            if (IsJson)
+                result = new JsonResult { Data = new { error = filterContext.Exception.Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            else {
+                var dict = new ViewDataDictionary<HandleErrorInfo>(model);
+                if (filterContext.Controller.ViewData.ContainsKey("KatushaUser")) dict.Add("KatushaUser", filterContext.Controller.ViewData["KatushaUser"]);
+                if (filterContext.Controller.ViewData.ContainsKey("KatushaProfile")) dict.Add("KatushaProfile", filterContext.Controller.ViewData["KatushaProfile"]);
+                dict.Add("HasLayout", HasLayout);
+                result = new ViewResult { ViewName = ExceptionView, ViewData = dict, TempData = filterContext.Controller.TempData };
+            }
+            filterContext.Result = result;
             filterContext.ExceptionHandled = true;
             filterContext.HttpContext.Response.Clear();
             filterContext.HttpContext.Response.StatusCode = 500;
-
-            // Certain versions of IIS will sometimes use their own error page when
-            // they detect a server error. Setting this property indicates that we
-            // want it to try to render ASP.NET MVC's error page instead.
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
         }
     }
