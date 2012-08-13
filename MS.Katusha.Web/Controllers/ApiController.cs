@@ -80,10 +80,12 @@ namespace MS.Katusha.Web.Controllers
             using (var str = new StreamReader(Request.InputStream))
                 extendedProfileText = str.ReadToEnd();
             var extendedProfile = JsonConvert.DeserializeObject<ExtendedProfile>(extendedProfileText);
-            var lines = _utilityService.SetExtendedProfile(extendedProfile);
-            Response.ContentType = "text/plain";
             if (String.IsNullOrWhiteSpace(Request.Headers["X-MSKATUSHA"])) return;
             if (Request.Headers["X-MSKATUSHA"] != "valid") return;
+
+            
+            var lines = _utilityService.SetExtendedProfile(extendedProfile);
+            Response.ContentType = "text/plain";
             if (lines.Count == 0)
                 Response.Write("OK");
             else {
