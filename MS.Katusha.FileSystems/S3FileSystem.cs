@@ -76,8 +76,25 @@ namespace MS.Katusha.FileSystems
             Delete(list.ToArray());
         }
 
+        private void CopyBackup(Guid guid)
+        {
+            var source = String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid);
+            var destination = String.Format("{0}/{1}.jpg", PhotoFolders.DeletedPhotos, guid);
+
+            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+                var request = new CopyObjectRequest {
+                    SourceBucket = _bucket.BucketName,
+                    SourceKey = source,
+                    DestinationBucket = _bucket.BucketName,
+                    DestinationKey = destination
+                };
+                client.CopyObject(request);
+            }
+        }
+
         public void DeleteBackupPhoto(Guid guid)
         {
+            CopyBackup(guid);
             Delete(String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid));
         }
 

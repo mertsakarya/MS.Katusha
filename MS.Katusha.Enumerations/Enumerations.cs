@@ -51,5 +51,6 @@ namespace MS.Katusha.Enumerations
         public static string Photos = "Photos";
         public static string PhotoBackups = "PhotoBackups";
         public static string Images = "Images";
+        public static string DeletedPhotos = "DeletedPhotos";
     }
 }
