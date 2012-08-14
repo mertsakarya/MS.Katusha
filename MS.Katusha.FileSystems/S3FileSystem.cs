@@ -5,17 +5,18 @@ using Amazon.S3.Model;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.S3.Configuration;
+using MS.Katusha.Services.Configuration;
+using MS.Katusha.Services.Configuration.Data;
 
-namespace MS.Katusha.S3
+namespace MS.Katusha.FileSystems
 {
     public class S3FileSystem : IKatushaFileSystem
     {
-        private readonly Bucket _bucket;
+        private readonly BucketData _bucket;
 
         public S3FileSystem(string bucketName = "")
         {
-            _bucket = S3ConfigurationManager.Instance.GetBucket(bucketName);
+            _bucket = KatushaConfigurationManager.Instance.GetBucket(bucketName);
         }
 
         public void Add(string path, Stream stream)
@@ -127,7 +128,7 @@ namespace MS.Katusha.S3
             return list;
         }
 
-        private byte[] GetData(string path)
+        public byte[] GetData(string path)
         {
             using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
                 var request = new GetObjectRequest();

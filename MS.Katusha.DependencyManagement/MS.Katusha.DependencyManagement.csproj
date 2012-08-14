@@ -68,6 +68,10 @@
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.FileSystems\MS.Katusha.FileSystems.csproj">
+      <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
+      <Name>MS.Katusha.FileSystems</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
       <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>
       <Name>MS.Katusha.Infrastructure</Name>
@@ -91,10 +95,6 @@
     <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.S3\MS.Katusha.S3.csproj">
-      <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
-      <Name>MS.Katusha.S3</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>

@@ -3,6 +3,7 @@ using System.Configuration;
 using Autofac;
 using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
+using MS.Katusha.FileSystems;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -10,7 +11,6 @@ using MS.Katusha.Redis;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
-using MS.Katusha.S3;
 using MS.Katusha.Services;
 using ServiceStack.Redis;
 
@@ -42,6 +42,10 @@ namespace MS.Katusha.DependencyManagement
 
             // InstancePerHttpRequest
             // SingleInstance
+
+            builder.RegisterType<EncryptionService>().As<IEncryptionService>().SingleInstance();
+            builder.RegisterType<TicketService>().As<ITicketService>().SingleInstance();
+
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().InstancePerHttpRequest();
             builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).InstancePerHttpRequest();
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();

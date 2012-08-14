@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.S3;
-using MS.Katusha.S3.Configuration;
 using MS.Katusha.Services;
+using MS.Katusha.Services.Configuration;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
-using Newtonsoft.Json;
 using PagedList;
 
 namespace MS.Katusha.Web.Controllers
@@ -116,7 +111,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpGet]
         public void PhotosDB2S3(string key)
         {
-            var bucket = (S3ConfigurationManager.Instance.GetBucket(key));
+            var bucket = (KatushaConfigurationManager.Instance.GetBucket(key));
             if(bucket == null) throw new Exception("Empty bucket " + key);
             var dbPhotoBackupService = new DBPhotoBackupService(DependencyResolver.Current.GetService<IKatushaFileSystem>(), DependencyResolver.Current.GetService<IPhotoBackupRepositoryDB>());
             var s3PhotoBackupService = new S3PhotoBackupService(key);

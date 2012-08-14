@@ -1055,9 +1055,9 @@
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.S3\MS.Katusha.S3.csproj">
-      <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
-      <Name>MS.Katusha.S3</Name>
+    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
+      <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
+      <Name>MS.Katusha.Services.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>

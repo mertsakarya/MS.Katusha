@@ -1,22 +1,23 @@
 ﻿using System;
 using System.IO;
-using Amazon.S3.Model;
 using ImageResizer;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.FileSystems;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.S3.Configuration;
+using MS.Katusha.Services.Configuration;
+using MS.Katusha.Services.Configuration.Data;
 
-namespace MS.Katusha.S3
+namespace MS.Katusha.Services
 {
     public class S3PhotoBackupService : IPhotoBackupService
     {
-        private readonly Bucket _bucket;
+        private readonly BucketData _bucket;
         private readonly IKatushaFileSystem _fileSystem ;
 
         public S3PhotoBackupService(string bucketName="")
         {
-            _bucket = S3ConfigurationManager.Instance.GetBucket(bucketName);
+            _bucket = KatushaConfigurationManager.Instance.GetBucket(bucketName);
             _fileSystem = new S3FileSystem(bucketName);
         }
 
@@ -63,26 +64,8 @@ namespace MS.Katusha.S3
 
         public byte[] GetPhotoData(Guid guid)
         {
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
-                var request = new GetObjectRequest();
-                request.WithBucketName(_bucket.BucketName).WithKey(String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid));
-                using (var response = client.GetObject(request)) {
-                    byte[] bytes;
-                    using(var memory = new MemoryStream()) {
-                        using (var stream = response.ResponseStream) {
-                            var data = new byte[32768];
-                            int bytesRead;
-                            do {
-                                bytesRead = stream.Read(data, 0, data.Length);
-                                memory.Write(data, 0, bytesRead);
-                            } while (bytesRead > 0);
-                            memory.Flush();
-                            bytes = memory.ToArray();
-                        }
-                    }
-                    return bytes;
-                }
-            }
+            var file = String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid);
+            return _fileSystem.GetData(file);
         }
     }
 }

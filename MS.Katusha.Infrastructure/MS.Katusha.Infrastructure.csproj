@@ -74,6 +74,7 @@
     <Compile Include="Attributes\KatushaLookupListAttribute.cs" />
     <Compile Include="Attributes\KatushaRangeAttribute.cs" />
     <Compile Include="Attributes\KatushaRegularExpressionAttribute.cs" />
+    <Compile Include="Attributes\KatushaRequireBasicAuthentication.cs" />
     <Compile Include="Attributes\KatushaRequiredAttribute.cs" />
     <Compile Include="Attributes\KatushaStringLengthAttribute.cs" />
     <Compile Include="Cache\CacheObjectRepositoryRavenDB.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Exceptions\Resources\KatushaConfigurationException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceException.cs" />
     <Compile Include="Exceptions\Resources\KatushaResourceLookupException.cs" />
+    <Compile Include="Exceptions\Services\KatushaTicketException.cs" />
     <Compile Include="Exceptions\Services\KatushaNeedsPaymentButUserEmptyException.cs" />
     <Compile Include="Exceptions\Services\KatushaProductNameNotFoundException.cs" />
     <Compile Include="Exceptions\Services\KatushaNeedPaymentException.cs" />

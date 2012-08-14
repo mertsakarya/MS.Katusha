@@ -22,5 +22,7 @@ namespace MS.Katusha.Interfaces.Services
         string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false);
         void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes);
         string GetPhotoBaseUrl();
+        byte[] GetData(string path);
+
     }
 }

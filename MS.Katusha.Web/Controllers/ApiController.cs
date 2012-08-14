@@ -31,13 +31,17 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = false, MustHaveProfile = true, AllowedRole = UserRole.Administrator)]
+        //[KatushaRequireBasicAuthentication]
         public void Search(int? key, SearchProfileCriteriaModel model)
         {
+            //var cred = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(Request.Headers["Authorization"].Substring(6))).Split(':');
+            //var user = new {Name = cred[0], Pass = cred[1]}
+            
             var data = Mapper.Map<SearchProfileCriteria>(model);
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             var list = new List<Guid>();
-            foreach(var profile in searchResult.Profiles)
+            foreach (var profile in searchResult.Profiles)
                 list.Add(profile.Guid);
             var result = new ApiSearchResultModel() {
                 PageIndex = pageIndex,

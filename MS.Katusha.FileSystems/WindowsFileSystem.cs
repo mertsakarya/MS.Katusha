@@ -6,7 +6,7 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 
-namespace MS.Katusha.S3
+namespace MS.Katusha.FileSystems
 {
     public class WindowsFileSystem : IKatushaFileSystem
     {
@@ -83,6 +83,24 @@ namespace MS.Katusha.S3
 
         public string GetPhotoBaseUrl() { return ConfigurationManager.AppSettings["VirtualPath"]; }
 
+        public byte[] GetData(string path)
+        {
+            byte[] bytes;
+            using (var memory = new MemoryStream()) {
+                using (var stream = new FileStream(String.Format("{0}/{1}", _baseFolderName, path), FileMode.Open, FileAccess.Read)) {
+                    var data = new byte[32768];
+                    int bytesRead;
+                    do {
+                        bytesRead = stream.Read(data, 0, data.Length);
+                        memory.Write(data, 0, bytesRead);
+                    } while (bytesRead > 0);
+                    stream.Flush();
+                    bytes = memory.ToArray();
+                }
+            }
+            return bytes;
+        }
+
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)
         {
             var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte) photoType, photo.Guid);
@@ -90,6 +108,7 @@ namespace MS.Katusha.S3
                 writer.Write(bytes, 0, bytes.Length);
             }
         }
+
 
     }
 }
