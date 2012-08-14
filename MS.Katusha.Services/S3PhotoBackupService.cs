@@ -13,7 +13,7 @@ namespace MS.Katusha.Services
     public class S3PhotoBackupService : IPhotoBackupService
     {
         private readonly BucketData _bucket;
-        private readonly IKatushaFileSystem _fileSystem ;
+        private readonly S3FileSystem _fileSystem ;
 
         public S3PhotoBackupService(string bucketName="")
         {
@@ -27,10 +27,7 @@ namespace MS.Katusha.Services
             } 
         }
 
-        public void DeleteBackupPhoto(Guid guid)
-        {
-            _fileSystem.DeleteBackupPhoto(guid);
-        }
+        public void DeleteBackupPhoto(Guid guid) { _fileSystem.DeleteBackupPhoto(guid); }
 
         public PhotoBackup GetPhoto(Guid guid) {
             return new PhotoBackup { Guid = guid, Data = GetPhotoData(guid) };

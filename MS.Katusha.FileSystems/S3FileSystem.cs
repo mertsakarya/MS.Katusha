@@ -76,7 +76,12 @@ namespace MS.Katusha.FileSystems
             Delete(list.ToArray());
         }
 
-        private void CopyBackup(Guid guid)
+        public void CopyBackup(Guid guid)
+        {
+            CopyToBucket(guid, _bucket.BucketName);
+        }
+
+        public void CopyToBucket(Guid guid, string bucketName)
         {
             var source = String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid);
             var destination = String.Format("{0}/{1}.jpg", PhotoFolders.DeletedPhotos, guid);
@@ -85,7 +90,7 @@ namespace MS.Katusha.FileSystems
                 var request = new CopyObjectRequest {
                     SourceBucket = _bucket.BucketName,
                     SourceKey = source,
-                    DestinationBucket = _bucket.BucketName,
+                    DestinationBucket = String.IsNullOrWhiteSpace(bucketName) ? _bucket.BucketName : bucketName,
                     DestinationKey = destination
                 };
                 client.CopyObject(request);
