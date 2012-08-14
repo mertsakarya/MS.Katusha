@@ -48,7 +48,7 @@ namespace MS.Katusha.DependencyManagement
 
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
             //builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).InstancePerHttpRequest();
-            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().SingleInstance();
+            builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().InstancePerHttpRequest();
             builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
 
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
