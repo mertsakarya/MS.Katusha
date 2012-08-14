@@ -33,7 +33,8 @@ namespace MS.Katusha.Infrastructure
 
         private ResourceManager()
         {
-            var dbContext = DependencyResolver.Current.GetService<IKatushaDbContext>();
+            var dbContext = new KatushaDbContext();
+
             ListLock.EnterReadLock();
             var isEmpty = ResourceLookupList.Count <= 0;
             ListLock.ExitReadLock();
