@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
-using MS.Katusha.Infrastructure.Exceptions.Services;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;

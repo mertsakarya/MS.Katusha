@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Web.Mvc;
 using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure.Exceptions.Resources;
 using MS.Katusha.Interfaces.Repositories;
@@ -32,26 +33,26 @@ namespace MS.Katusha.Infrastructure
 
         private ResourceManager()
         {
+            var dbContext = DependencyResolver.Current.GetService<IKatushaDbContext>();
             ListLock.EnterReadLock();
             var isEmpty = ResourceLookupList.Count <= 0;
             ListLock.ExitReadLock();
-            if (isEmpty)  LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(new KatushaDbContext()));
+            if (isEmpty)  LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(dbContext));
             
             ListLock.EnterReadLock();
             isEmpty = ResourceList.Count <= 0;
             ListLock.ExitReadLock();
-            if (isEmpty) LoadResourceFromDb(new ResourceRepositoryDB(new KatushaDbContext()));
+            if (isEmpty) LoadResourceFromDb(new ResourceRepositoryDB(dbContext));
 
             ListLock.EnterReadLock();
             isEmpty = ConfigurationList.Count <= 0;
             ListLock.ExitReadLock();
-            if (isEmpty) LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(new KatushaDbContext()));
+            if (isEmpty) LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(dbContext));
 
             ListLock.EnterReadLock();
             isEmpty = !Location.Initialized;
             ListLock.ExitReadLock();
             if (isEmpty) {
-                var dbContext = new KatushaDbContext();
                 LoadGeoLocationDataFromDb(new GeoCountryRepositoryDB(dbContext), new GeoLanguageRepositoryDB(dbContext), new GeoNameRepositoryDB(dbContext), new GeoTimeZoneRepositoryDB(dbContext));
             }
         }

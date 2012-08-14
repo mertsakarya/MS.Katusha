@@ -82,9 +82,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="C5, Version=1.1.0.0, Culture=neutral, PublicKeyToken=06a1b38866503b69, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quartz.2.0.1\lib\net40\C5.dll</HintPath>
-    </Reference>
     <Reference Include="ClientDependency.Core, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ClientDependency.1.4.0.0\lib\ClientDependency.Core.dll</HintPath>
@@ -107,12 +104,6 @@
     </Reference>
     <Reference Include="Glimpse.Core">
       <HintPath>..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Ef">
-      <HintPath>..\packages\Glimpse.Ef.0.87\lib\net40\Glimpse.Ef.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Mvc3">
-      <HintPath>..\packages\Glimpse.Mvc3.0.87\lib\net40\Glimpse.Mvc3.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.1.5\lib\ImageResizer.dll</HintPath>
@@ -813,29 +804,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="PayPalHelper\Docs\startHere.htm" />
-    <Content Include="PayPalHelper\Docs\startHere.html\html\DocSet_default.html" />
-    <Content Include="PayPalHelper\Docs\startHere.html\html\images\19fb5f20-19a2-4d76-a2b0-fd753895da1e.png" />
-    <Content Include="PayPalHelper\Docs\startHere.html\html\images\45d9257f-f452-491c-a16e-20d3cd1370db.png" />
-    <Content Include="PayPalHelper\Docs\startHere.html\html\images\8b52f348-d854-4a8f-9132-863e0fce5da9.png" />
-    <Content Include="PayPalHelper\Docs\startHere.html\html\images\c3431829-bc93-4403-921f-b35745aedb75.png" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\Classic.css" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\collall.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\collapse_all.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\copycode.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\copycodeHighlight.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\Dropdown.js" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\drpdown.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\drpdown_orange.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\EventUtilities.js" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\exp.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\expall.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\expand_all.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\note.gif" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\samples.js" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\script.js" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\script_chm.js" />
-    <Content Include="PayPalHelper\Docs\startHere.html\local\SplitScreen.js" />
     <Content Include="robots.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Glimpse.RavenDb.Readme.txt" />
@@ -973,8 +941,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\KatushaException.cshtml" />
-    <None Include="PayPalHelper\Docs\startHere.docx" />
-    <None Include="PayPalHelper\Docs\startHere.pdf" />
     <Content Include="Views\Shared\NeedsPayment.cshtml" />
     <Content Include="Views\Payments\PaypalGetCheckout.cshtml" />
     <Content Include="Views\Payments\PaypalDoCheckout.cshtml" />
@@ -1007,6 +973,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Glimpse.RavenDb\Glimpse.RavenDb.csproj">
+      <Project>{439766E7-5D3E-4B7D-A301-8611422602B1}</Project>
+      <Name>Glimpse.RavenDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.DependencyManagement\MS.Katusha.DependencyManagement.csproj">
       <Project>{6F22F616-A761-476C-A7E4-63CE3EB193C8}</Project>
       <Name>MS.Katusha.DependencyManagement</Name>

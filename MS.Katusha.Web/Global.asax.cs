@@ -5,7 +5,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Web.Helpers;
+using Raven.Client.Document;
 using DependencyHelper = MS.Katusha.Web.Helpers.DependencyHelper;
 
 namespace MS.Katusha.Web
@@ -61,13 +63,12 @@ namespace MS.Katusha.Web
 
                 //BundleHelper.RegisterBundles();
                 BundleTable.Bundles.EnableDefaultBundles();
-                //var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
 
-                //if (store != null) {
-                //    //Glimpse.RavenDb.Profiler.AttachTo(store);
-                //    //Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
-                //    //Application["MyDocStore"] = store; 
-                //}
+                var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
+                if (store == null) return;
+                Glimpse.RavenDb.Profiler.AttachTo(store);
+                Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");
+                Application["MyDocStore"] = store;
             } finally {
                 Context.Application.UnLock();
             }

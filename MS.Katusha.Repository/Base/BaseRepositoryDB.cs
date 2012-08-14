@@ -18,7 +18,9 @@ namespace MS.Katusha.Repositories.DB.Base
 
         protected IQueryable<T> QueryableRepository
         {
-            get { return DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking(); }
+            get { 
+                return DbContext.Set<T>().Where(p => !p.Deleted).AsQueryable().AsNoTracking(); 
+            } 
         }
 
 

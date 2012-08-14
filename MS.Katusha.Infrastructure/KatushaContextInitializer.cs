@@ -6,6 +6,10 @@ namespace MS.Katusha.Infrastructure
     public class KatushaContextInitializer : CreateDatabaseIfNotExists<KatushaDbContext> //DropCreateDatabaseIfModelChanges<KatushaDbContext> //DropCreateDatabaseAlways<KatushaContext>// DropCreateDatabaseIfModelChanges<KatushaContext>
     {
         private KatushaDbContext _dbContext;
+
+        public KatushaContextInitializer() {
+            
+        }
         protected override void Seed(KatushaDbContext dbContext)
         {
             _dbContext = dbContext;
