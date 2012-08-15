@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    @*<meta name="google-site-verification" content="O6_WRhPsQ4BUo85wQwVVvjQoeEPzeE09KEhYKvxD5_w" />*@
         <meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
         <title>@(ViewBag.Title) - MS.Katusha</title>
         <meta name="viewport" content="width=device-width" />
@@ -58,12 +57,10 @@
             Html.RequiresJs("FileUpload/locale.js", "Content", 90);
             Html.RequiresJs("FileUpload/main.js", "Content", 99);
         }
-        @if (protocol == "https") {
-            <script type="text/javascript">
-                function rp2ps() { if (window.location.substr(0, 6) != "https:") { var pu = window.location.hostname + window.location.pathname + window.location.search; var psu = "https://" + pu; window.location = psu; } }
-                rp2ps();
-            </script>
-        }
+
+@*        @if (protocol == "https") {
+            <script type="text/javascript">function rp2ps() { if (window.location.substr(0, 6) != "https:") { var pu = window.location.hostname + window.location.pathname + window.location.search; var psu = "https://" + pu; window.location = psu; } } rp2ps();</script>
+        }*@
         @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sunset.css")))
     </head>
     <body>

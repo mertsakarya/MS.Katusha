@@ -78,14 +78,14 @@ namespace MS.Katusha.Web
 
         protected void Application_BeginRequest()
         {
-            var protocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
-            if (protocol != "https") return;
-            var requestProtocol = Request.Headers["X-Forwarded-Proto"];
-            requestProtocol = String.IsNullOrEmpty(requestProtocol) ? ((Request.ServerVariables["HTTPS"].ToLowerInvariant() == "on") ? "https" : "http") : requestProtocol.ToLowerInvariant();
-            if (requestProtocol == "https") return;
-            var uri = Context.Request.Url.GetComponents(UriComponents.Host | UriComponents.PathAndQuery, UriFormat.UriEscaped);
-            //UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
-            Response.Redirect("https://" + uri);
+            //var protocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
+            //if (protocol != "https") return;
+            //var requestProtocol = Request.Headers["X-Forwarded-Proto"];
+            //requestProtocol = String.IsNullOrEmpty(requestProtocol) ? ((Request.ServerVariables["HTTPS"].ToLowerInvariant() == "on") ? "https" : "http") : requestProtocol.ToLowerInvariant();
+            //if (requestProtocol == "https") return;
+            //var uri = Context.Request.Url.GetComponents(UriComponents.Host | UriComponents.PathAndQuery, UriFormat.UriEscaped);
+            ////UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
+            //Response.Redirect("https://" + uri);
         }
    }
 }
