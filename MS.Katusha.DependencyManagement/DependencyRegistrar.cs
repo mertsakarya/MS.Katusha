@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using Autofac;
-using Autofac.Integration.Mvc;
 using MS.Katusha.Domain;
 using MS.Katusha.FileSystems;
 using MS.Katusha.Infrastructure.Cache;
@@ -12,6 +11,8 @@ using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
+using MS.Katusha.Services.Encryption;
+
 //using ServiceStack.Redis;
 
 namespace MS.Katusha.DependencyManagement
@@ -101,6 +102,5 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).SingleInstance();
             builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).SingleInstance();
         }
-
     }
 }

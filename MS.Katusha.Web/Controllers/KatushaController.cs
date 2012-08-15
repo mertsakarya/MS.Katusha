@@ -1,41 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Domain.Entities;
-using MS.Katusha.Web.Helpers;
-using MS.Katusha.Web.Helpers.Converters;
 using MS.Katusha.Web.Models.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers
 {
-    public class KatushaController : Controller
+    public class KatushaController : KatushaBaseController
     {
-        public User KatushaUser { get; set; }
-        public Profile KatushaProfile { get; set; }
-
-        protected IUserService UserService { get; set; }
-        protected IProfileService ProfileService { get; set; }
-        protected IStateService StateService { get; set; }
-        protected IResourceService ResourceService { get; set; }
-        protected IConversationService ConversationService { get; set; }
         private const int ProfileCount = 8;
 
-        public KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+        protected KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
-            ResourceService = resourceService;
-            ConversationService = conversationService;
-            ProfileService = profileService;
-            UserService = userService;
-            StateService = stateService;
-            UniqueVisitorsResultConverter.GetInstance().ProfileService = profileService;
-            ConversationResultTypeConverter.GetInstance().ProfileService = profileService;
         }
 
         protected bool IsKeyForProfile(string key)
@@ -54,9 +35,12 @@ namespace MS.Katusha.Web.Controllers
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
+            }
+            var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
+            if (!isPing) {
                 if (KatushaProfile != null) {
                     int total;
-                    var oppositeGender = (byte)((KatushaProfile.Gender == (byte)Sex.Female) ? Sex.Male : Sex.Female);
+                    var oppositeGender = (byte) ((KatushaProfile.Gender == (byte) Sex.Female) ? Sex.Male : Sex.Female);
                     var newProfiles = ProfileService.GetNewProfiles(p => p.Gender == oppositeGender, out total, 1, ProfileCount);
                     ViewBag.KatushaNewProfiles = Mapper.Map<IEnumerable<ProfileModel>>(newProfiles);
                     var onlineProfiles = new List<Profile>();
@@ -125,13 +109,6 @@ namespace MS.Katusha.Web.Controllers
 
         protected override void ExecuteCore()
         {
-            var cultureCookie = Request.Cookies["_culture"];
-            var cultureName = cultureCookie == null ? (Request.UserLanguages != null ? Request.UserLanguages[0] : null) : cultureCookie.Value;
-            cultureName = CultureHelper.GetValidCulture(cultureName);
-
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureName);
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(cultureName);
-
             base.ExecuteCore();
         }
     }

@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</ProjectGuid>
+    <ProjectGuid>{4B187B16-9B7B-462D-B398-7ACE47A99653}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.Katusha.Interfaces.Services</RootNamespace>
-    <AssemblyName>MS.Katusha.Interfaces.Services</AssemblyName>
+    <RootNamespace>MS.Katusha.Services.Encryption</RootNamespace>
+    <AssemblyName>MS.Katusha.Services.Encryption</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,10 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\MS.Katusha.Web\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,42 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITicketService.cs" />
-    <Compile Include="IKatushaFileSystem.cs" />
-    <Compile Include="IProductService.cs" />
-    <Compile Include="IPaypalService.cs" />
-    <Compile Include="IGridService.cs" />
-    <Compile Include="INotificationService.cs" />
-    <Compile Include="IResourceService.cs" />
-    <Compile Include="IPhotosService.cs" />
-    <Compile Include="IRestore.cs" />
-    <Compile Include="IStateService.cs" />
-    <Compile Include="ISamplesService.cs" />
-    <Compile Include="IUtilityService.cs" />
-    <Compile Include="IVisitService.cs" />
-    <Compile Include="IPhotoBackupService.cs" />
-    <Compile Include="ISearchService.cs" />
-    <Compile Include="IConversationService.cs" />
-    <Compile Include="IUserService.cs" />
-    <Compile Include="IProfileService.cs" />
+    <Compile Include="Converters\EncryptedStringConverter.cs" />
+    <Compile Include="EncryptionService.cs" />
+    <Compile Include="IEncryptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
-      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
-      <Name>MS.Katusha.Domain.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
-      <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
+    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
+      <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
+      <Name>MS.Katusha.Services.Configuration</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

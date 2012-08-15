@@ -34,7 +34,7 @@ namespace MS.Katusha.Web.Controllers
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Ping()
         {
-            var pingResult = StateService.Ping(KatushaProfile);
+            var pingResult = ViewBag.PingResult; //StateService.Ping(KatushaProfile);
             return Json(new {
                                 VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
                                 VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,

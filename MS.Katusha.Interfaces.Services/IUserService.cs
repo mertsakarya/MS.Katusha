@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Principal;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 

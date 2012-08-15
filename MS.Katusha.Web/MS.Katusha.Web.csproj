@@ -450,6 +450,8 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
+    <Compile Include="Controllers\KatushaApiController.cs" />
+    <Compile Include="Controllers\KatushaBaseController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />

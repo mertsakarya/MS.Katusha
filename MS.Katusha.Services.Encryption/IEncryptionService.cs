@@ -1,4 +1,4 @@
-﻿namespace MS.Katusha.Interfaces.Services
+﻿namespace MS.Katusha.Services.Encryption
 {
     public interface IEncryptionService
     {

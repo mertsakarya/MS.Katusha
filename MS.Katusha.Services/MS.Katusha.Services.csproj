@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="S3PhotoBackupService.cs" />
     <Compile Include="TicketService.cs" />
-    <Compile Include="EncryptionService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="PaypalService.cs" />
     <Compile Include="GridService.cs" />
@@ -138,6 +137,10 @@
     <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
       <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
       <Name>MS.Katusha.Services.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services.Encryption\MS.Katusha.Services.Encryption.csproj">
+      <Project>{4B187B16-9B7B-462D-B398-7ACE47A99653}</Project>
+      <Name>MS.Katusha.Services.Encryption</Name>
     </ProjectReference>
     <ProjectReference Include="..\PayPal_Merchant_SDK\PayPal_Merchant_SDK.csproj">
       <Project>{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266}</Project>

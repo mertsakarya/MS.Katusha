@@ -96,6 +96,10 @@
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services.Encryption\MS.Katusha.Services.Encryption.csproj">
+      <Project>{4B187B16-9B7B-462D-B398-7ACE47A99653}</Project>
+      <Name>MS.Katusha.Services.Encryption</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>
       <Name>MS.Katusha.Services</Name>

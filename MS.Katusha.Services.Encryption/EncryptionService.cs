@@ -2,10 +2,9 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Configuration;
 
-namespace MS.Katusha.Services
+namespace MS.Katusha.Services.Encryption
 {
     public class EncryptionService : IEncryptionService
     {
