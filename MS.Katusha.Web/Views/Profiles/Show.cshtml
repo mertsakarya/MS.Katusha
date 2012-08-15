@@ -31,23 +31,19 @@
         }
 
         @Html.Partial("_Photo", Model)
-        @if (katushaProfile == null) {
-            <br/>
-            <h1>More on the inside!</h1>
-        } else {
-            <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>
-            <br />
-            @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
+        <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>
+        <br />
+        @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
 
-            @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
-            @Html.DisplayDetailFor(Model.BirthYear > 0, p => p.BirthYear)
+        @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
+        @Html.DisplayDetailFor(Model.BirthYear > 0, p => p.BirthYear)
 
-            @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
-            @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
-            @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
-            @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
-            @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
-            @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
+        @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
+        @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
+        @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
+        @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
+        @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
+        @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
 
         @*
         @if (Model.Gender == Sex.Male) {
@@ -58,12 +54,13 @@
         }
         *@
 
-            @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", p => p.Country)
-            <br />
-            @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", p => p.Language)
-            <br />
-            @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", p => p.Search)
-        }
+        @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", p => p.Country)
+        <br />
+        @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", p => p.Language)
+        <br />
+        @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", p => p.Search)
+        <span style="display:none;font-size:2px;" itemprop="gender">@(Model.Gender.ToString())</span>
+        <span style="display:none;font-size:2px;" itemprop="birthDate">@(Model.BirthYear)</span>
     </fieldset>
 </div>
 
