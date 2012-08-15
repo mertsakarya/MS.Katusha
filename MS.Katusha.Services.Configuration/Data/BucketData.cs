@@ -28,7 +28,7 @@ namespace MS.Katusha.Services.Configuration.Data
         }
 
         [ConfigurationProperty("rootUrl", IsRequired = true)]
-        public string RootUrl { get { return (string)this[rootUrl]; } }
+        public string RootUrl { get { return KatushaConfigurationManager.Instance.GetSettings().Protocol + this[rootUrl]; } }
 
         [ConfigurationProperty("bucketName", IsRequired = true)]
         public string BucketName { get { return (string)this[bucketName]; } }

@@ -1,7 +1,7 @@
-@using System.Configuration
+@using MS.Katusha.Services.Configuration
 @using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 @model Conversation
 <h2>@Model.ToName read your message.</h2><br/>
 <hr/>
-<a href="@(ConfigurationManager.AppSettings["VirtualPath"])">Go to Katusha</a><br/>
-@(ConfigurationManager.AppSettings["VirtualPath"])
+<a href="@(KatushaConfigurationManager.Instance.VirtualPath)">Go to Katusha</a><br/>
+@(KatushaConfigurationManager.Instance.VirtualPath)

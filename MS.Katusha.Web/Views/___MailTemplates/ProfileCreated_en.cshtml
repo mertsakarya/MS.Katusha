@@ -1,7 +1,7 @@
-@using System.Configuration
+@using MS.Katusha.Services.Configuration
 @model MS.Katusha.Domain.Entities.Profile
 @{ 
-    var link = String.Format("{0}Profiles/Show/{1}", ConfigurationManager.AppSettings["VirtualPath"], Model.Guid);
+    var link = String.Format("{0}Profiles/Show/{1}", KatushaConfigurationManager.Instance.VirtualPath, Model.Guid);
 }
 <h2>A profile created @Model.Name</h2><br/>
 For user: 

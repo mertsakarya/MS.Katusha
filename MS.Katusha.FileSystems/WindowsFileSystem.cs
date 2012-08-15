@@ -5,6 +5,7 @@ using System.IO;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Services.Configuration;
 
 namespace MS.Katusha.FileSystems
 {
@@ -70,7 +71,7 @@ namespace MS.Katusha.FileSystems
             return list;
         }
 
-        private string GetUrl(string path) { return ConfigurationManager.AppSettings["VirtualPath"] + ((path[0] == '/') ? path.Substring(1) : path); }
+        private string GetUrl(string path) { return KatushaConfigurationManager.Instance.VirtualPath + ((path[0] == '/') ? path.Substring(1) : path); }
 
         public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
         {
@@ -81,7 +82,7 @@ namespace MS.Katusha.FileSystems
             return base64;
         }
 
-        public string GetPhotoBaseUrl() { return ConfigurationManager.AppSettings["VirtualPath"]; }
+        public string GetPhotoBaseUrl() { return KatushaConfigurationManager.Instance.VirtualPath; }
 
         public byte[] GetData(string path)
         {

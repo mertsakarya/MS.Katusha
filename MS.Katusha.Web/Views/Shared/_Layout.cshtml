@@ -2,6 +2,7 @@
 @using ClientDependency.Core
 @using ClientDependency.Core.Mvc
 @using MS.Katusha.Enumerations
+@using MS.Katusha.Services.Configuration
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -125,8 +126,8 @@
                 </div>
                 <div class="float-right" style="display:none">
                     <ul id="social">
-                        <li><a href="http://facebook.com/mertsakarya" class="facebook">Me on Facebook</a></li>
-                        <li><a href="http://twitter.com/mertsakarya" class="twitter">Me on Twitter</a></li>
+                        <li><a href="@(KatushaConfigurationManager.Instance.GetSettings().Protocol)://facebook.com/mertsakarya" class="facebook">Me on Facebook</a></li>
+                        <li><a href="@(KatushaConfigurationManager.Instance.GetSettings().Protocol)://twitter.com/mertsakarya" class="twitter">Me on Twitter</a></li>
                     </ul>
                 </div>
             </div>

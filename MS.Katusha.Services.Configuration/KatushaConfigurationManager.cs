@@ -25,6 +25,8 @@ namespace MS.Katusha.Services.Configuration
             return config.Settings;
         }
 
+        public string VirtualPath { get { return GetSettings().Protocol+ConfigurationManager.AppSettings["VirtualPath"]; } }
+
 
     }
 }

@@ -6,12 +6,19 @@ namespace MS.Katusha.Services.Configuration.Data
     {
         public SettingsData()
         {
-            base.Properties.Add(https);
+            base.Properties.Add(protocol);
         }
 
-        private static readonly ConfigurationProperty https = new ConfigurationProperty("https", typeof(bool), false, ConfigurationPropertyOptions.IsRequired);
+        private static readonly ConfigurationProperty protocol = new ConfigurationProperty("protocol", typeof(string), "http", ConfigurationPropertyOptions.IsRequired);
 
-        [ConfigurationProperty("https", IsRequired = true)]
-        public string Https { get { return (string)this[https]; } }
+        [ConfigurationProperty("protocol", IsRequired = true)]
+        public string Protocol
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Protocol"];
+                // (string)this[protocol];
+            }
+        }
     }
 }

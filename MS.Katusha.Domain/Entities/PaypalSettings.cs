@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Services.Configuration;
 
 namespace MS.Katusha.Domain.Entities
 {
@@ -9,7 +10,7 @@ namespace MS.Katusha.Domain.Entities
         public static PaypalSettings ParseConfiguration()
         {
             var sandbox = ConfigurationManager.AppSettings["PaypalSandbox"] == "true";
-            var virtualPath = ConfigurationManager.AppSettings["VirtualPath"];
+            var virtualPath = KatushaConfigurationManager.Instance.VirtualPath;
             var sandboxText = (sandbox) ? "Sandbox" : "";
 
             var settings = new PaypalSettings() {

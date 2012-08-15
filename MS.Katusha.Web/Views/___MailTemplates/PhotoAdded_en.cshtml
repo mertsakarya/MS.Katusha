@@ -1,7 +1,7 @@
-@using System.Configuration
 @using MS.Katusha.Enumerations
+@using MS.Katusha.Services.Configuration
 @model MS.Katusha.Domain.Entities.Photo
-@{var link = String.Format("{0}/Photos/{1}-{2}.jpg", ConfigurationManager.AppSettings["VirtualPath"], (byte)PhotoType.Thumbnail, Model.Guid); }
+@{var link = String.Format("{0}/Photos/{1}-{2}.jpg", KatushaConfigurationManager.Instance.VirtualPath, (byte)PhotoType.Thumbnail, Model.Guid); }
 
 <h2>A photo added.</h2><br/>
 <hr/>

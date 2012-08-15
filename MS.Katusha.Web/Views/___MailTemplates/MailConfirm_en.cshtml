@@ -1,6 +1,7 @@
 @using System.Configuration
+@using MS.Katusha.Services.Configuration
 @model MS.Katusha.Domain.Entities.User
 Dear @Model.UserName,<br />
 <br />
 Welcome to our site,<br />
-Please confirm your mail by clicking <a href="@(ConfigurationManager.AppSettings["VirtualPath"])Mail/Confirm/@Model.Guid">here</a> or navigating to this address, @(ConfigurationManager.AppSettings["VirtualPath"])Mail/Confirm/@Model.Guid
+Please confirm your mail by clicking <a href="@(KatushaConfigurationManager.Instance.VirtualPath)Mail/Confirm/@Model.Guid">here</a> or navigating to this address, @(KatushaConfigurationManager.Instance.VirtualPath)Mail/Confirm/@Model.Guid
