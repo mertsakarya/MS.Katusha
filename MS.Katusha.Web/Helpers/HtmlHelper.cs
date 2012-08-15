@@ -93,6 +93,7 @@ namespace MS.Katusha.Web.Helpers
             var tb = new TagBuilder("img");
             if (setId) {
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
+                tb.Attributes.Add("itemprop", "image");
             }
             var str = GetPhotoUrl(photoGuid, photoType, encode);
             tb.Attributes.Add("src", str);

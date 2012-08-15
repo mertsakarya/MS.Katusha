@@ -6,63 +6,64 @@
     var katushaProfile = ViewBag.KatushaProfile as Profile;
     var sameProfile = (ViewBag.SameProfile != null && ViewBag.SameProfile);
 }
-@if (katushaProfile != null) {
-    <table width="100%"><tr><td><h2>@title</h2></td><td style="text-align: right; padding-right: 10px;">
-    @if (!sameProfile) {
-        <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = Html.KeyFor(Model)})' title="Send a message to this user">
-            Send Message
-        </a>
+<div itemscope itemtype="http://schema.org/Person">
+    @if (katushaProfile != null) {
+        <table width="100%"><tr><td><h2>@title</h2></td><td style="text-align: right; padding-right: 10px;">
+        @if (!sameProfile) {
+            <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">
+                Send Message
+            </a>
+        } else {
+            <a class="btn btn-warning cancel" id="changePasswordLink" data_dialog_title="Change Password" href='@Url.Action("ChangePassword", "Account", new { key = Html.KeyFor(Model) })' title = "Change password" >
+                Change Password
+            </a>
+        }
+        </td></tr></table>
     } else {
-        <a class="btn btn-warning cancel" id="changePasswordLink" data_dialog_title="Change Password" href='@Url.Action("ChangePassword", "Account", new { key = Html.KeyFor(Model) })' title = "Change password" >
-            Change Password
-        </a>
-    }
-    </td></tr></table>
-} else {
-    <br/>
-    <h2>@title</h2>
-}
-<hr />
-<fieldset>
-    <legend>Profile</legend>
-    @if (Model.ProfilePhotoGuid != Guid.Empty) {
-        @Html.PhotoImg(Model.ProfilePhotoGuid, PhotoType.Medium, "", true)
-    }
-
-    @Html.Partial("_Photo", Model)
-    @if (katushaProfile == null) {
         <br/>
-        <h1>More on the inside!</h1>
-    } else {
-        <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>
-        <br />
-        @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
-
-        @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
-        @Html.DisplayDetailFor(Model.BirthYear > 0, p => p.BirthYear)
-
-        @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
-        @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
-        @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
-        @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
-        @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
-        @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
-
-    @*
-    @if (Model.Gender == Sex.Male) {
-        @Html.DisplayDetailFor(Model.DickSize != 0, p => p.DickSize)
-        @Html.DisplayDetailFor(Model.DickThickness != 0, p => p.DickThickness)
-    } else if (Model.Gender == Sex.Female) {
-        @Html.DisplayDetailFor(Model.BreastSize != 0, _ => Model.BreastSize)
+        <h2><span itemprop="name">@Model.Name</span>'s Profile</h2>
     }
-    *@
+    <hr />
+    <fieldset>
+        <legend>Profile</legend>
+        @if (Model.ProfilePhotoGuid != Guid.Empty) {
+            @Html.PhotoImg(Model.ProfilePhotoGuid, PhotoType.Medium, "", true)
+        }
 
-        @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", p => p.Country)
-        <br />
-        @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", p => p.Language)
-        <br />
-        @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", p => p.Search)
-    }
-</fieldset>
+        @Html.Partial("_Photo", Model)
+        @if (katushaProfile == null) {
+            <br/>
+            <h1>More on the inside!</h1>
+        } else {
+            <div title="The place currently you are living in."><div class="display-label"><b>Location</b></div><div class="display-field">@Model.Location</div></div>
+            <br />
+            @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
 
+            @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
+            @Html.DisplayDetailFor(Model.BirthYear > 0, p => p.BirthYear)
+
+            @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
+            @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
+            @Html.DisplayDetailFor(Model.Smokes != 0, _ => Model.Smokes)
+            @Html.DisplayDetailFor(Model.Alcohol != 0, _ => Model.Alcohol)
+            @Html.DisplayDetailFor(Model.Religion != 0, _ => Model.Religion)
+            @Html.DisplayDetailFor(!String.IsNullOrWhiteSpace(Model.Description), _ => Model.Description)
+
+        @*
+        @if (Model.Gender == Sex.Male) {
+            @Html.DisplayDetailFor(Model.DickSize != 0, p => p.DickSize)
+            @Html.DisplayDetailFor(Model.DickThickness != 0, p => p.DickThickness)
+        } else if (Model.Gender == Sex.Female) {
+            @Html.DisplayDetailFor(Model.BreastSize != 0, _ => Model.BreastSize)
+        }
+        *@
+
+            @Html.DisplayDetailForEnum(Model, p => p.CountriesToVisit, "Country", p => p.Country)
+            <br />
+            @Html.DisplayDetailForEnum(Model, p => p.LanguagesSpoken, "Language", p => p.Language)
+            <br />
+            @Html.DisplayDetailForEnum(Model, p => p.Searches, "LookingFor", p => p.Search)
+        }
+    </fieldset>
+</div>
 
