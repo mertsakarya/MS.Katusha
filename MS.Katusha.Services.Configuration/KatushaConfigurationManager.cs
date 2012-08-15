@@ -20,5 +20,11 @@ namespace MS.Katusha.Services.Configuration
             return config.Buckets[(String.IsNullOrWhiteSpace(bucketName) ? ConfigurationManager.AppSettings["S3.Default.Bucket"] : bucketName)];
         }
 
+        public SettingsData GetSettings()
+        {
+            return config.Settings;
+        }
+
+
     }
 }

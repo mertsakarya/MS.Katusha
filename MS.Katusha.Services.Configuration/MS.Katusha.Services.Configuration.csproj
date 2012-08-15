@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Data\BucketData.cs" />
     <Compile Include="Data\BucketDataCollection.cs" />
+    <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Data\EncryptionData.cs" />
     <Compile Include="KatushaConfigurationHandler.cs" />
     <Compile Include="KatushaConfigurationManager.cs" />
