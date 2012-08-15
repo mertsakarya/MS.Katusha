@@ -1,7 +1,5 @@
-﻿@using System.Configuration
-@using ClientDependency.Core
+﻿@using ClientDependency.Core
 @using ClientDependency.Core.Mvc
-@using MS.Katusha.Enumerations
 @using MS.Katusha.Services.Configuration
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +15,7 @@
             var katushaProfile = ViewBag.KatushaProfile;
             var controller = ViewContext.RouteData.Values["Controller"].ToString();
             var action = ViewContext.RouteData.Values["Action"].ToString();
+            var protocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
 
 
             @MvcHtmlString.Create(Html.RenderCssHere(new List<IClientDependencyPath> { new BasicPath("Base", "~/Content/themes/base"), new BasicPath("Content", "~/Content") }))
@@ -58,6 +57,12 @@
 
             Html.RequiresJs("FileUpload/locale.js", "Content", 90);
             Html.RequiresJs("FileUpload/main.js", "Content", 99);
+        }
+        @if (protocol == "https") {
+            <script type="text/javascript">
+                function rp2ps() { if (window.location.substr(0, 6) != "https:") { var pu = window.location.hostname + window.location.pathname + window.location.search; var psu = "https://" + pu; window.location = psu; } }
+                rp2ps();
+            </script>
         }
         @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sunset.css")))
     </head>

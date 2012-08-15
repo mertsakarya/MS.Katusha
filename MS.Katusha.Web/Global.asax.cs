@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -6,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Repositories.RavenDB;
+using MS.Katusha.Services.Configuration;
 using MS.Katusha.Web.Helpers;
 using Raven.Client.Document;
 using DependencyHelper = MS.Katusha.Web.Helpers.DependencyHelper;
@@ -71,6 +73,17 @@ namespace MS.Katusha.Web
                 Application["MyDocStore"] = store;
             } finally {
                 Context.Application.UnLock();
+            }
+        }
+
+        protected void Application_BeginRequest()
+        {
+            var protocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
+            if (protocol != "https") return;
+            var requestProtocol = Request.Headers["X-Forwarded-Proto"];
+            requestProtocol = String.IsNullOrEmpty(requestProtocol) ? ((Request.ServerVariables["HTTPS"].ToLowerInvariant() == "on") ? "https" : "http") : requestProtocol.ToLowerInvariant();
+            if (requestProtocol != "https") {
+                Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
             }
         }
    }
