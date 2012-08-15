@@ -1,4 +1,5 @@
 using System.Configuration;
+using System.Web;
 
 namespace MS.Katusha.Services.Configuration.Data
 {
@@ -16,7 +17,9 @@ namespace MS.Katusha.Services.Configuration.Data
         {
             get
             {
-                return ConfigurationManager.AppSettings["Protocol"];
+                //TODO: THIS IS BAAADDDD!
+                return HttpContext.Current.Request.Url.Scheme;
+                //return ConfigurationManager.AppSettings["Protocol"];
                 // (string)this[protocol];
             }
         }
