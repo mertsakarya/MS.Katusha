@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Infrastructure.Exceptions.Web;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Services.Configuration;
 
 namespace MS.Katusha.Infrastructure.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class KatushaApiFilterAttribute : KatushaBaseFilterAttribute
     {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if(ConfigurationManager.AppSettings["Protocol"] == KatushaConfigurationManager.Instance.GetSettings().Protocol)
+                throw new KatushaNotAllowedException(null, null, "Protocol must be HTTPS");
+            base.OnActionExecuting(filterContext);
+        }
         public override void OnException(ExceptionContext filterContext)
         {
             if (filterContext == null) throw new ArgumentNullException("filterContext");
