@@ -82,9 +82,10 @@ namespace MS.Katusha.Web
             if (protocol != "https") return;
             var requestProtocol = Request.Headers["X-Forwarded-Proto"];
             requestProtocol = String.IsNullOrEmpty(requestProtocol) ? ((Request.ServerVariables["HTTPS"].ToLowerInvariant() == "on") ? "https" : "http") : requestProtocol.ToLowerInvariant();
-            if (requestProtocol != "https") {
-                Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
-            }
+            if (requestProtocol == "https") return;
+            var uri = Context.Request.Url.GetComponents(UriComponents.Host | UriComponents.PathAndQuery, UriFormat.UriEscaped);
+            //UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
+            Response.Redirect("https://" + uri);
         }
    }
 }
