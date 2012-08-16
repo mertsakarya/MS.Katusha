@@ -69,8 +69,7 @@ namespace TestConsole
             };
             var user = userService.GetUser("mertiko");
             var id = profileService.GetProfileId(user.Guid);
-            var profile = utilityService.GetExtendedProfile(id);
-            Console.WriteLine(profile.Profile.Name);
+            var profile = utilityService.GetExtendedProfile(user, id);
             var list = new List<Guid>();
             var readCount = new Dictionary<string, int>();
             var subject = "POPP";

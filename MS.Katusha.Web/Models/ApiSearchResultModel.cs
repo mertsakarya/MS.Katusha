@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MS.Katusha.Web.Models.Entities
+namespace MS.Katusha.Web.Models
 {
     public class ApiSearchResultModel
     {

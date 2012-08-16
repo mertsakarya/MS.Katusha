@@ -43,17 +43,19 @@ namespace MS.Katusha.Services
         private readonly IKatushaFileSystem _fileSystem;
         private readonly IProfileService _profileService;
         private readonly INotificationService _notificationService;
+        private readonly IConversationService _conversationService;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IPhotoBackupService _photoBackupService;
         private IKatushaGlobalCacheContext _cacheContext;
 
-        public PhotosService(IKatushaGlobalCacheContext cacheContext, IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
+        public PhotosService(IKatushaGlobalCacheContext cacheContext, IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IConversationService conversationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
         {
             _cacheContext = cacheContext;
             _fileSystem = fileSystem;
             _profileService = profileService;
             _notificationService = notificationService;
+            _conversationService = conversationService;
             _profileRepository = profileRepository;
             _photoRepository = photoRepository;
             _photoBackupService = photoBackupService;
@@ -183,13 +185,9 @@ namespace MS.Katusha.Services
             var guids = new List<Guid>();
             var list = new List<string>();
             IList<string> badFiles;
-            foreach (var file in _fileSystem.GetPhotoNames(out badFiles, "")) {
-                if (file.Guid == Guid.Empty) continue;
-                if (guids.Contains(file.Guid)) continue;
+            foreach (var file in _fileSystem.GetPhotoNames(out badFiles).Where(file => file.Guid != Guid.Empty).Where(file => !guids.Contains(file.Guid))) {
                 guids.Add(file.Guid);
-                foreach (var suffix in PhotoTypes.Versions.Keys)
-                    if (_photoBackupService.GeneratePhoto(file.Guid, (PhotoType)suffix))
-                        list.Add("CREATED\t" + file.Guid);
+                list.AddRange(from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(file.Guid, (PhotoType) suffix) select "CREATED\t" + file.Guid);
                 var photo = _photoRepository.GetByGuid(file.Guid);
                 if (photo == null) {
                     list.Add("NOPHOTO\t" + file.Guid.ToString());
@@ -201,16 +199,7 @@ namespace MS.Katusha.Services
 
         public List<string> CheckProfilePhotos()
         {
-            var list = new List<string>();
-            foreach (var profile in _profileRepository.Query(p=>p.ProfilePhotoGuid != Guid.Empty, null, false).ToList()) {
-                var photo = _photoRepository.GetByGuid(profile.ProfilePhotoGuid);
-                foreach (var suffix in PhotoTypes.Versions.Keys) {
-                    if(_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix)) {
-                        list.Add("CREATED\t" + photo.Guid);
-                    }
-                }
-            }
-            return list;
+            return (from profile in _profileRepository.Query(p => p.ProfilePhotoGuid != Guid.Empty, null, false).ToList() select _photoRepository.GetByGuid(profile.ProfilePhotoGuid) into photo from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(photo.Guid, (PhotoType) suffix) select "CREATED\t" + photo.Guid).ToList();
         }
 
         public bool DeletePhoto(long profileId, Guid photoGuid)
@@ -218,9 +207,11 @@ namespace MS.Katusha.Services
             var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
             if (entity != null) {
                 _photoRepository.Delete(entity);
-                _fileSystem.DeletePhoto(photoGuid);
+                if (!_conversationService.HasPhotoGuid(photoGuid)) {
+                    _fileSystem.DeletePhoto(photoGuid);
+                    _photoBackupService.DeleteBackupPhoto(photoGuid);
+                }
             }
-            _photoBackupService.DeleteBackupPhoto(photoGuid);
 
             var isProfilePhoto = false;
             var profile = _profileRepository.SingleAttached(p => p.Id == profileId, p => p.Photos);

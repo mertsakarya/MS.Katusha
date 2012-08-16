@@ -62,6 +62,16 @@
     <Compile Include="IConversationService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IProfileService.cs" />
+    <Compile Include="Models\ApiAdminUser.cs" />
+    <Compile Include="Models\ApiConversation.cs" />
+    <Compile Include="Models\ApiExtendedProfile.cs" />
+    <Compile Include="Models\ApiLocation.cs" />
+    <Compile Include="Models\ApiPhoto.cs" />
+    <Compile Include="Models\AdminExtendedProfile.cs" />
+    <Compile Include="Models\ApiPhotoBackup.cs" />
+    <Compile Include="Models\ApiProfile.cs" />
+    <Compile Include="Models\ApiUser.cs" />
+    <Compile Include="Models\IExtendedProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +86,10 @@
     <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
       <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
       <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services.Encryption\MS.Katusha.Services.Encryption.csproj">
+      <Project>{4B187B16-9B7B-462D-B398-7ACE47A99653}</Project>
+      <Name>MS.Katusha.Services.Encryption</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

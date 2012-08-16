@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Interfaces.Services.Models;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.RavenDB;
-using Newtonsoft.Json;
-using System.Web;
 using Raven.Abstractions.Commands;
+using AutoMapper;
+using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
+using PhotoBackup = MS.Katusha.Domain.Entities.PhotoBackup;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Services
 {
@@ -30,23 +32,21 @@ namespace MS.Katusha.Services
         private readonly ICountriesToVisitRepositoryDB _countriesToVisitRepository;
         private readonly IConversationRepositoryDB _conversationRepository;
         private readonly IProfileService _profileService;
-        private IConversationService _conversationService;
-        private IPhotosService _photoService;
-        private IPhotoRepositoryDB _photoRepository;
-        private IVisitRepositoryDB _visitRepository;
-        private IProfileRepositoryRavenDB _profileRepositoryRaven;
-        private IVisitRepositoryRavenDB _visitRepositoryRaven;
-        private IConversationRepositoryRavenDB _conversationRepositoryRaven;
+        private readonly IConversationService _conversationService;
+        private readonly IPhotosService _photoService;
+        private readonly IPhotoRepositoryDB _photoRepository;
+        private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
+        private readonly IVisitRepositoryRavenDB _visitRepositoryRaven;
+        private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
 
         public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore,
-                              IVisitRepositoryDB visitRepository, IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
+                              IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
                               ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
                               IConversationRepositoryDB conversationRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IVisitRepositoryRavenDB visitRepositoryRaven, IConversationRepositoryRavenDB conversationRepositoryRaven)
         {
             _conversationRepositoryRaven = conversationRepositoryRaven;
             _visitRepositoryRaven = visitRepositoryRaven;
             _profileRepositoryRaven = profileRepositoryRaven;
-            _visitRepository = visitRepository;
             _photoRepository = photoRepository;
             _photoService = photoService;
             _conversationService = conversationService;
@@ -87,67 +87,70 @@ namespace MS.Katusha.Services
         }
 
 
-        public ExtendedProfile GetExtendedProfile(long profileId)
+        public IExtendedProfile GetExtendedProfile(User katushaUser, long profileId)
         {
             var includeExpressionParams = new Expression<Func<Profile, object>>[] {
-                p => p.Photos, 
+                p => p.Photos
             };
             var profile = _profileRepository.GetById(profileId, includeExpressionParams);
             var user = _userRepository.GetById(profile.UserId);
 
-            var extendedProfile = new ExtendedProfile {
-                Profile = profile,
-                User = user,
+            IExtendedProfile extendedProfile = new ApiExtendedProfile {
+                Profile = Mapper.Map<ApiProfile>(profile),
+                User = Mapper.Map <ApiUser>(user),
                 CountriesToVisit = _countriesToVisitRepository.Query(p => p.ProfileId == profileId, null, false).Select(ctv => ctv.Country).ToArray(),
                 LanguagesSpoken = _languagesSpokenRepository.Query(p => p.ProfileId == profileId, null, false).Select(ls => ls.Language).ToArray(),
                 Searches = _searchingForRepository.Query(p => p.ProfileId == profileId, null, false).Select(s => ((LookingFor) s.Search).ToString()).ToArray(),
             };
-            if (profile.Photos.Count > 0) {
-                extendedProfile.PhotoBackups = new List<PhotoBackup>(profile.Photos.Count);
-                foreach (var photo in profile.Photos) {
-                    extendedProfile.PhotoBackups.Add(_photoBackupService.GetPhoto(photo.Guid));
+            if (((UserRole)katushaUser.UserRole & UserRole.Administrator) == 0) {
+            } else {
+                var photoBackups = new List<ApiPhotoBackup>(profile.Photos.Count);
+                if (profile.Photos.Count > 0) {
+                    photoBackups.AddRange(profile.Photos.Select(photo => Mapper.Map<ApiPhotoBackup>(_photoBackupService.GetPhoto(photo.Guid))));
                 }
+                var messages = Mapper.Map<IList<ApiConversation>>(_conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList());
+                extendedProfile = new AdminExtendedProfile(extendedProfile) {
+                    User = Mapper.Map<ApiAdminUser>(user), 
+                    Messages =  messages,
+                    PhotoBackups = photoBackups
+                };
             }
-            var messagesList = _conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList();
-            extendedProfile.Messages = AutoMapper.Mapper.Map<IList<Domain.Raven.Entities.Conversation>>(messagesList).ToList();
             return extendedProfile;
         }
 
-        public IList<string> SetExtendedProfile(ExtendedProfile extendedProfile)
+        public IList<string> SetExtendedProfile(AdminExtendedProfile extendedProfile)
         {
             var list = new List<string>();
             var userDb = _userRepository.SingleAttached(p => p.UserName == extendedProfile.User.UserName);
             if (userDb == null) {
-                extendedProfile.User.Id = 0;
-                userDb = _userRepository.Add(extendedProfile.User);
+                var user = Mapper.Map<User>(extendedProfile.User);
+                if (user == null) {
+                    list.Add("WRONG USER");
+                    return list;
+                }
+                userDb = _userRepository.Add(user);
             } else {
                 if (userDb.Guid != extendedProfile.User.Guid) {
                     userDb.Guid = userDb.Guid;
                 }
                 userDb.Email = extendedProfile.User.Email;
                 userDb.EmailValidated = extendedProfile.User.EmailValidated;
-                userDb.CreationDate = extendedProfile.User.CreationDate;
                 userDb.FacebookUid = extendedProfile.User.FacebookUid;
                 userDb.PaypalPayerId = extendedProfile.User.PaypalPayerId;
-                userDb.UserRole = extendedProfile.User.UserRole;
+                userDb.UserRole = (long)extendedProfile.User.UserRole;
                 userDb.Phone = extendedProfile.User.Phone;
                 userDb.UserName = extendedProfile.User.UserName;
                 _userRepository.FullUpdate(userDb);
             }
 
-            extendedProfile.Profile.UserId = userDb.Id;
-            extendedProfile.Profile.Guid = userDb.Guid;
-            var profileId = _profileService.GetProfileId(userDb.Guid);
-            extendedProfile.Profile.Id = profileId;
-            Profile profile;
-            if (profileId == 0) {
+            var profile = GetProfile(_profileService.GetProfileId(userDb.Guid), userDb, extendedProfile);
+            if (profile.Id == 0) {
                 if (!String.IsNullOrEmpty(extendedProfile.Profile.FriendlyName))
                     if (_profileRepository.CheckIfFriendlyNameExists(extendedProfile.Profile.FriendlyName))
                         extendedProfile.Profile.FriendlyName = "";
-                profile = _profileService.CreateProfile(extendedProfile.Profile);
+                profile = _profileService.CreateProfile(profile);
             } else {
-                extendedProfile.Profile.Id = profileId;
-                profile = _profileService.UpdateProfile(extendedProfile.Profile);
+                profile = _profileService.UpdateProfile(profile);
             }
             if (extendedProfile.CountriesToVisit != null)
                 foreach (var item in extendedProfile.CountriesToVisit)
@@ -163,43 +166,39 @@ namespace MS.Katusha.Services
                     _profileService.AddLanguagesSpoken(profile.Id, item);
             if (extendedProfile.PhotoBackups.Count > 0) {
                 foreach (var photoBackup in extendedProfile.PhotoBackups) {
-                    _photoBackupService.AddPhoto(photoBackup);
+                    _photoBackupService.AddPhoto(Mapper.Map<PhotoBackup>(photoBackup));
                 }
-                foreach (var photo in extendedProfile.Profile.Photos) {
-                    foreach (var suffix in PhotoTypes.Versions.Keys) {
-                        if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
-                            list.Add("CREATED\t" + photo.Guid);
-                    }
-                }
+                list.AddRange(from photo in extendedProfile.Profile.Photos from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(photo.Guid, (PhotoType) suffix) select "CREATED\t" + photo.Guid);
             }
-            if (extendedProfile.PhotoBackups.Count > 0) {
-                foreach (var photoBackup in extendedProfile.PhotoBackups) {
-                    _photoBackupService.AddPhoto(photoBackup);
-                }
-                foreach (var photo in extendedProfile.Profile.Photos) {
-                    foreach (var suffix in PhotoTypes.Versions.Keys) {
-                        if (_photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix))
-                            list.Add("CREATED\t" + photo.Guid);
-                    }
-                }
-            }
-            foreach (var message in extendedProfile.Messages) {
+            foreach (var message in Mapper.Map<IList<Conversation>>(extendedProfile.Messages)) {
                 Guid otherGuid;
-                if (message.ToId == extendedProfile.Profile.Id) {
+                if (message.ToGuid == extendedProfile.Profile.Guid) {
                     message.ToId = profile.Id;
                     otherGuid = message.FromGuid;
+                    message.FromId = _profileService.GetProfileId(message.FromGuid);
                 } else {
                     message.FromId = profile.Id;
                     otherGuid = message.ToGuid;
+                    message.ToId = _profileService.GetProfileId(message.ToGuid);
                 }
                 var otherUser = _userRepository.GetByGuid(otherGuid);
                 if (otherUser == null) continue;
-                var messageDb = _conversationRepository.SingleAttached(p => p.Guid == message.Guid);
+                var messageGuid = message.Guid;
+                var messageDb = _conversationRepository.SingleAttached(p => p.Guid == messageGuid);
                 if (messageDb != null) {
                     _conversationService.SendMessage((message.FromId == profile.Id) ? userDb : otherUser, message);
                 }
             }
             return list;
+        }
+
+        private static Profile GetProfile(long profileId, User userDb, AdminExtendedProfile extendedProfile)
+        {
+            var profile = Mapper.Map<Profile>(extendedProfile.Profile);
+            profile.UserId = userDb.Id;
+            profile.Guid = userDb.Guid;
+            profile.Id = profileId;
+            return profile;
         }
 
         public void DeleteProfile(Guid guid)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -8,12 +7,14 @@ using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Interfaces.Services.Models;
+using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Newtonsoft.Json;
 
 namespace MS.Katusha.Web.Controllers
 {
-    [KatushaApiFilter(AllowedRole = UserRole.ApiUser | UserRole.Administrator)]
+    [KatushaApiFilter(AllowedRole = UserRole.ApiUser)]
     public class ApiController : KatushaApiController
     {
         private readonly IUtilityService _utilityService;
@@ -30,7 +31,6 @@ namespace MS.Katusha.Web.Controllers
             _utilityService = utilityService;
         }
 
-        [HttpGet]
         public void Search(int? key, SearchProfileCriteriaModel model)
         {
             var data = Mapper.Map<SearchProfileCriteria>(model);
@@ -62,7 +62,7 @@ namespace MS.Katusha.Web.Controllers
                 }
             }
             if (id == 0) throw new NullReferenceException("Key invalid");
-            var extendedProfile = _utilityService.GetExtendedProfile(id);
+            var extendedProfile = _utilityService.GetExtendedProfile(KatushaUser, id);
             Response.ContentType = "application/json";
             Response.Write(JsonConvert.SerializeObject(extendedProfile));
                 
@@ -70,13 +70,14 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpPost]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
         public void SetProfile()
         {
             string extendedProfileText;
             using (var str = new StreamReader(Request.InputStream))
                 extendedProfileText = str.ReadToEnd();
-            var extendedProfile = JsonConvert.DeserializeObject<ExtendedProfile>(extendedProfileText);
-            
+            var extendedProfile = JsonConvert.DeserializeObject<AdminExtendedProfile>(extendedProfileText);
+
             var lines = _utilityService.SetExtendedProfile(extendedProfile);
             Response.ContentType = "text/plain";
             if (lines.Count == 0)

@@ -17,5 +17,6 @@ namespace MS.Katusha.Interfaces.Services
         void SendMessage(User user, Conversation data,  bool force = false);
         string ReadMessage(User user, long profileId, Guid messageGuid, bool force = false);
         void DeleteMessage(Guid messageGuid, bool softDelete = false);
+        bool HasPhotoGuid(Guid photoGuid);
     }
 }

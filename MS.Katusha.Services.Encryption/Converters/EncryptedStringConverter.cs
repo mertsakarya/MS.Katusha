@@ -29,7 +29,7 @@ namespace MS.Katusha.Services.Encryption.Converters
                 throw new Exception( String.Format("Unexpected token parsing date. Expected String, got {0}.", reader.TokenType));
             var cipherText = (string)reader.Value;
             if (String.IsNullOrWhiteSpace(cipherText)) return "";
-            var result = _encryptionService.Encrypt(cipherText);
+            var result = _encryptionService.Decrypt(cipherText);
             return result;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Enumerations;
@@ -23,7 +24,7 @@ namespace MS.Katusha.Web.Controllers
             int total;
             IEnumerable<Domain.Entities.Profile> profiles;
             if (KatushaProfile == null) {
-                profiles = ProfileService.GetNewProfiles(null, out total, pageIndex, DependencyHelper.GlobalPageSize);
+                profiles = ProfileService.GetNewProfiles(p=> p.ProfilePhotoGuid != Guid.Empty, out total, pageIndex, DependencyHelper.GlobalPageSize);
             } else {
                 if(KatushaProfile.Gender == (byte) Sex.Female) {
                     profiles = ProfileService.GetNewProfiles(p=> p.Gender == (byte) Sex.Male, out total, pageIndex, DependencyHelper.GlobalPageSize);

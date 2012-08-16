@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Interfaces.Services.Models;
 
 namespace MS.Katusha.Interfaces.Services
 {
@@ -10,19 +11,8 @@ namespace MS.Katusha.Interfaces.Services
         void RegisterRaven();
         IEnumerable<string> ResetDatabaseResources();
 
-        ExtendedProfile GetExtendedProfile(long profileId);
-        IList<string> SetExtendedProfile(ExtendedProfile extendedProfile);
+        IExtendedProfile GetExtendedProfile(User katushaUser, long profileId);
+        IList<string> SetExtendedProfile(AdminExtendedProfile extendedProfile);
         void DeleteProfile(Guid guid);
-    }
-
-    public class ExtendedProfile
-    {
-        public Profile Profile { get; set; }
-        public IList<PhotoBackup> PhotoBackups { get; set; }
-        public string[] CountriesToVisit { get; set; }
-        public string[] LanguagesSpoken { get; set; }
-        public string[] Searches { get; set; }
-        public User User { get; set; }
-        public IList<Domain.Raven.Entities.Conversation> Messages { get; set; }
     }
 }

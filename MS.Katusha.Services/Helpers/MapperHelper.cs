@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
+using MS.Katusha.Interfaces.Services.Models;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Services.Helpers
@@ -23,6 +25,22 @@ namespace MS.Katusha.Services.Helpers
                 ;
             Mapper.CreateMap<MS.Katusha.Domain.Raven.Entities.Conversation, MS.Katusha.Domain.Entities.Conversation>();
             Mapper.CreateMap<Profile, State>().ConvertUsing<ProfileStateTypeConverter>();
+
+            Mapper.CreateMap<Profile, ApiProfile>();
+            Mapper.CreateMap<Photo, ApiPhoto>();
+            Mapper.CreateMap<PhotoBackup, ApiPhotoBackup>();
+            Mapper.CreateMap<Location, ApiLocation>();
+            Mapper.CreateMap<User, ApiUser>();
+            Mapper.CreateMap<User, ApiAdminUser>();
+            Mapper.CreateMap<MS.Katusha.Domain.Raven.Entities.Conversation, ApiConversation>();
+
+            Mapper.CreateMap<ApiProfile, Profile>();
+            Mapper.CreateMap<ApiPhoto, Photo>();
+            Mapper.CreateMap<ApiPhotoBackup, PhotoBackup>();
+            Mapper.CreateMap<ApiLocation, Location>();
+            Mapper.CreateMap<ApiUser, User>();
+            Mapper.CreateMap<ApiAdminUser, User>();
+            Mapper.CreateMap<ApiConversation, MS.Katusha.Domain.Raven.Entities.Conversation>();
         }
     }
 

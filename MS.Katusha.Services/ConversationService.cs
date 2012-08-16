@@ -105,6 +105,8 @@ namespace MS.Katusha.Services
                 _conversationRepository.Delete(message);
         }
 
+        public bool HasPhotoGuid(Guid photoGuid) { return _conversationRepositoryRaven.Single(p => p.ToPhotoGuid == photoGuid || p.FromPhotoGuid == photoGuid) != null; }
+
         public IList<string> RestoreFromDB(Expression<Func<Domain.Entities.Conversation, bool>> filter, bool deleteIfExists = false)
         {
             var dbRepository = _conversationRepository;

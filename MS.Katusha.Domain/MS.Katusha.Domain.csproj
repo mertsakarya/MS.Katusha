@@ -58,7 +58,6 @@
     <Compile Include="Entities\CheckoutDetailResult.cs" />
     <Compile Include="Entities\CheckoutPaymentResult.cs" />
     <Compile Include="Entities\ConfigurationData.cs" />
-    <Compile Include="Entities\ExtendedProfile.cs" />
     <Compile Include="Entities\GeoTimeZone.cs" />
     <Compile Include="Entities\GeoCountry.cs" />
     <Compile Include="Entities\GeoLanguage.cs" />
