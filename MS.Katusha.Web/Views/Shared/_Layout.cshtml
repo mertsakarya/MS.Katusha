@@ -17,6 +17,7 @@
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
         @{    
             var katushaProfile = ViewBag.KatushaProfile;
+            var katushaUser = ViewBag.KatushaUser;
             var controller = ViewContext.RouteData.Values["Controller"].ToString();
             var action = ViewContext.RouteData.Values["Action"].ToString();
             //var protocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
