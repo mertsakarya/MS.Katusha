@@ -8,7 +8,7 @@
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-33763053-1']);
         _gaq.push(['_trackPageview']);
-        @(vars)
+        @Html.Raw(vars)
         (function () {
             var ga = document.createElement('script');
             ga.type = 'text/javascript';
