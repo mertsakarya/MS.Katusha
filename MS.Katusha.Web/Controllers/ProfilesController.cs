@@ -34,13 +34,17 @@ namespace MS.Katusha.Web.Controllers
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Ping()
         {
-            var pingResult = ViewBag.PingResult; //StateService.Ping(KatushaProfile);
-            return Json(new {
-                                VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
-                                VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
-                                ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
-                                ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount
-            }, JsonRequestBehavior.AllowGet);
+            var pingResult = StateService.Ping(KatushaProfile);
+
+            return (pingResult == null)
+                ? Json(new { VisitTime = "", VisitCount = 0, ConversationCount = 0, ConversationUnreadCount = 0 }, JsonRequestBehavior.AllowGet) 
+                : Json(new {
+                    VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
+                    VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
+                    ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
+                    ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount
+                }, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult Online(int? key) {

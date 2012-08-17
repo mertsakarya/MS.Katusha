@@ -49,10 +49,11 @@ namespace MS.Katusha.Web.Controllers
                     if (onlineProfiles.Count > 0)
                         ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
                 }
+            } else {
+                ViewBag.PingResult = (KatushaProfile != null) ? StateService.Ping(KatushaProfile) : null;
             }
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
-            ViewBag.PingResult = (KatushaProfile != null) ? StateService.Ping(KatushaProfile) : null;
         }
 
         protected ActionResult ContextDependentView(object model = null, string viewName = "")

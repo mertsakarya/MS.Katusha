@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
@@ -128,6 +129,9 @@ namespace MS.Katusha.Services
                     list.Add("WRONG USER");
                     return list;
                 }
+                user.CreationDate = DateTime.Now;
+                user.DeletionDate = new DateTime(1900, 1, 1);
+                user.ModifiedDate = DateTime.Now;
                 userDb = _userRepository.Add(user);
             } else {
                 if (userDb.Guid != extendedProfile.User.Guid) {
@@ -144,10 +148,12 @@ namespace MS.Katusha.Services
             }
 
             var profile = GetProfile(_profileService.GetProfileId(userDb.Guid), userDb, extendedProfile);
+            foreach (var photo in profile.Photos) SetDatetime(photo);
             if (profile.Id == 0) {
                 if (!String.IsNullOrEmpty(extendedProfile.Profile.FriendlyName))
                     if (_profileRepository.CheckIfFriendlyNameExists(extendedProfile.Profile.FriendlyName))
                         extendedProfile.Profile.FriendlyName = "";
+                SetDatetime(profile);
                 profile = _profileService.CreateProfile(profile);
             } else {
                 profile = _profileService.UpdateProfile(profile);
@@ -192,6 +198,13 @@ namespace MS.Katusha.Services
             return list;
         }
 
+        private static void SetDatetime(BaseModel baseModel)
+        {
+            baseModel.CreationDate = DateTime.Now;
+            baseModel.DeletionDate = new DateTime(1900, 1, 1);
+            baseModel.ModifiedDate = DateTime.Now;
+        }
+
         private static Profile GetProfile(long profileId, User userDb, AdminExtendedProfile extendedProfile)
         {
             var profile = Mapper.Map<Profile>(extendedProfile.Profile);
@@ -217,13 +230,11 @@ namespace MS.Katusha.Services
                 ravenCommands.AddRange(_ravenStore.DeleteProfile(profileId, visits, messages));
                 sqlCommands.Add(_dbContext.DeleteProfile(profile.Guid));
             }
+            if(photos.Count > 0)
+                foreach (var item in photos)
+                    _photoService.DeletePhoto(item.ProfileId, item.Guid);
             if (ravenCommands.Count > 0) _ravenStore.Batch(ravenCommands);
             if (sqlCommands.Count > 0) _dbContext.ExecuteNonQuery(sqlCommands);
-            if(photos.Count > 0) {
-                foreach (var item in photos) {
-                    _photoService.DeletePhoto(item.ProfileId, item.Guid);
-                }
-            }
         }
     }
 }

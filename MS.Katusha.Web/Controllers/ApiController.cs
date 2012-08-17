@@ -77,7 +77,8 @@ namespace MS.Katusha.Web.Controllers
             using (var str = new StreamReader(Request.InputStream))
                 extendedProfileText = str.ReadToEnd();
             var extendedProfile = JsonConvert.DeserializeObject<AdminExtendedProfile>(extendedProfileText);
-
+            if(extendedProfile == null) 
+                throw new ArgumentNullException("ProfileData");
             var lines = _utilityService.SetExtendedProfile(extendedProfile);
             Response.ContentType = "text/plain";
             if (lines.Count == 0)
