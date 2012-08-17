@@ -42,7 +42,7 @@ namespace MS.Katusha.Web.Controllers
             var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
             if (!isPing) {
                 if (KatushaUser != null) {
-                    googleAnalytics.AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType.Gender, KatushaUser.Gender.ToString(CultureInfo.InvariantCulture));
+                    googleAnalytics.AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType.Gender, Enum.GetName(typeof(Sex), KatushaUser.Gender));
                     googleAnalytics.AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType.CategoryType, KatushaUser.Guid.ToString());
                 }
                 googleAnalytics.AddSessionLevelVariable(GoogleAnalyticsSessionLevelVariableType.Login, (KatushaUser != null) ? "true" : "false");

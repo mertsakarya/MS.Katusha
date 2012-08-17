@@ -141,6 +141,21 @@
             </div>
         </footer>
         @(Html.Telerik().ScriptRegistrar().jQuery(false).jQueryValidation(false))
-        @GoogleAnalyticsHelper.InjectScript(ViewBag.GoogleAnalytics)
+        @{if (settings.NotTrackedIpsByGoogleAnalytics.IndexOf(settings.Ip, StringComparison.Ordinal) >= 0) { return; }
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-33763053-1']);
+            _gaq.push(['_trackPageview']);
+            @Html.Raw(ViewBag.GoogleAnalytics)
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        }
     </body>
 </html>

@@ -27,6 +27,7 @@ namespace MS.Katusha.Web.Models
 
         public override string ToString()
         {
+            if (_items.Count == 0) return "";
             var sb = new StringBuilder();
             foreach (var item in _items)
                 sb.AppendLine(item.ToString());
