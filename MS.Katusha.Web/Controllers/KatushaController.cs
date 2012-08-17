@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -32,12 +34,18 @@ namespace MS.Katusha.Web.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
+            var googleAnalytics = new GoogleAnalytics();
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
             }
             var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
             if (!isPing) {
+                if (KatushaUser != null) {
+                    googleAnalytics.AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType.Gender, KatushaUser.Gender.ToString(CultureInfo.InvariantCulture));
+                    googleAnalytics.AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType.CategoryType, KatushaUser.Guid.ToString());
+                }
+                googleAnalytics.AddSessionLevelVariable(GoogleAnalyticsSessionLevelVariableType.Login, (KatushaUser != null) ? "true" : "false");
                 if (KatushaProfile != null) {
                     int total;
                     var oppositeGender = (byte) ((KatushaProfile.Gender == (byte) Sex.Female) ? Sex.Male : Sex.Female);
@@ -54,6 +62,7 @@ namespace MS.Katusha.Web.Controllers
             }
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
+            ViewBag.GoogleAnalytics = googleAnalytics;
         }
 
         protected ActionResult ContextDependentView(object model = null, string viewName = "")

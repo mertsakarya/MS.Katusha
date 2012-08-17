@@ -96,6 +96,7 @@ namespace MS.Katusha.Web.Controllers
             var profile = _profileService.GetProfile(key, KatushaProfile);
             if(profile == null) throw new KatushaProfileNotFoundException(key);
             ViewBag.SameProfile = IsKeyForProfile(key);
+            ViewBag.GoogleAnalytics.AddPageLevelVariable(GoogleAnalyticsPageLevelVariableType.Product, key);
             var model = Mapper.Map<ProfileModel>(profile);
             return View(model);
         }

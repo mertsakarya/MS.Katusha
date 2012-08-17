@@ -6,12 +6,10 @@ namespace MS.Katusha.Services.Configuration.Data
 {
     public class SettingsData : ConfigurationElement
     {
-        public SettingsData()
-        {
-            base.Properties.Add(protocol);
-        }
 
-        private static readonly ConfigurationProperty protocol = new ConfigurationProperty("protocol", typeof(string), "http", ConfigurationPropertyOptions.IsRequired);
+        public SettingsData() { base.Properties.Add(protocol); }
+
+        private static readonly ConfigurationProperty protocol = new ConfigurationProperty("protocol", typeof (string), "http", ConfigurationPropertyOptions.IsRequired);
 
         [ConfigurationProperty("protocol", IsRequired = true)]
         public string Protocol
@@ -27,5 +25,19 @@ namespace MS.Katusha.Services.Configuration.Data
                 // (string)this[protocol];
             }
         }
+
+        public string Ip
+        {
+            get
+            {
+                {
+                    var value = HttpContext.Current.Request.Headers["X-Forwarded-For"];
+                    return string.IsNullOrEmpty(value) ? HttpContext.Current.Request.UserHostAddress : value;
+                }
+            }
+        }
+
+        public string NotTrackedIpsByGoogleAnalytics { get { return ConfigurationManager.AppSettings["NotTrackedIpsByGoogleAnalytics"]; } }
+        public string AdministratorMailAddress { get { return ConfigurationManager.AppSettings["AdministratorMailAddress"]; } }
     }
 }

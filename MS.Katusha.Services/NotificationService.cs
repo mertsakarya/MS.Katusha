@@ -2,6 +2,8 @@
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
+using MS.Katusha.Services.Configuration;
+using MS.Katusha.Services.Configuration.Data;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Services
@@ -10,7 +12,8 @@ namespace MS.Katusha.Services
     {
         private readonly IUserRepositoryDB _userRepository;
 
-        private const string AdminMailAddress = "mskatusha.info@gmail.com";
+        private readonly string _adminMailAddress;
+        private SettingsData _settings;
 
         private const string MailConfirm = "MailConfirm_en.cshtml";
         private const string MailConfirmAdmin = "MailConfirm_en.cshtml";
@@ -29,13 +32,15 @@ namespace MS.Katusha.Services
 
         public NotificationService(IUserRepositoryDB userRepository ) {
             _userRepository = userRepository;
+            _settings = KatushaConfigurationManager.Instance.GetSettings();
+            _adminMailAddress = _settings.AdministratorMailAddress;
         }
 
         public void UserRegistered(User user)
         {
             try {
                 Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", MailConfirm, user);
-                Mailer.Mailer.SendMail(AdminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
             } catch(Exception) {}
         }
 
@@ -44,7 +49,7 @@ namespace MS.Katusha.Services
             try {
                 var toUser = _userRepository.GetById(conversation.ToId);
                 Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, conversation);
-                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, conversation);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, conversation);
             } catch(Exception) {}
         }
 
@@ -52,28 +57,28 @@ namespace MS.Katusha.Services
             try {
                 var fromUser = _userRepository.GetById(conversation.FromId);
                 Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, conversation);
-                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
             } catch(Exception) {}
         }
 
         public void Purchase(User user, Product product) {
             try {
                 Mailer.Mailer.SendMail(user.Email, String.Format("Katusha says: {0} enjoy your membership. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
-                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PURCHASE] for {0}. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PURCHASE] for {0}. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
             } catch (Exception) { }
         }
 
         public void ProfileCreated(Profile profile)
         {
             try {
-                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, profile);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, profile);
             } catch(Exception) {}
         }
 
         public void PhotoAdded(Photo photo)
         {
             try {
-                Mailer.Mailer.SendMail(AdminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, photo);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, photo);
             } catch(Exception) {}
         }
 

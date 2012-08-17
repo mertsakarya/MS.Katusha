@@ -105,7 +105,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            return _Register(model, RedirectToAction("Me", "Profiles"), View(model));
+            return _Register(model, RedirectToAction("Index", "Home"), View(model));
         }
 
         private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
