@@ -33,7 +33,7 @@
     </p>
 </div>
 
-@using (Html.BeginForm((string)ViewBag.FormAction, "Account")) {
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
     <fieldset>
         <div id="registration_user">
@@ -58,6 +58,16 @@
                     @Html.LabelFor(m => m.ConfirmPassword)
                     @Html.PasswordFor(m => m.ConfirmPassword)
                     @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </li>
+                <li>
+                    <legend>Upload your photo</legend>
+                    <div class="editor-label mandatory">
+                        <label for="Photo">Photo</label>
+                    </div>
+                    <div class="editor-field">
+                        <input type="file" name="Photo" />
+                        @Html.ValidationMessageFor(model => model.Photo)
+                    </div>
                 </li>
             </ol>
 

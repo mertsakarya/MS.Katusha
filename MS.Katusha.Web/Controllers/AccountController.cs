@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
@@ -17,8 +19,10 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : KatushaController
     {
-        public AccountController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService) {}
+        private IPhotosService _photoService;
+
+        public AccountController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IPhotosService photoService)
+            : base(resourceService, userService, profileService, stateService, conversationService) { _photoService = photoService; }
 
         [AllowAnonymous]
         public ActionResult Login() { return ContextDependentView(null, "Login"); }
@@ -92,7 +96,8 @@ namespace MS.Katusha.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult JsonRegister(RegisterModel model) {
+        public ActionResult JsonRegister(RegisterModel model)
+        {
             return _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
@@ -100,24 +105,29 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            return _Register(model, RedirectToAction("Index", "Home"), View(model));
+            return _Register(model, RedirectToAction("Me", "Profiles"), View(model));
         }
 
         private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
         {
             if (ModelState.IsValid) {
-                KatushaMembershipCreateStatus createStatus;
-                KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
-                if (createStatus == KatushaMembershipCreateStatus.Success) {
-                    var profile = Mapper.Map<Profile>(model);
-                    profile.UserId = KatushaUser.Id;
-                    profile.Guid = KatushaUser.Guid;
-                    ProfileService.CreateProfile(profile);
-                    KatushaProfile = profile;
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return successResult;
+                if (model.Photo == null || model.Photo.ContentLength <= 0) {
+                    ModelState.AddModelError("Photo", "You must add a photo");
+                } else {
+                    KatushaMembershipCreateStatus createStatus;
+                    KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                    if (createStatus == KatushaMembershipCreateStatus.Success) {
+                        var profile = Mapper.Map<Profile>(model);
+                        profile.UserId = KatushaUser.Id;
+                        profile.Guid = KatushaUser.Guid;
+                        ProfileService.CreateProfile(profile);
+                        KatushaProfile = profile;
+                        _photoService.AddPhoto(profile.Id, "", model.Photo);
+                        FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
+                        return successResult;
+                    }
+                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
                 }
-                ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }
             return failResult;
         }
