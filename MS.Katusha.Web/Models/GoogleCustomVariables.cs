@@ -72,8 +72,8 @@ namespace MS.Katusha.Web.Models
         }
     }
     public enum GoogleAnalyticsVisitorLevelVariableType : byte {Gender = 1, CategoryType=2}
-    public enum GoogleAnalyticsPageLevelVariableType : byte {Product=4}
-    public enum GoogleAnalyticsSessionLevelVariableType : byte {Login = 3}
+    public enum GoogleAnalyticsPageLevelVariableType : byte {Product=1}
+    public enum GoogleAnalyticsSessionLevelVariableType : byte {Login = 1}
 
     public enum ScopeType : byte {Visitor = 1, Session = 2, Page = 3}
 }

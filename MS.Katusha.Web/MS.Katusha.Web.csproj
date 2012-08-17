@@ -750,7 +750,6 @@
     <Content Include="Content\Fcbk.css" />
     <Content Include="ConfigData\app.config" />
     <Content Include="App_Code\PaypalHelper.cshtml" />
-    <Content Include="App_Code\GoogleAnalyticsHelper.cshtml" />
     <None Include="Content\screen._css__" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
