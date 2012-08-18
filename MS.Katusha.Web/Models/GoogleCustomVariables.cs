@@ -15,15 +15,15 @@ namespace MS.Katusha.Web.Models
         public void AddVisitorLevelVariable(GoogleAnalyticsVisitorLevelVariableType type, string value) { _items.Add(new GoogleAnalyticsCustomVariable { Slot = (byte)type, Name = Enum.GetName(typeof(GoogleAnalyticsVisitorLevelVariableType), type), ScopeType = ScopeType.Visitor, Value = value }); }
         public void AddSessionLevelVariable(GoogleAnalyticsSessionLevelVariableType type, string value) { _items.Add(new GoogleAnalyticsCustomVariable { Slot = (byte)type, Name = Enum.GetName(typeof(GoogleAnalyticsSessionLevelVariableType), type), ScopeType = ScopeType.Session, Value = value }); }
 
-        public string ClickLoginEvent() { return new GoogleAnalyticsEvent {Category = "User", Action = "Login"}.ToString(); }
-        public string ClickLogoutEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "User", Action = "Logout", Label = guid.ToString()}.ToString(); }
-        public string ClickRegisterEvent() { return new GoogleAnalyticsEvent { Category = "User", Action = "Register" }.ToString(); }
-        public string ClickSendMessageEvent(string fromUser ) { return new GoogleAnalyticsEvent { Category = "Message", Action = "Send", Label = fromUser}.ToString(); }
-        public string ClickReadMessageEvent(string toUser) { return new GoogleAnalyticsEvent { Category = "Message", Action = "Read", Label = toUser }.ToString(); }
-        public string ClickAddPhotosEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "Add", Label = guid.ToString()}.ToString(); }
-        public string ClickPhotoAlbumEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "View", Label = guid.ToString() }.ToString(); }
-        public string ClickPhotoDeleteEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "Delete", Label = guid.ToString() }.ToString(); }
-        public string ClickPhotoMakeProfilePhotoEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "MakeProfilePhoto", Label = guid.ToString() }.ToString(); }
+        public static string ClickLoginEvent() { return new GoogleAnalyticsEvent {Category = "User", Action = "Login"}.ToString(); }
+        public static string ClickLogoutEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "User", Action = "Logout", Label = guid.ToString() }.ToString(); }
+        public static string ClickRegisterEvent() { return new GoogleAnalyticsEvent { Category = "User", Action = "Register" }.ToString(); }
+        public static string ClickSendMessageEvent(string fromUser) { return new GoogleAnalyticsEvent { Category = "Message", Action = "Send", Label = fromUser }.ToString(); }
+        public static string ClickReadMessageEvent(string toUser) { return new GoogleAnalyticsEvent { Category = "Message", Action = "Read", Label = toUser }.ToString(); }
+        public static string ClickAddPhotosEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "Add", Label = guid.ToString() }.ToString(); }
+        public static string ClickPhotoAlbumEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "View", Label = guid.ToString() }.ToString(); }
+        public static string ClickPhotoDeleteEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "Delete", Label = guid.ToString() }.ToString(); }
+        public static string ClickPhotoMakeProfilePhotoEvent(Guid guid) { return new GoogleAnalyticsEvent { Category = "Photo", Action = "MakeProfilePhoto", Label = guid.ToString() }.ToString(); }
 
         public override string ToString()
         {
