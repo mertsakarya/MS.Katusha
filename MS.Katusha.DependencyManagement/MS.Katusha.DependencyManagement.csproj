@@ -52,11 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\autofac\src\Source\Autofac.Integration.Mvc\Autofac.Integration.Mvc.csproj">
-      <Project>{dd874e64-c7ec-464d-925f-cf4a709edeef}</Project>
-      <Name>Autofac.Integration.Mvc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\autofac\src\Source\Autofac\Autofac.csproj">
+    <ProjectReference Include="..\autofac\Autofac\Autofac.csproj">
       <Project>{7d018b3e-34a3-423d-ac35-12731f4e0a2c}</Project>
       <Name>Autofac</Name>
     </ProjectReference>
