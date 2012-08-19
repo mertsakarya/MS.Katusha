@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Web
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DE893ED-7B2F-4841-8545-282767BCA949}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
@@ -66,6 +66,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Integration.Mvc", "autofac\Autofac.Integration.Mvc\Autofac.Integration.Mvc.csproj", "{DD874E64-C7EC-464D-925F-CF4A709EDEEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Configuration", "autofac\Autofac.Configuration\Autofac.Configuration.csproj", "{6B3413BF-5951-400E-88EB-2DC0EABC58F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientDependency", "ClientDependency", "{83F6FC2E-547B-4226-B630-5BC2A1258185}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDependency.Core", "ClientDependency\ClientDependency.Core\ClientDependency.Core.csproj", "{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -398,6 +402,21 @@ Global
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|Mixed Platforms.Build.0 = Release|Any CPU
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|x86.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.ReleaseWP7|Any CPU.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.ReleaseWP7|Any CPU.Build.0 = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.ReleaseWP7|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.ReleaseWP7|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.ReleaseWP7|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,8 +436,10 @@ Global
 		{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266} = {5FF868CC-A302-4046-86EC-2ADCD8C28B95}
 		{439766E7-5D3E-4B7D-A301-8611422602B1} = {5FF868CC-A302-4046-86EC-2ADCD8C28B95}
 		{558B6CBE-B45B-4434-A707-F67C06EEC624} = {5FF868CC-A302-4046-86EC-2ADCD8C28B95}
+		{83F6FC2E-547B-4226-B630-5BC2A1258185} = {5FF868CC-A302-4046-86EC-2ADCD8C28B95}
 		{7D018B3E-34A3-423D-AC35-12731F4E0A2C} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
 		{DD874E64-C7EC-464D-925F-CF4A709EDEEF} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
+		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF} = {83F6FC2E-547B-4226-B630-5BC2A1258185}
 	EndGlobalSection
 EndGlobal
