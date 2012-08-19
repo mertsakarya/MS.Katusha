@@ -147,7 +147,7 @@ namespace MS.Katusha.Services
                     result.ProductName = (ProductNames) Enum.Parse(typeof (ProductNames), custom[0], true);
                 }
                 return result;
-            } catch (KatushaProductNameNotFoundException ex) {
+            } catch (KatushaProductNameNotFoundException) {
                 return new CheckoutDetailResult() { Errors = new List<string> { "PRODUCTNOTFOUND" } };
             }
         }
