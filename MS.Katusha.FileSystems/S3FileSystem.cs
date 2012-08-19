@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Amazon.S3.Model;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
@@ -71,10 +72,13 @@ namespace MS.Katusha.FileSystems
         {
             var list = new List<string>();
             for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
-                list.Add(String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, i, photoGuid));
+                list.Add(GetFileName(photoGuid, i));
             }
             Delete(list.ToArray());
         }
+
+        private static string GetFileName(Guid photoGuid, byte i) { return String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, i, photoGuid); }
+        private static string GetBackupFilename(Guid guid) { return String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid); }
 
         public void CopyBackup(Guid guid)
         {
@@ -100,7 +104,7 @@ namespace MS.Katusha.FileSystems
         public void DeleteBackupPhoto(Guid guid)
         {
             CopyBackup(guid);
-            Delete(String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid));
+            Delete(GetBackupFilename(guid));
         }
 
         public bool FileExists(string path)
@@ -172,6 +176,16 @@ namespace MS.Katusha.FileSystems
                     return bytes;
                 }
             }
+        }
+
+        public void ClearPhotos(bool clearBackups = false) {
+            IList<string> unparseableFiles;
+            var list = GetPhotoNames(out unparseableFiles);
+            var files = new List<string>(list.Count + unparseableFiles.Count);
+            files.AddRange(unparseableFiles);
+            files.AddRange(list.Select(item => GetFileName(item.Guid, item.PhotoType)));
+            if(clearBackups) files.AddRange(list.Select(item => GetBackupFilename(item.Guid)));
+            Delete(files.ToArray());
         }
 
         //public string GetString(string path)

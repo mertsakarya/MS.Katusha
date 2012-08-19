@@ -1,6 +1,5 @@
 using System;
 using MS.Katusha.Domain.Entities.BaseEntities;
-using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities
 {

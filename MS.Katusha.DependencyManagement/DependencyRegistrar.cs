@@ -6,7 +6,6 @@ using MS.Katusha.FileSystems;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
-//using MS.Katusha.Redis;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Base;
 using MS.Katusha.Repositories.RavenDB;
@@ -31,16 +30,6 @@ namespace MS.Katusha.DependencyManagement
 
         public static void Build(ContainerBuilder builder, bool noHttpContext = false)
         {
-            //const string redisUrlName = "REDISTOGO_URL";
-            //const string appHarborRedisToGo = "redis://redistogo-appharbor:";
-            //var redisUrl = ConfigurationManager.AppSettings.Get(redisUrlName);
-            //if (redisUrl.IndexOf(appHarborRedisToGo, StringComparison.Ordinal) >= 0) 
-            //    redisUrl = "ab3740aa6f5b0b2d567f7279ae6e2159@lab.redistogo.com:9071"; //redisUrl.Substring(appHarborRedisToGo.Length);
-            //Uri redisUri;
-            //if (!Uri.TryCreate(redisUrl, UriKind.RelativeOrAbsolute, out redisUri)) 
-            //    throw new ArgumentException("WRONG REDIS STRING");
-            //var redisUrls = new[] { redisUri.ToString() };
-
             // InstancePerHttpRequest
             // SingleInstance
 
@@ -48,7 +37,6 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<TicketService>().As<ITicketService>().SingleInstance();
 
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
-            //builder.RegisterType<PooledRedisClientManager>().As<IRedisClientsManager>().WithParameter("readWriteHosts", redisUrls).InstancePerHttpRequest();
             builder.RegisterType<KatushaDbContext>().As<IKatushaDbContext>().SingleInstance();
             builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
 
@@ -71,9 +59,6 @@ namespace MS.Katusha.DependencyManagement
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch (cacheProviderText.ToLowerInvariant()) {
-                    //case "redis":
-                    //    builder.RegisterType<KatushaGlobalRedisCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().InstancePerHttpRequest();
-                    //    break;
                     case "ravendb":
                         builder.RegisterType<KatushaGlobalRavenCacheContext>().WithParameter(new TypedParameter(typeof(IKatushaGlobalCacheContext), null)).As<IKatushaGlobalCacheContext>().SingleInstance();
                         break;

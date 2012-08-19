@@ -13,7 +13,7 @@ namespace MS.Katusha.Domain.Entities
             var virtualPath = KatushaConfigurationManager.Instance.VirtualPath;
             var sandboxText = (sandbox) ? "Sandbox" : "";
 
-            var settings = new PaypalSettings() {
+            var settings = new PaypalSettings {
                 Username = ConfigurationManager.AppSettings[String.Format("Paypal{0}APIUsername", sandboxText)],
                 Password = ConfigurationManager.AppSettings[String.Format("Paypal{0}APIPassword", sandboxText)],
                 Signature = ConfigurationManager.AppSettings[String.Format("Paypal{0}Signature", sandboxText)],

@@ -7,7 +7,7 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface IUtilityService
     {
-        void ClearDatabase(string photosFolder);
+        void ClearDatabase();
         void RegisterRaven();
         IEnumerable<string> ResetDatabaseResources();
 

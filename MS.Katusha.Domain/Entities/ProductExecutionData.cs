@@ -1,5 +1,3 @@
-using MS.Katusha.Enumerations;
-
 namespace MS.Katusha.Domain.Entities
 {
     public class ProductExecutionData

@@ -8,8 +8,6 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Generators;
 using MS.Katusha.Services.Helpers;
-using MS.Payment.SpreedlyCore.Domain;
-using MS.Payment.SpreedlyCore.Manager;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace TestConsole
@@ -20,7 +18,7 @@ namespace TestConsole
         static void Main(string[] args)
         {
             var connectionString = "Server=9b87ca92-887e-495e-8260-a03100cdb926.sqlserver.sequelizer.com;Database=db9b87ca92887e495e8260a03100cdb926;User ID=neezyiesavjqrlst;Password=PZtqfpXkraxZUrmrUA8eT68hUKwxKFsasMcxCf6qu7L65s7RNg3pCMaSZkCB2zGS;";
-            using (SqlConnection con = new SqlConnection(connectionString)) {
+            using (var con = new SqlConnection(connectionString)) {
                 //
                 // Open the SqlConnection.
                 //
@@ -44,17 +42,6 @@ namespace TestConsole
                 con.Close();
             }
 
-            Console.ReadLine();
-
-            IPaymentManager paymentManager = new CoreApiPaymentManager();
-            var gateway = paymentManager.Gateway("test");
-            Console.Write(gateway.Token);
-            var paymentMethodToken = paymentManager.PostForm("mert", "sakarya", "4111111111111111", "699", "03", "2005");
-            Console.WriteLine(paymentMethodToken);
-            if (!String.IsNullOrWhiteSpace(paymentMethodToken)) {
-                var purchase = paymentManager.Purchase(gateway, "100", paymentMethodToken);
-                Console.Write(purchase.IsTest);
-            }
             Console.ReadLine();
             DependencyRegistrar.BuildContainer();
             MapperHelper.HandleMappings();

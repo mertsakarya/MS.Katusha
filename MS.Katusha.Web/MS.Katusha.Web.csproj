@@ -137,10 +137,6 @@
     <Reference Include="PagedList.Mvc, Version=3.14.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.3.14\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Quartz, Version=2.0.1.100, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Quartz.2.0.1\lib\net40\Quartz.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
@@ -1009,17 +1005,9 @@
       <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
       <Name>MS.Katusha.Interfaces.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Jobs\MS.Katusha.Jobs.csproj">
-      <Project>{C4209BB3-50EE-4C94-A353-45438557C465}</Project>
-      <Name>MS.Katusha.Jobs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Redis\MS.Katusha.Redis.csproj">
-      <Project>{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}</Project>
-      <Name>MS.Katusha.Redis</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
       <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>

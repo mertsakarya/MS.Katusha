@@ -155,8 +155,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpGet]
         public void CheckPhotos()
         {
-            //var path = DependencyHelper.PhotosFolder;
-            List<string> list = _photosService.CheckPhotos();
+            var list = _photosService.CheckPhotos();
             list.AddRange(_photosService.CheckPhotoFiles());
             list.AddRange(_photosService.CheckProfilePhotos());
             foreach (var line in list) {
@@ -183,13 +182,12 @@ namespace MS.Katusha.Web.Controllers
 
         public void ClearDatabase()
         {
-            _utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
+            _utilityService.ClearDatabase();
             Response.Write("Done!");
         }
 
         public void Users()
         {
-            //_utilityService.ClearDatabase(DependencyHelper.PhotosFolder);
             Response.Write("Done!");
         }
     }

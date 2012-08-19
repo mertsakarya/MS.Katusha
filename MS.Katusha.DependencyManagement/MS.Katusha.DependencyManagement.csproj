@@ -44,12 +44,6 @@
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\packages\ServiceStack.Common.3.7.7\lib\net35\ServiceStack.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\packages\ServiceStack.Redis.3.7.7\lib\net35\ServiceStack.Redis.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -83,10 +77,6 @@
     <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
       <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
       <Name>MS.Katusha.Interfaces.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Redis\MS.Katusha.Redis.csproj">
-      <Project>{FEFE2064-7E03-456A-8C21-B7F7E0FF52C6}</Project>
-      <Name>MS.Katusha.Redis</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
       <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>

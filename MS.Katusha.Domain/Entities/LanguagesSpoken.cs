@@ -1,7 +1,5 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using MS.Katusha.Domain.Entities.BaseEntities;
-using MS.Katusha.Enumerations;
 using Newtonsoft.Json;
 
 namespace MS.Katusha.Domain.Entities

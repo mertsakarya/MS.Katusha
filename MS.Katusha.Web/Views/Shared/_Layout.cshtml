@@ -104,11 +104,12 @@
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
+                                <p style="align: center">
                                 <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
                                     <i class="icon-plus icon-white"></i>
                                     <span>Register free for limited time only!</span>
-                                </a>
-                                <br/>
+                                </a><br/><br/>
+                                </p>
                             }
                         } else {
                             if (katushaProfile == null) {

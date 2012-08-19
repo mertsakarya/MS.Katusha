@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain;
@@ -63,15 +62,11 @@ namespace MS.Katusha.Services
             _dbContext = dbContext; // as KatushaDbContext;
         }
 
-        public void ClearDatabase(string photosFolder)
+        public void ClearDatabase()
         {
             ReloadResources.ClearDatabase(_dbContext);
             _ravenStore.ClearRaven();
-            if (!Directory.Exists(photosFolder))
-                Directory.CreateDirectory(photosFolder);
-            else
-                foreach (var fileName in Directory.EnumerateFiles(photosFolder))
-                    File.Delete(fileName);
+            _photoService.ClearPhotos();
         }
 
         public void RegisterRaven() { _ravenStore.Create(); }

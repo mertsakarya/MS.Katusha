@@ -20,5 +20,6 @@ namespace MS.Katusha.Interfaces.Services
         string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false);
         string GetPhotoBaseUrl();
 
+        void ClearPhotos(bool clearBackups = false);
     }
 }

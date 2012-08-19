@@ -24,5 +24,6 @@ namespace MS.Katusha.Interfaces.Services
         string GetPhotoBaseUrl();
         byte[] GetData(string path);
 
+        void ClearPhotos(bool clearBackups = false);
     }
 }

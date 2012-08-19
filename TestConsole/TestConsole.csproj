@@ -91,14 +91,6 @@
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>
       <Name>MS.Katusha.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Payment.SpeedlyCore.Domain\MS.Payment.SpreedlyCore.Domain.csproj">
-      <Project>{8312A280-B29D-49CE-88D1-717254D6708F}</Project>
-      <Name>MS.Payment.SpreedlyCore.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Payment.SpreedlyCore.Manager\MS.Payment.SpreedlyCore.Manager.csproj">
-      <Project>{B94B2947-0111-4224-B998-70A2786C8277}</Project>
-      <Name>MS.Payment.SpreedlyCore.Manager</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

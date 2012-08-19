@@ -102,6 +102,17 @@ namespace MS.Katusha.FileSystems
             return bytes;
         }
 
+        public void ClearPhotos(bool clearBackups = false)
+        {
+            var photosFolder = String.Format("{0}/{1}", _baseFolderName, PhotoFolders.Photos);
+            if (!Directory.Exists(photosFolder))
+                Directory.CreateDirectory(photosFolder);
+            else { //file system won't have backups
+                foreach (var fileName in Directory.EnumerateFiles(photosFolder))
+                    File.Delete(fileName);
+            }
+        }
+
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)
         {
             var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte) photoType, photo.Guid);

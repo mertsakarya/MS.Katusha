@@ -150,6 +150,7 @@ namespace MS.Katusha.Services
         }
 
         public string GetPhotoBaseUrl() { return _fileSystem.GetPhotoBaseUrl(); }
+        public void ClearPhotos(bool clearBackups) { _fileSystem.ClearPhotos(clearBackups); }
 
         public IList<Guid> AllPhotos(out int total, string prefix = "", int pageNo = 1, int pageSize = 20)
         {
