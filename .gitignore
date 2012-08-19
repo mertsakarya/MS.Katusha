@@ -32,3 +32,6 @@ Log.txt
 Log.txt
 *.log
 Logs/
+_UpgradeReport_Files/
+Backup/
+UpgradeLog.*
