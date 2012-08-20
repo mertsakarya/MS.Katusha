@@ -67,8 +67,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Integration.Mvc", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Configuration", "autofac\Autofac.Configuration\Autofac.Configuration.csproj", "{6B3413BF-5951-400E-88EB-2DC0EABC58F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Katusha.Test", "MS.Katusha.Test\MS.Katusha.Test.csproj", "{44132873-DC4E-4704-B19F-9037B6F5C7D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSimulator", "HttpSimulator\HttpSimulator.csproj", "{CE9FFE92-9A64-483C-9F11-A27F83C0E14C}"
 EndProject
 Global
@@ -402,21 +400,6 @@ Global
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|Mixed Platforms.Build.0 = Release|Any CPU
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2}.ReleaseWP7|x86.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.Release|x86.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.ReleaseWP7|Any CPU.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.ReleaseWP7|Any CPU.Build.0 = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.ReleaseWP7|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.ReleaseWP7|Mixed Platforms.Build.0 = Release|Any CPU
-		{44132873-DC4E-4704-B19F-9037B6F5C7D7}.ReleaseWP7|x86.ActiveCfg = Release|Any CPU
 		{CE9FFE92-9A64-483C-9F11-A27F83C0E14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE9FFE92-9A64-483C-9F11-A27F83C0E14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9FFE92-9A64-483C-9F11-A27F83C0E14C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
