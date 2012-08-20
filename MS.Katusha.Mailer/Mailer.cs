@@ -11,14 +11,10 @@ namespace MS.Katusha.Mailer
 {
     public static class Mailer
     {
-        public static void SendMail<T>(string to, string subject, string templateName, T model)
+        public static string SendMail<T>(string to, string subject, string templateName, string templateFolder, T model)
         {
-
-
             var @from = ConfigurationManager.AppSettings["Mail_From"] ?? "mskatusha.info@gmail.com";
 
-            var templateFolder = HttpContext.Current.Server.MapPath(@"~\") + @"Views\___MailTemplates\";
-            
             string templateText = null;
             string result;
             if (!templateName.EndsWith(".cshtml")) templateText = templateName;
@@ -40,6 +36,7 @@ namespace MS.Katusha.Mailer
                     if(cachedCreation != creation)
                         CreateCache<T>(templateName, cache, templateFolder);
                 }
+
                 result = Razor.Run(templateName, model);
             }
 
@@ -60,6 +57,7 @@ namespace MS.Katusha.Mailer
                     } // end try 
                 }
             }
+            return result;
         }
 
         private static void CreateCache<T>(string templateName, ObjectCache cache, string templateFolder)

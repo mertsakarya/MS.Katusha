@@ -39,5 +39,16 @@ namespace MS.Katusha.Services.Configuration.Data
 
         public string NotTrackedIpsByGoogleAnalytics { get { return ConfigurationManager.AppSettings["NotTrackedIpsByGoogleAnalytics"]; } }
         public string AdministratorMailAddress { get { return ConfigurationManager.AppSettings["AdministratorMailAddress"]; } }
+
+        public string MailViewFolder
+        {
+            get
+            {
+                var retVal = ConfigurationManager.AppSettings["MailViewFolder"];
+                if (String.IsNullOrWhiteSpace(retVal)) retVal = HttpContext.Current.Server.MapPath(@"~\");
+                return retVal;
+            }
+        }
+
     }
 }

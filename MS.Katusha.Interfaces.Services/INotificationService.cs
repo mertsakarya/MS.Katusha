@@ -11,5 +11,6 @@ namespace MS.Katusha.Interfaces.Services
         void MessageSent(Conversation conversation);
         void MessageRead(Conversation conversation);
         void Purchase(User user, Product product);
+        string SiteDeployed(User model);
     }
 }

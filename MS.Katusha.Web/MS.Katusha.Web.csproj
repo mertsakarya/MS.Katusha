@@ -80,14 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="ClientDependency.Core, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ClientDependency.1.5.1.0\lib\ClientDependency.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ClientDependency.Core.Mvc, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ClientDependency-Mvc.1.5.1.0\lib\ClientDependency.Core.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
@@ -1263,6 +1255,9 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\SiteDeployed_en.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

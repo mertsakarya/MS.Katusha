@@ -9,6 +9,9 @@ namespace MS.Katusha.Domain
 {
     public class KatushaDbContext : DbContext, IKatushaDbContext
     {
+        public KatushaDbContext() {
+            
+        }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<User> Users { get; set; }
 

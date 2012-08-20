@@ -13,7 +13,8 @@ namespace MS.Katusha.Services
         private readonly IUserRepositoryDB _userRepository;
 
         private readonly string _adminMailAddress;
-        private SettingsData _settings;
+        private readonly SettingsData _settings;
+        private readonly string _mailTemplatesFolder;
 
         private const string MailConfirm = "MailConfirm_en.cshtml";
         private const string MailConfirmAdmin = "MailConfirm_en.cshtml";
@@ -30,17 +31,21 @@ namespace MS.Katusha.Services
 
         private const string PurchaseMade = "PurchaseMade_en.cshtml";
 
+        private const string SiteDeployedTestMail = "SiteDeployed_en.cshtml";
+
+
         public NotificationService(IUserRepositoryDB userRepository ) {
             _userRepository = userRepository;
             _settings = KatushaConfigurationManager.Instance.GetSettings();
+            _mailTemplatesFolder = _settings.MailViewFolder + @"Views\___MailTemplates\";
             _adminMailAddress = _settings.AdministratorMailAddress;
         }
 
         public void UserRegistered(User user)
         {
             try {
-                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", MailConfirm, user);
-                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, user);
+                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", _mailTemplatesFolder, MailConfirm, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, _mailTemplatesFolder, MailConfirmAdmin, user);
             } catch(Exception) {}
         }
 
@@ -48,37 +53,42 @@ namespace MS.Katusha.Services
         {
             try {
                 var toUser = _userRepository.GetById(conversation.ToId);
-                Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, conversation);
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, conversation);
+                Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, _mailTemplatesFolder, conversation);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, _mailTemplatesFolder, conversation);
             } catch(Exception) {}
         }
 
         public void MessageRead(Conversation conversation) {
             try {
                 var fromUser = _userRepository.GetById(conversation.FromId);
-                Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, conversation);
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, conversation);
+                Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, _mailTemplatesFolder, conversation);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, _mailTemplatesFolder, conversation);
             } catch(Exception) {}
         }
 
         public void Purchase(User user, Product product) {
             try {
-                Mailer.Mailer.SendMail(user.Email, String.Format("Katusha says: {0} enjoy your membership. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PURCHASE] for {0}. ({1}) ", user.UserName, product.Name), PurchaseMade, user);
+                Mailer.Mailer.SendMail(user.Email, String.Format("Katusha says: {0} enjoy your membership. ({1}) ", user.UserName, product.Name), PurchaseMade, _mailTemplatesFolder, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PURCHASE] for {0}. ({1}) ", user.UserName, product.Name), PurchaseMade, _mailTemplatesFolder, user);
             } catch (Exception) { }
+        }
+
+        public string SiteDeployed(User user)
+        {
+            return Mailer.Mailer.SendMail(user.Email, "Katusha says: Site deployed @" + DateTime.Now, "@model MS.Katusha.Domain.Entities.User\r\n<h1>@Model.UserName</h1>", _mailTemplatesFolder, user);
         }
 
         public void ProfileCreated(Profile profile)
         {
             try {
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, profile);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PROFILE CREATED] " + profile.User.UserName), ProfileCreatedAdmin, _mailTemplatesFolder, profile);
             } catch(Exception) {}
         }
 
         public void PhotoAdded(Photo photo)
         {
             try {
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, photo);
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo);
             } catch(Exception) {}
         }
 
