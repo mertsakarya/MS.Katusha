@@ -858,7 +858,6 @@
     <Content Include="Scripts\2012.2.607\telerik.upload.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.window.min.js" />
     <Content Include="Static\Scripts\jquery.fcbkcomplete.js" />
-    <Content Include="Static\Scripts\jquery.fcbkcomplete.min.js" />
     <Content Include="Static\Scripts\fb_all.js" />
     <Content Include="Static\Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Static\Scripts\jquery-1.6.2.js" />

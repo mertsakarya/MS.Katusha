@@ -71,25 +71,32 @@ namespace MS.Katusha.Web
 
 
                 //var bundle = new Bundle("~/Scripts/js", new JsMinify());
-                var cssBundle = new Bundle("~/Static/Content/css");
-                cssBundle.AddDirectory("~/Static/Content", "*.css");
+                var cssBundle = new Bundle("~/Static/Content/css") { Orderer = new AsIsBundleOrderer() };
+                cssBundle.AddFile("~/Static/Content/Fcbk.css");
+                cssBundle.AddFile("~/Static/Content/Site.css");
+                cssBundle.AddFile("~/Static/Content/PagedList.css");
+                cssBundle.AddFile("~/Static/Content/mosaic.css");
+                cssBundle.AddFile("~/Static/Content/bootstrap.min.css");
+                cssBundle.AddFile("~/Static/Content/jquery.fileupload-ui.css");
+                cssBundle.AddFile("~/Static/Content/bootstrap-image-gallery.min.css");
+                cssBundle.AddFile("~/Static/Content/bootstrap-responsive.min.css");
 
-                var bundle = new Bundle("~/Static/Scripts/js");
-                bundle.AddFile("~/Static/Scripts/modernizr-2.5.3.js", true);
+                var bundle = new Bundle("~/Static/Scripts/js") {Orderer = new AsIsBundleOrderer()};
                 bundle.AddFile("~/Static/Scripts/jquery.min-1.7.1.js", true);
                 bundle.AddFile("~/Static/Scripts/jquery-ui-1.8.19.min.js", true);
+                bundle.AddFile("~/Static/Scripts/bootstrap.min.js", true);
+                bundle.AddFile("~/Static/Scripts/modernizr-2.5.3.js", true);
                 bundle.AddFile("~/Static/Scripts/AjaxLogin.js", true);
-                bundle.AddFile("~/Static/Scripts/jquery.unobtrusive-ajax.js", true);
-                bundle.AddFile("~/Static/Scripts/jquery.validate.min.js", true);
                 bundle.AddFile("~/Static/Scripts/knockout-2.1.0.js", true);
                 bundle.AddFile("~/Static/Scripts/mosaic.1.0.1.js", true);
-                bundle.AddFile("~/Static/Scripts/jquery.fcbkcomplete.min.js", true);
+                bundle.AddFile("~/Static/Scripts/jquery.fcbkcomplete.js", true);
+                bundle.AddFile("~/Static/Scripts/jquery.validate.min.js", true);
+                bundle.AddFile("~/Static/Scripts/jquery.unobtrusive-ajax.js", true);
 
                 bundle.AddFile("~/Static/Scripts/tmpl.min.js", true);
                 bundle.AddFile("~/Static/Scripts/canvas-to-blob.min.js", true);
                 bundle.AddFile("~/Static/Scripts/load-image.min.js", true);
 
-                bundle.AddFile("~/Static/Scripts/bootstrap.min.js", true);
                 bundle.AddFile("~/Static/Scripts/bootstrap-image-gallery.min.js", true);
 
                 bundle.AddFile("~/Static/Scripts/jquery.iframe-transport.js", true);
