@@ -28,9 +28,9 @@
 
         @if(profile != null) {<text>
             var profile = {guid:'@profile.Guid', gender:'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))', name:'@(profile.Name)', age:@(DateTime.Now.Year - profile.BirthYear), country:'@(profile.Location.CountryName)', country:'@(profile.Location.CityName)'};
-            if(mixpanel) {
+            if(mixpanel != null) {
                 mixpanel.identify(profile.guid);
-                mixpanel.register(profile)
+                mixpanel.register(profile);
             }
             function ping() {
                 $.ajax({url: '@Url.Action("Ping","Profiles")', success: function (data) { 

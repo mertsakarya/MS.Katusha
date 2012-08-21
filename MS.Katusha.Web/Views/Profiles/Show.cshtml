@@ -9,16 +9,16 @@
 <div itemscope itemtype="http://schema.org/Person">
     @if (katushaProfile != null) {
         <table width="100%"><tr><td><h2><span itemprop="name">@Model.Name</span>'s Profile</h2></td><td style="text-align: right; padding-right: 10px;">
-        @if (!sameProfile) {
-            <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">
-                Send Message
-            </a>
-        } else {
-            <a class="btn btn-warning cancel" id="changePasswordLink" data_dialog_title="Change Password" href='@Url.Action("ChangePassword", "Account", new { key = Html.KeyFor(Model) })' title = "Change password" >
-                Change Password
-            </a>
-        }
-        </td></tr></table>
+                                                                                                        @if (!sameProfile) {
+                                                                                                            <a class="btn btn-warning cancel" id="sendMessageButton" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">
+                                                                                                                Send Message
+                                                                                                            </a>
+                                                                                                        } else {
+                                                                                                            <a class="btn btn-warning cancel" id="changePasswordLink" data_dialog_title="Change Password" href='@Url.Action("ChangePassword", "Account", new { key = Html.KeyFor(Model) })' title = "Change password" >
+                                                                                                                Change Password
+                                                                                                            </a>
+                                                                                                        }
+                                                                                                    </td></tr></table>
     } else {
         <br/>
         <h2><span itemprop="name">@Model.Name</span>'s Profile</h2>
@@ -63,4 +63,8 @@
         <span style="display:none;font-size:2px;" itemprop="birthDate">@(Model.BirthYear)</span>
     </fieldset>
 </div>
+<script type="text/javascript">
+    mixpanel.track("Show", {guid: '@Model.Guid', name: '@(Model.Name)' });
+</script>
+
 
