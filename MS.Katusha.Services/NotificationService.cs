@@ -52,7 +52,7 @@ namespace MS.Katusha.Services
         public void MessageSent(Conversation conversation)
         {
             try {
-                var toUser = _userRepository.GetById(conversation.ToId);
+                var toUser = _userRepository.GetByGuid(conversation.ToGuid);
                 Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, _mailTemplatesFolder, conversation);
                 Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, _mailTemplatesFolder, conversation);
             } catch(Exception) {}
@@ -60,7 +60,7 @@ namespace MS.Katusha.Services
 
         public void MessageRead(Conversation conversation) {
             try {
-                var fromUser = _userRepository.GetById(conversation.FromId);
+                var fromUser = _userRepository.GetByGuid(conversation.FromGuid);
                 Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, _mailTemplatesFolder, conversation);
                 Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, _mailTemplatesFolder, conversation);
             } catch(Exception) {}
