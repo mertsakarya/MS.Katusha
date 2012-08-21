@@ -21,7 +21,7 @@
             @Html.HiddenFor(p => p.Token)
             @Html.HiddenFor(p => p.PayerId)
             @*@Url.Action("PaypalDoCheckout", "Payments", new {Token = Model.Token, PayerId = Model.PayerId})*@
-            <a href="javascript:document.getElementById('theForm').submit();" title="Confirm">
+            <a href="javascript:document.getElementById('theForm').submit();" title="Confirm" class="mixpanel" mp-event="!Click Paypal Checkout" mp-data="{guid:profile.guid, name:profile.name}">
                 <i class="icon-plus icon-white"></i>
                 <span>Confirm</span>
             </a>

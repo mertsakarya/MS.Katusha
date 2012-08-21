@@ -7,7 +7,7 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "newgallery", true)
         }
     </div>
-    <a class="btn btn-warning cancel" href='@Url.Action("New", "Profiles")' title="All users registered recently">
+    <a class="btn btn-warning cancel mixpanel" mp-event="Click New Profiles" mp-data="{guid:profile.guid, name:profile.name}" href='@Url.Action("New", "Profiles")' title="All users registered recently">
         All new users...
     </a>
 }

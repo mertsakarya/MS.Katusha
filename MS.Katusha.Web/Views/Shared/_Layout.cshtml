@@ -51,7 +51,7 @@
             <div class="content-wrapper">
                 <div class="float-left">
                     <p class="site-title">
-                        <a href="@(Url.Action("Index", "Home"))"><img src="/Images/logo.jpg"/>Have fun</a>
+                        <a href="@(Url.Action("Index", "Home"))" class="mixpanel" mp-event="Click Logo" mp-data="{guid:profile.guid, name:profile.name}"><img src="/Images/logo.jpg"/>Have fun</a>
                         @if (Request.QueryString["mertiko"] != null && Request.QueryString["mertiko"] == "sakariko") {
                             <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);" />
                         }
@@ -81,7 +81,7 @@
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
-                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
+                                <a class="btn btn-success fileinput-button mixpanel" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration" mp-event="Click Green Register">
                                     <i class="icon-plus icon-white"></i>
                                     <span>Register free for limited time only!</span>
                                 </a><br/><br/>
@@ -89,10 +89,10 @@
                         } else {
                             if (katushaProfile == null) {
                                 <h2 style="display:none">Create a new 
-                                    <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Girl" }, null)'>
+                                    <a class="btn btn-danger delete mixpanel" href='@Url.Action("Create", "Profiles", new { key = "Girl" }, null)' mp-event="Click Create Girl">
                                         <span>Girl Profile</span>
                                     </a>
-                                    <a class="btn btn-danger delete" href='@Url.Action("Create", "Profiles", new { key = "Man" }, null)'>
+                                    <a class="btn btn-danger delete mixpanel" href='@Url.Action("Create", "Profiles", new { key = "Man" }, null)' mp-event="Click Create Man">
                                         <span>Man Profile</span>
                                     </a>
                                 </h2>
@@ -108,10 +108,10 @@
                 <div class="float-left">
                     <p>&copy; @DateTime.Now.Year - Love and fun!</p>
                 </div>
-                <div class="float-right" style="display:none">
+                <div class="float-right">
                     <ul id="social">
-                        <li><a href="@(settings.Protocol)://facebook.com/mertsakarya" class="facebook">Me on Facebook</a></li>
-                        <li><a href="@(settings.Protocol)://twitter.com/mertsakarya" class="twitter">Me on Twitter</a></li>
+                        <li><a href="@(settings.Protocol)://facebook.com/mertsakarya" class="facebook mixpanel" mp-event="Click Facebook" mp-data="{guid:profile.guid, name:profile.name}">Me on Facebook</a></li>
+                        <li><a href="@(settings.Protocol)://twitter.com/mertsakarya" class="twitter mixpanel" mp-event="Click Twitter" mp-data="{guid:profile.guid, name:profile.name}">Me on Twitter</a></li>
                     </ul>
                 </div>
             </div>

@@ -14,8 +14,8 @@
             <div class="mosaic-block bar">
                 <div class="mosaic-overlay">
                     <div class="details">
-                        <a href="#" onclick="DeletePhoto('@Html.KeyFor(profile)', '@photo.Guid')"><img src="/Images/close.gif" alt="Delete photo"/></a>
-                        <a title="Make this your profile picture" href="#" onclick=" MakeProfilePhoto('@Html.KeyFor(profile)', '@photo.Guid')">
+                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid');"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                            <a title="Make this your profile picture" href="#" onclick="MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid');">
                             <img src="/Images/profile.gif" alt="Delete photo"/>
                         </a>
                     </div>
@@ -33,20 +33,20 @@
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade">
     <div class="modal-header">
-        <a class="close" data-dismiss="modal">&times;</a>
+        <a class="close" data-dismiss="modal mixpanel" mp-event="!Click Gallery Close" mp-data="{guid:profile.guid, name:profile.name}">&times;</a>
         <h3 class="modal-title"></h3>
     </div>
     <div class="modal-body"><div class="modal-image"></div></div>
     <div class="modal-footer">
-        <a class="btn btn-primary modal-next">
+        <a class="btn btn-primary modal-next mixpanel" mp-event="!Click Gallery Next" mp-data="{guid:profile.guid, name:profile.name}">
             <span>Next</span>
             <i class="icon-arrow-right icon-white"></i>
         </a>
-        <a class="btn btn-info modal-prev">
+        <a class="btn btn-info modal-prev mixpanel" mp-event="!Click Gallery Previous" mp-data="{guid:profile.guid, name:profile.name}">
             <i class="icon-arrow-left icon-white"></i>
             <span>Previous</span>
         </a>
-        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+        <a class="btn btn-success modal-play modal-slideshow  mixpanel" mp-event="!Click Gallery Slideshow" mp-data="{guid:profile.guid, name:profile.name}" data-slideshow="5000">
             <i class="icon-play icon-white"></i>
             <span>Slideshow</span>
         </a>
@@ -56,34 +56,4 @@
 @if (Model.PhotoGuids.Total > Model.PhotoGuids.List.PageSize) {
     <hr style="clear: both"/>
     @Html.PagedListPager(Model.PhotoGuids.List, key => Url.Action("Photos", new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-}
-
-@{
-    var photoType = ((byte) PhotoType.Medium).ToString();        
-    <script type="text/javascript">
-        $(function () {
-            $('.bar').mosaic({ animation: 'slide' });
-        });
-
-        function MakeProfilePhoto(key, guid) {
-            javascript: $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
-                function () {
-                    var img = document.getElementById("ProfilePhoto");
-                    if (img != null)
-                        img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
-                    alert('You have changed your profile picture!');
-                }
-            );
-        }
-
-        function DeletePhoto(key, guid) {
-            $.getJSON('/Photos/Delete/' + key + '/' + guid,
-                function () {
-                    document.getElementById("Photo:" + guid).style.display = "none";
-                    //$(document.getElementById("Photo:" + guid)).hide("slow");
-                    //alert('Photo deleted!');
-                }
-            );
-        }
-    </script>
 }

@@ -1016,7 +1016,6 @@
     <Content Include="ConfigData\ConfigurationData.txt" />
     <Content Include="Views\Shared\_Photo.cshtml" />
     <Content Include="Views\Photos\List.cshtml" />
-    <Content Include="Views\Messages\List.cshtml" />
     <Content Include="Views\Messages\Send.cshtml" />
     <Content Include="Views\Visitor\Index.cshtml" />
     <Content Include="Views\Profiles\Create.cshtml" />
@@ -1028,7 +1027,6 @@
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Shared\_SearchForm.cshtml" />
-    <Content Include="Views\Messages\Conversations.cshtml" />
     <Content Include="Views\Shared\_New.cshtml" />
     <Content Include="Views\Shared\_Online.cshtml" />
     <Content Include="Views\Profiles\New.cshtml" />

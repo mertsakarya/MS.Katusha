@@ -8,7 +8,7 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "onlinegallery", true)
         }
     </div>
-    <a class="btn btn-warning cancel" href='@Url.Action("Online", "Profiles")' title="All users online">
+    <a class="btn btn-warning cancel mixpanel" mp-event="Click Online Profiles" mp-data="{guid:profile.guid, name:profile.name}" href='@Url.Action("Online", "Profiles")' title="All users online">
         All online users...
     </a>
 }

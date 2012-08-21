@@ -1,33 +1,5 @@
 ﻿@using MS.Katusha.Enumerations
 @model ProfileModel
-@if (ViewBag.SameProfile != null && ViewBag.SameProfile) {
-    var photoType = ((byte) PhotoType.Medium).ToString();        
-    <script type="text/javascript">
-        $(function() {
-            $('.bar').mosaic({ animation: 'slide' });
-        });
-
-        function MakeProfilePhoto(key, guid) {
-            $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
-                function () {
-                    var img = document.getElementById("ProfilePhoto");
-                    if (img != null) {
-                        img.style.display = "";
-                        img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
-                    }
-                }
-            );
-        }
-
-        function DeletePhoto(key, guid) {
-            $.post('/Photos/DeletePhoto', { key: key, photoGuid: guid }).done(function (json) {
-                json = json || {};
-                if (json.isProfilePhoto) { document.getElementById("ProfilePhoto").style.display = "none"; }
-                document.getElementById("Photo:" + guid).style.display = "none";
-            });
-        }
-    </script>
-}
 <br />
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
     @foreach (var photo in Model.Photos) {
@@ -37,18 +9,18 @@
                 <div class="mosaic-block bar">
                     <div class="mosaic-overlay">
                         <div class="details">
-                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid')"><img src="/Images/close.gif" alt="Delete photo"/></a>
-                            <a title="Make this your profile picture" href="#" onclick="MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid')">
+                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid');"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                            <a title="Make this your profile picture" href="#" onclick="MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid');">
                                 <img src="/Images/profile.gif" alt="Delete photo"/>
                             </a>
                         </div>
                     </div>
-                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
+                    <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery" class="mixpanel"  mp-event="!Click Profile Photo" mp-data="{guid:profile.guid, name:profile.name, profile_guid:'@(Model.Guid)', profile_name:'@(Model.Name)', photo_guid:'@(photo.Guid)'}">
                         <div class="mosaic-backdrop">@Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
                     </a>
                 </div>
             } else {
-                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
+                <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery" class="mixpanel"  mp-event="!Click Profile Photo" mp-data="{guid:profile.guid, name:profile.name, profile_guid:'@(Model.Guid)', profile_name:'@(Model.Name)', photo_guid:'@(photo.Guid)'}">
                     @Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)
                 </a>
             }
@@ -61,20 +33,20 @@
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade">
     <div class="modal-header">
-        <a class="close" data-dismiss="modal">&times;</a>
+        <a class="close" data-dismiss="modal mixpanel" mp-event="!Click Gallery Close" mp-data="{guid:profile.guid, name:profile.name}">&times;</a>
         <h3 class="modal-title"></h3>
     </div>
     <div class="modal-body"><div class="modal-image"></div></div>
     <div class="modal-footer">
-        <a class="btn btn-primary modal-next">
+        <a class="btn btn-primary modal-next mixpanel" mp-event="!Click Gallery Next" mp-data="{guid:profile.guid, name:profile.name}">
             <span>Next</span>
             <i class="icon-arrow-right icon-white"></i>
         </a>
-        <a class="btn btn-info modal-prev">
+        <a class="btn btn-info modal-prev mixpanel" mp-event="!Click Gallery Previous" mp-data="{guid:profile.guid, name:profile.name}">
             <i class="icon-arrow-left icon-white"></i>
             <span>Previous</span>
         </a>
-        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+        <a class="btn btn-success modal-play modal-slideshow  mixpanel" mp-event="!Click Gallery Slideshow" mp-data="{guid:profile.guid, name:profile.name}" data-slideshow="5000">
             <i class="icon-play icon-white"></i>
             <span>Slideshow</span>
         </a>

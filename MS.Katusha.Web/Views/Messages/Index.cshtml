@@ -22,51 +22,11 @@
                     window.location = '@((Model.MessageType == MessageType.Received) ? linkSent : linkReceived)';
             });
     });
-
-    function readM(guid, e) {
-        $.post('/Messages/Read', { key: guid }).done(function (json) {
-            json = json || {};
-            if(json.error != null && json.error == "NeedsPayment") {
-                var id = "NeedsPayment"+json.product;
-                if (!dialogs[id]) {
-                    loadAndShowDialog(id, {data:function (x) { return "";}}, "/Payments/Needed/"+json.product);
-                } else {
-                    dialogs[id].dialog('open');
-                }
-            } else {
-                $('#M' + guid).text(json.message).slideDown('slow');
-                $('#showReply' + guid).slideDown('fast');
-                if (ping) ping();
-            }
-        });
-        // Prevent the normal behavior since we use a dialog
-        if (e) e.preventDefault();
-        return false;
-    }
-
-    function sendMessage(obj, e) {
-        var link = $(obj),
-            url = link.attr('href'),
-            id = url;
-        $("#dialog_content").show();
-        $("#dialog_message").hide();
-
-        if (!dialogs[id]) {
-            loadAndShowDialog(id, link, url);
-        } else {
-            dialogs[id].dialog('open');
-        }
-
-        // Prevent the normal behavior since we use a dialog
-        if (e) e.preventDefault();
-        return false;
-    }
-
 </script>  
 <div id="tabs">
     <ul>
-        <li><a href="#Messages">Messages Received</a></li>
-        <li><a href="#Messages">Messages Sent</a></li>
+        <li><a href="#Messages" class="mixpanel" mp-event="Click Messages Received" mp-data="{guid:profile.guid, name:profile.name}" >Messages Received</a></li>
+        <li><a href="#Messages" class="mixpanel" mp-event="Click Messages Sent" mp-data="{guid:profile.guid, name:profile.name}" >Messages Sent</a></li>
     </ul>
     <div id="Messages">
         @Html.Partial("Messages", Model)

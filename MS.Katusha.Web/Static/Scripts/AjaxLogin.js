@@ -1,10 +1,48 @@
 ﻿// Cache for dialogs
 var dialogs = {};
+profile = {guid:'00000000-0000-0000-0000-000000000000', gender:'Unknown', name:'* Anonymous *', age:0, country:'', country:''};
 
-var clickProfile = function (guid) {
-    mixpanel.track('Profile Clicked');
-}
-var countryChanged = function(val, cityId) {
+var readM = function(guid, fromGuid, fromName, toGuid, toName, e) {
+    $.post('/Messages/Read', { key: guid }).done(function(json) {
+        json = json || { };
+        if (json.error != null && json.error == "NeedsPayment") {
+            var id = "NeedsPayment" + json.product;
+            if (!dialogs[id]) {
+                loadAndShowDialog(id, { data: function(x) { return ""; } }, "/Payments/Needed/" + json.product);
+            } else {
+                dialogs[id].dialog('open');
+            }
+        } else {
+            $('#M' + guid).text(json.message).slideDown('slow');
+            $('#showReply' + guid).slideDown('fast');
+            if (ping != null) ping();
+        }
+    });
+    // Prevent the normal behavior since we use a dialog
+    if (e) e.preventDefault();
+    return false;
+};
+
+var sendMessage = function(obj, e) {
+    var link = $(obj),
+        url = link.attr('href'),
+        id = url;
+    $("#dialog_content").show();
+    $("#dialog_message").hide();
+
+    if (!dialogs[id]) {
+        loadAndShowDialog(id, link, url);
+    } else {
+        dialogs[id].dialog('open');
+    }
+
+    // Prevent the normal behavior since we use a dialog
+    if (e) e.preventDefault();
+    return false;
+};
+
+
+var countryChanged = function (val, cityId) {
     $('input#' + cityId + 'Key')[0].value = '';
     $('input#' + cityId)[0].value = '';
     if (val != '')
@@ -120,7 +158,58 @@ var loadAndShowDialog = function (id, link, url) {
         });
 };
 
+var MakeProfilePhoto = function(key, guid) {
+    $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
+        function () {
+            var img = document.getElementById("ProfilePhoto");
+            if (img != null) {
+                img.style.display = "";
+                img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
+                mixpanel.track('Make Profile Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
+            }
+        }
+    );
+}
+
+var DeletePhoto = function(key, guid) {
+    $.post('/Photos/DeletePhoto', { key: key, photoGuid: guid }).done(function (json) {
+        json = json || {};
+        mixpanel.track('Delete Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
+        if (json.isProfilePhoto) { document.getElementById("ProfilePhoto").style.display = "none"; }
+        document.getElementById("Photo:" + guid).style.display = "none";
+    });
+}
+
+
 $(function () {
+    $('.bar').mosaic({ animation: 'slide' });
+    if (mixpanel != null) {
+        $(".mixpanel").each(function (id, a) {
+            var link = $(a), url = link.attr('href');
+            var mp_data = link.attr("mp-data");
+            var mp_event = link.attr("mp-event");
+            var intervene = mp_event.substr(0, 1) != "!";
+            if (!intervene) mp_event = mp_event.substr(1);
+            var mp_object = null;
+            if (mp_data != null && mp_data != '') {
+                try {
+                    eval("mp_object="+mp_data); //$.parseJSON(mp_data);
+                } catch (e) {
+                    alert(e);
+                    mp_object = null;
+                }
+            }
+
+            link.click(function (e) {
+                mixpanel.track(mp_event, mp_object);
+                if (intervene) {
+                    e.preventDefault();
+                    if (url != null && url != '' && url != '#')
+                        location.href = url;
+                }
+            });
+        });
+    }
     var links = ['#loginLink', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton' /*, '#registerLink', '#registerLink2'*/];
     $.each(links, function (i, id) {
         $(id).click(function (e) {

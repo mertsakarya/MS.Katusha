@@ -53,31 +53,6 @@ namespace MS.Katusha.Web.Controllers
             return View("Index", model);
         }
 
-        public ActionResult List(string key, int? page = 1)
-        {
-            int total;
-            var from = _profileService.GetProfile(key);
-            var pageIndex = (page ?? 1);
-            var messages = _conversationService.GetMessages(KatushaProfile.Id, from.Id, out total, pageIndex);
-            var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
-            var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total };
-            return View(model);
-        }
-
-        public ActionResult Conversations(int? key = 1)
-        {
-            int total;
-            var pageIndex = (key ?? 1);
-            var conversationResults = _conversationService.GetConversations(KatushaProfile.Id, out total, pageIndex, PageSize);
-
-            var conversationResultsModel = Mapper.Map<IList<ConversationResultModel>>(conversationResults);
-
-            var conversationResultsAsIPagedList = new StaticPagedList<ConversationResultModel>(conversationResultsModel, pageIndex, PageSize, total);
-            var model = new PagedListModel<ConversationResultModel> { List = conversationResultsAsIPagedList, Total = total };
-            return View(model);
-        }
-
         [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha)]
         public ActionResult Send(string key, string subject="")
         {
