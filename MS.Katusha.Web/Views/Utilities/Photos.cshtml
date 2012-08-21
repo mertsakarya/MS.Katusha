@@ -9,17 +9,8 @@
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
     @foreach (var guid in Model.PhotoGuids.List) {
         var photo = Model.Photos[guid];
-        var profile = Model.Profiles[guid];
         <div id="Photo:@photo.Guid" class="gallery-item" style="display: inline;" data-href="@Html.PhotoLink(photo.Guid)" title="@photo.Description">
             <div class="mosaic-block bar">
-                <div class="mosaic-overlay">
-                    <div class="details">
-                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid');"><img src="/Images/close.gif" alt="Delete photo"/></a>
-                            <a title="Make this your profile picture" href="#" onclick="MakeProfilePhoto('@Html.KeyFor(Model)', '@photo.Guid');">
-                            <img src="/Images/profile.gif" alt="Delete photo"/>
-                        </a>
-                    </div>
-                </div>
                 <a title="@photo.Description" href="@Html.PhotoLink(photo.Guid)" rel="gallery">
                     <div class="mosaic-backdrop">@Html.PhotoImg(photo.Guid, PhotoType.Thumbnail, photo.Description)</div>
                 </a>

@@ -16,7 +16,6 @@
             var text = '<img src="/Images/mail.jpg" /><br/><b>' + unreadCount + '</b> / ' + count;
             var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';
             $('#newMessages').html(link).show("slow");
-            
         }
         function showNewVisits(datetime, count) {
             var action = '@Url.Action("NewVisits", "Visitor")/' + datetime;
