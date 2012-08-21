@@ -66,7 +66,7 @@ g = a[f] = [] : f = "mixpanel"; g.people = g.people || []; h = "disable track tr
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
-                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
+                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" onclick="mixpanel.track('Register Clicked');" data_dialog_title="Registration">
                                     <i class="icon-plus icon-white"></i>
                                     <span>Register free for limited time only!</span>
                                 </a><br/><br/>
