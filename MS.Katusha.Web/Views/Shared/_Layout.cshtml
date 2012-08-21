@@ -1,4 +1,6 @@
 ﻿@using MS.Katusha.Services.Configuration
+@using MS.Katusha.Domain.Entities
+@using System.Configuration
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,10 +16,9 @@
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Static/Content/css")" rel="stylesheet" type="text/css" />
         <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
         <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Static/Scripts/js")" type="text/javascript" language="javascript" ></script>
-
         @{
-            var katushaProfile = ViewBag.KatushaProfile;
-            var katushaUser = ViewBag.KatushaUser;
+            var katushaProfile = ViewBag.KatushaProfile as Profile;
+            var katushaUser = ViewBag.KatushaUser as User;
             var controller = ViewContext.RouteData.Values["Controller"].ToString();
             var action = ViewContext.RouteData.Values["Action"].ToString();
             var settings = KatushaConfigurationManager.Instance.GetSettings();
@@ -67,7 +68,7 @@ g = a[f] = [] : f = "mixpanel"; g.people = g.people || []; h = "disable track tr
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
-                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" onclick="mixpanel.track('Register Clicked');" data_dialog_title="Registration">
+                                <a class="btn btn-success fileinput-button" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration">
                                     <i class="icon-plus icon-white"></i>
                                     <span>Register free for limited time only!</span>
                                 </a><br/><br/>
@@ -119,6 +120,6 @@ g = a[f] = [] : f = "mixpanel"; g.people = g.people || []; h = "disable track tr
             })();
         </script>
         }
-        <!-- Love and peace -->
+        <!-- Love and peace @(ConfigurationManager.AppSettings["appharbor.commit_id"])-->
     </body>
 </html>

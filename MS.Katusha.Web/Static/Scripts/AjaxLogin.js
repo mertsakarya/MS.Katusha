@@ -1,7 +1,9 @@
 ﻿// Cache for dialogs
 var dialogs = {};
 
-
+var clickProfile = function (guid) {
+    mixpanel.track('Profile Clicked');
+}
 var countryChanged = function(val, cityId) {
     $('input#' + cityId + 'Key')[0].value = '';
     $('input#' + cityId)[0].value = '';
@@ -10,6 +12,20 @@ var countryChanged = function(val, cityId) {
     else
         $('input#' + cityId).hide();
 };
+
+var cf = function(cityArea, from, city) {
+    var ca = document.getElementById(cityArea);
+    var f = document.getElementById(from);
+    if (ca != null) {
+        if (f != null && f.value.length > 0) {
+            ca.style.display = '';
+        } else {
+            ca.style.display = "none";
+            document.getElementById(city).value = '';
+            document.getElementById(city + 'Key').value = '';
+        }
+    }
+}
 
 var getValidationSummaryErrors = function ($form) {
     // We verify if we created it beforehand
@@ -105,9 +121,7 @@ var loadAndShowDialog = function (id, link, url) {
 };
 
 $(function () {
-                // List of link ids to have an ajax dialog
     var links = ['#loginLink', '#changePasswordLink', '#facebookRegisterLink', '#sendMessageButton' /*, '#registerLink', '#registerLink2'*/];
-
     $.each(links, function (i, id) {
         $(id).click(function (e) {
             var link = $(this),
@@ -125,15 +139,3 @@ $(function () {
     });
 });
 
-function cf(cityArea, from, city) {
-    var ca = document.getElementById(cityArea);
-    var f = document.getElementById(from);
-    if (ca != null)
-        if (f != null && f.value.length > 0) {
-            ca.style.display = '';
-        } else {
-            ca.style.display = "none";
-            document.getElementById(city).value = '';
-            document.getElementById(city + 'Key').value = '';
-        }
-}
