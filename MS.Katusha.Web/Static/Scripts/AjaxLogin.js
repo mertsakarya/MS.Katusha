@@ -108,14 +108,17 @@ var formSubmitHandler = function (e) {
             .done(function (json) {
                 json = json || {};
                 if (json.success) {
-                    var mp = getMixPanelObject($form);
-                    if (mp.command != null && mp.command != '' && mixpanel != null)
-                        switch(mp.command) {
+                    if (mixpanel != null) {
+                        var mp = getMixPanelObject($form);
+                        if (mp != null && mp.command != null && mp.command != '') {
+                            switch (mp.command) {
                             case 'login':
                                 mixpanel.people.set({ $last_login: new Date() });
                                 mixpanel.track("Login");
                                 break;
+                            }
                         }
+                    }
                     if (json.message) {
                         $("#dialog_content").hide();
                         $("#dialog_message").text(json.message).show();
@@ -169,7 +172,7 @@ var MakeProfilePhoto = function(key, guid) {
             if (img != null) {
                 img.style.display = "";
                 img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
-                mixpanel.track('Make Profile Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
+                if(mixpanel != null) mixpanel.track('Make Profile Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
             }
         }
     );
@@ -178,13 +181,14 @@ var MakeProfilePhoto = function(key, guid) {
 var DeletePhoto = function(key, guid) {
     $.post('/Photos/DeletePhoto', { key: key, photoGuid: guid }).done(function (json) {
         json = json || {};
-        mixpanel.track('Delete Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
+        if (mixpanel != null) mixpanel.track('Delete Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
         if (json.isProfilePhoto) { document.getElementById("ProfilePhoto").style.display = "none"; }
         document.getElementById("Photo:" + guid).style.display = "none";
     });
 }
 
-var getMixPanelObject = function(jqueryElement) {
+var getMixPanelObject = function (jqueryElement) {
+    if (mixpanel == null) return null;
     var mp_command = jqueryElement.attr("mp-command");
     var mp_data = jqueryElement.attr("mp-data");
     var mp_event = jqueryElement.attr("mp-event");
@@ -215,9 +219,9 @@ $(function () {
             var mp = getMixPanelObject(link);
 
             link.click(function (e) {
-                if(mixpanel != null)
+                if (mixpanel != null)
                     mixpanel.track(mp.event, mp.object);
-                if (mp.intervene) {
+                if (mp != null && mp.intervene) {
                     e.preventDefault();
                     if (url != null && url != '' && url != '#')
                         location.href = url;

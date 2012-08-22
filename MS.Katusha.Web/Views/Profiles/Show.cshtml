@@ -64,7 +64,7 @@
     </fieldset>
 </div>
 <script type="text/javascript">
-    mixpanel.track("Show", {guid: '@Model.Guid', name: '@(Model.Name)' });
+    if (mixpanel != null) mixpanel.track("Show", { guid: '@Model.Guid', name: '@(Model.Name)' });
 </script>
 
 
