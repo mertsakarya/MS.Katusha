@@ -1,13 +1,6 @@
-@using MS.Katusha.Enumerations
-@using MS.Katusha.Interfaces.Services
-@model MS.Katusha.Domain.Entities.Photo
-@{
-    var photosService = DependencyResolver.Current.GetService<IPhotosService>();
-    var link = photosService.GetPhotoUrl(Model.Guid, PhotoType.Large);
-  }
-
+@model string
 <h2>A photo added.</h2><br/>
 <hr/>
-<a href="@(link)">Go to Photo</a><br/>
-@link
+<a href="@(Model)">Go to Photo</a><br/>
+@Model
 
