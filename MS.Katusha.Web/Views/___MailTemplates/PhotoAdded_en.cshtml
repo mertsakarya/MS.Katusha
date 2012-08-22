@@ -1,7 +1,10 @@
 @using MS.Katusha.Enumerations
-@using MS.Katusha.Services.Configuration
+@using MS.Katusha.Interfaces.Services
 @model MS.Katusha.Domain.Entities.Photo
-@{var link = String.Format("{0}/Photos/{1}-{2}.jpg", KatushaConfigurationManager.Instance.VirtualPath, (byte)PhotoType.Thumbnail, Model.Guid); }
+@{
+    var photosService = DependencyResolver.Current.GetService<IPhotosService>();
+    var link = photosService.GetPhotoUrl(Model.Guid, PhotoType.Large);
+  }
 
 <h2>A photo added.</h2><br/>
 <hr/>
