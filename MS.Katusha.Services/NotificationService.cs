@@ -1,6 +1,5 @@
 ﻿using System;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Configuration;
@@ -35,7 +34,7 @@ namespace MS.Katusha.Services
         private const string SiteDeployedTestMail = "SiteDeployed_en.cshtml";
 
 
-        public NotificationService(IUserRepositoryDB userRepository) {
+        public NotificationService(IUserRepositoryDB userRepository ) {
             _userRepository = userRepository;
             _settings = KatushaConfigurationManager.Instance.GetSettings();
             _mailTemplatesFolder = _settings.MailViewFolder + @"Views\___MailTemplates\";
@@ -45,8 +44,8 @@ namespace MS.Katusha.Services
         public void UserRegistered(User user)
         {
             try {
-                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", MailConfirm, _mailTemplatesFolder, user);
-                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, _mailTemplatesFolder, user);
+                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", _mailTemplatesFolder, MailConfirm, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, _mailTemplatesFolder, MailConfirmAdmin, user);
             } catch(Exception) {}
         }
 
@@ -89,7 +88,7 @@ namespace MS.Katusha.Services
         public void PhotoAdded(Photo photo)
         {
             try {
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo.Guid));
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo);
             } catch(Exception) {}
         }
 

@@ -1,6 +1,8 @@
-@model Guid
+@model MS.Katusha.Domain.Entities.Photo
+@{var link = String.Format("http://s3.amazonaws.com/MS.Katusha/Photos/1-{0}.jpg", Model.Guid); }
+
 <h2>A photo added.</h2><br/>
 <hr/>
-<a href="@(Model)">Go to Photo</a><br/>
-@Model
+<a href="@(link)">Go to Photo</a><br/>
+@link
 
