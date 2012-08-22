@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Local.testsettings = Local.testsettings
 		MS.Katusha.vsmdi = MS.Katusha.vsmdi
 		MS.Katusha1.vsmdi = MS.Katusha1.vsmdi
+		Performance1.psess = Performance1.psess
+		Performance2.psess = Performance2.psess
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
@@ -420,5 +422,8 @@ Global
 		{7D018B3E-34A3-423D-AC35-12731F4E0A2C} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
 		{DD874E64-C7EC-464D-925F-CF4A709EDEEF} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
 		{6B3413BF-5951-400E-88EB-2DC0EABC58F2} = {558B6CBE-B45B-4434-A707-F67C06EEC624}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

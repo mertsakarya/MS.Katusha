@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
@@ -19,7 +17,7 @@ namespace MS.Katusha.Web.Controllers
     [Authorize]
     public class AccountController : KatushaController
     {
-        private IPhotosService _photoService;
+        private readonly  IPhotosService _photoService;
 
         public AccountController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IPhotosService photoService)
             : base(resourceService, userService, profileService, stateService, conversationService) { _photoService = photoService; }
@@ -105,7 +103,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            return _Register(model, RedirectToAction("Index", "Home"), View(model));
+            return _Register(model, RedirectToAction("RegisterSuccess"), View(model));
         }
 
         private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
@@ -131,6 +129,8 @@ namespace MS.Katusha.Web.Controllers
             }
             return failResult;
         }
+
+        public ActionResult RegisterSuccess() { return View(); }
 
         public ActionResult ChangePassword() { return ContextDependentView(null, "ChangePassword"); }
 
@@ -228,7 +228,7 @@ namespace MS.Katusha.Web.Controllers
             } else if (me.hometown != null && !String.IsNullOrWhiteSpace(me.hometown.name)) {
                 facebookLocation = me.hometown.name;
             }
-            var location = new LocationModel() {CityCode = 0, CountryCode = "", CityName = ""};
+            var location = new LocationModel {CityCode = 0, CountryCode = "", CityName = ""};
             if (!String.IsNullOrWhiteSpace(facebookLocation)) {
                 var arr = facebookLocation.Split(',');
                 if (arr.Length >= 2) {
@@ -288,7 +288,7 @@ namespace MS.Katusha.Web.Controllers
             if (ModelState.IsValid) {
                 KatushaMembershipCreateStatus createStatus;
                 var tmpGuid = Guid.NewGuid().ToString("N");
-                var user = UserService.CreateUser(tmpGuid, "tEmpPassword", model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                var user = UserService.CreateUser(tmpGuid, "tEmpPassword", model.Email, null, null, true, null, out createStatus);
                 if (createStatus == KatushaMembershipCreateStatus.Success) {
                     var profile = Mapper.Map<Profile>(model);
                     profile.UserId = user.Id;

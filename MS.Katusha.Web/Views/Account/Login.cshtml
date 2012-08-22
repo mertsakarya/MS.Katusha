@@ -9,7 +9,7 @@
     <h2>Enter your user name and password below.</h2>
 </hgroup>
 
-@using (Html.BeginForm((string)ViewBag.FormAction, "Account")) {
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account", FormMethod.Post, new Dictionary<string, object>( ) {{"mp-command", "lastLogin"} })) {
     @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
 
     <fieldset>

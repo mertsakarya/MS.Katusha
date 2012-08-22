@@ -26,7 +26,7 @@
         }
 
         @if(profile != null) {<text>
-            profile = {guid:'@profile.Guid', gender:'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))', name:'@(profile.Name)', age:@(DateTime.Now.Year - profile.BirthYear), country:'@(profile.Location.CountryName)', country:'@(profile.Location.CityName)'};
+            profile = {guid:'@profile.Guid', gender:'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))', name:'@(profile.Name.Replace("'", "\\\'"))', age:@(DateTime.Now.Year - profile.BirthYear), country:'@(profile.Location.CountryName.Replace("'", "\\\'"))', city:'@(profile.Location.CityName.Replace("'", "\\\'"))'};
             if(mixpanel != null) {
                 mixpanel.identify(profile.guid);
                 mixpanel.register(profile);

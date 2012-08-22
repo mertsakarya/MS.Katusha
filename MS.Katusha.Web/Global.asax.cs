@@ -53,7 +53,6 @@ namespace MS.Katusha.Web
 
                 ModelMetadataProviders.Current = new KatushaMetadataProvider();
                 DependencyHelper.RegisterDependencies();
-                //QuartzHelper.RegisterQuartz();
                 MapperHelper.HandleMappings();
                 AreaRegistration.RegisterAllAreas();
 

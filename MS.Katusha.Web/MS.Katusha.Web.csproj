@@ -1257,6 +1257,9 @@
   <ItemGroup>
     <Content Include="Views\___MailTemplates\SiteDeployed_en.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

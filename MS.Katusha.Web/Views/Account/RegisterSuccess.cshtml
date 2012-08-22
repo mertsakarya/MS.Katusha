@@ -1,0 +1,27 @@
+﻿@using MS.Katusha.Domain.Entities
+@using MS.Katusha.Enumerations
+@{
+    ViewBag.Title = "Congratulations, you are successfully registered";
+    var profile = ViewBag.KatushaProfile as Profile;
+    var user = ViewBag.KatushaUser as User;
+    if (profile != null && user != null) {
+        <script type="text/javascript">
+            if (mixpanel != null) { mixpanel.people.set({
+                "$email": "@(user.Email)",
+                "$created": new Date(@user.CreationDate.Year, @(user.CreationDate.Month-1), @user.CreationDate.Day, @user.CreationDate.Hour, @user.CreationDate.Minute, @user.CreationDate.Second),
+                "$last_login": new Date(),
+                "$country_code": '@profile.Location.CountryCode',
+                "$name": '@profile.Name.Replace("'", "\\\'")',
+                "$username": '@user.UserName.Replace("'", "\\\'")',
+                "guid":'@profile.Guid',
+                "gender":'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))',
+                "age":@(DateTime.Now.Year - profile.BirthYear),
+                "city":'@(profile.Location.CityName.Replace("'", "\\\'"))'
+            });}
+        </script>
+    }
+}
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1><br />
+    Go @Html.ActionLink("Home", "Index", "Home")
+</hgroup>

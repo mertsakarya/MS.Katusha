@@ -1,6 +1,6 @@
 ﻿// Cache for dialogs
 var dialogs = {};
-profile = {guid:'00000000-0000-0000-0000-000000000000', gender:'Unknown', name:'* Anonymous *', age:0, country:'', country:''};
+profile = {guid:'00000000-0000-0000-0000-000000000000', gender:'Unknown', name:'* Anonymous *', age:0, country:'', city:''};
 
 var readM = function(guid, fromGuid, fromName, toGuid, toName, e) {
     $.post('/Messages/Read', { key: guid }).done(function(json) {
@@ -103,15 +103,18 @@ var resetForm = function ($form) {
 
 var formSubmitHandler = function (e) {
     var $form = $(this);
-
-    // We check if jQuery.validator exists on the form
     if (!$form.valid || $form.valid()) {
         $.post($form.attr('action'), $form.serializeArray())
             .done(function (json) {
                 json = json || {};
-
-                // In case of success, we redirect to the provided URL or the same page.
                 if (json.success) {
+                    var mp = getMixPanelObject($form);
+                    if (mp.command != null && mp.command != '' && mixpanel != null)
+                        switch(mp.command) {
+                            case 'lastLogin':
+                                mixpanel.people.set({ $last_login: new Date() });
+                                break;
+                        }
                     if (json.message) {
                         $("#dialog_content").hide();
                         $("#dialog_message").text(json.message).show();
@@ -180,29 +183,40 @@ var DeletePhoto = function(key, guid) {
     });
 }
 
+var getMixPanelObject = function(jqueryElement) {
+    var mp_command = jqueryElement.attr("mp-command");
+    var mp_data = jqueryElement.attr("mp-data");
+    var mp_event = jqueryElement.attr("mp-event");
+    var intervene;
+    if (mp_event != null && mp_event.length > 0) {
+        intervene = mp_event.substr(0, 1) != "!";
+        if (!intervene) mp_event = mp_event.substr(1);
+    } else {
+        intervene = false;
+    }
+    var mp_object = null;
+    if (mp_data != null && mp_data != '') {
+        try {
+            eval("mp_object=" + mp_data); //$.parseJSON(mp_data);
+        } catch(e) {
+            alert(e);
+            mp_object = null;
+        }
+    }
+    return { event: mp_event, data: mp_data, object: mp_object, command:mp_command, intervene : intervene };
+};
 
 $(function () {
     $('.bar').mosaic({ animation: 'slide' });
     if (mixpanel != null) {
         $(".mixpanel").each(function (id, a) {
             var link = $(a), url = link.attr('href');
-            var mp_data = link.attr("mp-data");
-            var mp_event = link.attr("mp-event");
-            var intervene = mp_event.substr(0, 1) != "!";
-            if (!intervene) mp_event = mp_event.substr(1);
-            var mp_object = null;
-            if (mp_data != null && mp_data != '') {
-                try {
-                    eval("mp_object="+mp_data); //$.parseJSON(mp_data);
-                } catch (e) {
-                    alert(e);
-                    mp_object = null;
-                }
-            }
+            var mp = getMixPanelObject(link);
 
             link.click(function (e) {
-                mixpanel.track(mp_event, mp_object);
-                if (intervene) {
+                if(mixpanel != null)
+                    mixpanel.track(mp.event, mp.object);
+                if (mp.intervene) {
                     e.preventDefault();
                     if (url != null && url != '' && url != '#')
                         location.href = url;

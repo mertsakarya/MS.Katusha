@@ -37,7 +37,7 @@ namespace MS.Katusha.Domain.Raven
         internal static Expression GetExpression<TEnum>(ICollection<TEnum> values, Expression left, Expression expression = null)
         {
             if (values.Count == 0) return expression;
-            IList<Expression> expressions = values.Where(p => Convert.ToByte((object) p) > 0).Select(value => Expression.Constant(Convert.ToByte(value))).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
+            IList<Expression> expressions = values.Where(p => Convert.ToByte(p) > 0).Select(value => Expression.Constant(Convert.ToByte(value))).Select(right => Expression.Equal(left, right)).Cast<Expression>().ToList();
             if (expressions.Count <= 0) return expression;
             var pe = expressions[0];
             for (var i = 1; i < expressions.Count; i++) pe = Expression.OrElse(pe, expressions[i]);
