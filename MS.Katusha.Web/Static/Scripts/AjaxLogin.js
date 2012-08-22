@@ -111,8 +111,9 @@ var formSubmitHandler = function (e) {
                     var mp = getMixPanelObject($form);
                     if (mp.command != null && mp.command != '' && mixpanel != null)
                         switch(mp.command) {
-                            case 'lastLogin':
+                            case 'login':
                                 mixpanel.people.set({ $last_login: new Date() });
+                                mixpanel.track("Login");
                                 break;
                         }
                     if (json.message) {

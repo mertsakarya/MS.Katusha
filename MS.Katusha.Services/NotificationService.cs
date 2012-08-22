@@ -44,8 +44,8 @@ namespace MS.Katusha.Services
         public void UserRegistered(User user)
         {
             try {
-                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", _mailTemplatesFolder, MailConfirm, user);
-                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, _mailTemplatesFolder, MailConfirmAdmin, user);
+                Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", MailConfirm, _mailTemplatesFolder, user);
+                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, MailConfirmAdmin, _mailTemplatesFolder, user);
             } catch(Exception) {}
         }
 
