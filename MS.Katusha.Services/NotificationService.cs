@@ -12,7 +12,6 @@ namespace MS.Katusha.Services
     public class NotificationService : INotificationService
     {
         private readonly IUserRepositoryDB _userRepository;
-        private readonly IPhotosService _photosService;
 
         private readonly string _adminMailAddress;
         private readonly SettingsData _settings;
@@ -36,9 +35,8 @@ namespace MS.Katusha.Services
         private const string SiteDeployedTestMail = "SiteDeployed_en.cshtml";
 
 
-        public NotificationService(IUserRepositoryDB userRepository, IPhotosService photosService ) {
+        public NotificationService(IUserRepositoryDB userRepository) {
             _userRepository = userRepository;
-            _photosService = photosService;
             _settings = KatushaConfigurationManager.Instance.GetSettings();
             _mailTemplatesFolder = _settings.MailViewFolder + @"Views\___MailTemplates\";
             _adminMailAddress = _settings.AdministratorMailAddress;
@@ -91,7 +89,7 @@ namespace MS.Katusha.Services
         public void PhotoAdded(Photo photo)
         {
             try {
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, _photosService.GetPhotoUrl(photo.Guid, PhotoType.Large));
+                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo.Guid));
             } catch(Exception) {}
         }
 
