@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
@@ -190,6 +191,14 @@ namespace MS.Katusha.Services
         public void DeleteSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.DeleteByProfileId(profileId, lookingFor); }
 
         public void AddSearches(long profileId, LookingFor lookingFor) { _searchingForRepository.AddByProfileId(profileId, lookingFor); }
+        public IList<Guid> GetAllProfileGuids()
+        {
+            int total;
+            var profiles = _profileRepository.GetAll(out total);
+            var list = new List<Guid>(profiles.Count);
+            list.AddRange(profiles.Select(item => item.Guid));
+            return list;
+        }
 
         public IList<string> RestoreFromDB(Expression<Func<Profile, bool>> filter, bool deleteIfExists = false)
         {

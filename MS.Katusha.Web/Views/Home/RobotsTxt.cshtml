@@ -1,0 +1,6 @@
+﻿@using MS.Katusha.Services.Configuration
+@{
+    Layout = null;
+    var virtualPath = KatushaConfigurationManager.Instance.VirtualPath;
+}User-agent: *
+Sitemap: @(virtualPath)sitemap.xml

@@ -793,7 +793,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="robots.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Glimpse.RavenDb.Readme.txt" />
     <Content Include="Global.asax" />
@@ -867,7 +866,6 @@
     <Content Include="Static\Scripts\knockout-2.1.0.js" />
     <Content Include="Static\Scripts\modernizr-2.5.3.js" />
     <Content Include="ConfigData\timeZones.txt" />
-    <Content Include="sitemap.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1259,6 +1257,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\RegisterSuccess.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SiteMapXml.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\RobotsTxt.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

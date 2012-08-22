@@ -1,0 +1,46 @@
+﻿@using MS.Katusha.Services.Configuration
+@model IList<Guid>
+@{
+    Layout = null;
+    var virtualPath = KatushaConfigurationManager.Instance.VirtualPath;
+}<?xml version="1.0" encoding="utf-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>@(virtualPath)</loc>
+        <changefreq>always</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Account/Register</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Account/Login</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Profiles/Men</loc>
+        <changefreq>hourly</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Profiles/Girls</loc>
+        <changefreq>always</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Profiles/New</loc>
+        <changefreq>hourly</changefreq>
+    </url>
+    <url>
+        <loc>@(virtualPath)Profiles/Online</loc>
+        <changefreq>hourly</changefreq>
+    </url>
+    @foreach(var guid in Model) {
+    <url>
+        <loc>@(virtualPath)Profiles/Show/@(guid.ToString())</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    }
+</urlset>

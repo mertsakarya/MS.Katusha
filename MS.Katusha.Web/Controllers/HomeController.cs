@@ -51,5 +51,20 @@ namespace MS.Katusha.Web.Controllers
 
             return View();
         }
+
+        //[OutputCache(Duration = 3600 * 6, VaryByParam = "none")]
+        public ActionResult SiteMapXml()
+        {
+            Response.ContentType = "text/xml";
+            var model = ProfileService.GetAllProfileGuids();
+            return View(model);
+        }
+
+        //[OutputCache(Duration = 3600 * 6, VaryByParam = "none")]
+        public ActionResult RobotsTxt()
+        {
+            Response.ContentType = "text/plain";
+            return View();
+        }
     }
 }
