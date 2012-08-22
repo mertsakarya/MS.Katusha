@@ -23,5 +23,9 @@
 }
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1><br />
-    Go @Html.ActionLink("Home", "Index", "Home")
+    <br/><br/>
+    @if(user.Gender == (byte)Sex.Male) {
+        <h3>You can send messages to girls for the next fifteen minutes.</h3>
+    }
+    <h3>Go @Html.ActionLink("Home", "Index", "Home")</h3>
 </hgroup>

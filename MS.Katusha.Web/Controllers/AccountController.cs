@@ -113,7 +113,7 @@ namespace MS.Katusha.Web.Controllers
                     ModelState.AddModelError("Photo", "You must add a photo");
                 } else {
                     KatushaMembershipCreateStatus createStatus;
-                    KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                    KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
                     if (createStatus == KatushaMembershipCreateStatus.Success) {
                         var profile = Mapper.Map<Profile>(model);
                         profile.UserId = KatushaUser.Id;
