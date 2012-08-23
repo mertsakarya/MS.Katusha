@@ -53,11 +53,6 @@ namespace MS.Katusha.Services.Configuration
         }
         }
 
-        public MSKatushaSource MSKatushaSource
-        {
-            get { return _msKatushaSource; }
-        }
-
         public string ConnectionString
         {
             get { return _connectionString; }

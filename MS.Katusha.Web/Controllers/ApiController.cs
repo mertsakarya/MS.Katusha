@@ -69,8 +69,6 @@ namespace MS.Katusha.Web.Controllers
             var extendedProfile = _utilityService.GetExtendedProfile(KatushaUser, id);
             Response.ContentType = "application/json";
             Response.Write(JsonConvert.SerializeObject(extendedProfile));
-                
-                //Json(new { extendedProfile }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -86,7 +84,7 @@ namespace MS.Katusha.Web.Controllers
             var lines = _utilityService.SetExtendedProfile(extendedProfile);
             Response.ContentType = "text/plain";
             if (lines.Count == 0)
-                Response.Write("OK");
+                Response.Write("");
             else {
                 foreach (var line in lines)
                     Response.Write(line + "\r\n");
