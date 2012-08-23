@@ -40,7 +40,7 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             var list = new List<ApiProfileInfo>(searchResult.Profiles.Count());
-            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, ProfilePhotoGuid = profile.ProfilePhotoGuid}));
+            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid}));
             var result = new ApiSearchResultModel {
                 PageIndex = pageIndex,
                 PageSize = PageSize,
