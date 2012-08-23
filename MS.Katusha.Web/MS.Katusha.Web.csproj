@@ -476,6 +476,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ApiProfileInfo.cs" />
     <Compile Include="Models\ApiSearchResultModel.cs" />
     <Compile Include="Models\GoogleCustomVariables.cs" />
     <Compile Include="Models\MessagesModel.cs" />

@@ -104,7 +104,8 @@ namespace MS.Katusha.Services
                 if (profile.Photos.Count > 0) {
                     photoBackups.AddRange(profile.Photos.Select(photo => Mapper.Map<ApiPhotoBackup>(_photoBackupService.GetPhoto(photo.Guid))));
                 }
-                var messages = Mapper.Map<IList<ApiConversation>>(_conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList());
+                var ravenMessages = Mapper.Map<IList<Conversation>>(_conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList());
+                var messages = Mapper.Map<IList<ApiConversation>>(ravenMessages);
                 extendedProfile = new AdminExtendedProfile(extendedProfile) {
                     User = Mapper.Map<ApiAdminUser>(user), 
                     Messages =  messages,

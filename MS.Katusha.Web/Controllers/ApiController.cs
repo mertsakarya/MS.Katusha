@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,6 +12,7 @@ using MS.Katusha.Interfaces.Services.Models;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Newtonsoft.Json;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -36,7 +38,8 @@ namespace MS.Katusha.Web.Controllers
             var data = Mapper.Map<SearchProfileCriteria>(model);
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
-            var list = searchResult.Profiles.Select(profile => profile.Guid).ToList();
+            var list = new List<ApiProfileInfo>(searchResult.Profiles.Count());
+            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, ProfilePhotoGuid = profile.ProfilePhotoGuid}));
             var result = new ApiSearchResultModel {
                 PageIndex = pageIndex,
                 PageSize = PageSize,
