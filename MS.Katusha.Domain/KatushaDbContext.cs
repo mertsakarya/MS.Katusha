@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Text;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Enumerations;
+using MS.Katusha.Services.Configuration;
 
 namespace MS.Katusha.Domain
 {
@@ -44,7 +47,7 @@ namespace MS.Katusha.Domain
             var sb = new StringBuilder();
             foreach (var command in commands)
                 sb.AppendLine(command);
-            using (var connection = new SqlConnection(Database.Connection.ConnectionString)) {
+            using (var connection = new SqlConnection(KatushaConfigurationManager.Instance.ConnectionString)) {
                 connection.Open();
                 using (var command = new SqlCommand(sb.ToString(), connection)) {
                     command.ExecuteNonQuery();
@@ -84,4 +87,5 @@ namespace MS.Katusha.Domain
             base.OnModelCreating(modelBuilder);
         }
     }
+
 }

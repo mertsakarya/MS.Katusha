@@ -232,5 +232,7 @@ namespace MS.Katusha.Services
             if (ravenCommands.Count > 0) _ravenStore.Batch(ravenCommands);
             if (sqlCommands.Count > 0) _dbContext.ExecuteNonQuery(sqlCommands);
         }
+
+
     }
 }

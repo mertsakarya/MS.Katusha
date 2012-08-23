@@ -25,12 +25,18 @@
             $('#newVisits').html(link).show("slow");
         }
 
-        @if(profile != null) {<text>
-            profile = {guid:'@profile.Guid', gender:'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))', name:'@(profile.Name.Replace("'", "\\\'"))', age:@(DateTime.Now.Year - profile.BirthYear), country:'@(profile.Location.CountryName.Replace("'", "\\\'"))', city:'@(profile.Location.CityName.Replace("'", "\\\'"))'};
+        @if(profile != null) {
+            var city = profile.Location.CityName; city = city == null ? "" : city.Replace("'", "\\\'");
+            var gender = (profile.Gender == (byte)Sex.Male) ? "Male" : ((profile.Gender == (byte)Sex.Female) ? "Female" : "Unknown");
+            var profileName = profile.Name; profileName = profileName == null ? "" : profileName.Replace("'", "\\\'");
+            var age = DateTime.Now.Year - profile.BirthYear;
+            var country = profile.Location.CountryName; country = country == null ? "" : country.Replace("'", "\\\'");
+            <text>
+            profile = {guid:'@profile.Guid', gender:'@(gender)', name:'@(profileName)', age:@(age), country:'@(country)', city:'@(city)'};
             if(mixpanel != null) {
                 mixpanel.identify(profile.guid);
                 mixpanel.register(profile);
-                mixpanel.name_tag('@(profile.Name)');
+                mixpanel.name_tag('@(profileName)');
             }
             function ping() {
                 $.ajax({url: '@Url.Action("Ping","Profiles")', success: function (data) { 

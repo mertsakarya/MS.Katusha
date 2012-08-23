@@ -5,6 +5,8 @@
     var profile = ViewBag.KatushaProfile as Profile;
     var user = ViewBag.KatushaUser as User;
     if (profile != null && user != null) {
+        var city = profile.Location.CityName;
+        city = city == null ? "" : city.Replace("'", "\\\'");
         <script type="text/javascript">
             if (mixpanel != null) { mixpanel.people.set({
                 "$email": "@(user.Email)",
@@ -16,7 +18,7 @@
                 "guid":'@profile.Guid',
                 "gender":'@((profile.Gender==(byte)Sex.Male) ? "Male" : ((profile.Gender==(byte)Sex.Female) ? "Female" : "Unknown"))',
                 "age":@(DateTime.Now.Year - profile.BirthYear),
-                "city":'@(profile.Location.CityName.Replace("'", "\\\'"))'
+                "city":'@(city)'
             });}
         </script>
     }

@@ -41,6 +41,9 @@ namespace MS.Katusha.Enumerations
 
     public enum PaypalEnvironment { Sandbox = 1, Live = 2}
 
+    public enum MSKatushaSource { Local = 1, Live = 2, LiveEU = 3 }
+
+
     [Flags]
     public enum UserRole : long { Normal = 1, Administrator = 2, Editor = 4, ApiUser = 8 }
 
