@@ -7,6 +7,7 @@
 }
 <script type="text/javascript">
     function selectGender(val) {
+        t({ id: 'Gender', value: val });
         document.getElementById('Gender').value = val;
         $("#" + ((val == @( (byte) Sex.Male)) ? "girl" : "man")+ "Button").hide();
         $("#registration_title").hide();
@@ -21,6 +22,7 @@
         $("#registration_user").show("slow");
         return false;
     }
+    function t(o) { if (mixpanel != null && o != null) { mixpanel.track('Registration' + o.id, { value: o.value }); } }
 </script>
 <div id="registration_title">
     <hgroup class="title">
@@ -41,12 +43,12 @@
             <ol>
                 <li>
                     @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName, new {onblur="t(this)"})
                     @Html.ValidationMessageFor(m => m.UserName)
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new {onblur="t(this)"})
                     @Html.ValidationMessageFor(m => m.Email)
                 </li>
                 <li>
@@ -92,7 +94,7 @@
             }
             @Html.HiddenFor(m => m.Gender)
             @Html.Partial("_ProfileCreateOrEdit", Model)
-            <input type="submit" value="Register" />
+            <input type="submit" value="Register" onclick="if(t)t({id:'Click Profile Create'});"/>
         </div>
     </fieldset>
 }
