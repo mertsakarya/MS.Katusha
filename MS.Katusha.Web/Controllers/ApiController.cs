@@ -5,15 +5,12 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
+using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
-using MS.Katusha.Infrastructure.Exceptions;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Interfaces.Services.Models;
-using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Newtonsoft.Json;
-using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Web.Controllers
 {
@@ -40,8 +37,8 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             var list = new List<ApiProfileInfo>(searchResult.Profiles.Count());
-            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid}));
-            var result = new ApiSearchResultModel {
+            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid, Country = profile.Location.CountryName, Age = DateTime.Now.Year - profile.BirthYear}));
+            var result = new ApiSearchResult {
                 PageIndex = pageIndex,
                 PageSize = PageSize,
                 Profiles = list,

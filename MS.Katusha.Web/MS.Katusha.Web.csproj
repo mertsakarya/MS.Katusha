@@ -7,26 +7,21 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DEF3F6C2-BFE9-4CF2-B665-0F7EEC5B6D2E}</ProjectGuid>
+    <ProjectGuid>{334451F4-B9CF-4CD8-AF99-F67DC74556B6}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MS.Katusha.Web</RootNamespace>
     <AssemblyName>MS.Katusha.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,27 +31,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PackageAsSingleFile>false</PackageAsSingleFile>
-    <PublishDatabaseSettings>
-      <Objects>
-        <ObjectGroup Name="DefaultConnection-Deployment" Order="1">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=.\SQLEXPRESS%3bInitial Catalog=aspnet-MS.Katusha.Web-201232182133%3bIntegrated Security=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Debug\AutoScripts\DefaultConnection-Deployment_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="KatushaRavenDB-Deployment" Order="2">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Url=http://localhost:8080/" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Debug\AutoScripts\KatushaRavenDB-Deployment_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-      </Objects>
-    </PublishDatabaseSettings>
-    <PublishDatabases>false</PublishDatabases>
-    <ExcludeApp_Data>true</ExcludeApp_Data>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -67,43 +41,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppfailReporting">
-      <HintPath>..\packages\Appfail.WebForms.1.1.0\lib\35\AppfailReporting.dll</HintPath>
-    </Reference>
-    <Reference Include="AppfailReporting.Mvc">
-      <HintPath>..\packages\Appfail.Mvc.1.1.0\lib\35\AppfailReporting.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\AsyncCtpLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=2.6.3.862, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.2.6.3.862\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration, Version=2.6.3.862, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.2.6.3.862\lib\NET40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=2.6.2.859, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.Mvc4.2.6.2.859\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.NLog">
       <HintPath>..\packages\Common.Logging.NLog.2.0.0\lib\2.0\Common.Logging.NLog.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Facebook.6.0.20\lib\net40-client\Facebook.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.0.20\lib\net45\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Glimpse.Core">
       <HintPath>..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageResizer, Version=3.2.4.698, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ImageResizer.3.2.4\lib\ImageResizer.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageResizer.Mvc, Version=3.2.4.698, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ImageResizer.Mvc.3.2.4\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="LeLog4net">
       <HintPath>..\packages\le_log4net.2.0.3\lib\4.0\LeLog4net.dll</HintPath>
@@ -111,115 +78,79 @@
     <Reference Include="le_nlog">
       <HintPath>..\packages\le_nlog.2.0.3\lib\4.0\le_nlog.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList, Version=1.15.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList.Mvc, Version=3.18.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.3.18.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Client.Debug.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.MvcIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="RazorEngine, Version=3.0.8.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RazorEngine.3.0.8\lib\net40\RazorEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Common">
-      <HintPath>..\packages\ServiceStack.Common.3.7.7\lib\net35\ServiceStack.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\packages\ServiceStack.Common.3.7.7\lib\net35\ServiceStack.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\packages\ServiceStack.Redis.3.7.7\lib\net35\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\packages\ServiceStack.Text.3.7.6\lib\net35\ServiceStack.Text.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SqlServerCompact.4.0.8852.1\lib\net40\System.Data.SqlServerCe.Entity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Net.Http.Formatting.4.0.20126.16343\lib\net40\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\AspNetWebApi.Core.4.0.20126.16343\lib\net40\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\AspNetWebApi.4.0.20126.16343\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.Web.Optimization.1.0.0-beta\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -237,279 +168,316 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="Telerik.Web.Mvc">
       <HintPath>..\packages\TelerikMvcExtensions.2012.2.607\lib\net40\Telerik.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.0.3.12153\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_GlobalResources\EditorLocalization.bg-BG.designer.cs">
+      <DependentUpon>EditorLocalization.bg-BG.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.bg-BG.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.da-DK.designer.cs">
+      <DependentUpon>EditorLocalization.da-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.da-DK.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.de-DE.designer.cs">
+      <DependentUpon>EditorLocalization.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.de-DE.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
+      <DependentUpon>EditorLocalization.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.en-US.designer.cs">
+      <DependentUpon>EditorLocalization.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.en-US.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.fr-FR.designer.cs">
+      <DependentUpon>EditorLocalization.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.fr-FR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.nl-NL.designer.cs">
+      <DependentUpon>EditorLocalization.nl-NL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.nl-NL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.pl-PL.designer.cs">
+      <DependentUpon>EditorLocalization.pl-PL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pl-PL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.pt-BR.designer.cs">
+      <DependentUpon>EditorLocalization.pt-BR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pt-BR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.pt-PT.designer.cs">
+      <DependentUpon>EditorLocalization.pt-PT.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pt-PT.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.ru-RU.designer.cs">
+      <DependentUpon>EditorLocalization.ru-RU.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.ru-RU.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.uk-UA.designer.cs">
+      <DependentUpon>EditorLocalization.uk-UA.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.zh-CN.designer.cs">
+      <DependentUpon>EditorLocalization.zh-CN.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.zh-CN.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.bg-BG.designer.cs">
+      <DependentUpon>GridLocalization.bg-BG.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.bg-BG.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.da-DK.designer.cs">
+      <DependentUpon>GridLocalization.da-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.da-DK.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.de-DE.designer.cs">
+      <DependentUpon>GridLocalization.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.de-DE.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.designer.cs">
+      <DependentUpon>GridLocalization.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.en-US.designer.cs">
+      <DependentUpon>GridLocalization.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.en-US.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.es-ES.designer.cs">
+      <DependentUpon>GridLocalization.es-ES.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.es-ES.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.fr-FR.designer.cs">
+      <DependentUpon>GridLocalization.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.fr-FR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.nl-NL.designer.cs">
+      <DependentUpon>GridLocalization.nl-NL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.nl-NL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.pl-PL.designer.cs">
+      <DependentUpon>GridLocalization.pl-PL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pl-PL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.pt-BR.designer.cs">
+      <DependentUpon>GridLocalization.pt-BR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pt-BR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.pt-PT.designer.cs">
+      <DependentUpon>GridLocalization.pt-PT.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pt-PT.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.ru-RU.designer.cs">
+      <DependentUpon>GridLocalization.ru-RU.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.ru-RU.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.uk-UA.designer.cs">
+      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.zh-CN.designer.cs">
+      <DependentUpon>GridLocalization.zh-CN.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.zh-CN.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.bg-BG.designer.cs">
+      <DependentUpon>UploadLocalization.bg-BG.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.bg-BG.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.da-DK.designer.cs">
+      <DependentUpon>UploadLocalization.da-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.da-DK.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.en-US.designer.cs">
+      <DependentUpon>UploadLocalization.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.en-US.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.fr-FR.designer.cs">
+      <DependentUpon>UploadLocalization.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.fr-FR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.nl-NL.designer.cs">
+      <DependentUpon>UploadLocalization.nl-NL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.nl-NL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.pl-PL.designer.cs">
+      <DependentUpon>UploadLocalization.pl-PL.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pl-PL.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.pt-BR.designer.cs">
+      <DependentUpon>UploadLocalization.pt-BR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pt-BR.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.pt-PT.designer.cs">
+      <DependentUpon>UploadLocalization.pt-PT.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pt-PT.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.ru-RU.designer.cs">
+      <DependentUpon>UploadLocalization.ru-RU.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.ru-RU.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UploadLocalization.zh-CN.designer.cs">
+      <DependentUpon>UploadLocalization.zh-CN.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.zh-CN.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\GlimpseConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin_ProfilesController.cs" />
+    <Compile Include="Controllers\Admin_UsersController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\GridController.cs" />
-    <Compile Include="Controllers\Admin_UsersController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KatushaApiController.cs" />
     <Compile Include="Controllers\KatushaBaseController.cs" />
     <Compile Include="Controllers\KatushaController.cs" />
-    <Compile Include="Controllers\PaymentsController.cs" />
-    <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
-    <Compile Include="Helpers\BundleHelper.cs" />
-    <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
-    <Compile Include="Helpers\KatushaJsonValueProviderFactory.cs" />
-    <Compile Include="Helpers\LookupListProcessor.cs" />
-    <Compile Include="Controllers\UtilitiesController.cs" />
     <Compile Include="Controllers\MailController.cs" />
-    <Compile Include="Controllers\VisitorController.cs" />
-    <Compile Include="Controllers\PhotosController.cs" />
-    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
-    <Compile Include="Helpers\Converters\ConversationResultTypeConverter.cs" />
-    <Compile Include="Helpers\Converters\UniqueVisitorsResultConverter.cs" />
-    <Compile Include="Helpers\CultureHelper.cs" />
-    <Compile Include="Helpers\HtmlHelper.cs" />
-    <Compile Include="Helpers\MapperHelper.cs" />
-    <Compile Include="Helpers\DependencyHelper.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\UtilitiesController.cs" />
+    <Compile Include="Controllers\VisitorController.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Binders\FacebookProfileModelBinder.cs" />
+    <Compile Include="Helpers\Binders\ProfileModelBinder.cs" />
     <Compile Include="Helpers\Binders\SearchCriteriaBinder.cs" />
-    <Compile Include="Helpers\KatushaMetadataProvider.cs" />
+    <Compile Include="Helpers\Converters\ConversationResultTypeConverter.cs" />
     <Compile Include="Helpers\Converters\SearchingForFormatter.cs" />
-    <Compile Include="Migrations\201208131611102_AddUserUserRole.cs" />
-    <Compile Include="Migrations\201208131611102_AddUserUserRole.Designer.cs">
-      <DependentUpon>201208131611102_AddUserUserRole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Helpers\Converters\UniqueVisitorsResultConverter.cs" />
+    <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="App_Start\DependencyConfig.cs" />
+    <Compile Include="Helpers\HtmlHelper.cs" />
+    <Compile Include="Helpers\KatushaJsonValueProviderFactory.cs" />
+    <Compile Include="Helpers\KatushaMetadataProvider.cs" />
+    <Compile Include="Helpers\LookupListProcessor.cs" />
+    <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\ApiProfileInfo.cs" />
-    <Compile Include="Models\ApiSearchResultModel.cs" />
-    <Compile Include="Models\GoogleCustomVariables.cs" />
-    <Compile Include="Models\MessagesModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseFriendlyModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseGuidModel.cs" />
     <Compile Include="Models\Entities\BaseEntities\BaseModel.cs" />
     <Compile Include="Models\Entities\ConversationModel.cs" />
     <Compile Include="Models\Entities\ConversationResultModel.cs" />
-    <Compile Include="Models\Entities\FacebookProfileModel.cs" />
     <Compile Include="Models\Entities\CountriesToVisitModel.cs" />
+    <Compile Include="Models\Entities\FacebookProfileModel.cs" />
     <Compile Include="Models\Entities\LanguagesSpokenModel.cs" />
     <Compile Include="Models\Entities\LocationModel.cs" />
     <Compile Include="Models\Entities\PhotoModel.cs" />
     <Compile Include="Models\Entities\ProfileModel.cs" />
+    <Compile Include="Models\Entities\SearchCriteriaModel.cs" />
     <Compile Include="Models\Entities\SearchingForModel.cs" />
     <Compile Include="Models\Entities\SearchResultModel.cs" />
     <Compile Include="Models\Entities\VisitModel.cs" />
+    <Compile Include="Models\GoogleCustomVariables.cs" />
+    <Compile Include="Models\MessagesModel.cs" />
     <Compile Include="Models\NeedsPaymentModel.cs" />
     <Compile Include="Models\NewVisitModel.cs" />
     <Compile Include="Models\NewVisitsModel.cs" />
     <Compile Include="Models\PagedListModel.cs" />
-    <Compile Include="Models\Entities\SearchCriteriaModel.cs" />
     <Compile Include="Models\UtilitiesPhotosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Readme\glimpse.ef.readme.txt" />
-    <Content Include="App_Readme\glimpse.mvc3.readme.txt" />
     <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="ConfigData\bundles.txt" />
     <Content Include="ConfigData\cities15000.txt" />
     <Content Include="ConfigData\cities5000.txt" />
+    <Content Include="ConfigData\ConfigurationData.txt" />
+    <Content Include="ConfigData\countryInfo.txt" />
+    <Content Include="ConfigData\Database.sql" />
     <Content Include="ConfigData\DeleteUser.sql" />
+    <Content Include="ConfigData\iso-languagecodes.txt" />
+    <Content Include="ConfigData\timeZones.txt" />
     <Content Include="Content\2012.2.607\Black\editor.png" />
     <Content Include="Content\2012.2.607\Black\imagebrowser.png" />
     <Content Include="Content\2012.2.607\Black\loading.gif" />
@@ -710,34 +678,6 @@
     <Content Include="Content\2012.2.607\Windows7\slider-v.gif" />
     <Content Include="Content\2012.2.607\Windows7\sprite-vertical.png" />
     <Content Include="Content\2012.2.607\Windows7\sprite.png" />
-    <Content Include="Static\Content\bootstrap-image-gallery.min.css" />
-    <Content Include="Static\Scripts\bootstrap-image-gallery.min.js" />
-    <Content Include="Static\Content\bootstrap-responsive.min.css" />
-    <Content Include="Static\Content\bootstrap.min.css" />
-    <Content Include="Static\Scripts\bootstrap.min.js" />
-    <Content Include="Static\Scripts\canvas-to-blob.min.js" />
-    <Content Include="Static\Scripts\jquery.fileupload-ip.js" />
-    <Content Include="Static\Content\jquery.fileupload-ui.css" />
-    <Content Include="Static\Scripts\jquery.fileupload-ui.js" />
-    <Content Include="Static\Scripts\jquery.fileupload.js" />
-    <Content Include="Static\Scripts\jquery.iframe-transport.js" />
-    <Content Include="Static\Scripts\load-image.min.js" />
-    <Content Include="Static\Scripts\locale.js" />
-    <Content Include="Static\Scripts\main.js" />
-    <Content Include="Static\Scripts\tmpl.min.js" />
-    <Content Include="Static\img\bg-black.png" />
-    <Content Include="Static\img\bg-grid.png" />
-    <Content Include="Static\img\glyphicons-halflings-white.png" />
-    <Content Include="Static\img\hover-magnify.png" />
-    <Content Include="Static\img\loading.gif" />
-    <Content Include="Static\img\progress.gif" />
-    <Content Include="Static\img\progressbar.gif" />
-    <Content Include="Static\Scripts\mosaic.1.0.1.js" />
-    <Content Include="Static\Content\mosaic.css" />
-    <Content Include="Static\Content\Fcbk.css" />
-    <Content Include="ConfigData\app.config" />
-    <Content Include="App_Code\PaypalHelper.cshtml" />
-    <Content Include="Static\Content\PagedList.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -766,8 +706,6 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="ConfigData\countryInfo.txt" />
-    <Content Include="ConfigData\Database.sql" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -795,15 +733,15 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Glimpse.RavenDb.Readme.txt" />
     <Content Include="Global.asax" />
-    <Content Include="Static\img\fbck_close.gif" />
     <Content Include="Images\0-00000000-0000-0000-0000-000000000000.jpg" />
     <Content Include="Images\1-00000000-0000-0000-0000-000000000000.jpg" />
     <Content Include="Images\2-00000000-0000-0000-0000-000000000000.jpg" />
     <Content Include="Images\3-00000000-0000-0000-0000-000000000000.jpg" />
     <Content Include="Images\4-00000000-0000-0000-0000-000000000000.jpg" />
+    <Content Include="Images\aspNetHome.png" />
     <Content Include="Images\close.gif" />
+    <Content Include="Images\findHosting.png" />
     <Content Include="Images\Girl.jpg" />
     <Content Include="Images\Girlsmall.jpg" />
     <Content Include="Images\logo.jpg" />
@@ -818,7 +756,6 @@
     <Content Include="Images\SamplePhotos\Male\me2.jpg" />
     <Content Include="Images\SamplePhotos\Male\me3.jpg" />
     <Content Include="Images\view.gif" />
-    <Content Include="ConfigData\iso-languagecodes.txt" />
     <Content Include="Scripts\2012.2.607\jquery-1.7.1.min.js" />
     <Content Include="Scripts\2012.2.607\jquery.validate.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.all.min.js" />
@@ -849,396 +786,243 @@
     <Content Include="Scripts\2012.2.607\telerik.treeview.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.upload.min.js" />
     <Content Include="Scripts\2012.2.607\telerik.window.min.js" />
-    <Content Include="Static\Scripts\jquery.fcbkcomplete.js" />
+    <Content Include="Static\Content\bootstrap-image-gallery-min.css" />
+    <Content Include="Static\Content\bootstrap-responsive-min.css" />
+    <Content Include="Static\Content\bootstrap-min.css" />
+    <Content Include="Static\Content\Fcbk.css" />
+    <Content Include="Static\Content\jquery.fileupload-ui.css" />
+    <Content Include="Static\Content\mosaic.css" />
+    <Content Include="Static\Content\PagedList.css" />
+    <Content Include="Static\Content\Site.css" />
+    <Content Include="Static\img\accent.png" />
+    <Content Include="Static\img\bg-black.png" />
+    <Content Include="Static\img\bg-grid.png" />
+    <Content Include="Static\img\bullet.png" />
+    <Content Include="Static\img\facebook.png" />
+    <Content Include="Static\img\fbck_close.gif" />
+    <Content Include="Static\img\glyphicons-halflings-white.png" />
+    <Content Include="Static\img\heroAccent.png" />
+    <Content Include="Static\img\hover-magnify.png" />
+    <Content Include="Static\img\loading.gif" />
+    <Content Include="Static\img\orderedListOne.png" />
+    <Content Include="Static\img\orderedListThree.png" />
+    <Content Include="Static\img\orderedListTwo.png" />
+    <Content Include="Static\img\progress.gif" />
+    <Content Include="Static\img\progressbar.gif" />
+    <Content Include="Static\img\twitter.png" />
+    <Content Include="Static\Scripts\AjaxLogin.js" />
+    <Content Include="Static\Scripts\bootstrap-image-gallery-min.js" />
+    <Content Include="Static\Scripts\bootstrap-min.js" />
+    <Content Include="Static\Scripts\canvas-to-blob-min.js" />
     <Content Include="Static\Scripts\fb_all.js" />
-    <Content Include="Static\Scripts\jquery-1.6.2-vsdoc.js" />
-    <Content Include="Static\Scripts\jquery-1.6.2.js" />
-    <Content Include="Static\Scripts\jquery-1.6.2.min.js" />
-    <Content Include="Static\Scripts\jquery-ui-1.8.19.js" />
-    <Content Include="Static\Scripts\jquery-ui-1.8.19.min.js" />
-    <Content Include="Static\Scripts\jquery.min-1.7.1.js" />
+    <Content Include="Static\Scripts\jquery-ui-1.8.19-min.js" />
+    <Content Include="Static\Scripts\jquery.fcbkcomplete.js" />
+    <Content Include="Static\Scripts\jquery.fileupload-ip.js" />
+    <Content Include="Static\Scripts\jquery.fileupload-ui.js" />
+    <Content Include="Static\Scripts\jquery.fileupload.js" />
+    <Content Include="Static\Scripts\jquery.iframe-transport.js" />
+    <Content Include="Static\Scripts\jquery-min-1.7.1.js" />
     <Content Include="Static\Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Static\Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Static\Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Static\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Static\Scripts\jquery.validate.js" />
-    <Content Include="Static\Scripts\jquery.validate.min.js" />
+    <Content Include="Static\Scripts\jquery.validate-min.js" />
     <Content Include="Static\Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Static\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Static\Scripts\knockout-2.1.0.js" />
+    <Content Include="Static\Scripts\load-image-min.js" />
+    <Content Include="Static\Scripts\locale.js" />
+    <Content Include="Static\Scripts\main.js" />
     <Content Include="Static\Scripts\modernizr-2.5.3.js" />
-    <Content Include="ConfigData\timeZones.txt" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Static\Scripts\mosaic.1.0.1.js" />
+    <Content Include="Static\Scripts\tmpl-min.js" />
+    <Content Include="Static\Scripts\_references.js" />
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Static\Content\Site.css" />
-    <Content Include="Static\Scripts\_references.js" />
-    <Content Include="Static\Scripts\AjaxLogin.js" />
-    <Content Include="Static\img\accent.png" />
-    <Content Include="Images\aspNetHome.png" />
-    <Content Include="Static\img\bullet.png" />
-    <Content Include="Static\img\facebook.png" />
-    <Content Include="Images\findHosting.png" />
-    <Content Include="Static\img\heroAccent.png" />
-    <Content Include="Static\img\orderedListOne.png" />
-    <Content Include="Static\img\orderedListTwo.png" />
-    <Content Include="Static\img\orderedListThree.png" />
-    <Content Include="Static\img\twitter.png" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\Utilities\Photos.cshtml" />
-    <Content Include="Views\Utilities\Index.cshtml" />
-    <Content Include="Views\Visitor\NewVisits.cshtml" />
-    <Content Include="Views\Shared\_ProfileCreateOrEdit.cshtml" />
-    <Content Include="Views\Account\Facebook.cshtml" />
-    <Content Include="App_Code\CountryCity.cshtml" />
-    <Content Include="Views\___MailTemplates\MailMessageSent_en.cshtml" />
-    <Content Include="Views\Admin_Users\Index.cshtml" />
-    <Content Include="Views\___MailTemplates\MailMessageRead_en.cshtml" />
-    <Content Include="Views\___MailTemplates\PhotoAdded_en.cshtml" />
-    <Content Include="Views\___MailTemplates\ProfileCreated_en.cshtml" />
-    <Content Include="Views\Admin_Profiles\Index.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Messages\Index.cshtml" />
-    <Content Include="Views\Visitor\MyVisits.cshtml" />
-    <Content Include="Views\Messages\Messages.cshtml">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Views\Shared\KatushaException.cshtml" />
-    <Content Include="Views\Shared\NeedsPayment.cshtml" />
-    <Content Include="Views\Payments\PaypalGetCheckout.cshtml" />
-    <Content Include="Views\Payments\PaypalDoCheckout.cshtml" />
-    <Content Include="Views\___MailTemplates\PurchaseMade_en.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Photos\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\autofac\Autofac.Configuration\Autofac.Configuration.csproj">
-      <Project>{6b3413bf-5951-400e-88eb-2dc0eabc58f2}</Project>
-      <Name>Autofac.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\autofac\Autofac.Integration.Mvc\Autofac.Integration.Mvc.csproj">
-      <Project>{dd874e64-c7ec-464d-925f-cf4a709edeef}</Project>
-      <Name>Autofac.Integration.Mvc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\autofac\Autofac\Autofac.csproj">
-      <Project>{7d018b3e-34a3-423d-ac35-12731f4e0a2c}</Project>
-      <Name>Autofac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Glimpse.RavenDb\Glimpse.RavenDb.csproj">
-      <Project>{439766E7-5D3E-4B7D-A301-8611422602B1}</Project>
-      <Name>Glimpse.RavenDb</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.DependencyManagement\MS.Katusha.DependencyManagement.csproj">
-      <Project>{6F22F616-A761-476C-A7E4-63CE3EB193C8}</Project>
-      <Name>MS.Katusha.DependencyManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
-      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
-      <Name>MS.Katusha.Domain.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
-      <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
-      <Project>{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39}</Project>
-      <Name>MS.Katusha.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
-      <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
-      <Name>MS.Katusha.Interfaces.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
-      <Project>{85B30335-23D3-4EEF-8AD1-444BBFEBE796}</Project>
-      <Name>MS.Katusha.Interfaces.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Mailer\MS.Katusha.Mailer.csproj">
-      <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
-      <Name>MS.Katusha.Mailer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
-      <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
-      <Name>MS.Katusha.Repositories.RavenDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
-      <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
-      <Name>MS.Katusha.Repositories.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
-      <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
-      <Name>MS.Katusha.Services.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
-      <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>
-      <Name>MS.Katusha.Services</Name>
-    </ProjectReference>
+    <Content Include="ConfigData\app.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\___MailTemplates\MailConfirm_en.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Mail\Confirm.cshtml" />
+    <Content Include="Views\___MailTemplates\MailMessageRead_en.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Profiles\Delete.cshtml" />
+    <Content Include="Views\___MailTemplates\MailMessageSent_en.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\PhotoAdded_en.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\ProfileCreated_en.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\PurchaseMade_en.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\___MailTemplates\SiteDeployed_en.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Facebook.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Register.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin_Profiles\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin_Users\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\About.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Contact.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\RobotsTxt.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\SiteMapXml.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Mail\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Mail\SendConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConfigData\ConfigurationData.txt" />
-    <Content Include="Views\Shared\_Photo.cshtml" />
-    <Content Include="Views\Photos\List.cshtml" />
+    <Content Include="Views\Messages\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Messages\Messages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Messages\Send.cshtml" />
-    <Content Include="Views\Visitor\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Payments\PaypalDoCheckout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Payments\PaypalGetCheckout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Photos\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Profiles\Create.cshtml" />
-    <Content Include="Views\Profiles\Show.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Profiles\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Profiles\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Profiles\Index.cshtml" />
-    <Content Include="Views\Shared\_LeftPartial.cshtml" />
-    <Content Include="NLog.config" />
-    <Content Include="Views\Shared\_Search.cshtml" />
-    <Content Include="Views\Search\Search.cshtml" />
-    <Content Include="Views\Shared\_SearchForm.cshtml" />
-    <Content Include="Views\Shared\_New.cshtml" />
-    <Content Include="Views\Shared\_Online.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Profiles\New.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Profiles\Online.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Profiles\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_LeftPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_New.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_Online.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.en-US.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_Photo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.da-DK.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.da-DK.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_ProfileCreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.bg-BG.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.bg-BG.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\_SearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\KatushaException.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Shared\NeedsPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Utilities\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Utilities\Photos.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Visitor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Visitor\MyVisits.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\Visitor\NewVisits.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.es-ES.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.es-ES.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Views\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
+    <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.en-US.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.de-DE.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.de-DE.designer.cs</LastGenOutput>
+      <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -1248,22 +1032,261 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
+    <Content Include="App_GlobalResources\EditorLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
+      <LastGenOutput>EditorLocalization.de-DE.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\___MailTemplates\SiteDeployed_en.cshtml" />
+    <Content Include="App_GlobalResources\EditorLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Account\RegisterSuccess.cshtml" />
+    <Content Include="App_GlobalResources\EditorLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\SiteMapXml.cshtml" />
+    <Content Include="App_GlobalResources\EditorLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\RobotsTxt.cshtml" />
+    <Content Include="App_GlobalResources\EditorLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.es-ES.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.es-ES.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Code\CountryCity.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Code\PaypalHelper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NLog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Glimpse.RavenDb\Glimpse.RavenDb.csproj">
+      <Project>{439766e7-5d3e-4b7d-a301-8611422602b1}</Project>
+      <Name>Glimpse.RavenDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.DependencyManagement\MS.Katusha.DependencyManagement.csproj">
+      <Project>{6f22f616-a761-476c-a7e4-63ce3eb193c8}</Project>
+      <Name>MS.Katusha.DependencyManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
+      <Project>{d2430f7d-6ee2-4588-ab1d-f1f28889eb67}</Project>
+      <Name>MS.Katusha.Domain.Raven</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain.Service\MS.Katusha.Domain.Service.csproj">
+      <Project>{8473bf8a-067b-46ce-918c-70efb58be402}</Project>
+      <Name>MS.Katusha.Domain.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+      <Project>{36aa6969-6329-4bb1-bea6-8afcc1ca4152}</Project>
+      <Name>MS.Katusha.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
+      <Project>{f07db764-db87-4cf8-9bea-88c4b0e554f3}</Project>
+      <Name>MS.Katusha.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
+      <Project>{6bc39b87-459b-4967-9b7f-ada1aafd3b39}</Project>
+      <Name>MS.Katusha.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Interfaces.Services\MS.Katusha.Interfaces.Services.csproj">
+      <Project>{85b30335-23d3-4eef-8ad1-444bbfebe796}</Project>
+      <Name>MS.Katusha.Interfaces.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
+      <Project>{17c68d7e-b6f9-478b-a84a-4a96b0c72804}</Project>
+      <Name>MS.Katusha.Services.Configuration</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1272,12 +1295,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-			Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
@@ -1285,12 +1302,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>10595</DevelopmentServerPort>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>33087</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:10595/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -1300,9 +1316,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
 </Project>

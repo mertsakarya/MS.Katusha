@@ -57,7 +57,7 @@ namespace MS.Katusha.Web.Controllers
         where T : MS.Katusha.Domain.Entities.BaseEntities.BaseModel, new()
     {
         private readonly IGridService<T> _service;
-        protected const int PageSize = DependencyHelper.GlobalPageSize;
+        protected const int PageSize = DependencyConfig.GlobalPageSize;
 
         public GridController(IResourceService resourceService, IUserService userService, IGridService<T> service, IProfileService profileService, IStateService stateService, IConversationService conversationService)
             : base(resourceService, userService, profileService, stateService, conversationService)
@@ -70,7 +70,7 @@ namespace MS.Katusha.Web.Controllers
         {
             int total;
             var items = _service.GetAll(out total, 1, PageSize);
-            var pagedList = new StaticPagedList<T>(items, 1, DependencyHelper.GlobalPageSize, total);
+            var pagedList = new StaticPagedList<T>(items, 1, DependencyConfig.GlobalPageSize, total);
             var itemsIndexModel = new PagedListModel<T> { List = pagedList, Total = total };
             return View(itemsIndexModel);
         }

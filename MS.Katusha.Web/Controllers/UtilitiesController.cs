@@ -4,11 +4,8 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Infrastructure.Cache;
-using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
-using MS.Katusha.Services.Configuration;
-using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
@@ -108,21 +105,21 @@ namespace MS.Katusha.Web.Controllers
             Response.Write(String.Format("({0}) items are created with extra {1}!", count, extra));
         }
 
-        [HttpGet]
-        public void PhotosDB2S3(string key)
-        {
-            var bucket = (KatushaConfigurationManager.Instance.GetBucket(key));
-            if(bucket == null) throw new Exception("Empty bucket " + key);
-            var dbPhotoBackupService = new DBPhotoBackupService(DependencyResolver.Current.GetService<IKatushaFileSystem>(), DependencyResolver.Current.GetService<IPhotoBackupRepositoryDB>());
-            var s3PhotoBackupService = new S3PhotoBackupService(key);
-            foreach (var profile in DependencyResolver.Current.GetService<IProfileRepositoryDB>().Query(p=> p.Id != 0, null, false, p=>p.Photos)) {
-                foreach (var photo in profile.Photos) {
-                    var photoData = dbPhotoBackupService.GetPhoto(photo.Guid);
-                    s3PhotoBackupService.AddPhoto(photoData);
-                    Response.Write(photoData.Guid);
-                }
-            }
-        }
+        //[HttpGet]
+        //public void PhotosDB2S3(string key)
+        //{
+        //    var bucket = (KatushaConfigurationManager.Instance.GetBucket(key));
+        //    if(bucket == null) throw new Exception("Empty bucket " + key);
+        //    var dbPhotoBackupService = new DBPhotoBackupService(DependencyResolver.Current.GetService<IKatushaFileSystem>(), DependencyResolver.Current.GetService<IPhotoBackupRepositoryDB>());
+        //    var s3PhotoBackupService = new S3PhotoBackupService(key);
+        //    foreach (var profile in DependencyResolver.Current.GetService<IProfileRepositoryDB>().Query(p=> p.Id != 0, null, false, p=>p.Photos)) {
+        //        foreach (var photo in profile.Photos) {
+        //            var photoData = dbPhotoBackupService.GetPhoto(photo.Guid);
+        //            s3PhotoBackupService.AddPhoto(photoData);
+        //            Response.Write(photoData.Guid);
+        //        }
+        //    }
+        //}
 
         [HttpGet]
         public void ClearCache(string key)
@@ -136,8 +133,8 @@ namespace MS.Katusha.Web.Controllers
             int total;
             int pageNo;
             if (!int.TryParse(key, out pageNo)) pageNo = 1;
-            var list = _photosService.AllPhotos(out total, "0-", pageNo, DependencyHelper.GlobalPageSize);
-            var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyHelper.GlobalPageSize, total);
+            var list = _photosService.AllPhotos(out total, "0-", pageNo, DependencyConfig.GlobalPageSize);
+            var pagedList = new StaticPagedList<Guid>(list, pageNo, DependencyConfig.GlobalPageSize, total);
             var photoGuids = new PagedListModel<Guid> { List = pagedList, Total = total };
             var dictionaryPhotos = new Dictionary<Guid, PhotoModel>();
             var dictionaryProfiles = new Dictionary<Guid, ProfileModel>();

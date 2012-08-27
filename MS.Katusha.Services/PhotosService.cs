@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using ImageResizer;
+using ImageResizer.Plugins.Basic;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
@@ -28,7 +30,11 @@ namespace MS.Katusha.Services
         {
             byte[] bytes;
             using (var stream = new MemoryStream()) {
-                ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+                try {
+                    ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+                } catch(SizeLimits.SizeLimitException ex) {
+                    //ex
+                }
                 bytes = stream.ToArray();
             }
             return bytes;

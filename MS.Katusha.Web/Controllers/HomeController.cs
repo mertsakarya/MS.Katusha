@@ -24,16 +24,16 @@ namespace MS.Katusha.Web.Controllers
             int total;
             IEnumerable<Domain.Entities.Profile> profiles;
             if (KatushaProfile == null) {
-                profiles = ProfileService.GetNewProfiles(p=> p.ProfilePhotoGuid != Guid.Empty, out total, pageIndex, DependencyHelper.GlobalPageSize);
+                profiles = ProfileService.GetNewProfiles(p => p.ProfilePhotoGuid != Guid.Empty, out total, pageIndex, DependencyConfig.GlobalPageSize);
             } else {
                 if(KatushaProfile.Gender == (byte) Sex.Female) {
-                    profiles = ProfileService.GetNewProfiles(p=> p.Gender == (byte) Sex.Male, out total, pageIndex, DependencyHelper.GlobalPageSize);
+                    profiles = ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Male, out total, pageIndex, DependencyConfig.GlobalPageSize);
                 } else {
-                    profiles = ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, DependencyHelper.GlobalPageSize);
+                    profiles = ProfileService.GetNewProfiles(p => p.Gender == (byte)Sex.Female, out total, pageIndex, DependencyConfig.GlobalPageSize);
                 }
             }
             var profilesModel = Mapper.Map<IEnumerable<ProfileModel>>(profiles);
-            var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, DependencyHelper.GlobalPageSize, total);
+            var profilesAsIPagedList = new StaticPagedList<ProfileModel>(profilesModel, pageIndex, DependencyConfig.GlobalPageSize, total);
             var model = new PagedListModel<ProfileModel> { List = profilesAsIPagedList, Total = total};
             return View(model);
         }

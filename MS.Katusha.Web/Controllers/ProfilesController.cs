@@ -23,7 +23,7 @@ namespace MS.Katusha.Web.Controllers
     public class ProfilesController : KatushaController
     {
         private readonly IProfileService _profileService;
-        private const int PageSize = DependencyHelper.GlobalPageSize;
+        private const int PageSize = DependencyConfig.GlobalPageSize;
 
         public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
             : base(resourceService, userService, profileService, stateService, conversationService)

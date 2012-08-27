@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Interfaces.Services.Models;
+using MS.Katusha.Domain.Service;
 
 namespace MS.Katusha.Interfaces.Services
 {

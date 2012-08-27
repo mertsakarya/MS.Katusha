@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MS.Katusha.Services</RootNamespace>
     <AssemblyName>MS.Katusha.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,30 +33,43 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="ImageResizer, Version=3.2.4.698, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ImageResizer.3.2.4\lib\ImageResizer.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
-    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,7 +100,6 @@
     <Compile Include="Generators\ProfileGenerator.cs" />
     <Compile Include="Generators\SampleGenerator.cs" />
     <Compile Include="Generators\UserGenerator.cs" />
-    <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="VisitService.cs" />
     <Compile Include="PhotosService.cs" />
     <Compile Include="SearchService.cs" />
@@ -98,6 +112,10 @@
     <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
       <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
       <Name>MS.Katusha.Domain.Raven</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MS.Katusha.Domain.Service\MS.Katusha.Domain.Service.csproj">
+      <Project>{8473BF8A-067B-46CE-918C-70EFB58BE402}</Project>
+      <Name>MS.Katusha.Domain.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
@@ -127,11 +145,11 @@
       <Project>{0FF01629-20B8-45DF-96EA-47A3E4E8F712}</Project>
       <Name>MS.Katusha.Mailer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.RepositoryRavenDB\MS.Katusha.Repositories.RavenDB.csproj">
+    <ProjectReference Include="..\MS.Katusha.Repositories.RavenDB\MS.Katusha.Repositories.RavenDB.csproj">
       <Project>{143869F1-31AA-4F5F-9C0C-42E1660186D2}</Project>
       <Name>MS.Katusha.Repositories.RavenDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Repository\MS.Katusha.Repositories.DB.csproj">
+    <ProjectReference Include="..\MS.Katusha.Repositories.DB\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
@@ -144,11 +162,12 @@
       <Name>MS.Katusha.Services.Encryption</Name>
     </ProjectReference>
     <ProjectReference Include="..\PayPal_Merchant_SDK\PayPal_Merchant_SDK.csproj">
-      <Project>{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266}</Project>
+      <Project>{1f5ff00b-ce0f-40b8-9bc4-7b5ed2087266}</Project>
       <Name>PayPal_Merchant_SDK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

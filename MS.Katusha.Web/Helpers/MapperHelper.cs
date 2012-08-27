@@ -1,4 +1,3 @@
-using System.Text;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
@@ -15,7 +14,7 @@ namespace MS.Katusha.Web.Helpers
 
         public static void HandleMappings()
         {
-            Services.Helpers.MapperHelper.HandleMappings();
+            Interfaces.Services.Helpers.MapperHelper.HandleMappings();
 
             Mapper.CreateMap<Profile, ProfileModel>();
             Mapper.CreateMap<ProfileModel, Profile>()

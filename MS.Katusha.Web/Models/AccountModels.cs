@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
-using System.Web.Security;
 using MS.Katusha.Web.Models.Entities;
 
 namespace MS.Katusha.Web.Models
@@ -26,7 +20,7 @@ namespace MS.Katusha.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -77,7 +71,7 @@ namespace MS.Katusha.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]

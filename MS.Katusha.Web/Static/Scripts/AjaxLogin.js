@@ -165,13 +165,13 @@ var loadAndShowDialog = function (id, link, url) {
         });
 };
 
-var MakeProfilePhoto = function(key, guid) {
+var MakeProfilePhoto = function(photoBaseUrl, photoType, key, guid) {
     $.getJSON('/Photos/MakeProfilePhoto/' + key + '/' + guid,
         function () {
             var img = document.getElementById("ProfilePhoto");
             if (img != null) {
                 img.style.display = "";
-                img.src = "@(Html.GetPhotoBaseUrl())Photos/@(photoType)-" + guid + ".jpg";
+                img.src = photoBaseUrl + "Photos/" + photoType + "-" + guid + ".jpg";
                 if(mixpanel != null) mixpanel.track('Make Profile Photo', { guid: profile.guid, name: profile.name, photo_guid: guid });
             }
         }

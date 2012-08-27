@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Configuration;

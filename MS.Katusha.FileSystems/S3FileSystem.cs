@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Amazon.S3.Model;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services.Configuration;
