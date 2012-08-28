@@ -15,7 +15,7 @@ namespace MS.Katusha.Repositories.DB
 
         public ResourceLookup[] GetActiveValues()
         {
-            return DbContext.Set<ResourceLookup>().Where(r => !r.Deleted).OrderBy(r=>r.LookupName).OrderBy(r=>r.Language).ToArray();
+            return DbContext.Set<ResourceLookup>().Where(r => !r.Deleted).OrderBy(r=>r.LookupName).ThenBy(r=>r.Language).ToArray();
         }
     }
 
