@@ -1,4 +1,4 @@
-@using MS.Katusha.Services.Configuration
+@using MS.Katusha.Configuration
 @model MS.Katusha.Domain.Entities.Profile
 @{ 
     var link = String.Format("{0}Profiles/Show/{1}", KatushaConfigurationManager.Instance.VirtualPath, Model.Guid);

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
-
+using MS.Katusha.Repositories.DB.Context;
 
 namespace MS.Katusha.Repositories.DB.Base
 {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using MS.Katusha.Domain;
 using MS.Katusha.Infrastructure.Exceptions.Resources;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.DB.Context;
 
 namespace MS.Katusha.Infrastructure
 {

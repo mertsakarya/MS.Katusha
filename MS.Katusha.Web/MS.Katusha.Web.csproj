@@ -408,6 +408,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Models\Attributes\KatushaApiFilterAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaBaseFilterAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaFieldAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaFilterAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaLookupListAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaNeedsPaymentAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaRangeAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaRegularExpressionAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaRequireBasicAuthentication.cs" />
+    <Compile Include="Models\Attributes\KatushaRequiredAttribute.cs" />
+    <Compile Include="Models\Attributes\KatushaStringLengthAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin_ProfilesController.cs" />
     <Compile Include="Controllers\Admin_UsersController.cs" />
@@ -837,7 +848,9 @@
     <Content Include="Static\Scripts\mosaic.1.0.1.js" />
     <Content Include="Static\Scripts\tmpl-min.js" />
     <Content Include="Static\Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1259,21 +1272,9 @@
       <Project>{6f22f616-a761-476c-a7e4-63ce3eb193c8}</Project>
       <Name>MS.Katusha.DependencyManagement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
-      <Project>{d2430f7d-6ee2-4588-ab1d-f1f28889eb67}</Project>
-      <Name>MS.Katusha.Domain.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain.Service\MS.Katusha.Domain.Service.csproj">
-      <Project>{8473bf8a-067b-46ce-918c-70efb58be402}</Project>
-      <Name>MS.Katusha.Domain.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36aa6969-6329-4bb1-bea6-8afcc1ca4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{f07db764-db87-4cf8-9bea-88c4b0e554f3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
+      <Name>MS.Katusha</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Infrastructure\MS.Katusha.Infrastructure.csproj">
       <Project>{6bc39b87-459b-4967-9b7f-ada1aafd3b39}</Project>
@@ -1283,9 +1284,9 @@
       <Project>{85b30335-23d3-4eef-8ad1-444bbfebe796}</Project>
       <Name>MS.Katusha.Interfaces.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
-      <Project>{17c68d7e-b6f9-478b-a84a-4a96b0c72804}</Project>
-      <Name>MS.Katusha.Services.Configuration</Name>
+    <ProjectReference Include="..\MS.Katusha.Repositories.DB\MS.Katusha.Repositories.DB.csproj">
+      <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
+      <Name>MS.Katusha.Repositories.DB</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

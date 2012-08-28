@@ -1,22 +1,11 @@
-@model MS.Katusha.Web.Models.Entities.ProfileModel
-
-@{
-    ViewBag.Title = "Create";
-}
-
+@model ProfileModel
+@{ ViewBag.Title = "Create"; }
 <h2>Create</h2>
-
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-		@Html.Partial("_ProfileCreateOrEdit", Model)
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+	@Html.Partial("_ProfileCreateOrEdit", Model)
+    <p><input type="submit" value="Create" /></p>
 }
-
 <div>
     @Html.ActionLink("Back to Profile page", "Show", "Profiles", new {key = Model.Guid}, null)
 </div>
-
-

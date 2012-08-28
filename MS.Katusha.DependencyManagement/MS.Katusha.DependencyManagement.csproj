@@ -92,9 +92,9 @@
       <Project>{439766e7-5d3e-4b7d-a301-8611422602b1}</Project>
       <Name>Glimpse.RavenDb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
+      <Name>MS.Katusha</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.FileSystems\MS.Katusha.FileSystems.csproj">
       <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
@@ -119,10 +119,6 @@
     <ProjectReference Include="..\MS.Katusha.Repositories.DB\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Encryption\MS.Katusha.Services.Encryption.csproj">
-      <Project>{4B187B16-9B7B-462D-B398-7ACE47A99653}</Project>
-      <Name>MS.Katusha.Services.Encryption</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Services\MS.Katusha.Services.csproj">
       <Project>{5390666F-ABB7-4FEC-8582-0CFFA21398B2}</Project>

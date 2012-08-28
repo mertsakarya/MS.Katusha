@@ -9,7 +9,8 @@ namespace MS.Katusha.Interfaces.Services
     {
         void ClearDatabase();
         void RegisterRaven();
-        IEnumerable<string> ResetDatabaseResources();
+        IEnumerable<string> SetDatabaseResources();
+        void DeleteDatabaseResources();
 
         IExtendedProfile GetExtendedProfile(User katushaUser, long profileId);
         IList<string> SetExtendedProfile(AdminExtendedProfile extendedProfile);

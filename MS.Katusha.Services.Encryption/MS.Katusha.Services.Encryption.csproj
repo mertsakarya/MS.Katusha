@@ -54,9 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\EncryptedStringConverter.cs" />
-    <Compile Include="EncryptionService.cs" />
-    <Compile Include="IEncryptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

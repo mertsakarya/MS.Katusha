@@ -57,6 +57,10 @@
     <Compile Include="Base\BaseGuidRepositoryDB.cs" />
     <Compile Include="Base\BaseRepositoryDB.cs" />
     <Compile Include="Base\RepositoryDB.cs" />
+    <Compile Include="Context\IKatushaDbContext.cs" />
+    <Compile Include="Context\KatushaContextInitializer.cs" />
+    <Compile Include="Context\KatushaDbContext.cs" />
+    <Compile Include="Context\KatushaDbSqlStatements.cs" />
     <Compile Include="GeoCountryRepositoryDB.cs" />
     <Compile Include="GeoLanguageRepositoryDB.cs" />
     <Compile Include="GeoNameRepositoryDB.cs" />
@@ -82,13 +86,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36aa6969-6329-4bb1-bea6-8afcc1ca4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{f07db764-db87-4cf8-9bea-88c4b0e554f3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
+      <Name>MS.Katusha</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86b54d6d-399a-48ca-9d10-cb3ec393a10b}</Project>

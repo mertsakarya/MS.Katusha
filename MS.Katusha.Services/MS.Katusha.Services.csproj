@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncryptionService.cs" />
     <Compile Include="S3PhotoBackupService.cs" />
     <Compile Include="TicketService.cs" />
     <Compile Include="ProductService.cs" />
@@ -109,21 +110,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
-      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
-      <Name>MS.Katusha.Domain.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain.Service\MS.Katusha.Domain.Service.csproj">
-      <Project>{8473BF8A-067B-46CE-918C-70EFB58BE402}</Project>
-      <Name>MS.Katusha.Domain.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
+      <Name>MS.Katusha</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.FileSystems\MS.Katusha.FileSystems.csproj">
       <Project>{46BB085A-B2F4-4CB7-A939-D335C1C660D5}</Project>
@@ -152,14 +141,6 @@
     <ProjectReference Include="..\MS.Katusha.Repositories.DB\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
-      <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
-      <Name>MS.Katusha.Services.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Encryption\MS.Katusha.Services.Encryption.csproj">
-      <Project>{4B187B16-9B7B-462D-B398-7ACE47A99653}</Project>
-      <Name>MS.Katusha.Services.Encryption</Name>
     </ProjectReference>
     <ProjectReference Include="..\PayPal_Merchant_SDK\PayPal_Merchant_SDK.csproj">
       <Project>{1f5ff00b-ce0f-40b8-9bc4-7b5ed2087266}</Project>

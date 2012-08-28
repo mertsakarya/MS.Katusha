@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Web.Mvc;
 using Autofac;
-using MS.Katusha.Domain;
 using MS.Katusha.FileSystems;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
@@ -10,9 +9,9 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Interfaces.Services.Helpers;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Base;
+using MS.Katusha.Repositories.DB.Context;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
-using MS.Katusha.Services.Encryption;
 using Raven.Client.Document;
 
 //using ServiceStack.Redis;
@@ -26,7 +25,7 @@ namespace MS.Katusha.DependencyManagement
         public static IContainer BuildContainer()
         {
             var builder = new ContainerBuilder();
-            DependencyRegistrar.Build(builder);
+            Build(builder);
             Container = builder.Build();
             return Container;
         }
@@ -90,8 +89,6 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterGeneric(typeof(GridService<>)).As(typeof(IGridService<>)).SingleInstance();
             builder.RegisterGeneric(typeof(RepositoryDB<>)).As(typeof(IRepository<>)).SingleInstance();
 
-
-            ///TODO: ?????
             MapperHelper.HandleMappings();
         }
         public static object RegisterGlimpse()

@@ -14,6 +14,7 @@
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
         </li>
+        @*
         <li>
             <div style="display: none">
                 <div class="editor-label">
@@ -25,6 +26,7 @@
                 </div>
             </div>
         </li>
+        *@
         <li>
             <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.Location.CountryName)
@@ -61,60 +63,61 @@
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
         </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.HairColor)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.HairColor)
-                @Html.ValidationMessageFor(model => model.HairColor)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Religion)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.Religion)
-                @Html.ValidationMessageFor(model => model.Religion)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Smokes)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.Smokes)
-                @Html.ValidationMessageFor(model => model.Smokes)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.EyeColor)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.EyeColor)
-                @Html.ValidationMessageFor(model => model.EyeColor)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.BodyBuild)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.BodyBuild)
-                @Html.ValidationMessageFor(model => model.BodyBuild)
-            </div>
-        </li>
-        <li>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Alcohol)
-            </div>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.Alcohol)
-                @Html.ValidationMessageFor(model => model.Alcohol)
-            </div>
-        </li>
+        <div style="display:none">
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HairColor)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.HairColor)
+                    @Html.ValidationMessageFor(model => model.HairColor)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Religion)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.Religion)
+                    @Html.ValidationMessageFor(model => model.Religion)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Smokes)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.Smokes)
+                    @Html.ValidationMessageFor(model => model.Smokes)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.EyeColor)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.EyeColor)
+                    @Html.ValidationMessageFor(model => model.EyeColor)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BodyBuild)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.BodyBuild)
+                    @Html.ValidationMessageFor(model => model.BodyBuild)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Alcohol)
+                </div>
+                <div class="editor-field">
+                    @Html.EnumDropDownListFor(model => model.Alcohol)
+                    @Html.ValidationMessageFor(model => model.Alcohol)
+                </div>
+            </li>
         @*
         @if (Model.Gender == Sex.Male) {
             <li>
@@ -146,7 +149,8 @@
                 </div>   
             </li>
         }
-*@
+        *@
+
         <li>
             @Html.FacebookListFor2("Profile.CountriesToVisit", Model.CountriesToVisit, "Country", p => p.CountriesToVisit, p => p.Country)
         </li>
@@ -156,5 +160,6 @@
         <li>
             @Html.FacebookListFor("Profile.Searches", Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
         </li>
+        </div>
     </ol>
 </fieldset>

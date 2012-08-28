@@ -79,17 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\KatushaApiFilterAttribute.cs" />
-    <Compile Include="Attributes\KatushaBaseFilterAttribute.cs" />
-    <Compile Include="Attributes\KatushaNeedsPaymentAttribute.cs" />
-    <Compile Include="Attributes\KatushaFieldAttribute.cs" />
-    <Compile Include="Attributes\KatushaFilterAttribute.cs" />
-    <Compile Include="Attributes\KatushaLookupListAttribute.cs" />
-    <Compile Include="Attributes\KatushaRangeAttribute.cs" />
-    <Compile Include="Attributes\KatushaRegularExpressionAttribute.cs" />
-    <Compile Include="Attributes\KatushaRequireBasicAuthentication.cs" />
-    <Compile Include="Attributes\KatushaRequiredAttribute.cs" />
-    <Compile Include="Attributes\KatushaStringLengthAttribute.cs" />
     <Compile Include="Cache\CacheObjectRepositoryRavenDB.cs" />
     <Compile Include="Cache\KatushaGlobalBaseCacheContext.cs" />
     <Compile Include="Cache\IKatushaGlobalCacheContext.cs" />
@@ -117,17 +106,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MS.Katusha.Domain.Raven\MS.Katusha.Domain.Raven.csproj">
-      <Project>{D2430F7D-6EE2-4588-AB1D-F1F28889EB67}</Project>
-      <Name>MS.Katusha.Domain.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.Domain.csproj">
+    <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
-      <Name>MS.Katusha.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Enumerations\MS.Katusha.Enumerations.csproj">
-      <Project>{F07DB764-DB87-4CF8-9BEA-88C4B0E554F3}</Project>
-      <Name>MS.Katusha.Enumerations</Name>
+      <Name>MS.Katusha</Name>
     </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Interfaces.Repositories\MS.Katusha.Interfaces.Repositories.csproj">
       <Project>{86B54D6D-399A-48CA-9D10-CB3EC393A10B}</Project>
@@ -144,10 +125,6 @@
     <ProjectReference Include="..\MS.Katusha.Repositories.DB\MS.Katusha.Repositories.DB.csproj">
       <Project>{78CFC2A2-B41D-44DF-ADFC-0B71C0791CD3}</Project>
       <Name>MS.Katusha.Repositories.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MS.Katusha.Services.Configuration\MS.Katusha.Services.Configuration.csproj">
-      <Project>{17C68D7E-B6F9-478B-A84A-4A96B0C72804}</Project>
-      <Name>MS.Katusha.Services.Configuration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
-using MS.Katusha.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Objects;
+using MS.Katusha.Domain.Entities;
+using MS.Katusha.Repositories.DB.Context;
 
 namespace MS.Katusha.Infrastructure
 {
     public static class ReloadResources
     {
-        public static void Reset(IKatushaDbContext dbContext)
+        public static List<string> Reset(IKatushaDbContext dbContext)
         {
             Delete(dbContext);
-            Set(dbContext);
+            return Set(dbContext);
         }
 
         public static List<string> Set(IKatushaDbContext dbContext)
@@ -19,7 +22,9 @@ namespace MS.Katusha.Infrastructure
 
         public static void Delete(IKatushaDbContext dbContext)
         {
-            foreach (var tableName in new string[] {"Resources", "ConfigurationDatas", "ResourceLookups","GeoCountries", "GeoLanguages", "GeoNames", "GeoTimeZones" }) {
+            var context = dbContext as KatushaDbContext;
+            if (context == null) return;
+            foreach (var tableName in new string[] { "Resources", "ConfigurationDatas", "ResourceLookups", "GeoCountries", "GeoLanguages", "GeoNames", "GeoTimeZones" }) {
                 dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [" + tableName + "]");
             }
         }

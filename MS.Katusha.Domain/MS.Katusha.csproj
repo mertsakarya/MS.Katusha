@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MS.Katusha</RootNamespace>
+    <AssemblyName>MS.Katusha</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.1.0.972\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\Data\BucketData.cs" />
+    <Compile Include="Configuration\Data\BucketDataCollection.cs" />
+    <Compile Include="Configuration\Data\EncryptionData.cs" />
+    <Compile Include="Configuration\Data\SettingsData.cs" />
+    <Compile Include="Configuration\KatushaConfigurationHandler.cs" />
+    <Compile Include="Configuration\KatushaConfigurationManager.cs" />
+    <Compile Include="Encryption\EncryptedStringConverter.cs" />
+    <Compile Include="Encryption\EncryptionManager.cs" />
+    <Compile Include="Domain\Entities\BaseEntities\BaseFriendlyModel.cs" />
+    <Compile Include="Domain\Entities\BaseEntities\BaseGuidModel.cs" />
+    <Compile Include="Domain\Entities\BaseEntities\BaseModel.cs" />
+    <Compile Include="Domain\Entities\BaseEntities\IdModel.cs" />
+    <Compile Include="Domain\Entities\CheckoutDetailResult.cs" />
+    <Compile Include="Domain\Entities\CheckoutPaymentResult.cs" />
+    <Compile Include="Domain\Entities\ConfigurationData.cs" />
+    <Compile Include="Domain\Entities\GeoTimeZone.cs" />
+    <Compile Include="Domain\Entities\GeoCountry.cs" />
+    <Compile Include="Domain\Entities\GeoLanguage.cs" />
+    <Compile Include="Domain\Entities\GeoName.cs" />
+    <Compile Include="Domain\Entities\Location.cs" />
+    <Compile Include="Domain\Entities\PaypalSettings.cs" />
+    <Compile Include="Domain\Entities\Photo.cs" />
+    <Compile Include="Domain\Entities\PhotoBackup.cs" />
+    <Compile Include="Domain\Entities\Product.cs" />
+    <Compile Include="Domain\Entities\ProductExecutionData.cs" />
+    <Compile Include="Domain\Entities\ResourceLookup.cs" />
+    <Compile Include="Domain\Entities\MailModel.cs" />
+    <Compile Include="Domain\Entities\Conversation.cs" />
+    <Compile Include="Domain\Entities\CountriesToVisit.cs" />
+    <Compile Include="Domain\Entities\LanguagesSpoken.cs" />
+    <Compile Include="Domain\Entities\Resource.cs" />
+    <Compile Include="Domain\Entities\State.cs" />
+    <Compile Include="Domain\Entities\User.cs" />
+    <Compile Include="Domain\Entities\Event.cs" />
+    <Compile Include="Domain\Entities\Profile.cs" />
+    <Compile Include="Domain\Entities\SearchingFor.cs" />
+    <Compile Include="Domain\Entities\ViewDataUploadFilesResult.cs" />
+    <Compile Include="Domain\Entities\Visit.cs" />
+    <Compile Include="Enumerations\AgeHelper.cs" />
+    <Compile Include="Enumerations\Enumerations.cs" />
+    <Compile Include="Enumerations\HeightHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\Raven\Entities\BaseSearchCriteria.cs" />
+    <Compile Include="Domain\Raven\Entities\Conversation.cs" />
+    <Compile Include="Domain\Raven\Entities\ConversationCountResult.cs" />
+    <Compile Include="Domain\Raven\Entities\ConversationResult.cs" />
+    <Compile Include="Domain\Raven\Entities\CountryCityCountResult.cs" />
+    <Compile Include="Domain\Raven\Entities\NewVisits.cs" />
+    <Compile Include="Domain\Raven\Entities\PingResult.cs" />
+    <Compile Include="Domain\Raven\Entities\ProfileFacet.cs" />
+    <Compile Include="Domain\Raven\Entities\SearchFacet.cs" />
+    <Compile Include="Domain\Raven\Entities\SearchProfileCriteria.cs" />
+    <Compile Include="Domain\Raven\Entities\SearchResult.cs" />
+    <Compile Include="Domain\Raven\Entities\SearchStateCriteria.cs" />
+    <Compile Include="Domain\Raven\Entities\StateFacet.cs" />
+    <Compile Include="Domain\Raven\Entities\UniqueVisitorsResult.cs" />
+    <Compile Include="Domain\Raven\ExpressionHelper.cs" />
+    <Compile Include="Domain\Raven\ISearchExpression.cs" />
+    <Compile Include="Domain\Service\AdminExtendedProfile.cs" />
+    <Compile Include="Domain\Service\ApiAdminUser.cs" />
+    <Compile Include="Domain\Service\ApiConversation.cs" />
+    <Compile Include="Domain\Service\ApiExtendedProfile.cs" />
+    <Compile Include="Domain\Service\ApiLocation.cs" />
+    <Compile Include="Domain\Service\ApiPhoto.cs" />
+    <Compile Include="Domain\Service\ApiPhotoBackup.cs" />
+    <Compile Include="Domain\Service\ApiProfile.cs" />
+    <Compile Include="Domain\Service\ApiProfileInfo.cs" />
+    <Compile Include="Domain\Service\ApiSearchResult.cs" />
+    <Compile Include="Domain\Service\ApiUser.cs" />
+    <Compile Include="Domain\Service\IExtendedProfile.cs" />
+    <Compile Include="Domain\Service\PhotoFile.cs" />
+    <Compile Include="Domain\Service\PhotoTypes.cs" />
+    <Compile Include="Domain\Service\TicketData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

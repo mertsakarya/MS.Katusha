@@ -7,8 +7,8 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Services.Configuration;
-using MS.Katusha.Services.Configuration.Data;
+using MS.Katusha.Configuration;
+using MS.Katusha.Configuration.Data;
 
 namespace MS.Katusha.FileSystems
 {

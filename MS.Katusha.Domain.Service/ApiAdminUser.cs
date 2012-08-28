@@ -1,6 +1,5 @@
 using System;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Services.Encryption.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

@@ -3,7 +3,6 @@ using System.Globalization;
 using MS.Katusha.Domain.Service;
 using MS.Katusha.Infrastructure.Exceptions.Services;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Services.Encryption;
 
 namespace MS.Katusha.Services
 {

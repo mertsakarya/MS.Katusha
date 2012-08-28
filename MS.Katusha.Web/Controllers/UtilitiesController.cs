@@ -42,9 +42,17 @@ namespace MS.Katusha.Web.Controllers
         public void InitConfiguration()
         {
             Response.ContentType = "text/plain";
-            var result = _utilityService.ResetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
+            var result = _utilityService.SetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
             if (String.IsNullOrWhiteSpace(result)) result = "DONE!";
             Response.Write(result);
+        }
+
+        [HttpGet]
+        public void DeleteConfiguration()
+        {
+            Response.ContentType = "text/plain";
+            _utilityService.DeleteDatabaseResources();
+            Response.Write("DONE");
         }
 
         [HttpGet]

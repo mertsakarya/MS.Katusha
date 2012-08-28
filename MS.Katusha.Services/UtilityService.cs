@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Domain.Service;
@@ -11,6 +10,7 @@ using MS.Katusha.Infrastructure;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.DB.Context;
 using MS.Katusha.Repositories.RavenDB;
 using Raven.Abstractions.Commands;
 using AutoMapper;
@@ -71,9 +71,13 @@ namespace MS.Katusha.Services
 
         public void RegisterRaven() { _ravenStore.Create(); }
 
-        public IEnumerable<string> ResetDatabaseResources()
+        public void DeleteDatabaseResources()
         {
             ReloadResources.Delete(_dbContext);
+        }
+
+        public IEnumerable<string> SetDatabaseResources()
+        {
             var result = ReloadResources.Set(_dbContext);
             ResourceManager.LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(_dbContext));
             ResourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));

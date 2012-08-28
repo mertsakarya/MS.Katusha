@@ -6,19 +6,15 @@ using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.FileSystems;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Services.Configuration;
-using MS.Katusha.Services.Configuration.Data;
 
 namespace MS.Katusha.Services
 {
     public class S3PhotoBackupService : IPhotoBackupService
     {
-        private readonly BucketData _bucket;
         private readonly S3FileSystem _fileSystem ;
 
         public S3PhotoBackupService(string bucketName="")
         {
-            _bucket = KatushaConfigurationManager.Instance.GetBucket(bucketName);
             _fileSystem = new S3FileSystem(bucketName);
         }
 

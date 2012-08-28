@@ -1,5 +1,5 @@
-using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using MS.Katusha.Repositories.DB.Context;
 
 namespace MS.Katusha.Repositories.DB.Base
 {

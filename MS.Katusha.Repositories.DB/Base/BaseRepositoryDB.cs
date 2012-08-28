@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using MS.Katusha.Domain;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Interfaces.Repositories;
+using MS.Katusha.Repositories.DB.Context;
 using NLog;
 
 namespace MS.Katusha.Repositories.DB.Base

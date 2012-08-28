@@ -6,9 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using MS.Katusha.Domain;
+using MS.Katusha.Configuration;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Repositories.DB;
+using MS.Katusha.Repositories.DB.Context;
 
 namespace MS.Katusha.Infrastructure
 {
@@ -265,7 +266,7 @@ namespace MS.Katusha.Infrastructure
         {
             var val = sb.ToString();
             if (String.IsNullOrWhiteSpace(val)) return;
-            using (var sourceConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["MS.Katusha.Domain.KatushaDbContext"].ConnectionString)) {
+            using (var sourceConnection = new SqlConnection(KatushaConfigurationManager.Instance.ConnectionString)) {
                 sourceConnection.Open();
                 try {
                     using (var tran = sourceConnection.BeginTransaction()) {
