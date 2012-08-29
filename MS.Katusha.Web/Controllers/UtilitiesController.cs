@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Configuration;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
+using Newtonsoft.Json;
 using PagedList;
 
 namespace MS.Katusha.Web.Controllers
@@ -45,6 +47,16 @@ namespace MS.Katusha.Web.Controllers
             var result = _utilityService.SetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
             if (String.IsNullOrWhiteSpace(result)) result = "DONE!";
             Response.Write(result);
+        }
+
+        [HttpGet]
+        public void DisplayConfiguration()
+        {
+            var instance = KatushaConfigurationManager.Instance;
+            var settings = instance.GetSettings();
+            var result = new {instance.VirtualPath, instance.ConnectionString, settings.AdministratorMailAddress, settings.Ip, settings.MailViewFolder, settings.NotTrackedIpsByGoogleAnalytics, settings.Protocol};
+            Response.ContentType = "application/json";
+            Response.Write(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
 
         [HttpGet]

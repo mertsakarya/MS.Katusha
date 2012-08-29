@@ -479,6 +479,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="ConfigData\bundles.txt" />
     <Content Include="ConfigData\cities15000.txt" />
@@ -835,6 +836,7 @@
     <Content Include="Static\Scripts\jquery-min-1.7.1.js" />
     <Content Include="Static\Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Static\Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="publish.cmd" />
     <None Include="Static\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Static\Scripts\jquery.validate.js" />
     <Content Include="Static\Scripts\jquery.validate-min.js" />
