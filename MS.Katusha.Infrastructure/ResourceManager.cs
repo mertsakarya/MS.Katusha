@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -107,7 +108,10 @@ namespace MS.Katusha.Infrastructure
                 ResourceList.Clear();
                 foreach (var item in resourceRepository.GetActiveValues()) {
                     try {
-                        ResourceList.Add(item.Key, item.Value);
+                        if(ResourceList.ContainsKey(item.Key))
+                            ResourceList[item.Key] = item.Value;
+                        else 
+                            ResourceList.Add(item.Key, item.Value);
                     } catch (Exception ex) {
                         throw new KatushaConfigurationException(item.Key, item.Value, ex);
                     }
@@ -124,8 +128,11 @@ namespace MS.Katusha.Infrastructure
                 ConfigurationList.Clear();
                 foreach (var item in resourceRepository.GetActiveValues()) {
                     try {
-                        ConfigurationList.Add(item.Key, item.Value);
-                    } catch (Exception ex) {
+                        if (ConfigurationList.ContainsKey(item.Key))
+                            ConfigurationList[item.Key] = item.Value;
+                        else
+                            ConfigurationList.Add(item.Key, item.Value);
+                    }  catch (Exception ex) {
                         throw new KatushaResourceException(item.Key, item.Value, ex);
                     }
                 }
@@ -159,13 +166,28 @@ namespace MS.Katusha.Infrastructure
                     var language = items[0].Language;
                     var list = new List<LookupItem>();
                     foreach (var item in items) {
-                        if (item.LookupName == lookupName && item.Language == language)
-                            list.Add(new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order, ByteValue = item.LookupValue});
-                        else {
+                        if (item.LookupName == lookupName && item.Language == language) {
+                            var lookupItem = new LookupItem {Key = item.ResourceKey, Value = item.Value, Order = item.Order, ByteValue = item.LookupValue};
+                            var found = list.Any(i => i.Key == lookupItem.Key);
+                            if(!found)
+                                list.Add(lookupItem);
+                            else {
+                                Debug.WriteLine("Double " + lookupItem.Key);
+                            }
+                        } else {
                             try {
                                 list.Sort(CompareLookupItem);
-                                ResourceLookupList.Add(lookupName + language, list.ToDictionary(r => r.Key, r => r.Value));
-                                ResourceLookupByteList.Add(lookupName + language, list.ToDictionary(r => r.Key, r => r.ByteValue));
+                                var key = lookupName + language;
+                                if (ResourceLookupList.ContainsKey(key)) {
+                                    ResourceLookupList.Add(key, list.ToDictionary(r => r.Key, r => r.Value));
+                                } else {
+                                    ResourceLookupList[key] = list.ToDictionary(r => r.Key, r => r.Value);
+                                }
+                                if (ResourceLookupByteList.ContainsKey(key)) {
+                                    ResourceLookupByteList.Add(key, list.ToDictionary(r => r.Key, r => r.ByteValue));
+                                } else {
+                                    ResourceLookupByteList[key] = list.ToDictionary(r => r.Key, r => r.ByteValue);
+                                }
                             } catch (Exception ex) {
                                 throw new KatushaResourceLookupException(lookupName, ex);
                             }

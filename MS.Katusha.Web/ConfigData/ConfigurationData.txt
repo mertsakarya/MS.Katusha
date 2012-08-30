@@ -337,25 +337,30 @@
 	en	DickThickness	Wide			Wide			2	2
 	en	DickThickness	Thick			Thick			3	3	
 	en	DickThickness	VeryThick		Very Thick		4	4
-
-	en	BodyBuild		Thin			Thin			1	1
-	en	BodyBuild		Fit				Fit				2	2
+	
+	en	BodyBuild		Slim			Slim			1	1
+	en	BodyBuild		Athletic		Athletic		2	2
 	en	BodyBuild		Average			Average			3	3
-	en	BodyBuild		AboveAverage	Above Average	4	4
-	en	BodyBuild		Overweight		Over weight		5	5
+	en	BodyBuild		Curvy			Curvy			4	4
+	en	BodyBuild		Heavy			Heavy			5	5
 
 	en	EyeColor		Black			Black			1	1
 	en	EyeColor		Hazel			Hazel			2	2
 	en	EyeColor		Brown			Brown			3	3
 	en	EyeColor		Green			Green			4	4
 	en	EyeColor		Blue			Blue			5	5
-	en	EyeColor		Gray			Gray			6	6
-	en	EyeColor		Red				Red				7	7
+	en	EyeColor		Grey			Grey			6	6
+	en	EyeColor		Amber			Amber			7	7
 
 	en	HairColor		Brunette		Brunette		1	1
-	en	HairColor		Blonde			Blonde			2	2
+	en	HairColor		Blond			Blond			2	2
 	en	HairColor		Scarlett		Scarlett		3	3
 	en	HairColor		Chestnut		Chestnut		4	4
+	en	HairColor		Black			Black			5	5
+	en	HairColor		Grey			Grey			6	6
+	en	HairColor		Red				Red				7	7
+	en	HairColor		Auburn			Auburn			8	8
+	en	HairColor		Brown			Brown			9	9
 
 	en	Smokes			Smokes			Smokes			1	1
 	en	Smokes			DoesntSmoke	Don't Smoke			2	2
@@ -374,10 +379,16 @@
 	en	Religion		Deist			Deist			8	8
 	en	Religion		Other			Other			9	9
 
-	en	LookingFor		Friend			Friend			1	1
-	en	LookingFor		Sex				Sex				2	2
-	en	LookingFor		OneNight		One night stand	3	3
+	en	LookingFor		Friends			Friends							1	1
+	en	LookingFor		Sex				Sex								2	2
+	en	LookingFor		OneNight		One night stand					3	3
 	en	LookingFor		LongTimeRelationship	Long time relationship	4	4
+	en	LookingFor		Adventure		Adventure						5	5
+	en	LookingFor		Soulmate		Soulmate						6	6
+	en	LookingFor		Job				Job								7	7
+	en	LookingFor		ShortTermRelation	Short term relationship		8	8
+	en	LookingFor		Marriage		Marriage						9	9
+	en	LookingFor		Fun				Fun								10	10
 
 	en	MailType		MailConfirm		Mail Confirm		1	1
 	en	MailType		PasswordChanged	Password Changed	2	2
@@ -386,11 +397,11 @@
 	en	KatushaMembershipCreateStatus	Success				Success				1	1
 	en	KatushaMembershipCreateStatus	DuplicateUserName	Duplicate User Name	2	2
 	en	KatushaMembershipCreateStatus	DuplicateEmail		Duplicate Email		3	3
-	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password		4	4
+	en	KatushaMembershipCreateStatus	InvalidPassword		Invalid Password	4	4
 	en	KatushaMembershipCreateStatus	InvalidEmail		Invalid Email		5	5
 	en	KatushaMembershipCreateStatus	InvalidAnswer		Invalid Answer		6	6
-	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question		7	7
-	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName		8	8
+	en	KatushaMembershipCreateStatus	InvalidQuestion		Invalid Question	7	7
+	en	KatushaMembershipCreateStatus	InvalidUserName		Invalid UserName	8	8
 	en	KatushaMembershipCreateStatus	ProviderError		Provider Error		10	9
 	en	KatushaMembershipCreateStatus	UserRejected		User Rejected		9	10
 

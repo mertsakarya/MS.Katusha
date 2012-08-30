@@ -38,7 +38,10 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
         private readonly IVisitRepositoryRavenDB _visitRepositoryRaven;
         private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
-        private readonly IDictionary<string, string> _countries; 
+        private readonly IDictionary<string, string> _countries;
+        private readonly ResourceManager _resourceManager;
+        private readonly IDictionary<string, string> _languages;
+
         public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore,
                               IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
                               ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
@@ -60,7 +63,9 @@ namespace MS.Katusha.Services
             _userRepository = userRepository;
             _photoBackupService = photoBackupService;
             _dbContext = dbContext; // as KatushaDbContext;
-            _countries = ResourceManager.GetInstance().GetCountries();
+            _resourceManager = ResourceManager.GetInstance();
+            _countries = _resourceManager.GetCountries();
+            _languages = _resourceManager.GetLanguages();
         }
 
         public void ClearDatabase()
@@ -79,7 +84,7 @@ namespace MS.Katusha.Services
 
         public IEnumerable<string> SetDatabaseResources()
         {
-            var result = ReloadResources.Set(_dbContext);
+            var result = ReloadResources.Reset(_dbContext);
             ResourceManager.LoadConfigurationDataFromDb(new ConfigurationDataRepositoryDB(_dbContext));
             ResourceManager.LoadResourceFromDb(new ResourceRepositoryDB(_dbContext));
             ResourceManager.LoadResourceLookupFromDb(new ResourceLookupRepositoryDB(_dbContext));
@@ -148,23 +153,30 @@ namespace MS.Katusha.Services
                 _userRepository.FullUpdate(userDb);
             }
 
+            if (extendedProfile.Profile.Height < 100) extendedProfile.Profile.Height = 170;
+            if (extendedProfile.Profile.Height > 240) extendedProfile.Profile.Height = 235;
+            if (extendedProfile.Profile.BirthYear < 1930) extendedProfile.Profile.BirthYear = 1930;
+            if (extendedProfile.Profile.BirthYear > (DateTime.Now.Year - 18)) extendedProfile.Profile.BirthYear = DateTime.Now.Year - 19;
             var profile = GetProfile(_profileService.GetProfileId(userDb.Guid), userDb, extendedProfile);
+
             foreach (var photo in profile.Photos) SetDatetime(photo);
             if (profile.Id == 0) {
                 if (!String.IsNullOrEmpty(extendedProfile.Profile.FriendlyName))
                     if (_profileRepository.CheckIfFriendlyNameExists(extendedProfile.Profile.FriendlyName))
                         extendedProfile.Profile.FriendlyName = "";
                 SetDatetime(profile);
-                if (profile.BirthYear < 1921) profile.BirthYear = 1921;
-                if (profile.BirthYear > 2000) profile.BirthYear = 1999;
+
                 TryFixLocation(profile.Location);
                 profile = _profileService.CreateProfile(profile);
             } else {
                 profile = _profileService.UpdateProfile(profile);
             }
             if (extendedProfile.CountriesToVisit != null)
-                foreach (var item in extendedProfile.CountriesToVisit)
-                    _profileService.AddCountriesToVisit(profile.Id, item);
+                foreach (var item in extendedProfile.CountriesToVisit) {
+                    var country = (item == "USA") ? "us" : GetCountryToVisit(item);
+                    if (String.IsNullOrWhiteSpace(country)) continue;
+                    _profileService.AddCountriesToVisit(profile.Id, country);
+                }
             if (extendedProfile.Searches != null) {
                 LookingFor searches;
                 foreach (var item in extendedProfile.Searches)
@@ -172,19 +184,22 @@ namespace MS.Katusha.Services
                         _profileService.AddSearches(profile.Id, searches);
             }
             if (extendedProfile.LanguagesSpoken != null)
-                foreach (var item in extendedProfile.LanguagesSpoken)
-                    _profileService.AddLanguagesSpoken(profile.Id, item);
+                foreach (var item in extendedProfile.LanguagesSpoken) {
+                    var language = GetLanguage(item);
+                    if (String.IsNullOrEmpty(language)) continue;
+                    _profileService.AddLanguagesSpoken(profile.Id, language);
+                }
             if (extendedProfile.PhotoBackups.Count > 0) {
                 foreach (var photoBackup in extendedProfile.PhotoBackups) {
                     _photoBackupService.AddPhoto(Mapper.Map<PhotoBackup>(photoBackup));
                 }
-                list.AddRange(from photo in extendedProfile.Profile.Photos from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(photo.Guid, (PhotoType) suffix) select "CREATED\t" + photo.Guid);
+                list.AddRange(from photo in extendedProfile.Profile.Photos from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(photo.Guid, (PhotoType)suffix) select "CREATED\t" + photo.Guid);
             }
-            if (extendedProfile.Messages != null) {
+            if (extendedProfile.Messages != null && extendedProfile.Messages.Count >0) {
                 foreach (var message in Mapper.Map<IList<Conversation>>(extendedProfile.Messages)) {
                     Guid otherGuid;
                     if (message.ToGuid == extendedProfile.Profile.Guid) {
-                        message.ToId = profile.Id;
+                        message.ToId = _profileService.GetProfileId(message.ToGuid);
                         otherGuid = message.FromGuid;
                         message.FromId = _profileService.GetProfileId(message.FromGuid);
                     } else {
@@ -204,6 +219,21 @@ namespace MS.Katusha.Services
             return list;
         }
 
+        private string GetLanguage(string item) {
+            if (_languages.ContainsKey(item)) return item;
+            var l = item.ToLowerInvariant();
+            foreach (var listItem in _languages.Where(listItem => listItem.Value.ToLowerInvariant() == l))
+                return listItem.Key;
+            return "";
+        }
+
+        private string GetCountryToVisit(string item) {
+            if (_countries.ContainsKey(item)) return item;
+            var l = item.ToLowerInvariant();
+            foreach (var listItem in _countries.Where(listItem => listItem.Value.ToLowerInvariant() == l)) return listItem.Key;
+            return "";
+        }
+
         private void TryFixLocation(Location location) {
             if (String.IsNullOrEmpty(location.CountryCode) && !String.IsNullOrEmpty(location.CountryName)) {
                 var name = location.CountryName.ToLowerInvariant();
@@ -217,7 +247,7 @@ namespace MS.Katusha.Services
                 if (cities != null && cities.Count > 0) {
                     var name = location.CityName.ToLowerInvariant();
                     foreach (var item in cities.Where(item => item.Value.ToLowerInvariant() == name)) {
-                        int cityCode = 0;
+                        int cityCode;
                         int.TryParse(item.Key, out cityCode);
                         location.CityCode = cityCode;
                         break;

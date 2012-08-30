@@ -25,8 +25,23 @@ namespace MS.Katusha.Infrastructure
             var context = dbContext as KatushaDbContext;
             if (context == null) return;
             foreach (var tableName in new string[] { "Resources", "ConfigurationDatas", "ResourceLookups", "GeoCountries", "GeoLanguages", "GeoNames", "GeoTimeZones" }) {
+
                 dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [" + tableName + "]");
             }
+            ClearLocal<Resource>(context);
+            ClearLocal<ConfigurationData>(context);
+            ClearLocal<ResourceLookup>(context);
+            ClearLocal<GeoCountry>(context);
+            ClearLocal<GeoLanguage>(context);
+            ClearLocal<GeoName>(context);
+            ClearLocal<GeoTimeZone>(context);
+        }
+
+        private static void ClearLocal<T>(KatushaDbContext context) where T : class
+        {
+            context.Set<T>().Local.Clear();
+            foreach (var item in context.Set<T>().Local) 
+                context.Set<T>().Local.Remove(item);
         }
 
         public static void ClearDatabase(IKatushaDbContext dbContext)

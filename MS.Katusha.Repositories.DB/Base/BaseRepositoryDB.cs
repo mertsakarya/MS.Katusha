@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities.BaseEntities;
@@ -135,7 +138,20 @@ namespace MS.Katusha.Repositories.DB.Base
             logger.Info(String.Format("Save<{0}>()", typeof(T).Name));
 #endif
         //TODO: Take care of "Local"
-           DbContext.SaveChanges();
+
+            try {
+                DbContext.SaveChanges();
+            } catch (DbEntityValidationException dbEx) {
+                foreach (var validationErrors in dbEx.EntityValidationErrors) {
+                    foreach (var validationError in validationErrors.ValidationErrors) {
+                        Debug.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
+            } catch (DbUpdateConcurrencyException ex) {
+                // Update the values of the entity that failed to save 
+                // from the store
+                ex.Entries.Single().Reload();
+            }
         }
     }
 }

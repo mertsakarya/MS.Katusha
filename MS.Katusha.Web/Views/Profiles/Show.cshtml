@@ -36,7 +36,7 @@
         @Html.DisplayDetailFor(Model.BodyBuild != 0, _ => Model.BodyBuild)
 
         @Html.DisplayDetailFor(Model.Height > 0, _ => Model.Height)
-        <div title="Age"><div class="display-label"><b>Age</b></div><div class="display-field">@(DateTime.Now.Year - Model.BirthYear)</div></div>
+        <div title="Age"><div class="display-label"><b>Age</b></div><div class="display-field">@(DateTime.Now.Year - Model.BirthYear)</div></div><br/>
 
         @Html.DisplayDetailFor(Model.EyeColor != 0, _ => Model.EyeColor)
         @Html.DisplayDetailFor(Model.HairColor != 0, _ => Model.HairColor)
