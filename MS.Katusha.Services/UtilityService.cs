@@ -176,23 +176,25 @@ namespace MS.Katusha.Services
                 }
                 list.AddRange(from photo in extendedProfile.Profile.Photos from suffix in PhotoTypes.Versions.Keys where _photoBackupService.GeneratePhoto(photo.Guid, (PhotoType) suffix) select "CREATED\t" + photo.Guid);
             }
-            foreach (var message in Mapper.Map<IList<Conversation>>(extendedProfile.Messages)) {
-                Guid otherGuid;
-                if (message.ToGuid == extendedProfile.Profile.Guid) {
-                    message.ToId = profile.Id;
-                    otherGuid = message.FromGuid;
-                    message.FromId = _profileService.GetProfileId(message.FromGuid);
-                } else {
-                    message.FromId = profile.Id;
-                    otherGuid = message.ToGuid;
-                    message.ToId = _profileService.GetProfileId(message.ToGuid);
-                }
-                var otherUser = _userRepository.GetByGuid(otherGuid);
-                if (otherUser == null) continue;
-                var messageGuid = message.Guid;
-                var messageDb = _conversationRepository.SingleAttached(p => p.Guid == messageGuid);
-                if (messageDb != null) {
-                    _conversationService.SendMessage((message.FromId == profile.Id) ? userDb : otherUser, message);
+            if (extendedProfile.Messages != null) {
+                foreach (var message in Mapper.Map<IList<Conversation>>(extendedProfile.Messages)) {
+                    Guid otherGuid;
+                    if (message.ToGuid == extendedProfile.Profile.Guid) {
+                        message.ToId = profile.Id;
+                        otherGuid = message.FromGuid;
+                        message.FromId = _profileService.GetProfileId(message.FromGuid);
+                    } else {
+                        message.FromId = profile.Id;
+                        otherGuid = message.ToGuid;
+                        message.ToId = _profileService.GetProfileId(message.ToGuid);
+                    }
+                    var otherUser = _userRepository.GetByGuid(otherGuid);
+                    if (otherUser == null) continue;
+                    var messageGuid = message.Guid;
+                    var messageDb = _conversationRepository.SingleAttached(p => p.Guid == messageGuid);
+                    if (messageDb != null) {
+                        _conversationService.SendMessage((message.FromId == profile.Id) ? userDb : otherUser, message);
+                    }
                 }
             }
             return list;
