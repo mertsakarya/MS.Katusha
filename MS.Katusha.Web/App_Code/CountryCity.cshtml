@@ -16,7 +16,7 @@
         }
     </select>
     <br/>
-    <input type="text" id="@(cityId)" name="@(cityId)" value="@(location.CityName)" @((String.IsNullOrWhiteSpace(location.CountryCode)) ? "style=display:none;": "")/>
+    <input type="text" id="@(cityId)" name="@(cityId)" value="@(location.CityName)" @((String.IsNullOrWhiteSpace(location.CountryCode)) ? "style=display:none;": "style=display:none;")/>
     <input type="hidden" id="@(cityId)Key" name="@(cityId)Key" value="@(location.CityCode)" />
     <script type="text/javascript">
         $(function() {
