@@ -38,7 +38,7 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
         private readonly IVisitRepositoryRavenDB _visitRepositoryRaven;
         private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
-
+        private readonly IDictionary<string, string> _countries; 
         public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore,
                               IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
                               ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
@@ -60,6 +60,7 @@ namespace MS.Katusha.Services
             _userRepository = userRepository;
             _photoBackupService = photoBackupService;
             _dbContext = dbContext; // as KatushaDbContext;
+            _countries = ResourceManager.GetInstance().GetCountries();
         }
 
         public void ClearDatabase()
@@ -154,6 +155,9 @@ namespace MS.Katusha.Services
                     if (_profileRepository.CheckIfFriendlyNameExists(extendedProfile.Profile.FriendlyName))
                         extendedProfile.Profile.FriendlyName = "";
                 SetDatetime(profile);
+                if (profile.BirthYear < 1921) profile.BirthYear = 1921;
+                if (profile.BirthYear > 2000) profile.BirthYear = 1999;
+                TryFixLocation(profile.Location);
                 profile = _profileService.CreateProfile(profile);
             } else {
                 profile = _profileService.UpdateProfile(profile);
@@ -198,6 +202,28 @@ namespace MS.Katusha.Services
                 }
             }
             return list;
+        }
+
+        private void TryFixLocation(Location location) {
+            if (String.IsNullOrEmpty(location.CountryCode) && !String.IsNullOrEmpty(location.CountryName)) {
+                var name = location.CountryName.ToLowerInvariant();
+                foreach (var item in _countries.Where(item => item.Value.ToLowerInvariant() == name)) {
+                    location.CountryCode = item.Key;
+                    break;
+                }
+            }
+            if (location.CityCode == 0 && !String.IsNullOrEmpty(location.CityName) && !String.IsNullOrEmpty(location.CountryCode)) {
+                var cities = ResourceManager.GetInstance().GetCities(location.CountryCode);
+                if (cities != null && cities.Count > 0) {
+                    var name = location.CityName.ToLowerInvariant();
+                    foreach (var item in cities.Where(item => item.Value.ToLowerInvariant() == name)) {
+                        int cityCode = 0;
+                        int.TryParse(item.Key, out cityCode);
+                        location.CityCode = cityCode;
+                        break;
+                    }
+                }
+            }
         }
 
         private static void SetDatetime(BaseModel baseModel)
