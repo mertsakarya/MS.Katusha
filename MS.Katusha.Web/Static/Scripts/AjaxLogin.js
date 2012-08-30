@@ -43,6 +43,8 @@ var sendMessage = function(obj, e) {
 
 
 var countryChanged = function (val, cityId) {
+    return;
+    //not used for now
     $('input#' + cityId + 'Key')[0].value = '';
     $('input#' + cityId)[0].value = '';
     if (val != '')

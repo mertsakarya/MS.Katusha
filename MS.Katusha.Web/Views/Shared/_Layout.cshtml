@@ -51,7 +51,7 @@
             <div class="content-wrapper">
                 <div class="float-left">
                     <p class="site-title">
-                        <a href="@(Url.Action("Index", "Home"))" class="mixpanel" mp-event="Click Logo" mp-data="{guid:profile.guid, name:profile.name}"><img src="/Images/logo.jpg"/>Have fun</a>
+                        <a href="/" class="mixpanel" mp-event="Click Logo" mp-data="{guid:profile.guid, name:profile.name}"><img src="/Images/logo.jpg"/>Have fun</a>
                         @if (Request.QueryString["mertiko"] != null && Request.QueryString["mertiko"] == "sakariko") {
                             <input type="text" onkeypress="if(event.keyCode == 13) location = '/Account/LoginWithId/' + (this.value);" />
                         }

@@ -21,7 +21,13 @@ namespace MS.Katusha.Repositories.RavenDB
             using (var session = _documentStore.OpenSession()) {
                 try {
                     var query = Queryable.OrderByDescending(session.Query<CountryCityCountResult, CountryCityCountIndex>().Where(p => p.CountryCode == countryCode && p.Gender == (byte) gender), p => p.Count);
-                    return query.ToDictionary(item => item.CityCode.ToString(CultureInfo.InvariantCulture), item => item.CityName);
+                    var dictionary = new Dictionary<string, string>();
+                    foreach (var result in query) {
+                        var key = result.CityCode.ToString(CultureInfo.InvariantCulture);
+                        if(!dictionary.ContainsKey(key))
+                            dictionary.Add(key, result.CityName);
+                    }
+                    return dictionary;
                 } catch(InvalidOperationException) {
                     return new Dictionary<string, string>();
                 }
@@ -38,9 +44,9 @@ namespace MS.Katusha.Repositories.RavenDB
                                      let o = new {Sum = g.Sum(x => x.Count), g.Key.CountryCode, g.Key.CountryName}
                                      orderby o.Sum descending
                                      select new {g.Key.CountryCode, g.Key.CountryName});
-                    Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                    var dictionary = new Dictionary<string, string>();
                     foreach (var item in query)
-                        if(item != null && !String.IsNullOrWhiteSpace(item.CountryCode))
+                        if(item != null && !String.IsNullOrWhiteSpace(item.CountryCode) && !dictionary.ContainsKey(item.CountryCode))
                             dictionary.Add(item.CountryCode, item.CountryName);
                     return dictionary;
                 } catch(InvalidOperationException) {
