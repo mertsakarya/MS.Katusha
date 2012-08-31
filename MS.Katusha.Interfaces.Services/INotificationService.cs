@@ -5,12 +5,13 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface INotificationService
     {
-        void UserRegistered(User user);
-        void ProfileCreated(Profile profile);
-        void PhotoAdded(Photo photo);
-        void MessageSent(Conversation conversation);
-        void MessageRead(Conversation conversation);
-        void Purchase(User user, Product product);
+        string UserRegistered(User user);
+        string ProfileCreated(Profile profile);
+        string PhotoAdded(Photo photo);
+        string MessageSent(Conversation conversation);
+        string MessageRead(Conversation conversation);
+        string Purchase(User user, Product product);
         string SiteDeployed(User model);
+        string TestMail();
     }
 }

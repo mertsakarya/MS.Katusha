@@ -1,5 +1,6 @@
+@using System.Configuration
 @model MS.Katusha.Domain.Entities.Photo
-@{var link = String.Format("http://s3.amazonaws.com/MS.Katusha/Photos/1-{0}.jpg", Model.Guid); }
+@{var link = String.Format("http://s3.amazonaws.com/{1}/Photos/1-{0}.jpg", Model.Guid, ConfigurationManager.AppSettings["S3.Default.Bucket"]); }
 
 <h2>A photo added.</h2><br/>
 <hr/>

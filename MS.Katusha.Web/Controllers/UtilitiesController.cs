@@ -9,7 +9,6 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
-using Newtonsoft.Json;
 using PagedList;
 
 namespace MS.Katusha.Web.Controllers
@@ -21,14 +20,16 @@ namespace MS.Katusha.Web.Controllers
         private readonly IConversationService _conversationService;
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
+        private readonly INotificationService _notificationService;
         private IKatushaGlobalCacheContext _globalCacheContext;
 
-        public UtilitiesController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
+        public UtilitiesController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
             IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext
             )
             : base(resourceService, userService, profileService, stateService, conversationService)
         {
+            _notificationService = notificationService;
             _globalCacheContext = globalCacheContext;
             _samplesService = samplesService;
             _visitService = visitService;
@@ -46,6 +47,14 @@ namespace MS.Katusha.Web.Controllers
             Response.ContentType = "text/plain";
             var result = _utilityService.SetDatabaseResources().Aggregate("", (current, line) => current + (line + "\r\n"));
             if (String.IsNullOrWhiteSpace(result)) result = "DONE!";
+            Response.Write(result);
+        }
+
+        [HttpGet]
+        public void TestMail()
+        {
+            Response.ContentType = "text/plain";
+            var result = _notificationService.TestMail();
             Response.Write(result);
         }
 

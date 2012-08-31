@@ -1,5 +1,10 @@
 @using MS.Katusha.Enumerations
 @model ProfileModel
+@{ 
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+    var edit = action.ToLowerInvariant() == "edit";
+   }
+
 <fieldset>
     <legend>Profile Form</legend>
     <ol>
@@ -27,6 +32,8 @@
             </div>
         </li>
         *@
+        
+
         <li>
             <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.Location.CountryName)
@@ -63,7 +70,7 @@
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
         </li>
-        <div style="display:none">
+        <div style="@(edit ? "" : "display:none")">
             <li>
                 <div class="editor-label">
                     @Html.LabelFor(model => model.HairColor)

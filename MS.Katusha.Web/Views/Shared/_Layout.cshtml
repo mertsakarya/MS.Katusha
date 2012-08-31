@@ -30,7 +30,7 @@
                 @Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.sunset.css"));
                 @Html.Telerik().ScriptRegistrar().jQuery(false).jQueryValidation(false);
             }
-            if (!(settings.NotTrackedIpsByGoogleAnalytics.IndexOf(settings.Ip, StringComparison.Ordinal) >= 0)) {
+            //if (settings.NotTrackedIpsByGoogleAnalytics.IndexOf(settings.Ip, StringComparison.Ordinal) < 0) {
         <!-- start Mixpanel -->
         <script type="text/javascript">(function (c, a) {
             window.mixpanel = a; var b, d, h, e; b = c.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = ("https:" === c.location.protocol ? "https:" : "http:") + '//cdn.mxpnl.com/libs/mixpanel-2.0.min.js'; d = c.getElementsByTagName("script")[0]; d.parentNode.insertBefore(b, d); a._i = []; a.init = function (b, c, f) {
@@ -40,10 +40,10 @@
             })(document, window.mixpanel || []);
             mixpanel.init("1102a989c03052944c70166bf8e26955");
                     
-        </script><!-- end Mixpanel -->
+        </script><!-- end Mixpanel -->@*
             } else {
                 <script type="text/javascript">window.mixpanel = null;</script>
-            }
+            }*@
         }        
     </head>
     <body>
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </footer>
-        @{if (!(settings.NotTrackedIpsByGoogleAnalytics.IndexOf(settings.Ip, StringComparison.Ordinal) >= 0)) {
+        @{//if (settings.NotTrackedIpsByGoogleAnalytics.IndexOf(settings.Ip, StringComparison.Ordinal) >= 0) {
             <script type="text/javascript">
                 var _gaq = _gaq || [];
                 _gaq.push(['_setAccount', 'UA-33763053-1']);

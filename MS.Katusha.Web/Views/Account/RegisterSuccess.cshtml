@@ -23,11 +23,21 @@
         </script>
     }
 }
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1><br />
-    <br/><br/>
-    @if(user.Gender == (byte)Sex.Male) {
-        <h3>You can send messages to girls for the next fifteen minutes.</h3>
-    }
-    <h3>Go @Html.ActionLink("Home", "Index", "Home")</h3>
-</hgroup>
+<blockquote>
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+    </hgroup>
+    <br/><hr/>
+    <p>Now you can;</p><br/>
+    <ul>
+        @if(user.Gender == (byte)Sex.Male) { <li><b>Warning:</b> You can send messages to girls for the next fifteen minutes. Hurry up, later on it is paid.</li> }
+        <li>@Html.ActionLink("Edit your profile more detailed way", "Edit", "Profiles")</li>
+        <li>@Html.ActionLink("Add more photos", "List", "Photos")</li>
+        <li>@Html.ActionLink("View yourself to see how "+ ((user.Gender == (byte)Sex.Male) ? "handsome" : "beautiful") + " you are", "Me", "Profiles")</li>
+        <li>@Html.ActionLink("Go home and search for more people", "Index", "Home")</li>
+        <li>Pour a glass of wine and relax</li>
+        <li>Make a sandwich</li>
+        <li>Send happy thoughts to humanity</li>
+        <li>Make a search or click the links on the left</li>
+    </ul>
+</blockquote>

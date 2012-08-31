@@ -33,7 +33,7 @@ namespace MS.Katusha.Configuration.Data
             get
             {
                 {
-                    if (KatushaConfigurationManager.Mode == MSKatushaMode.Windows) return "0.0.0.0";
+                    if (KatushaConfigurationManager.Mode == MSKatushaMode.Windows) return "127.0.0.1";
                     var value = HttpContext.Current.Request.Headers["X-Forwarded-For"];
                     return string.IsNullOrEmpty(value) ? HttpContext.Current.Request.UserHostAddress : value;
                 }

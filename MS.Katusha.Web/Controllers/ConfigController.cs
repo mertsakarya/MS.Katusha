@@ -9,11 +9,11 @@ namespace MS.Katusha.Web.Controllers
         [HttpGet]
         public void Display()
         {
-            var instance = KatushaConfigurationManager.Instance;
-            var settings = instance.GetSettings();
-            var result = new { instance.VirtualPath, instance.ConnectionString, settings.AdministratorMailAddress, settings.Ip, settings.MailViewFolder, settings.NotTrackedIpsByGoogleAnalytics, settings.Protocol };
-            Response.ContentType = "application/json";
-            Response.Write(JsonConvert.SerializeObject(result, Formatting.Indented));
+            //var instance = KatushaConfigurationManager.Instance;
+            //var settings = instance.GetSettings();
+            //var result = new { instance.VirtualPath, instance.ConnectionString, settings.AdministratorMailAddress, settings.Ip, settings.MailViewFolder, settings.NotTrackedIpsByGoogleAnalytics, settings.Protocol };
+            //Response.ContentType = "application/json";
+            //Response.Write(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
     }
 }
