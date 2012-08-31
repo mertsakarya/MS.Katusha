@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 using MS.Katusha.Web.Models.Entities;
 
@@ -46,7 +47,7 @@ namespace MS.Katusha.Web.Models
         public string UserName { get; set; }
     }
 
-    public class RegisterModel : ProfileModel
+    public class RegisterModel : ProfileModel, IValidatableObject
     {
         [Required]
         [Display(Name = "User name")]
@@ -76,5 +77,16 @@ namespace MS.Katusha.Web.Models
 
         [Required]
         public HttpPostedFileWrapper Photo { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var list = new List<ValidationResult>();
+            //if (Photo == null || Photo.ContentLength <= 0) {
+            //    list.Add(new ValidationResult("You must add a photo", new[] {"Photo"}));
+            //} else if ((byte) Gender <= 0 || (byte) Gender > 2) {
+            //    list.Add(new ValidationResult("You must select a gender", new[] {"Gender", "gender2"}));
+            //}
+            return list;
+        }
     }
 }

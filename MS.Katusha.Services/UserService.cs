@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Principal;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Cache;
@@ -14,7 +13,7 @@ namespace MS.Katusha.Services
         private readonly INotificationService _notificationService;
         private readonly IUserRepositoryDB _repository;
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
-        private IProfileRepositoryRavenDB _profileRepositoryRaven;
+        private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
 
         public UserService(IProductService productService, INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext)
         {

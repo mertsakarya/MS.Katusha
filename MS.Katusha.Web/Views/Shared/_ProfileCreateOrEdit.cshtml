@@ -59,7 +59,7 @@
                 @Html.LabelFor(model => model.Description)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Description)
+                @Html.TextAreaFor(model => model.Description, new {cols=40, rows=10, style="width:420px;"})
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
         </li>
@@ -118,48 +118,48 @@
                     @Html.ValidationMessageFor(model => model.Alcohol)
                 </div>
             </li>
-        @*
-        @if (Model.Gender == Sex.Male) {
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.DickSize)
-                </div>
-                <div class="editor-field">
-                    @Html.EnumDropDownListFor(model => model.DickSize, true)
-                    @Html.ValidationMessageFor(model => model.DickSize)
-                </div>
-            </li>
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.DickThickness)
-                </div>
-                <div class="editor-field">
-                    @Html.EnumDropDownListFor(model => model.DickThickness)
-                    @Html.ValidationMessageFor(model => model.DickThickness)
-                </div>
-            </li>
-        } else if (Model.Gender == Sex.Female) {
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.BreastSize)
-                </div>
-                <div class="editor-field">
-                    @Html.EnumDropDownListFor(model => model.BreastSize)
-                    @Html.ValidationMessageFor(model => model.BreastSize)
-                </div>   
-            </li>
-        }
-        *@
+            @*
+            @if (Model.Gender == Sex.Male) {
+                <li>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.DickSize)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EnumDropDownListFor(model => model.DickSize, true)
+                        @Html.ValidationMessageFor(model => model.DickSize)
+                    </div>
+                </li>
+                <li>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.DickThickness)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EnumDropDownListFor(model => model.DickThickness)
+                        @Html.ValidationMessageFor(model => model.DickThickness)
+                    </div>
+                </li>
+            } else if (Model.Gender == Sex.Female) {
+                <li>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BreastSize)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EnumDropDownListFor(model => model.BreastSize)
+                        @Html.ValidationMessageFor(model => model.BreastSize)
+                    </div>   
+                </li>
+            }
+            *@
 
-        <li>
-            @Html.FacebookListFor2("Profile.CountriesToVisit", Model.CountriesToVisit, "Country", p => p.CountriesToVisit, p => p.Country)
-        </li>
-        <li>
-            @Html.FacebookListFor2("Profile.LanguagesSpoken", Model.LanguagesSpoken, "Language", p => p.LanguagesSpoken, p => p.Language)
-        </li>
-        <li>
-            @Html.FacebookListFor("Profile.Searches", Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
-        </li>
+            <li>
+                @Html.FacebookListFor2("Profile.CountriesToVisit", Model.CountriesToVisit, "Country", p => p.CountriesToVisit, p => p.Country)
+            </li>
+            <li>
+                @Html.FacebookListFor2("Profile.LanguagesSpoken", Model.LanguagesSpoken, "Language", p => p.LanguagesSpoken, p => p.Language)
+            </li>
+            <li>
+                @Html.FacebookListFor("Profile.Searches", Model.Searches, typeof(LookingFor), p => p.Searches, p => p.Search)
+            </li>
         </div>
     </ol>
 </fieldset>

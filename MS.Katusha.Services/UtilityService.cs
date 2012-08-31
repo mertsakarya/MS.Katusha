@@ -155,7 +155,7 @@ namespace MS.Katusha.Services
 
             if (extendedProfile.Profile.Height < 100) extendedProfile.Profile.Height = 170;
             if (extendedProfile.Profile.Height > 240) extendedProfile.Profile.Height = 235;
-            if (extendedProfile.Profile.BirthYear < 1930) extendedProfile.Profile.BirthYear = 1930;
+            if (extendedProfile.Profile.BirthYear < 1941) extendedProfile.Profile.BirthYear = 1941;
             if (extendedProfile.Profile.BirthYear > (DateTime.Now.Year - 18)) extendedProfile.Profile.BirthYear = DateTime.Now.Year - 19;
             var profile = GetProfile(_profileService.GetProfileId(userDb.Guid), userDb, extendedProfile);
 

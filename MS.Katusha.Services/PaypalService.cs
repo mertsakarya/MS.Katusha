@@ -21,16 +21,17 @@ namespace MS.Katusha.Services
         private const string MSKatushaImageUrl = "http://mskatusha.apphb.com/Images/logo.jpg";
         const CurrencyCodeType MSKatushaCurrencyCode = CurrencyCodeType.USD;
 
+        public PaypalService(IUserService userService)
+        {
+            _userService = userService;
+            _payPalApiService = new PayPalAPIInterfaceServiceService();
+            _settings = PaypalSettings.ParseConfiguration();
+        }
+
         private string GetApiUserName()
         {
             var paypalPaymentTest = ConfigurationManager.AppSettings["PaypalSandbox"] == "true";
             return paypalPaymentTest ? "mertm_1344098150_biz_api1.hotmail.com" : "mertsakarya_api1.hotmail.com";
-        }
-
-        public PaypalService(IUserService userService) {
-            _userService = userService;
-            _payPalApiService = new PayPalAPIInterfaceServiceService();
-            _settings = PaypalSettings.ParseConfiguration();
         }
 
         public string SetExpressCheckout(User user, Product product, string referrer = "", int quantity = 1, string billingAgreementText = "")

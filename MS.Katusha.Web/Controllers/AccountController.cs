@@ -109,9 +109,20 @@ namespace MS.Katusha.Web.Controllers
         private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
         {
             if (ModelState.IsValid) {
+                var hasError = false;
                 if (model.Photo == null || model.Photo.ContentLength <= 0) {
                     ModelState.AddModelError("Photo", "You must add a photo");
-                } else {
+                    hasError = true;
+                } 
+                if ((byte)model.Gender <= 0 || (byte)model.Gender > 2) {
+                    ModelState.AddModelError("gender2", "You must select a gender");
+                    hasError = true;
+                } 
+                if (String.IsNullOrWhiteSpace(model.Location.CountryCode)) {
+                    ModelState.AddModelError("Location.CountryName", "You must select a country");
+                    hasError = true;
+                } 
+                if(!hasError ){
                     KatushaMembershipCreateStatus createStatus;
                     KatushaUser = UserService.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
                     if (createStatus == KatushaMembershipCreateStatus.Success) {

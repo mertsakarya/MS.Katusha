@@ -53,7 +53,7 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IPhotoRepositoryDB _photoRepository;
         private readonly IPhotoBackupService _photoBackupService;
-        private IKatushaGlobalCacheContext _cacheContext;
+        private readonly IKatushaGlobalCacheContext _cacheContext;
 
         public PhotosService(IKatushaGlobalCacheContext cacheContext, IKatushaFileSystem fileSystem, IProfileService profileService, INotificationService notificationService, IConversationService conversationService, IProfileRepositoryDB profileRepository, IPhotoRepositoryDB photoRepository, IPhotoBackupService photoBackupService)
         {

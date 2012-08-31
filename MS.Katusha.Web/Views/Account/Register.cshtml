@@ -31,7 +31,7 @@
     </hgroup>
 
     <p class="message-info">
-        Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
+        Passwords are required to be a minimum of 6 characters in length.<br /><b>And please do not use the same password with your email account. ANYWHERE!</b>
     </p>
 </div>
 
@@ -61,40 +61,24 @@
                     @Html.PasswordFor(m => m.ConfirmPassword)
                     @Html.ValidationMessageFor(m => m.ConfirmPassword)
                 </li>
+            </ol>
+            <ol>
+                <li><hr /></li>
                 <li>
-                    <legend>Upload your photo</legend>
-                    <div class="editor-label mandatory">
-                        <label for="Photo">Photo</label>
-                    </div>
+                    <h3>
+                        I am a Girl @Html.RadioButtonFor(m=> m.Gender, Sex.Female) / Man @Html.RadioButtonFor(m=> m.Gender, Sex.Male)
+                    </h3>
+                    @Html.ValidationMessage("gender2")
+                </li>                <li>
                     <div class="editor-field">
-                        <input type="file" name="Photo" />
+                        <h3>Photo <input type="file" name="Photo" /></h3>
                         @Html.ValidationMessageFor(model => model.Photo)
                     </div>
                 </li>
+                <li><hr /></li>
             </ol>
-
-            <hr/>
-            @if (!profileVisible) {
-                <h3>Continue as a
-                    <div id="girlButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Female))">
-                        <span>Girl</span>
-                    </div>
-                    /
-                    <div id="manButton" class="btn btn-success" onclick="return selectGender(@((byte) Sex.Male))">
-                        <span>Man</span>
-                    </div>?
-                </h3>
-            }
-        </div>
-        <div id="registration_profile" style="@((profileVisible)?"":"display: none;")">
-            @if (!profileVisible) {
-                <div class="btn btn-success" onclick="return selectUser();">
-                    <span>Modify user information</span>
-                </div>
-            }
-            @Html.HiddenFor(m => m.Gender)
             @Html.Partial("_ProfileCreateOrEdit", Model)
-            <input type="submit" value="Register" onclick="if(t)t({id:'Click Profile Create'});"/>
         </div>
+        <input type="submit" value="Register" onclick="if(t)t({id:'Click Profile Create'});"/>
     </fieldset>
 }
