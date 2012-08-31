@@ -30,8 +30,8 @@ namespace MS.Katusha.Repositories.RavenDB
         {
             using (var session = DocumentStore.OpenSession()) {
                 if(messageType == MessageType.Received)
-                 return session.Query<ConversationCountResult, ConversationFromCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
-                return session.Query<ConversationCountResult, ConversationToCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
+                    return session.Query<ConversationCountResult, ConversationToCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
+                return session.Query<ConversationCountResult, ConversationFromCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
             }
         }
     }
