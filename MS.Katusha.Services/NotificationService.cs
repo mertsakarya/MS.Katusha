@@ -17,7 +17,6 @@ namespace MS.Katusha.Services
         private readonly string _mailTemplatesFolder;
 
         private const string MailConfirm = "MailConfirm_en.cshtml";
-        private const string MailConfirmAdmin = "MailConfirm_en.cshtml";
 
         private const string MailMessageSent = "MailMessageSent_en.cshtml";
         private const string MailMessageSentAdmin = "MailMessageSent_en.cshtml";
@@ -45,7 +44,6 @@ namespace MS.Katusha.Services
         {
             try {
                 Mailer.Mailer.SendMail(user.Email, "Katusha says:Welcome! You need one more step to open a new world!", _mailTemplatesFolder, MailConfirm, user);
-                Mailer.Mailer.SendMail(_adminMailAddress, "[USER REGISTERED] " + user.UserName, _mailTemplatesFolder, MailConfirmAdmin, user);
             } catch(Exception) {}
         }
 
