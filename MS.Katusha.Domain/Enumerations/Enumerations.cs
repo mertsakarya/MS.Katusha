@@ -41,6 +41,7 @@ namespace MS.Katusha.Enumerations
     public enum PaypalEnvironment { Sandbox = 1, Live = 2}
 
     public enum MSKatushaSource { Local = 1, Live = 2, LiveEU = 3 }
+    public enum MSKatushaMode { Web = 1, Windows = 2 }
 
 
     [Flags]

@@ -11,6 +11,6 @@ namespace MS.Katusha.Repositories.DB
     {
         private readonly KatushaDbContext _dbContext;
         public GeoCountryRepositoryDB(IKatushaDbContext dbContext) { _dbContext = dbContext as KatushaDbContext; }
-        public IList<GeoCountry> GetAll() { return _dbContext.Set<GeoCountry>().AsQueryable().AsNoTracking().ToList(); }
+        public IList<GeoCountry> GetAll() { return _dbContext.Set<GeoCountry>().OrderBy(p=>p.Country).AsQueryable().AsNoTracking().ToList(); }
     }
 }

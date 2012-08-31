@@ -69,7 +69,8 @@
                         I am a Girl @Html.RadioButtonFor(m=> m.Gender, Sex.Female) / Man @Html.RadioButtonFor(m=> m.Gender, Sex.Male)
                     </h3>
                     @Html.ValidationMessage("gender2")
-                </li>                <li>
+                </li>
+                <li>
                     <div class="editor-field">
                         <h3>Photo <input type="file" name="Photo" /></h3>
                         @Html.ValidationMessageFor(model => model.Photo)

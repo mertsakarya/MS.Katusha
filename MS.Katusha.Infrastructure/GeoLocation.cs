@@ -77,7 +77,6 @@ namespace MS.Katusha.Infrastructure
             }
             _countryList = new Dictionary<string, string>(Countries.Count);
             foreach (var item in Countries) { _countryList.Add(item.Key, item.Value.Country); }
-
             var cityList = new Dictionary<string, string>();
             foreach (var nameItems in _countryNames) {
                 foreach (var item in nameItems.Value) {

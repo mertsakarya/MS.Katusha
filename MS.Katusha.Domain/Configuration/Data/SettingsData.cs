@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using MS.Katusha.Enumerations;
 
 namespace MS.Katusha.Configuration.Data
 {
@@ -16,6 +17,7 @@ namespace MS.Katusha.Configuration.Data
         {
             get
             {
+                if (KatushaConfigurationManager.Mode == MSKatushaMode.Windows) return "http";
                 //TODO: THIS IS BAAADDDD!
                 if (HttpContext.Current.Request.Url.Scheme == "https") return "https";
                 var requestProtocol = HttpContext.Current.Request.Headers["X-Forwarded-Proto"];
@@ -31,6 +33,7 @@ namespace MS.Katusha.Configuration.Data
             get
             {
                 {
+                    if (KatushaConfigurationManager.Mode == MSKatushaMode.Windows) return "0.0.0.0";
                     var value = HttpContext.Current.Request.Headers["X-Forwarded-For"];
                     return string.IsNullOrEmpty(value) ? HttpContext.Current.Request.UserHostAddress : value;
                 }
@@ -45,7 +48,9 @@ namespace MS.Katusha.Configuration.Data
             get
             {
                 var retVal = ConfigurationManager.AppSettings["MailViewFolder"];
-                if (String.IsNullOrWhiteSpace(retVal)) retVal = HttpContext.Current.Server.MapPath(@"~\");
+                if (String.IsNullOrWhiteSpace(retVal)) retVal = (KatushaConfigurationManager.Mode == MSKatushaMode.Windows) ? 
+                    ""
+                    : HttpContext.Current.Server.MapPath(@"~\");
                 return retVal;
             }
         }
