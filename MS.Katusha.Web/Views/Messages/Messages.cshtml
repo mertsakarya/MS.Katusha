@@ -23,7 +23,7 @@
     var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
     var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
     var canClickRead = (messageType == MessageType.Received);    
-    <li style="list-style: none; border:1px solid #f0f0f0">
+    <li style="list-style: none; border:1px solid #b0b0b0">
         <table>
             <tr>
                 <td style="width:50px; overflow: hidden; vertical-align: top;">
