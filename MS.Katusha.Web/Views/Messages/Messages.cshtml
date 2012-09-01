@@ -26,18 +26,21 @@
     <li style="list-style: none; border:1px solid #f0f0f0">
         <table>
             <tr>
-                <td style="width:50px; overflow: hidden"><a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br /><span class="username">@name</span></a></td>
-                <td style="background-color: #ffe; width: 100%">
-                    <table width="100%">
-                        <tr><td style="background-color: goldenrod;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
-                        <tr><td style="background-color: gold;font-weight: bold;">
+                <td style="width:50px; overflow: hidden; vertical-align: top;">
+                    <a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br />
+                    <span class="username" style="width:50px; overflow: hidden; ">@name</span></a>
+                </td>
+                <td style="background-color: #ffe; width: 100%; padding-left:8px;">
+                    <table style="padding-left: 10px; width: 100%;">
+                        <tr><td style="background-color: goldenrod;padding:4px;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
+                        <tr><td style="background-color: gold;font-weight: bold;padding:4px;">
                                 <a title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"'); return false;":"void()")">@(String.IsNullOrWhiteSpace(message.Subject) ? "[No Subject]" : message.Subject)</a><br/>
                             </td>
                         </tr>
-                        <tr><td>
+                        <tr><td style="padding-left: 10px; padding: 6px;">
                             <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
                                 @if(!(canClickRead && !isRead)) {
-<text>@(message.Message)</text>
+<text>@Html.Raw(message.Message)</text>
                                 }
                             </div>
                             <br/>

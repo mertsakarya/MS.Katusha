@@ -55,7 +55,7 @@ namespace MS.Katusha.Services
                 if (user.Gender == (byte)Sex.Male)
                     if (user.Expires < DateTime.Now)
                         throw new KatushaNeedsPaymentException(user, ProductNames.MonthlyKatusha);
-
+            message.Message = message.Message.Replace("\r\n", "<br />\r\n");
             var dbMessage = Mapper.Map<Domain.Entities.Conversation>(message);
             _conversationRepository.Add(dbMessage);
             message.Guid = dbMessage.Guid;

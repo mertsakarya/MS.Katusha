@@ -106,8 +106,11 @@ var resetForm = function ($form) {
 var formSubmitHandler = function (e) {
     var $form = $(this);
     if (!$form.valid || $form.valid()) {
+
+        $("input[type=submit]").attr("disabled", "disabled");
         $.post($form.attr('action'), $form.serializeArray())
             .done(function (json) {
+                $("input[type=submit]").removeAttr("disabled");
                 json = json || {};
                 if (json.success) {
                     if (mixpanel != null) {
