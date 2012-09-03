@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
@@ -66,6 +67,27 @@ namespace MS.Katusha.Web.Controllers
             var extendedProfile = _utilityService.GetExtendedProfile(KatushaUser, id);
             Response.ContentType = "application/json";
             Response.Write(JsonConvert.SerializeObject(extendedProfile));
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void GetProfileGuid(string key)
+        {
+            Response.ContentType = "application/json";
+            long id;
+            if (!long.TryParse(key, out id)) {
+                Guid guid;
+                if (!Guid.TryParse(key, out guid)) {
+                    var user = UserService.GetUser(key);
+                    Response.Write(user == null ? "{userGuid:''}" : "{userGuid:'" + user.Guid + "'}");
+                } else {
+                    var user = UserService.GetUser(guid);
+                    Response.Write(user == null ? "{userGuid:''}" : "{userGuid:'" + user.Guid + "'}");
+                }
+            } else {
+                var user = UserService.GetUser(id);
+                Response.Write(user == null ? "{userGuid:''}" : "{userGuid:'" + user.Guid + "'}");
+            }
         }
 
         [HttpPost]
