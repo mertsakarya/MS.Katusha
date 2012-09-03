@@ -59,6 +59,14 @@ namespace MS.Katusha.Web.Controllers
         }
 
         [HttpGet]
+        public void UpdateRavenProfiles()
+        {
+            _utilityService.UpdateRavenProfiles();
+            Response.ContentType = "text/plain";
+            Response.Write("DONE");
+        }
+
+        [HttpGet]
         public void DeleteConfiguration()
         {
             Response.ContentType = "text/plain";

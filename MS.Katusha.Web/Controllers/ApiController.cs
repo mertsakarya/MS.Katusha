@@ -110,6 +110,28 @@ namespace MS.Katusha.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void UpdateRavenProfile(string key)
+        {
+            User user;
+            long id;
+            if (!long.TryParse(key, out id)) {
+                Guid guid;
+                if (!Guid.TryParse(key, out guid)) {
+                    user = UserService.GetUser(key);
+                } else {
+                    user = UserService.GetUser(guid);
+                }
+            } else {
+                user = UserService.GetUser(id);
+            }
+            var profileId = ProfileService.GetProfileId(user.Guid);
+            ProfileService.UpdateRavenProfile(profileId);
+            Response.ContentType = "application/json";
+            Response.Write("{status:'ok'}");
+        }
+
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
         public void DeleteProfile(string key)
         {

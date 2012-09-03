@@ -11,6 +11,7 @@ namespace MS.Katusha.Interfaces.Services
         void RegisterRaven();
         IEnumerable<string> SetDatabaseResources();
         void DeleteDatabaseResources();
+        void UpdateRavenProfiles();
 
         IExtendedProfile GetExtendedProfile(User katushaUser, long profileId);
         IList<string> SetExtendedProfile(AdminExtendedProfile extendedProfile);

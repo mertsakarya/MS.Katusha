@@ -75,6 +75,14 @@ namespace MS.Katusha.Services
             _photoService.ClearPhotos();
         }
 
+        public void UpdateRavenProfiles()
+        {
+            int total;
+            foreach(var item in _profileRepository.GetAll(out total)) {
+                _profileService.UpdateRavenProfile(item.Id);
+            }
+        }
+
         public void RegisterRaven() { _ravenStore.Create(); }
 
         public void DeleteDatabaseResources()
@@ -122,6 +130,7 @@ namespace MS.Katusha.Services
                     PhotoBackups = photoBackups
                 };
             }
+            _profileService.UpdateRavenProfile(profile.Id);
             return extendedProfile;
         }
 
