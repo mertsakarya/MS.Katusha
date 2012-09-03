@@ -13,7 +13,7 @@
             var val = ((String.IsNullOrWhiteSpace(profile.FriendlyName)) ? profile.Guid.ToString() : profile.FriendlyName);
             var title = String.Format("{0} - {1} - {2}", profile.Name, (DateTime.Now.Year - profile.BirthYear), profile.Location.CountryName);
             var url = Url.Action("Show", "Profiles", new {key = val});
-            <a title="@title" href="@url" rel="gallery" class="mixpanel" mp-event="Click Search Result Profile" mp-data="{guid:profile.guid, name:profile.name, profile_guid:'@(profile.Guid)', profile_name:@(profile.Name)''}">
+            <a title="@title" href="@url" rel="gallery" class="mixpanel" mp-event="Click Search Result Profile" mp-data="{guid:profile.guid, name:profile.name, profile_guid:'@(profile.Guid)', profile_name:'@(profile.Name)'}">
                 @Html.PhotoImg(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
             </a>
         }

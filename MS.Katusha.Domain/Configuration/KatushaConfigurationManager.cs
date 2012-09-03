@@ -10,9 +10,7 @@ namespace MS.Katusha.Configuration
         private readonly KatushaConfigurationHandler config;
         private static readonly KatushaConfigurationManager instance = new KatushaConfigurationManager();
         private readonly MSKatushaSource _msKatushaSource;
-        private readonly MSKatushaMode _msKatushaMode;
         private readonly string _connectionString;
-        private readonly string _virtualPath;
         public static KatushaConfigurationManager Instance { get { return instance; } }
         public static MSKatushaMode Mode = (ConfigurationManager.AppSettings["MS.Katusha.Mode"] != null &&  ConfigurationManager.AppSettings["MS.Katusha.Mode"].ToLowerInvariant().Substring(0,3) == "win") ? MSKatushaMode.Windows : MSKatushaMode.Web;
         
@@ -34,7 +32,6 @@ namespace MS.Katusha.Configuration
             }
             Mode = (ConfigurationManager.AppSettings["MS.Katusha.Mode"] != null &&  ConfigurationManager.AppSettings["MS.Katusha.Mode"].ToLowerInvariant().Substring(0,3) == "win") ? MSKatushaMode.Windows : MSKatushaMode.Web;
 
-            _virtualPath = config.Settings.Protocol + ConfigurationManager.AppSettings["VirtualPath"];
             _connectionString = (_msKatushaSource != MSKatushaSource.Local) ? ConfigurationManager.AppSettings["SQLSERVER_CONNECTION_STRING"] : ConfigurationManager.ConnectionStrings["MS.Katusha.Repositories.DB.Context.KatushaDbContext"].ConnectionString;
         }
 
@@ -50,7 +47,14 @@ namespace MS.Katusha.Configuration
             return config.Settings;
         }
 
-        public string VirtualPath { get { return _virtualPath; } }
+        public string VirtualPath
+        {
+            get
+            {
+                var _virtualPath = config.Settings.Protocol + ConfigurationManager.AppSettings["VirtualPath"];
+                return _virtualPath;
+            }
+        }
 
         public string ConnectionString
         {

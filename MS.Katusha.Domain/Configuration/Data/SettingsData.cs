@@ -8,11 +8,8 @@ namespace MS.Katusha.Configuration.Data
     public class SettingsData : ConfigurationElement
     {
 
-        public SettingsData() { base.Properties.Add(protocol); }
+        public SettingsData() { }
 
-        private static readonly ConfigurationProperty protocol = new ConfigurationProperty("protocol", typeof (string), "http", ConfigurationPropertyOptions.IsRequired);
-
-        [ConfigurationProperty("protocol", IsRequired = true)]
         public string Protocol
         {
             get
@@ -42,6 +39,7 @@ namespace MS.Katusha.Configuration.Data
 
         public string NotTrackedIpsByGoogleAnalytics { get { return ConfigurationManager.AppSettings["NotTrackedIpsByGoogleAnalytics"]; } }
         public string AdministratorMailAddress { get { return ConfigurationManager.AppSettings["AdministratorMailAddress"]; } }
+        public bool MinifyContent { get { return ConfigurationManager.AppSettings["MS.Katusha.MinifyContent"] == "true"; } }
 
         public string MailViewFolder
         {
