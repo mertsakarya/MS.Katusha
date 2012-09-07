@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Configuration;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;
@@ -21,7 +20,7 @@ namespace MS.Katusha.Web.Controllers
         private readonly IPhotosService _photosService;
         private readonly IUtilityService _utilityService;
         private readonly INotificationService _notificationService;
-        private IKatushaGlobalCacheContext _globalCacheContext;
+        private readonly IKatushaGlobalCacheContext _globalCacheContext;
 
         public UtilitiesController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
