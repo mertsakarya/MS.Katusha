@@ -16,7 +16,7 @@ namespace MS.Katusha.Interfaces.Repositories
 
     public interface IProfileRepositoryRavenDB : IProfileRepositoryDB, IRavenFriendlyNameRepository<Profile>
     {
-        IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total);
+        IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, object>> orderByClause, bool ascending = false);
         IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName);
     }
 }

@@ -25,11 +25,13 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total)
+        public IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, object>> orderByClause, bool ascending = false)
         {
             using (var session = DocumentStore.OpenSession()) {
                 RavenQueryStatistics stats;
-                var query = Queryable.Skip(session.Query<T>().Statistics(out stats).Where(filter), (pageNo - 1)*pageSize).Take(pageSize).ToList();
+                var q = session.Query<T>().Statistics(out stats).Where(filter);
+                if (orderByClause != null) q = (ascending) ? q.OrderBy(orderByClause) : q.OrderByDescending(orderByClause);
+                var query = Queryable.Skip(q, (pageNo - 1) * pageSize).Take(pageSize).ToList();
                 total = stats.TotalResults;
                 return query;
             }

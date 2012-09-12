@@ -27,12 +27,13 @@ namespace MS.Katusha.Services
 
         private IEnumerable<Profile> SearchProfiles(Expression<Func<Profile, bool>> filter, int pageNo, int pageSize, out int total)
         {
-            return _profileRepositoryRaven.Search(filter, pageNo, pageSize, out total);
+            //var items = _profileRepositoryRaven.Query(filter, pageNo, pageSize, out total, o => o.CreationDate, false, p => p.Photos);
+            return _profileRepositoryRaven.Search(filter, pageNo, pageSize, out total, o=> o.CreationDate);
         }
 
         private IEnumerable<Profile> SearchStates(Expression<Func<State, bool>> filter, int pageNo, int pageSize, out int total)
         {
-            var stateList = _stateRepositoryRaven.Search(filter, pageNo, pageSize, out total);
+            var stateList = _stateRepositoryRaven.Search(filter, pageNo, pageSize, out total, o => o.LastOnline);
             var profileList = new List<Profile>(stateList.Count);
             profileList.AddRange(stateList.Select(item => _profileService.GetProfile(item.ProfileId)));
             return profileList;

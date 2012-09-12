@@ -170,3 +170,7 @@
         </div>
     </ol>
 </fieldset>
+@*@if(edit) {
+    @Html.HideLink("Hide Profile", "Hide", "Profiles", "Your profile will be hidden from searches and any other general lists.<br />But you cannot search anyone and see online users as well.")
+    @Html.AreYouSureActionLink("Delete Profile", "Remove", "Profiles");
+}*@
