@@ -31,7 +31,7 @@ namespace MS.Katusha.Services
             byte[] bytes;
             using (var stream = new MemoryStream()) {
                 try {
-                    ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+                    ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix].ToString()), false, true);
                 } catch(SizeLimits.SizeLimitException ex) {
                     //ex
                 }

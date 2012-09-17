@@ -37,7 +37,7 @@ namespace MS.Katusha.Services
                 byte[] bytes;
                 using (var outputStream = new MemoryStream()) {
                     using (var stream = new MemoryStream(photo.Data)) {
-                        ImageBuilder.Current.Build(stream, outputStream, new ResizeSettings(PhotoTypes.Versions[suffix]), false, true);
+                        ImageBuilder.Current.Build(stream, outputStream, new ResizeSettings(PhotoTypes.Versions[suffix].ToString()), false, true);
                         bytes = outputStream.ToArray();
                     }
                 }

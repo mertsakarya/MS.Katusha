@@ -12,6 +12,7 @@ using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models.Entities;
 using MS.Katusha.Web.Models.Entities.BaseEntities;
+using MS.Katusha.Domain.Service;
 
 namespace MS.Katusha.Web.Helpers
 {
@@ -95,10 +96,18 @@ namespace MS.Katusha.Web.Helpers
                 tb.Attributes.Add("id", String.Format("ProfilePhoto"));
                 tb.Attributes.Add("itemprop", "image");
             }
+
             var str = GetPhotoUrl(photoGuid, photoType, encode);
             tb.Attributes.Add("src", str);
             if (!String.IsNullOrWhiteSpace(description))
                 tb.Attributes.Add("title", description);
+            if (photoType == PhotoType.Thumbnail || photoType == PhotoType.Icon || photoType == PhotoType.Medium)
+            {
+                var width = PhotoTypes.Versions[(byte)photoType].Width;
+                if (width > 0) tb.Attributes.Add("width", width.ToString());
+                var height = PhotoTypes.Versions[(byte)photoType].Height;
+                if (height > 0) tb.Attributes.Add("height", height.ToString());
+            }
             return htmlHelper.Raw(tb.ToString());
         }
 
