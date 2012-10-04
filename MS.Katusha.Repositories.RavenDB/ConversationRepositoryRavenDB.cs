@@ -36,15 +36,42 @@ namespace MS.Katusha.Repositories.RavenDB
         }
 
 
-        public IList<DialogResult> GetDialogs(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        public IList<Dialog> GetDialogs(long profileId)
         {
             using (var session = DocumentStore.OpenSession())
             {
-                RavenQueryStatistics stats;
-                var query = session.Query<DialogResult, DialogIndex>().Statistics(out stats).Where(p => p.ToId == profileId || p.FromId == profileId).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
-                total = stats.TotalResults;
-                return query;
-                //.AsProjection<Profile>()
+                var dict = new Dictionary<long, Dialog>();
+                foreach(var d in session.Query<DialogResult, DialogIndex>().Where(p => p.ToId == profileId || p.FromId == profileId)) {
+                    MessageType messageType;
+                    long id;
+                    if(d.ToId == profileId) {
+                        messageType = MessageType.Received;
+                        id = d.FromId;
+                    } else {
+                        messageType = MessageType.Sent;
+                        id = d.ToId;
+                    }
+                    var contains = dict.ContainsKey(id);
+                    var item = (contains) ? dict[id] : new Dialog { ProfileId = id, LastReceivedDate = new System.DateTime(1900, 1,1), LastSentDate = new System.DateTime(1900, 1,1) };
+                    item.Count += d.Count;
+                    if (messageType == MessageType.Received) {
+                        item.LastReceivedDate = d.LastConversationDate;
+                        item.UnreadReceivedCount += d.UnreadCount;
+                    } else {
+                        item.LastSentDate = d.LastConversationDate;
+                        item.UnreadSentCount += d.UnreadCount;
+                    }
+                    if (!contains) {
+                        dict.Add(id, item);
+                    } else {
+                        dict[id] = item;
+                    }
+                }
+                var list = new List<Dialog>(dict.Count);
+                foreach (var d in dict) {
+                    list.Add(d.Value);
+                }
+                return list;
             }
         }
     }

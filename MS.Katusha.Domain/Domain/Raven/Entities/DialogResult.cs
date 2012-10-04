@@ -9,12 +9,18 @@ namespace MS.Katusha.Domain.Raven.Entities
     public class DialogResult
     {
         public long FromId { get; set; }
-        public System.Guid FromGuid { get; set; }
         public long ToId { get; set; }
-        public System.Guid ToGuid { get; set; }
         public System.DateTime LastConversationDate { get; set; }
         public int Count { get; set; }
         public int UnreadCount { get; set; }
     }
 
+    public class Dialog {
+        public long ProfileId { get; set; }
+        public System.DateTime LastSentDate { get; set; }
+        public System.DateTime LastReceivedDate { get; set; }
+        public int Count { get; set; }
+        public int UnreadSentCount { get; set; }
+        public int UnreadReceivedCount { get; set; }
+    }
 }

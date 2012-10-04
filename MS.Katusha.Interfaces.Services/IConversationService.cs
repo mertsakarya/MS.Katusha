@@ -19,7 +19,7 @@ namespace MS.Katusha.Interfaces.Services
         void DeleteMessage(Guid messageGuid, bool softDelete = false);
         bool HasPhotoGuid(Guid photoGuid);
 
-        IEnumerable<DialogResult> GetDialogs(long profileId, out int total, int pageNo, int pageSize);
-        IEnumerable<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize);
+        IList<Dialog> GetDialogs(long profileId, out int total, int pageNo, int pageSize);
+        IList<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize);
     }
 }

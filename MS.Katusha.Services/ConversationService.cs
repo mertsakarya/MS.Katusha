@@ -131,12 +131,14 @@ namespace MS.Katusha.Services
         }
 
 
-        public IEnumerable<DialogResult> GetDialogs(long profileId, out int total, int pageNo, int pageSize)
+        public IList<Dialog> GetDialogs(long profileId, out int total, int pageNo, int pageSize)
         {
-            return _conversationRepositoryRaven.GetDialogs(profileId, out total, pageNo, pageSize).ToList();
+            var list = _conversationRepositoryRaven.GetDialogs(profileId);
+            total = list.Count;
+            return list.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public IEnumerable<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize)
+        public IList<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize)
         {
             throw new NotImplementedException();
         }
