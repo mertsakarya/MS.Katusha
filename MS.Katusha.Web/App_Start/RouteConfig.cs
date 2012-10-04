@@ -17,6 +17,7 @@ namespace MS.Katusha.Web
             routes.MapRoute("Photo", "{controller}/Photo/{key}/{size}", new { action = "Photo" });
             routes.MapRoute("MakeProfilePhoto", "{controller}/MakeProfilePhoto/{key}/{photoGuid}", new { action = "MakeProfilePhoto" });
             routes.MapRoute("Download", "{controller}/Download/{key}/{size}", new { action = "Download" });
+            routes.MapRoute("Conversation", "{controller}/Conversation/{id}/{page}", new { controller="Dialogs", action = "Conversation", page = UrlParameter.Optional });
 
             routes.MapRoute(name: "Default", url: "{controller}/{action}/{key}", defaults: new { controller = "Home", action = "Index", key = UrlParameter.Optional } );
         }

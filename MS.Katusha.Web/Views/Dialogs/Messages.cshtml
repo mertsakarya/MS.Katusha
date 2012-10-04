@@ -2,7 +2,6 @@
 @using MS.Katusha.Enumerations
 @model MS.Katusha.Web.Models.MessagesModel
 @{
-    Layout = "";
     var controller = ViewContext.RouteData.Values["Controller"];
     var action = ViewContext.RouteData.Values["Action"].ToString();
     var profile = ViewBag.KatushaProfile as Profile;

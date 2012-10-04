@@ -15,5 +15,6 @@ namespace MS.Katusha.Interfaces.Repositories
         IList<ConversationResult> MyConversations(long profileId, out int total, int pageNo = 1, int pageSize = 20);
         ConversationCountResult GetConversationStatistics(long profileId, MessageType messageType = MessageType.Received);
         IList<Dialog> GetDialogs(long profileId);
+        IList<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize);
     }
 }

@@ -44,5 +44,21 @@ namespace MS.Katusha.Web.Controllers
             return View(dialogs);
         }
 
+        public ActionResult Conversation(long id, int? page)
+        {
+            int total;
+            var pageIndex = (page ?? 1);
+            var messages = _conversationService.GetConversation(KatushaProfile.Id, id, out total, pageIndex, PageSize);
+            var messagesModel = Mapper.Map<IList<ConversationModel>>(messages);
+            var messagesAsIPagedList = new StaticPagedList<ConversationModel>(messagesModel, pageIndex, PageSize, total);
+            var model = new MessagesModel
+            {
+                MessageType = MessageType.Sent,
+                Statistics = null,
+                Conversations = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total },
+            };
+            return View("Messages", model);
+
+        }
     }
 }

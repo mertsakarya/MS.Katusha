@@ -21,7 +21,7 @@
         <tbody>
             @foreach (var message in items)
             {
-                <tr>
+                <tr onclick="location.href='/Dialogs/Conversation/@message.ProfileId';" style="cursor:pointer;">
                     <td>@message.ProfileId</td>
                     <td>@message.Count</td>
                     <td>@message.UnreadReceivedCount</td>

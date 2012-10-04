@@ -140,7 +140,7 @@ namespace MS.Katusha.Services
 
         public IList<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize)
         {
-            throw new NotImplementedException();
+            return _conversationRepositoryRaven.GetConversation(profileId, withProfileId, out total, pageNo, pageSize);
         }
     }
 
