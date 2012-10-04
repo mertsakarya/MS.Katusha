@@ -71,6 +71,7 @@
     <Compile Include="IKatushaRavenStore.cs" />
     <Compile Include="Indexes\ConversationToCountIndex.cs" />
     <Compile Include="Indexes\ConversationFromCountIndex.cs" />
+    <Compile Include="Indexes\DialogIndex.cs" />
     <Compile Include="Indexes\StateFacetsIndex.cs" />
     <Compile Include="Indexes\CountryCityCountIndex.cs" />
     <Compile Include="KatushaRavenStore.cs" />

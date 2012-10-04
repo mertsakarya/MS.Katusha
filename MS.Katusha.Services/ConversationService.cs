@@ -129,6 +129,17 @@ namespace MS.Katusha.Services
             }
             return result;
         }
+
+
+        public IEnumerable<DialogResult> GetDialogs(long profileId, out int total, int pageNo, int pageSize)
+        {
+            return _conversationRepositoryRaven.GetDialogs(profileId, out total, pageNo, pageSize).ToList();
+        }
+
+        public IEnumerable<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

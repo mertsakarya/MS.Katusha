@@ -73,6 +73,7 @@
     <Compile Include="Configuration\Data\SettingsData.cs" />
     <Compile Include="Configuration\KatushaConfigurationHandler.cs" />
     <Compile Include="Configuration\KatushaConfigurationManager.cs" />
+    <Compile Include="Domain\Raven\Entities\DialogResult.cs" />
     <Compile Include="Encryption\EncryptedStringConverter.cs" />
     <Compile Include="Encryption\EncryptionManager.cs" />
     <Compile Include="Domain\Entities\BaseEntities\BaseFriendlyModel.cs" />

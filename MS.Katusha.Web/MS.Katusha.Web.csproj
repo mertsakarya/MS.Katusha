@@ -413,6 +413,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
+    <Compile Include="Controllers\DialogsController.cs" />
     <Compile Include="Models\Attributes\KatushaApiFilterAttribute.cs" />
     <Compile Include="Models\Attributes\KatushaBaseFilterAttribute.cs" />
     <Compile Include="Models\Attributes\KatushaFieldAttribute.cs" />
@@ -862,6 +863,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Dialogs\Index.cshtml" />
+    <Content Include="Views\Dialogs\Messages.cshtml" />
+    <Content Include="Views\Dialogs\Send.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,65 @@
+@using MS.Katusha.Domain.Entities
+@using MS.Katusha.Enumerations
+@model MS.Katusha.Web.Models.MessagesModel
+@{
+    Layout = "";
+    var controller = ViewContext.RouteData.Values["Controller"];
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+    var profile = ViewBag.KatushaProfile as Profile;
+    var items = Model.Conversations;
+    var statistics = Model.Statistics;
+    var messageType = Model.MessageType;
+}
+@if(statistics != null) {
+    if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
+    <text>@statistics.Count messages</text>
+}
+     
+<ul>
+@foreach (var message in items.List) {
+    if (message == null) { continue; }
+    var name = (messageType == MessageType.Sent) ? message.ToName : message.FromName;
+    var profileGuid = (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
+    var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
+    var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
+    var canClickRead = (messageType == MessageType.Received);    
+    <li style="list-style: none; border:1px solid #b0b0b0">
+        <table>
+            <tr>
+                <td style="width:50px; overflow: hidden; vertical-align: top;">
+                    <a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br />
+                    <span class="username" style="width:50px; overflow: hidden; ">@name</span></a>
+                </td>
+                <td style="background-color: #ffe; width: 100%; padding-left:8px;">
+                    <table style="padding-left: 10px; width: 100%;">
+                        <tr><td style="background-color: goldenrod;padding:4px;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
+                        <tr><td style="background-color: gold;font-weight: bold;padding:4px;">
+                                <a title="Read" onclick="@((canClickRead && !isRead)?"readM('"+message.Guid+"'); return false;":"void()")">@(String.IsNullOrWhiteSpace(message.Subject) ? "[No Subject]" : message.Subject)</a><br/>
+                            </td>
+                        </tr>
+                        <tr><td style="padding-left: 10px; padding: 6px;">
+                            <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
+                                @if(!(canClickRead && !isRead)) {
+<text>@Html.Raw(message.Message)</text>
+                                }
+                            </div>
+                            <br/>
+                            @if(messageType == MessageType.Received) {
+                                <div id="showReply@(message.Guid)" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
+                                    <a class="btn btn-warning cancel" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' onclick="sendMessage(this, event)" title="Reply to this message">Reply</a>
+                                </div>
+                            }
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </li>
+}
+</ul>
+
+@if (Model.Conversations.Total > Model.Conversations.List.PageSize) {
+    <hr style="clear: both"/>
+    @Html.PagedListPager(Model.Conversations.List, key => Url.Action(action, new { key = key }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
+

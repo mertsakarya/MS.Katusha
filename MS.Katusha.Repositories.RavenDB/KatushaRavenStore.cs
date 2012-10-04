@@ -59,7 +59,6 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-
         public List<ICommandData> DeleteProfile(long profileId, Domain.Entities.Visit[] visits, Conversation[] messages)
         {
             var list = new List<ICommandData> {
@@ -77,6 +76,7 @@ namespace MS.Katusha.Repositories.RavenDB
 
         private void CreateIndexes()
         {
+            IndexCreation.CreateIndexes(typeof(DialogIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(CountryCityCountIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(ProfileFacetsIndex).Assembly, this);
             IndexCreation.CreateIndexes(typeof(ConversationIndex).Assembly, this);

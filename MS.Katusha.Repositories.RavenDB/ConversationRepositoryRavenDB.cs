@@ -34,5 +34,18 @@ namespace MS.Katusha.Repositories.RavenDB
                 return session.Query<ConversationCountResult, ConversationFromCountIndex>().FirstOrDefault(p => p.ProfileId == profileId);
             }
         }
+
+
+        public IList<DialogResult> GetDialogs(long profileId, out int total, int pageNo = 1, int pageSize = 20)
+        {
+            using (var session = DocumentStore.OpenSession())
+            {
+                RavenQueryStatistics stats;
+                var query = session.Query<DialogResult, DialogIndex>().Statistics(out stats).Where(p => p.ToId == profileId || p.FromId == profileId).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+                total = stats.TotalResults;
+                return query;
+                //.AsProjection<Profile>()
+            }
+        }
     }
 }

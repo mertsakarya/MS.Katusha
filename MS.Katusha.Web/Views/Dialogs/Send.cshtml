@@ -1,0 +1,37 @@
+@using MS.Katusha.Enumerations
+@model ConversationModel
+
+@{
+    ViewBag.Title = "Send message to " + Model.ToName;
+}
+
+<h2>Send message to: <span style="color:red">@Model.ToName</span></h2>
+
+@using (Html.BeginForm((string)ViewBag.FormAction, "Messages", new {key=Model.ToGuid})) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Message To</legend>
+        @Html.PhotoImg(Model.ToPhotoGuid, PhotoType.Thumbnail)
+        
+
+        <div class="editor-label">
+                @Html.LabelFor(model => model.Subject)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Subject)
+                @Html.ValidationMessageFor(model => model.Subject)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Message)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.Message, 7, 100, new {style="width:90%"})
+                @Html.ValidationMessageFor(model => model.Message)
+            </div>
+        <p>
+            <input type="submit" value="Send message" />
+        </p>
+    </fieldset>
+}
+

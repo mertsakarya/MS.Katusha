@@ -13,10 +13,10 @@
             @Html.DisplayProfilePhoto(profile, PhotoType.Thumbnail, "gallery")
         }
     </div>
-        if (Model.Total > Model.List.PageSize) {
-         <hr style="clear: both"/>
-         @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-        }
+    if (Model.Total > Model.List.PageSize) {
+        <hr style="clear: both"/>
+        @Html.PagedListPager(Model.List, page => Url.Action(action, "Home", new { key = page }, null), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
     <text><hr/>
     <div style='font-family:"Segoe UI",Verdana,Helvetica,Sans-Serif'>
         <h3>Welcome,</h3>

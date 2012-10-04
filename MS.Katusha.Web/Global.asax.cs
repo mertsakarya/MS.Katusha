@@ -22,12 +22,9 @@ namespace MS.Katusha.Web
                 ModelMetadataProviders.Current = new KatushaMetadataProvider();
                 DependencyConfig.RegisterDependencies();
                 MapperHelper.HandleMappings();
-
                 AreaRegistration.RegisterAllAreas();
-
                 ValueProviderFactories.Factories.Remove(ValueProviderFactories.Factories.OfType<JsonValueProviderFactory>().FirstOrDefault());
                 ValueProviderFactories.Factories.Add(new KatushaJsonValueProviderFactory());
-
                 WebApiConfig.Register(GlobalConfiguration.Configuration);
                 FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
                 RouteConfig.RegisterRoutes(RouteTable.Routes);

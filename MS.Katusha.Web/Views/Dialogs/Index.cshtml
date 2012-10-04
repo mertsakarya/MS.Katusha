@@ -1,0 +1,35 @@
+@using MS.Katusha.Domain.Entities
+@using MS.Katusha.Enumerations
+@model IEnumerable<MS.Katusha.Domain.Raven.Entities.DialogResult> 
+@{
+    ViewBag.Title = "Dialogs";
+    var profile = ViewBag.KatushaProfile as Profile;
+    var items = Model;
+}
+<div id="Messages">
+    <table border="1">
+        <thead></thead>
+        <tr>
+            <th>ToId</th>
+            <th>ToGuid</th>
+            <th>FromId</th>
+            <th>FromGuid</th>
+            <th>Count</th>
+            <th>UnreadCount</th>
+            <th>LastConversationDate</th>
+        </tr>
+        <tbody>
+        @foreach (var message in items) {
+            <tr>
+                <td>@message.ToId</td>
+                <td>@message.ToGuid</td>
+                <td>@message.FromId</td>
+                <td>@message.FromGuid</td>
+                <td>@message.Count</td>
+                <td>@message.UnreadCount</td>
+                <td>@message.LastConversationDate</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

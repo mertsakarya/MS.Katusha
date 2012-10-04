@@ -1,0 +1,14 @@
+﻿{
+	"name": "MS.Katusha",
+	"version": "1.0",
+	"manifest_version": 2,
+	"icons": { "128": "icon.png" },
+	"app": {
+		"urls": [
+			"http://mskatusha.apphb.com/"
+		],
+		"launch": {
+			"web_url": "http://mskatusha.apphb.com/"
+		}
+	}
+}
