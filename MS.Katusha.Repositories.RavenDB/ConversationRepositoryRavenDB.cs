@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MS.Katusha.Domain.Raven.Entities;
@@ -41,7 +42,7 @@ namespace MS.Katusha.Repositories.RavenDB
             using (var session = DocumentStore.OpenSession())
             {
                 var dict = new Dictionary<long, Dialog>();
-                foreach(var d in session.Query<DialogResult, DialogIndex>().Where(p => p.ToId == profileId || p.FromId == profileId)) {
+                foreach(var d in session.Query<DialogResult, DialogIndex>().Where(p => p.ToId == profileId || p.FromId == profileId).OrderByDescending(p=> p.LastConversationDate)) {
                     MessageType messageType;
                     long id;
                     if(d.ToId == profileId) {
