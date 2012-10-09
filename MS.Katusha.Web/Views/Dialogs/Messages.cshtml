@@ -13,7 +13,14 @@
     if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
     <text>@statistics.Count messages</text>
 }
-     
+@if(messageType == MessageType.Received) {
+    if(items.List.Count >  0 ) {
+        <a class="btn btn-success fileinput-button mixpanel" href='@Url.Action("Send", "Dialogs", new {key = profile.Guid, subject = ""})' onclick="sendMessage(this, event)" data_dialog_title="Send Message" mp-event="Click Send message">
+            <i class="icon-plus icon-white"></i>
+            <span>Send message</span>
+        </a>
+    }
+}
 <ul>
 @foreach (var message in items.List) {
     if (message == null) { continue; }
@@ -25,10 +32,12 @@
     <li style="list-style: none; border:1px solid #b0b0b0">
         <table>
             <tr>
-                <td style="width:50px; overflow: hidden; vertical-align: top;">
-                    <a href="@Url.Action("Show", "Profiles", new {key=profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br />
-                    <span class="username" style="width:50px; overflow: hidden; ">@name</span></a>
+            @if(messageType == MessageType.Sent) {
+                <td style="width: 50px; overflow: hidden; vertical-align: top;">
+                    <a href="@Url.Action("Show", "Profiles", new {key = profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br />
+                        <span class="username" style="width: 50px; overflow: hidden;">@name</span></a>
                 </td>
+            }
                 <td style="background-color: #ffe; width: 100%; padding-left:8px;">
                     <table style="padding-left: 10px; width: 100%;">
                         <tr><td style="background-color: goldenrod;padding:4px;"><span title="@message.CreationDate.ToLongDateString()">@Html.GetFriendlyDate(message.CreationDate)</span></td></tr>
@@ -37,20 +46,26 @@
                             </td>
                         </tr>
                         <tr><td style="padding-left: 10px; padding: 6px;">
-                            <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
-                                @if(!(canClickRead && !isRead)) {
+                                <div id="M@(message.Guid)" class="@((canClickRead && !isRead) ? "hide" : "")">
+                                    @if(!(canClickRead && !isRead)) {
 <text>@Html.Raw(message.Message)</text>
-                                }
-                            </div>
-                            <br/>
-                            @if(messageType == MessageType.Received) {
-                                <div id="showReply@(message.Guid)" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
-                                    <a class="btn btn-warning cancel" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' onclick="sendMessage(this, event)" title="Reply to this message">Reply</a>
+                                    }
                                 </div>
-                            }
-                        </td></tr>
+                                <br/>
+                                @if(messageType == MessageType.Received) {
+                                    <div id="showReply@(message.Guid)" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
+                                        <a class="btn btn-warning cancel" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' onclick="sendMessage(this, event)" title="Reply to this message">Reply</a>
+                                    </div>
+                                }
+                            </td></tr>
                     </table>
                 </td>
+            @if(messageType == MessageType.Received) {
+                <td style="width: 50px; overflow: hidden; vertical-align: top;">
+                    <a href="@Url.Action("Show", "Profiles", new {key = profileGuid})">@Html.PhotoImg(photoGuid, PhotoType.Icon)<br />
+                        <span class="username" style="width: 50px; overflow: hidden;">@name</span></a>
+                </td>
+            }
             </tr>
         </table>
     </li>
