@@ -19,7 +19,7 @@
     if (message == null) { continue; }
     var name = (messageType == MessageType.Sent) ? message.ToName : message.FromName;
     var profileGuid = (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
-    var photoGuid = (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
+    var photoGuid = (messageType == MessageType.Sent) ? message.FromPhotoGuid : message.ToPhotoGuid;
     var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
     var canClickRead = (messageType == MessageType.Received);    
     <li style="list-style: none; border:1px solid #b0b0b0">

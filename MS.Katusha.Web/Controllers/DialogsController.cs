@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
@@ -58,7 +56,6 @@ namespace MS.Katusha.Web.Controllers
                 Conversations = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total },
             };
             return View("Messages", model);
-
         }
     }
 }
