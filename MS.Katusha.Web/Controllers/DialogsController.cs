@@ -36,8 +36,8 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult Index(int? key)
         {
             int total;
-            var pageIndex = 1; // (key ?? 1);
-            var profileId = (key ?? KatushaProfile.Id);
+            var pageIndex = (key ?? 1);
+            var profileId = KatushaProfile.Id;
             var dialogs = _conversationService.GetDialogs(profileId, out total, pageIndex, PageSize);
             return View(dialogs);
         }
@@ -52,7 +52,7 @@ namespace MS.Katusha.Web.Controllers
             var model = new MessagesModel
             {
                 MessageType = MessageType.Sent,
-                Statistics = null,
+                Statistics = new ConversationCountResult {Count = total, ProfileId = id, UnreadCount = -1 },
                 Conversations = new PagedListModel<ConversationModel> { List = messagesAsIPagedList, Total = total },
             };
             return View("Messages", model);
