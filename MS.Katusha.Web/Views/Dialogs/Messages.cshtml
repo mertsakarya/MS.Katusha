@@ -19,7 +19,6 @@
     <a class="btn btn-success fileinput-button mixpanel" id="sendMessageButton" mp-event="!Click Send Message" mp-data="{guid:'@profileGuid', name:'@name'}" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = profileGuid })' title="Send a message to this user">
         Send message
     </a><br/><br/>
-    }
 }
 <ul>
 @foreach (var message in items.List) {
