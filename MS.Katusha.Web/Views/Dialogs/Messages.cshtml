@@ -17,7 +17,7 @@
     var message = items.List[0];
     var name = (message.ToGuid != profile.Guid) ? message.ToName : message.FromName;
     var profileGuid = (message.ToGuid != profile.Guid) ? message.ToGuid : message.FromGuid;
-    <a class="btn btn-success fileinput-button mixpanel" id="sendMessageButton" mp-event="!Click Send Message" mp-data="{guid:'@profileGuid', name:'@name'}"  data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">
+    <a class="btn btn-success fileinput-button mixpanel" id="sendMessageButton" mp-event="!Click Send Message" mp-data="{guid:'@profileGuid', name:'@name'}"  data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = profileGuid })' title="Send a message to this user">
         Send Message
     </a>
     
