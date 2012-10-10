@@ -7,7 +7,6 @@
     var profile = ViewBag.KatushaProfile as Profile;
     var items = Model.Conversations;
     var statistics = Model.Statistics;
-    var messageType = Model.MessageType;
 }
 @if(statistics != null) {
     if(statistics.UnreadCount > 0) {<text>@statistics.UnreadCount unread messages /</text>}
@@ -25,6 +24,7 @@
 <ul>
 @foreach (var message in items.List) {
     if (message == null) { continue; }
+    var messageType = (message.ToGuid != profile.Guid) ? MessageType.Sent : MessageType.Received;
     var name = (messageType == MessageType.Received) ? message.ToName : message.FromName;
     var profileGuid = (messageType == MessageType.Received) ? message.ToGuid : message.FromGuid;
     var photoGuid = (messageType == MessageType.Received) ? message.ToPhotoGuid : message.FromPhotoGuid;
