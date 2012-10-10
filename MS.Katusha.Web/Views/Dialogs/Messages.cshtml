@@ -24,9 +24,9 @@
 @foreach (var message in items.List) {
     if (message == null) { continue; }
     var messageType = (message.ToGuid != profile.Guid) ? MessageType.Sent : MessageType.Received;
-    var name = message.ToName; //  (messageType == MessageType.Sent) ? message.ToName : message.FromName;
-    var profileGuid = message.ToGuid; //  (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
-    var photoGuid = message.ToPhotoGuid; //  (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
+    var name = message.FromName; //  (messageType == MessageType.Sent) ? message.ToName : message.FromName;
+    var profileGuid = message.FromGuid; //  (messageType == MessageType.Sent) ? message.ToGuid : message.FromGuid;
+    var photoGuid = message.FromPhotoGuid; //  (messageType == MessageType.Sent) ? message.ToPhotoGuid : message.FromPhotoGuid;
     var isRead = (message.FromId == profile.Id) || (message.ReadDate != new DateTime(1900, 1, 1));
     var canClickRead = (messageType == MessageType.Received);    
     <li style="list-style: none; border:1px solid #b0b0b0">
