@@ -52,11 +52,6 @@
                                     }
                                 </div>
                                 <br/>
-                                @if(messageType == MessageType.Received) {
-                                    <div id="showReply@(message.Guid)" class="@((!(canClickRead && !isRead)) ? "" : "hide")">
-                                        <a class="btn btn-warning cancel" data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new {key = profileGuid, subject = message.Subject})' onclick="sendMessage(this, event)" title="Reply to this message">Reply</a>
-                                    </div>
-                                }
                             </td></tr>
                     </table>
                 </td>

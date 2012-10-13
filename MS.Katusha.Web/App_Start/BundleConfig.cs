@@ -53,6 +53,7 @@ namespace MS.Katusha.Web
                 "~/Static/Scripts/jquery.fcbkcomplete.js",
                 "~/Static/Scripts/jquery.validate-min.js",
                 "~/Static/Scripts/jquery.unobtrusive-ajax.js",
+                "~/Static/Scripts/jquery.signalR-0.5.3.js",
 
                 "~/Static/Scripts/tmpl-min.js",
                 "~/Static/Scripts/canvas-to-blob-min.js",

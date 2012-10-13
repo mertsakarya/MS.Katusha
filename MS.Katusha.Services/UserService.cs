@@ -39,13 +39,14 @@ namespace MS.Katusha.Services
                 status = KatushaMembershipCreateStatus.DuplicateUserName;
                 return null;
             }
+            //TODO: Uncomment when you want unique emails.
             //existingUser = _repository.Single(p => p.Email == email);
             //if (existingUser != null)
             //{
             //    status = KatushaMembershipCreateStatus.DuplicateEmail;
             //    return null;
             //}
-            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddMinutes(15.0), EmailValidated = isApproved, UserRole = 1};
+            var user = new User {Email = email, Password = password, UserName = userName, Expires = DateTime.Now.AddDays(15.0), EmailValidated = isApproved, UserRole = 1};
             _repository.Add(user);
             _repository.Save();
             _notificationService.UserRegistered(user);

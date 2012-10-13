@@ -9,23 +9,9 @@
         <div id="newVisits" style="float:right; display:none;"></div>
         <div id="newMessages" style="float:right; display:none;"></div>
     </div>
+    if(profile != null) { <script src="/signalr/hubs" type="text/javascript"></script> }
     <script type="text/javascript">
-        function showNewConversations(unreadCount, count) {
-            var action = '@Url.Action("Received", "Messages")';
-            var title = '' + unreadCount + ' / ' + count;
-            var text = '<img src="/Images/mail.jpg" /><br/><b>' + unreadCount + '</b> / ' + count;
-            var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';
-            $('#newMessages').html(link).show("slow");
-        }
-        function showNewVisits(datetime, count) {
-            var action = '@Url.Action("NewVisits", "Visitor")/' + datetime;
-            var title = '' + count + ' visitors.';
-            var text = '<img src="/Images/view.gif" /><br/><b>' + count + ' </b> visitors';
-            var link = '<a href="' + action + '" title="' + title + '" style="background-color:#ffffff">' + text + '</a>';
-            $('#newVisits').html(link).show("slow");
-        }
-
-        @if(profile != null) {
+        @if (profile != null) {
             var city = profile.Location.CityName; city = city == null ? "" : city.Replace("'", "\\\'");
             var gender = (profile.Gender == (byte)Sex.Male) ? "Male" : ((profile.Gender == (byte)Sex.Female) ? "Female" : "Unknown");
             var profileName = profile.Name; profileName = profileName == null ? "" : profileName.Replace("'", "\\\'");
@@ -33,40 +19,23 @@
             var country = profile.Location.CountryName; country = country == null ? "" : country.Replace("'", "\\\'");
             <text>
             profile = {guid:'@profile.Guid', gender:'@(gender)', name:'@(profileName)', age:@(age), country:'@(country)', city:'@(city)'};
-            if(mixpanel != null) {
-                mixpanel.identify(profile.guid);
-                mixpanel.register(profile);
-                mixpanel.name_tag('@(profileName)');
-            }
-            function ping() {
-                $.ajax({url: '@Url.Action("Ping","Profiles")', success: function (data) { 
-                    if(data) {
-                        if(data.ConversationUnreadCount && data.ConversationUnreadCount > 0) {
-                            showNewConversations(data.ConversationUnreadCount, data.ConversationCount); 
-                        }
-                        if(data.VisitCount && data.VisitCount > 0) {
-                            showNewVisits(data.VisitTime, data.VisitCount); 
-                        }
-                    }   
-                }, type: 'GET'})
-            }
-            $(function () { ping(); setInterval("ping()", 60000); });
+            onLogin(profile);
             </text>
         }
     </script>
-    if(pingResult != null) {
+        if (pingResult != null) {
          <script type="text/javascript">
-             @if(pingResult.Conversations != null && pingResult.Conversations.UnreadCount > 0) {<text>showNewConversations(@pingResult.Conversations.UnreadCount, @pingResult.Conversations.Count);</text>}
-             @if(pingResult.Visits != null && pingResult.Visits.Visits.Count > 0) {<text>showNewVisits('@Html.GetUrlFriendlyDateTime(pingResult.Visits.LastVisitTime)',@pingResult.Visits.Visits.Count);</text>}
+             @if (pingResult.Conversations != null && pingResult.Conversations.UnreadCount > 0) {<text>showNewConversations(@pingResult.Conversations.UnreadCount, @pingResult.Conversations.Count);</text>}
+             @if (pingResult.Visits != null && pingResult.Visits.Visits.Count > 0) {<text>showNewVisits('@Html.GetUrlFriendlyDateTime(pingResult.Visits.LastVisitTime)',@pingResult.Visits.Visits.Count);</text>}
          </script>
-    }
+        }
     <br style="clear:both"/>
     <p>
         Hello,
-        @if(profile == null) {
+        @if (profile == null) {
             @name<text><br /><b>Please create a profile</b></text>
         } else {
-            @Html.ActionLink(name, "Show", "Profiles", new {key = Html.KeyFor(profile)}, htmlAttributes: new {@class = "username", title = "View your profile"})
+            @Html.ActionLink(name, "Show", "Profiles", new { key = Html.KeyFor(profile) }, htmlAttributes: new { @class = "username", title = "View your profile" })
             <text>!<small><a href="#" onclick="logoff();">Log off</a></small></text>
         }
         

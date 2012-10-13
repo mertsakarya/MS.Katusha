@@ -9,16 +9,16 @@ using MS.Katusha.Web.Helpers.Converters;
 
 namespace MS.Katusha.Web.Controllers
 {
-    public abstract class KatushaBaseController : Controller
+    public abstract class KatushaBaseController : Controller, IKatushaBase
     {
-        protected User KatushaUser { get; set; }
-        protected Profile KatushaProfile { get; set; }
+        public User KatushaUser { get; set; }
+        public Profile KatushaProfile { get; set; }
 
-        protected IUserService UserService { get; private set; }
-        protected IProfileService ProfileService { get; private set; }
-        protected IStateService StateService { get; private set; }
-        protected IResourceService ResourceService { get; set; }
-        protected IConversationService ConversationService { get; set; }
+        public IUserService UserService { get; private set; }
+        public IProfileService ProfileService { get; private set; }
+        public IStateService StateService { get; private set; }
+        public IResourceService ResourceService { get; set; }
+        public IConversationService ConversationService { get; set; }
 
         protected KatushaBaseController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
         {
