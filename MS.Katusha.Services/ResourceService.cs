@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
+using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
 
@@ -11,11 +13,13 @@ namespace MS.Katusha.Services
     public class ResourceService : IResourceService
     {
         private readonly ICountryCityCountRepositoryRavenDB _countryCityCountRepository;
+        private readonly IKatushaGlobalCacheContext _globalCacheContext;
         private readonly ResourceManager _resourceManager;
 
-        public ResourceService(ICountryCityCountRepositoryRavenDB countryCityCountRepository)
+        public ResourceService(ICountryCityCountRepositoryRavenDB countryCityCountRepository, IKatushaGlobalCacheContext globalCacheContext)
         {
             _countryCityCountRepository = countryCityCountRepository;
+            _globalCacheContext = globalCacheContext;
             _resourceManager = ResourceManager.GetInstance();
         }
 
@@ -35,7 +39,19 @@ namespace MS.Katusha.Services
 
         public IDictionary<string, string> GetSearchableCountries(Sex gender)
         {
-            return _countryCityCountRepository.GetSearchableCountries(gender);
+            var searchableCountries = _globalCacheContext.Get<IDictionary<string, string>>("SearchableCountries"+gender);
+            if (searchableCountries != null) return searchableCountries;
+            var list = _countryCityCountRepository.GetSearchableCountries(gender);
+            var dictionary = new Dictionary<string, string>();
+            var countries = GetCountries();
+            foreach (var item in list) {
+                if (String.IsNullOrWhiteSpace(item)) continue;
+                var value = item;
+                var key = (from i in countries where i.Value == value select i.Key).SingleOrDefault();
+                if(!String.IsNullOrWhiteSpace(key) && !dictionary.ContainsKey(key)) dictionary.Add(key, value);
+            }
+            _globalCacheContext.Add("SearchableCountries" + gender, dictionary);
+            return dictionary;
         }
 
         public IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode)

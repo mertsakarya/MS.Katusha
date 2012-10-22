@@ -5,9 +5,9 @@ namespace MS.Katusha.Interfaces.Services
 {
     public interface ITokBoxService
     {
-        TokBoxSession GetSession(Guid profileGuid, string location);
-        TokBoxSession CreateSession(Guid profileGuid, string location);
+        TokBoxSession GetSession(Guid profileGuid, string ip);
+        TokBoxSession CreateSession(Guid profileGuid, string ip);
         string GetToken(TokBoxSession session);
-        void DeleteSession(TokBoxSession session);
+        //void DeleteSession(TokBoxSession session);
     }
 }

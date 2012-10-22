@@ -10,23 +10,27 @@ namespace MS.Katusha.Repositories.RavenDB
         private readonly IKatushaRavenStore _documentStore;
         public TokBoxRepositoryRavenDB(IKatushaRavenStore documentStore) { _documentStore = documentStore; }
 
-        public TokBoxSession GetSession(Guid profileGuid)
+        public TokBoxSession GetSession(Guid profileGuid, string ip)
         {
             using (var session = _documentStore.OpenSession()) {
-                return session.Query<TokBoxSession>().FirstOrDefault(p => p.ProfileGuid == profileGuid);
+                return session.Query<TokBoxSession>().FirstOrDefault(p => p.ProfileGuid == profileGuid && p.IP == ip);
                 //.AsProjection<Profile>()
             }
         }
-        public TokBoxSession SetSession(Guid profileGuid, string sessionId) { 
-            var tokBoxSession = GetSession(profileGuid);
+        public TokBoxSession SetSession(Guid profileGuid, string ip, string sessionId) { 
+            var tokBoxSession = GetSession(profileGuid, ip);
             if (tokBoxSession == null) {
                 using (var session = _documentStore.OpenSession()) {
-                    tokBoxSession = new TokBoxSession { LastModified = DateTime.Now, ProfileGuid = profileGuid, SessionId = sessionId };
+                    tokBoxSession = new TokBoxSession { LastModified = DateTime.Now, ProfileGuid = profileGuid, IP = ip, SessionId = sessionId };
                     session.Store(tokBoxSession);
                     //session.Advanced.GetMetadataFor(tokBoxSession)["Raven-Expiration-Date"] = new RavenJValue(DateTime.Now.AddMinutes(1).ToUniversalTime());
                     session.SaveChanges();
                 }
-            } else UpdateSession(tokBoxSession);
+            } else {
+                tokBoxSession.SessionId = sessionId;
+                UpdateSession(tokBoxSession);
+            }
+            
             return tokBoxSession;
         }
 

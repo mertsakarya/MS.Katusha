@@ -48,7 +48,7 @@
                 @Html.LabelFor(model => model.Height)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Height)  (Cannot be empty must be in centimeters, something between 100 and 250)
+                @Html.EditorFor(model => model.Height)  (Cannot be empty must be in centimeters, something between <b>100</b> and <b>250</b>)
                 <br />@Html.ValidationMessageFor(model => model.Height)
             </div>
         </li>
@@ -57,7 +57,7 @@
                 @Html.LabelFor(model => model.BirthYear)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.BirthYear) (Cannot be empty, something between 1940 and 2000)
+                @Html.EditorFor(model => model.BirthYear) (Cannot be empty, something between <b>1940</b> and <b>2000</b>)
                 <br />@Html.ValidationMessageFor(model => model.BirthYear)
             </div>
         </li>

@@ -16,19 +16,16 @@ namespace MS.Katusha.Services
             _tokBoxRepository = tokBoxRepository;
         }
 
-        public TokBoxSession GetSession(Guid profileGuid, string location)
+        public TokBoxSession GetSession(Guid profileGuid, string ip)
         {
-            var session = _tokBoxRepository.GetSession(profileGuid);
-            if (session != null) return session;
-            return CreateSession(profileGuid, location);
+            var session = _tokBoxRepository.GetSession(profileGuid, ip);
+            return session ?? CreateSession(profileGuid, ip);
         }
 
-        public TokBoxSession CreateSession(Guid profileGuid, string location)
+        public TokBoxSession CreateSession(Guid profileGuid, string ip)
         {
-            var sessionId = _tokBox.CreateSession(location);
-            if (sessionId == null) return null;
-            var session = new TokBoxSession { ProfileGuid = profileGuid, SessionId = sessionId };
-            return _tokBoxRepository.UpdateSession(session);
+            var sessionId = _tokBox.CreateSession(ip);
+            return sessionId == null ? null : _tokBoxRepository.SetSession(profileGuid, ip, sessionId);
         }
 
         public string GetToken(TokBoxSession session)
@@ -36,7 +33,6 @@ namespace MS.Katusha.Services
             return _tokBox.GenerateToken(session.SessionId);
         }
 
-        public void DeleteSession(TokBoxSession session) { _tokBoxRepository.DeleteSession(session);
-        }
+        //public void DeleteSession(TokBoxSession session) { _tokBoxRepository.DeleteSession(session); }
     }
 }

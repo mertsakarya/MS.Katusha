@@ -16,6 +16,17 @@ namespace MS.Katusha.Repositories.RavenDB
 {
     public class KatushaRavenStore : DocumentStore, IKatushaRavenStore
     {
+        public KatushaRavenStore(int i, string connectionString)
+        {
+            var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionString(connectionString);
+            parser.Parse();
+
+            ApiKey = parser.ConnectionStringOptions.ApiKey;
+            Url = parser.ConnectionStringOptions.Url;
+            //RavenStore = new EmbeddableDocumentStore { DataDirectory = DependencyHelper.RootFolder + @"App_Data\MS.Katusha.RavenDB", UseEmbeddedHttpServer = true };
+            Initialize();
+        }
+
         public KatushaRavenStore(string connectionName = "RavenDB")  {
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName(connectionName);
             parser.Parse();

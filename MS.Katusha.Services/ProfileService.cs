@@ -101,6 +101,7 @@ namespace MS.Katusha.Services
             user.Gender = profile.Gender;
             _userRepository.FullUpdate(user);
             _katushaGlobalCache.Delete("U:" + user.UserName);
+
             UpdateRavenProfile(profile.Id);
             _notificationService.ProfileCreated(profile);
             return profile;
@@ -177,6 +178,7 @@ namespace MS.Katusha.Services
         {
             var profile = _profileRepository.GetById(id, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.Photos);
             _katushaGlobalCache.Delete("P:" + profile.Guid.ToString());
+            _katushaGlobalCache.Delete("SearchableCountries"+profile.Gender.ToString(CultureInfo.InvariantCulture));
             _profileRepositoryRaven.FullUpdate(profile);
         }
 

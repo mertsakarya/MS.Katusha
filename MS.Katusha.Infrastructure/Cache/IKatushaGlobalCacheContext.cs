@@ -8,6 +8,5 @@ namespace MS.Katusha.Infrastructure.Cache
         T Get<T>(string key) where T : class;
         void Delete(string key);
         void Clear(string prefix = "");
-
     }
 }

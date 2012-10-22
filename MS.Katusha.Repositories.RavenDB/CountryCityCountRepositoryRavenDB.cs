@@ -34,23 +34,31 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public IDictionary<string, string> GetSearchableCountries(Sex gender)
+        public IList<string> GetSearchableCountries(Sex gender)
         {
             using (var session = _documentStore.OpenSession()) {
                 try {
-                    var query = (from item in session.Query<CountryCityCountResult, CountryCityCountIndex>().Where(p => p.Gender == (byte)gender).ToList()
-                                 group item by new {item.CountryCode, item.CountryName}
-                                     into g
-                                     let o = new {Sum = g.Sum(x => x.Count), g.Key.CountryCode, g.Key.CountryName}
-                                     orderby o.Sum descending
-                                     select new {g.Key.CountryCode, g.Key.CountryName});
-                    var dictionary = new Dictionary<string, string>();
-                    foreach (var item in query)
-                        if(item != null && !String.IsNullOrWhiteSpace(item.CountryCode) && !dictionary.ContainsKey(item.CountryCode))
-                            dictionary.Add(item.CountryCode, item.CountryName);
-                    return dictionary;
+                    var query = (from item in session.Query<MS.Katusha.Domain.Raven.Entities.CountryCityCountResult, MS.Katusha.Repositories.RavenDB.Indexes.CountryCityCountIndex>().Where(p => p.Gender == (byte) 1).ToList()
+                                 group item by new {item.CountryName}
+                                 into g
+                                 let o = new {g.Key.CountryName}
+                                 orderby o.CountryName
+                                 select g.Key.CountryName);
+                    return  query.ToList();
+
+                        //(from item in session.Query<CountryCityCountResult, CountryCityCountIndex>().Where(p => p.Gender == (byte)gender).ToList()
+                        //         group item by new {item.CountryCode, item.CountryName}
+                        //             into g
+                        //             let o = new {Sum = g.Sum(x => x.Count), g.Key.CountryCode, g.Key.CountryName}
+                        //             orderby o.Sum descending
+                        //             select new {g.Key.CountryCode, g.Key.CountryName});
+                    //var dictionary = new Dictionary<string, string>();
+                    //foreach (var item in query)
+                    //    if(item != null && !String.IsNullOrWhiteSpace(item.CountryCode) && !dictionary.ContainsKey(item.CountryCode))
+                    //        dictionary.Add(item.CountryCode, item.CountryName);
+                    //return dictionary;
                 } catch(InvalidOperationException) {
-                    return new Dictionary<string, string>();
+                    return new List<string>();
                 }
             }
 
