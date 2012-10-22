@@ -31,7 +31,7 @@ namespace MS.Katusha.Web.Controllers
             if (KatushaProfile == null) return false;
             return (KatushaProfile.FriendlyName == key);
         }
-
+ 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
