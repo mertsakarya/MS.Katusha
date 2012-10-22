@@ -16,8 +16,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private const int ProfileCount = 8;
 
-        protected KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService)
+        protected KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
         }
 
@@ -38,6 +38,11 @@ namespace MS.Katusha.Web.Controllers
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
+                if (KatushaProfile != null) {
+                    TokBoxSession = TokBoxService.GetSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
+                    if ((DateTime.Now - TokBoxSession.LastModified).Minutes > 5)
+                        TokBoxSession = TokBoxService.CreateSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
+                }
             }
             var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
             if (!isPing) {
@@ -58,6 +63,7 @@ namespace MS.Katusha.Web.Controllers
                         ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
                 }
             }
+            ViewBag.TokBoxSession = TokBoxSession;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
             ViewBag.GoogleAnalytics = googleAnalytics;

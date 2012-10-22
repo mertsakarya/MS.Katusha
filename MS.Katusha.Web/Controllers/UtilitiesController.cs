@@ -24,9 +24,9 @@ namespace MS.Katusha.Web.Controllers
 
         public UtilitiesController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
-            IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext
+            IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext, ITokBoxService tokBoxService
             )
-            : base(resourceService, userService, profileService, stateService, conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
             _notificationService = notificationService;
             _globalCacheContext = globalCacheContext;

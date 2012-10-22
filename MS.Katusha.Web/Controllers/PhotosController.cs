@@ -19,8 +19,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IProfileService _profileService;
         private readonly IPhotosService _photosService;
 
-        public PhotosController(IResourceService resourceService, IUserService userService, IProfileService profileService, IPhotosService photosService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService)
+        public PhotosController(IResourceService resourceService, IUserService userService, IProfileService profileService, IPhotosService photosService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
             _profileService = profileService;
             _photosService = photosService;

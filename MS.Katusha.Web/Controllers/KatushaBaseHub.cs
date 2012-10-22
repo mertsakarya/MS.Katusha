@@ -1,17 +1,12 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
 using MS.Katusha.Domain.Entities;
-using MS.Katusha.Enumerations;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Models;
-using MS.Katusha.Web.Models.Entities;
 using SignalR.Hubs;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -33,6 +28,8 @@ namespace MS.Katusha.Web.Controllers
             ProfileService = DependencyResolver.Current.GetService<IProfileService>();
             StateService = DependencyResolver.Current.GetService<IStateService>();
             ConversationService = DependencyResolver.Current.GetService<IConversationService>();
+            TokBoxService = DependencyResolver.Current.GetService<ITokBoxService>();
+
             var user = HttpContext.Current.User;
             KatushaUser = (user.Identity.IsAuthenticated) ? UserService.GetUser(user.Identity.Name) : null;
             if (KatushaUser != null) {
@@ -60,6 +57,8 @@ namespace MS.Katusha.Web.Controllers
 
         public User KatushaUser { get; set; }
         public Profile KatushaProfile { get; set; }
+        public TokBoxSession TokBoxSession { get; private set; }
+        public ITokBoxService TokBoxService { get; private set; }
         public IUserService UserService { get; private set; }
         public IProfileService ProfileService { get; private set; }
         public IStateService StateService { get; private set; }

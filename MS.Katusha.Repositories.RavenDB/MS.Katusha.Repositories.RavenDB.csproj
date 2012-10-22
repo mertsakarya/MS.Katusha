@@ -67,6 +67,7 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
+    <Compile Include="TokBoxRepositoryRavenDB.cs" />
     <Compile Include="CountryCityCountRepositoryRavenDB.cs" />
     <Compile Include="IKatushaRavenStore.cs" />
     <Compile Include="Indexes\ConversationToCountIndex.cs" />

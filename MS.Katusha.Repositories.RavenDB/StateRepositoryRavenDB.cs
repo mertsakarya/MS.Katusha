@@ -6,8 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
-using Raven.Client;
-using Raven.Client.Document;
 using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB

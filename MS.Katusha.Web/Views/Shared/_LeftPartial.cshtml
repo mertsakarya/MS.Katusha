@@ -5,7 +5,7 @@
     <ul>
         @Html.Partial("_New")
         @Html.Partial("_Online")
-        <hr/>
+        <hr />
         @if (profile != null) {
             <li>@Html.ActionLink("My messages", "Received", "Messages", new {key = 1}, null)</li>
             <li>@Html.ActionLink("My visitors", "Index", "Visitor", new { key = 1 }, null)</li>
@@ -13,6 +13,7 @@
             <li>@Html.ActionLink("View my profile", "Me", "Profiles", null, null)</li>
             <li>@Html.ActionLink("Edit my profile", "Edit", "Profiles", null, null)</li>
             <li>@Html.ActionLink("My Photos", "List", "Photos")</li>
+            <li style="display: inline-block;vertical-align: top;"><br /><!-- Group chat --><script src="http://api.opentok.com/hl/embed/1emb6427999101baca02972ce011af29a2325165/button.js" type="text/javascript" charset="utf-8"></script></li>
             @*<li>@Html.ActionLink("Membership", "Membership", "Profiles")</li>*@
         } else {
             if (user != null && !user.EmailValidated) {

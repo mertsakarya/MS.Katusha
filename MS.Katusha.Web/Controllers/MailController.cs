@@ -10,8 +10,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly INotificationService _notificationService;
 
-        public MailController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService) { _notificationService = notificationService; }
+        public MailController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService) { _notificationService = notificationService; }
 
         public ActionResult Confirm(string key)
         {

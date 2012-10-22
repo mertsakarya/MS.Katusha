@@ -67,6 +67,7 @@ namespace MS.Katusha.Web
                 "~/Static/Scripts/jquery.fileupload-ui.js",
 
                 "~/Static/Scripts/locale.js",
+                "~/Static/Scripts/openTok.js",
                 "~/Static/Scripts/main.js"
                             ));
             if (!Configuration.KatushaConfigurationManager.Instance.GetSettings().MinifyContent)

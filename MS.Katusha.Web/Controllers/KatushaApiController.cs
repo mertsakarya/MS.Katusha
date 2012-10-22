@@ -8,8 +8,8 @@ namespace MS.Katusha.Web.Controllers
 {
     public class KatushaApiController : KatushaBaseController
     {
-        protected KatushaApiController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService) 
-            : base(resourceService, userService, profileService, stateService, conversationService)
+        protected KatushaApiController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService) 
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
         }
 

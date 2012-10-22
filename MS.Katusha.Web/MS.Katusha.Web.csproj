@@ -852,6 +852,7 @@
     <Content Include="Static\Scripts\bootstrap-image-gallery-min.js" />
     <Content Include="Static\Scripts\bootstrap-min.js" />
     <Content Include="Static\Scripts\canvas-to-blob-min.js" />
+    <Content Include="Static\Scripts\openTok.js" />
     <Content Include="Static\Scripts\fb_all.js" />
     <Content Include="Static\Scripts\jquery-ui-1.8.19-min.js" />
     <Content Include="Static\Scripts\jquery.fcbkcomplete.js" />

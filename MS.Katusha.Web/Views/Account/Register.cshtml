@@ -8,7 +8,7 @@
     function selectGender(val) {
         t({ id: 'Gender', value: val });
         document.getElementById('Gender').value = val;
-        $("#" + ((val == @( (byte) Sex.Male)) ? "girl" : "man")+ "Button").hide();
+        $("#" + ((val == @( (byte)Sex.Male)) ? "girl" : "man")+ "Button").hide();
         $("#registration_title").hide();
         $("#registration_user").hide("slow");
         $("#registration_profile").show("slow");
@@ -42,37 +42,37 @@
             <ol>
                 <li>
                     @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName, new {onblur="t(this)"})
-                    @Html.ValidationMessageFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName, new { onblur = "t(this)" }) (Cannot be empty)
+                    <br />@Html.ValidationMessageFor(m => m.UserName)
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new {onblur="t(this)"})
-                    @Html.ValidationMessageFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { onblur = "t(this)" }) (Cannot be empty)
+                    <br />@Html.ValidationMessageFor(m => m.Email)
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password) (Cannot be empty)
+                    <br />@Html.ValidationMessageFor(m => m.Password)
                 </li>
                 <li>
                     @Html.LabelFor(m => m.ConfirmPassword)
-                    @Html.PasswordFor(m => m.ConfirmPassword)
-                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)  (Cannot be empty and must match previous password)
+                    <br />@Html.ValidationMessageFor(m => m.ConfirmPassword)
                 </li>
             </ol>
             <ol>
                 <li><hr /></li>
                 <li>
                     <h3>
-                        I am a Girl @Html.RadioButtonFor(m=> m.Gender, Sex.Female) / Man @Html.RadioButtonFor(m=> m.Gender, Sex.Male)
+                        I am a Girl @Html.RadioButtonFor(m => m.Gender, Sex.Female) / Man @Html.RadioButtonFor(m => m.Gender, Sex.Male)  (You must choose one ;) )
                     </h3>
-                    @Html.ValidationMessage("gender2")
+                    <br />@Html.ValidationMessage("gender2")
                 </li>
                 <li>
                     <div class="editor-field">
-                        <h3>Photo <input type="file" name="Photo" /></h3>
-                        @Html.ValidationMessageFor(model => model.Photo)
+                        <h3>Photo * <input type="file" name="Photo" /></h3> (We need at least one photo of you)
+                        <br />@Html.ValidationMessageFor(model => model.Photo)
                     </div>
                 </li>
                 <li><hr /></li>

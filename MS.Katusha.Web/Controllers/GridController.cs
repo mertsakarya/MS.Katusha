@@ -15,8 +15,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IDetailGridService<T> _service;
 
-        protected GridDetailController(IResourceService resourceService, IUserService userService, IDetailGridService<T> service, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, service, profileService, stateService, conversationService)
+        protected GridDetailController(IResourceService resourceService, IUserService userService, IDetailGridService<T> service, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+            : base(resourceService, userService, service, profileService, stateService, conversationService, tokBoxService)
         {
             _service = service;
         }
@@ -59,8 +59,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IGridService<T> _service;
         protected const int PageSize = DependencyConfig.GlobalPageSize;
 
-        public GridController(IResourceService resourceService, IUserService userService, IGridService<T> service, IProfileService profileService, IStateService stateService, IConversationService conversationService)
-            : base(resourceService, userService, profileService, stateService, conversationService)
+        public GridController(IResourceService resourceService, IUserService userService, IGridService<T> service, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
             _service = service;
         }

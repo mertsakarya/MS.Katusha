@@ -9,7 +9,7 @@
         <div id="newVisits" style="float:right; display:none;"></div>
         <div id="newMessages" style="float:right; display:none;"></div>
     </div>
-    if(profile != null) { <script src="/signalr/hubs" type="text/javascript"></script> }
+    //if(profile != null) { <script src="/signalr/hubs" type="text/javascript"></script> }
     <script type="text/javascript">
         @if (profile != null) {
             var city = profile.Location.CityName; city = city == null ? "" : city.Replace("'", "\\\'");
@@ -134,6 +134,8 @@
     *@
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", data_dialog_title = "Registration" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
+         <!-- Community bar ><script-- id="tb-video-bar" src="https://api.opentok.com/hl/embed/2emb2df2f374135899066c2bcaff6c3907456094/bar.js" rel="#27a4e4"></script-->
+
         @*<li><span id="fbResult" style="color:#800000"></span></li>*@
     </ul>
 }

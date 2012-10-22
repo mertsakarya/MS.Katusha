@@ -51,6 +51,7 @@ var ping = function() {
                 if (data.VisitCount && data.VisitCount > 0) {
                     showNewVisits(data.VisitTime, data.VisitCount);
                 }
+                //$("#tokboxsession").text(data.TokBoxSessionId);
             }
         },
         type: 'GET'
@@ -68,7 +69,7 @@ var readM = function(guid, fromGuid, fromName, toGuid, toName, e) {
                 dialogs[id].dialog('open');
             }
         } else {
-            $('#M' + guid).text(json.message).slideDown('slow');
+            $('#M' + guid).html(json.message).slideDown('slow');
             $('#showReply' + guid).slideDown('fast');
             if (ping != null) ping();
         }

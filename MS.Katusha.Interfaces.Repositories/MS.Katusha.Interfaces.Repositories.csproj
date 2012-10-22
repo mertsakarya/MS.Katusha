@@ -71,6 +71,7 @@
     <Compile Include="IPhotoRepository.cs" />
     <Compile Include="IResourceRepository.cs" />
     <Compile Include="ISearchingForRepository.cs" />
+    <Compile Include="ITokBoxRepositoryRavenDB.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="IVisitRepository.cs" />
     <Compile Include="IRepository.cs" />

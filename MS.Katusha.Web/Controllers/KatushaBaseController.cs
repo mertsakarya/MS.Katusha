@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Web.Mvc;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Helpers.Converters;
@@ -13,15 +14,18 @@ namespace MS.Katusha.Web.Controllers
     {
         public User KatushaUser { get; set; }
         public Profile KatushaProfile { get; set; }
+        public TokBoxSession TokBoxSession { get; set; }
 
+        public ITokBoxService TokBoxService { get; private set; }
         public IUserService UserService { get; private set; }
         public IProfileService ProfileService { get; private set; }
         public IStateService StateService { get; private set; }
         public IResourceService ResourceService { get; set; }
         public IConversationService ConversationService { get; set; }
 
-        protected KatushaBaseController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+        protected KatushaBaseController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
         {
+            TokBoxService = tokBoxService;
             ResourceService = resourceService;
             ConversationService = conversationService;
             ProfileService = profileService;
