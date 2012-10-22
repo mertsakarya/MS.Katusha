@@ -38,7 +38,7 @@ namespace MS.Katusha.Repositories.RavenDB
         {
             using (var session = _documentStore.OpenSession()) {
                 try {
-                    var query = (from item in session.Query<MS.Katusha.Domain.Raven.Entities.CountryCityCountResult, MS.Katusha.Repositories.RavenDB.Indexes.CountryCityCountIndex>().Where(p => p.Gender == (byte) 1).ToList()
+                    var query = (from item in session.Query<MS.Katusha.Domain.Raven.Entities.CountryCityCountResult, MS.Katusha.Repositories.RavenDB.Indexes.CountryCityCountIndex>().Where(p => p.Gender == (byte) gender).ToList()
                                  group item by new {item.CountryName}
                                  into g
                                  let o = new {g.Key.CountryName}
