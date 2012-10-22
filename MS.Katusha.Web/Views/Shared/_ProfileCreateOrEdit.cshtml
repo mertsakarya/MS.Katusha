@@ -15,8 +15,9 @@
         </li>
         <li>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Name)  (Cannot be empty)
-                <br />@Html.ValidationMessageFor(model => model.Name)
+                @Html.EditorFor(model => model.Name)
+                <br />(Cannot be empty, this will be visible to other users and it can be anything)
+                <br />@Html.ValidationMessageFor(model => model.Name)<br />
             </div>
         </li>
         @*
@@ -39,8 +40,9 @@
                 @Html.LabelFor(model => model.Location.CountryName)
             </div>
             <div class="editor-field">
-                @CountryCity.EditOrCreate(Model.Location, "Country", "City", "/Search/GetCities")  (Country cannot be empty)
-                <br />@Html.ValidationMessageFor(model => model.Location.CountryName)
+                @CountryCity.EditOrCreate(Model.Location, "Country", "City", "/Search/GetCities")
+                <br />(Country cannot be empty)
+                <br />@Html.ValidationMessageFor(model => model.Location.CountryName)<br />
             </div>
         </li>
         <li>
@@ -48,27 +50,30 @@
                 @Html.LabelFor(model => model.Height)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Height)  (Cannot be empty must be in centimeters, something between <b>100</b> and <b>250</b>)
+                @Html.EditorFor(model => model.Height)
+                <br />(Cannot be empty must be in centimeters, must be some number between <b>100</b> and <b>250</b>)
                 <br />@Html.ValidationMessageFor(model => model.Height)
-            </div>
+            </div><br />
         </li>
         <li>
             <div class="editor-label mandatory">
                 @Html.LabelFor(model => model.BirthYear)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.BirthYear) (Cannot be empty, something between <b>1940</b> and <b>2000</b>)
+                @Html.EditorFor(model => model.BirthYear)
+                <br />(Cannot be empty, must be some number between <b>1940</b> and <b>2000</b>)
                 <br />@Html.ValidationMessageFor(model => model.BirthYear)
-            </div>
+            </div><br />
         </li>
         <li>
             <div class="editor-label mandatory">
-                @Html.LabelFor(model => model.Description) (Cannot be empty)
+                @Html.LabelFor(model => model.Description)
+                (Cannot be empty. Please tell other people a little bit about yourself. It doesn't have to long or poetic. But it would be nice for them to know more about you.)
                 <br />@Html.ValidationMessageFor(model => model.Description)
             </div>
             <div class="editor-field">
                 @Html.TextAreaFor(model => model.Description, new {cols=40, rows=10, style="width:420px;"})
-            </div>
+            </div><br />
         </li>
         <div style="@(edit ? "" : "display:none")">
             <li>

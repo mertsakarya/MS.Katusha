@@ -25,8 +25,9 @@
 </script>
 <div id="registration_title">
     <hgroup class="title">
-        <h1>@ViewBag.Title.</h1>
-        <h2>Use the form below to create a new account.</h2>
+        <h3>Use the form below to create a new account.</h3>
+        <h4> It will only take a minute.</h4>
+        <h4>Don't worry we won't bite. ...Or we might!!! ;)</h4>
     </hgroup>
 
     <p class="message-info">
@@ -42,23 +43,27 @@
             <ol>
                 <li>
                     @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName, new { onblur = "t(this)" }) (Cannot be empty)
-                    <br />@Html.ValidationMessageFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName, new { onblur = "t(this)" }) 
+                    <br />(Cannot be empty, this information will not be visible to other users, it is only for you.)
+                    <br />@Html.ValidationMessageFor(m => m.UserName)<br />
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { onblur = "t(this)" }) (Cannot be empty)
-                    <br />@Html.ValidationMessageFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { onblur = "t(this)" })
+                    <br />(Cannot be empty, this information will not be visible to other users, it is only for you.)
+                    <br />@Html.ValidationMessageFor(m => m.Email)<br />
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password) (Cannot be empty)
-                    <br />@Html.ValidationMessageFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password) 
+                    <br />(Cannot be empty)
+                    <br />@Html.ValidationMessageFor(m => m.Password)<br />
                 </li>
                 <li>
                     @Html.LabelFor(m => m.ConfirmPassword)
-                    @Html.PasswordFor(m => m.ConfirmPassword)  (Cannot be empty and must match previous password)
-                    <br />@Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                    <br />(Cannot be empty and must match previous password)
+                    <br />@Html.ValidationMessageFor(m => m.ConfirmPassword)<br />
                 </li>
             </ol>
             <ol>
@@ -67,12 +72,13 @@
                     <h3>
                         I am a Girl @Html.RadioButtonFor(m => m.Gender, Sex.Female) / Man @Html.RadioButtonFor(m => m.Gender, Sex.Male)
                     </h3>
-                    (You must choose one ;) )<br />
-                    <br />@Html.ValidationMessage("gender2")
+                    (You must choose one ;) )
+                    <br />@Html.ValidationMessage("gender2")<br />
                 </li>
                 <li>
                     <div class="editor-field">
-                        <h3>Photo * <input type="file" name="Photo" /></h3> (We need at least one photo of you)
+                        <h3>Photo * <input type="file" name="Photo" /></h3> 
+                        (We need at least one photo of you)
                         <br />@Html.ValidationMessageFor(model => model.Photo)
                     </div>
                 </li>

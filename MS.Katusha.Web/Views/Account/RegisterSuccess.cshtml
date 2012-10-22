@@ -31,7 +31,7 @@
     <p>Now you can;</p><br/>
     <ul>
         @if(user.Gender == (byte)Sex.Male) { <li><b>Warning:</b> You can send messages to girls for the next fifteen (15) days. Unfortunately later on it is paid. But its not bad! :)</li> }
-        <li>@Html.ActionLink("Edit your profile more detailed way", "Edit", "Profiles")</li>
+        <li><b>@Html.ActionLink("Edit your profile more detailed way", "Edit", "Profiles")</b>. Please do this now, if you have time.</li>
         <li>@Html.ActionLink("Add more photos", "List", "Photos")</li>
         <li>@Html.ActionLink("View yourself to see how "+ ((user.Gender == (byte)Sex.Male) ? "handsome" : "beautiful") + " you are", "Me", "Profiles")</li>
         <li>@Html.ActionLink("Go home and search for more people", "Index", "Home")</li>
