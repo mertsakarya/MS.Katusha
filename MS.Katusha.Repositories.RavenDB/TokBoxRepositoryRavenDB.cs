@@ -13,7 +13,7 @@ namespace MS.Katusha.Repositories.RavenDB
         public TokBoxSession GetSession(Guid profileGuid, string ip)
         {
             using (var session = _documentStore.OpenSession()) {
-                return session.Query<TokBoxSession>().FirstOrDefault(p => p.ProfileGuid == profileGuid && p.IP == ip);
+                return session.Load<TokBoxSession>(String.Format("TokBoxSessions/{0}-{1}", profileGuid, ip));
                 //.AsProjection<Profile>()
             }
         }
@@ -21,7 +21,7 @@ namespace MS.Katusha.Repositories.RavenDB
             var tokBoxSession = GetSession(profileGuid, ip);
             if (tokBoxSession == null) {
                 using (var session = _documentStore.OpenSession()) {
-                    tokBoxSession = new TokBoxSession { LastModified = DateTime.Now, ProfileGuid = profileGuid, IP = ip, SessionId = sessionId };
+                    tokBoxSession = new TokBoxSession { Id = String.Format("{0}-{1}", profileGuid, ip), LastModified = DateTime.Now, ProfileGuid = profileGuid, IP = ip, SessionId = sessionId };
                     session.Store(tokBoxSession);
                     //session.Advanced.GetMetadataFor(tokBoxSession)["Raven-Expiration-Date"] = new RavenJValue(DateTime.Now.AddMinutes(1).ToUniversalTime());
                     session.SaveChanges();

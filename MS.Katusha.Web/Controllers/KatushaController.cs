@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
@@ -39,9 +40,10 @@ namespace MS.Katusha.Web.Controllers
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
                 if (KatushaProfile != null) {
-                    TokBoxSession = TokBoxService.GetSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
-                    if ((DateTime.Now - TokBoxSession.LastModified).Minutes > 5)
-                        TokBoxSession = TokBoxService.CreateSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
+                    //TokBoxSession = TokBoxService.GetSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
+                    //if ((DateTime.Now - TokBoxSession.LastModified).Minutes > 5)
+                    //    TokBoxSession = TokBoxService.CreateSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
+                    TokBoxSession = new TokBoxSession() {IP = "::1", ProfileGuid = Guid.NewGuid(), SessionId = "", LastModified = DateTime.Now};
                 }
             }
             var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
