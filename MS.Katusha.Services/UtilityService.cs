@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Entities.BaseEntities;
 using MS.Katusha.Domain.Service;
@@ -12,6 +14,7 @@ using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Repositories.DB;
 using MS.Katusha.Repositories.DB.Context;
 using MS.Katusha.Repositories.RavenDB;
+using Newtonsoft.Json;
 using Raven.Abstractions.Commands;
 using AutoMapper;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
@@ -38,6 +41,7 @@ namespace MS.Katusha.Services
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
         private readonly IVisitRepositoryRavenDB _visitRepositoryRaven;
         private readonly IConversationRepositoryRavenDB _conversationRepositoryRaven;
+        private readonly IKatushaFileSystem _fileSystem;
         private readonly IDictionary<string, string> _countries;
         private readonly ResourceManager _resourceManager;
         private readonly IDictionary<string, string> _languages;
@@ -45,9 +49,11 @@ namespace MS.Katusha.Services
         public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore,
                               IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
                               ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
-                              IConversationRepositoryDB conversationRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IVisitRepositoryRavenDB visitRepositoryRaven, IConversationRepositoryRavenDB conversationRepositoryRaven)
+                              IConversationRepositoryDB conversationRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IVisitRepositoryRavenDB visitRepositoryRaven, IConversationRepositoryRavenDB conversationRepositoryRaven,
+                              IKatushaFileSystem fileSystem)
         {
             _conversationRepositoryRaven = conversationRepositoryRaven;
+            _fileSystem = fileSystem;
             _visitRepositoryRaven = visitRepositoryRaven;
             _profileRepositoryRaven = profileRepositoryRaven;
             _photoRepository = photoRepository;
@@ -120,7 +126,16 @@ namespace MS.Katusha.Services
             } else {
                 var photoBackups = new List<ApiPhotoBackup>(profile.Photos.Count);
                 if (profile.Photos.Count > 0) {
-                    photoBackups.AddRange(profile.Photos.Select(photo => Mapper.Map<ApiPhotoBackup>(_photoBackupService.GetPhoto(photo.Guid))));
+                    foreach(var photo in profile.Photos) {
+                        try {
+                            var photoBackup = _photoBackupService.GetPhoto(photo.Guid);
+                            var apiPhotoBackup = Mapper.Map<ApiPhotoBackup>(photoBackup);
+                            if (apiPhotoBackup != null)
+                                photoBackups.Add(apiPhotoBackup);
+                        } catch(Exception) {
+                            
+                        }
+                    }
                 }
                 var ravenMessages = Mapper.Map<IList<Conversation>>(_conversationRepository.Query(p => p.FromId == profileId || p.ToId == profileId, null, false, e => e.From, e => e.To).ToList());
                 var messages = Mapper.Map<IList<ApiConversation>>(ravenMessages);
@@ -304,6 +319,40 @@ namespace MS.Katusha.Services
             if (sqlCommands.Count > 0) _dbContext.ExecuteNonQuery(sqlCommands);
         }
 
+        public IList<string> BackupAndDeleteProfile(User user, Guid guid)
+        {
+            var results = BackupProfile(user, guid, Folders.DeletedProfiles);
+            try {
+                if(results.Count == 0)
+                    DeleteProfile(guid);
+            } catch (Exception ex) {
+                results.Add(ex.Message);
+            }
+            return results;
+        }
 
+        public IList<string> BackupProfile(User katushaUser, Guid guid, string folder = null)
+        {
+            var results = new List<string>();
+            try {
+                var profile = _profileRepository.GetByGuid(guid);
+                var extendedProfile = GetExtendedProfile(katushaUser, profile.Id);
+                var obj = JsonConvert.SerializeObject(extendedProfile);
+                var bytes = Encoding.UTF8.GetBytes(obj);
+                using (var stream = new MemoryStream(bytes)) {
+                    _fileSystem.Add(string.Format("{0}/{1}.json", folder ?? Folders.ProfileBackups, guid), stream);
+                }
+            } catch (Exception ex) {
+                results.Add(ex.Message);
+            }
+            return results;
+        }
+
+        public IList<string> RestoreProfile(User katushaUser, Guid guid, bool isDeleted) { 
+            var bytes =_fileSystem.GetData(String.Format("{0}/{1}.json", ((isDeleted) ? Folders.DeletedProfiles : Folders.ProfileBackups), guid));
+            var obj = Encoding.UTF8.GetString(bytes);
+            var extendedProfile = JsonConvert.DeserializeObject<AdminExtendedProfile>(obj);
+            return SetExtendedProfile(extendedProfile);
+        }
     }
 }

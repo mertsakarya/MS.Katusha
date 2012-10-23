@@ -20,7 +20,7 @@ namespace MS.Katusha.Services
 
         public void AddPhoto(PhotoBackup photoBackup) {
             using (var stream = new MemoryStream(photoBackup.Data)) {
-                _fileSystem.Add(String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, photoBackup.Guid), stream);
+                _fileSystem.Add(String.Format("{0}/{1}.jpg", Folders.PhotoBackups, photoBackup.Guid), stream);
             } 
         }
 
@@ -42,7 +42,7 @@ namespace MS.Katusha.Services
                     }
                 }
                 using (var stream = new MemoryStream(bytes)) {
-                    _fileSystem.Add(String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, (byte)photoType, photo.Guid), stream);
+                    _fileSystem.Add(String.Format("{0}/{1}-{2}.jpg", Folders.Photos, (byte)photoType, photo.Guid), stream);
                 }
             }
             return true;
@@ -50,7 +50,7 @@ namespace MS.Katusha.Services
 
         public bool GeneratePhoto(Guid guid, PhotoType photoType)
         {
-            var file = String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, (byte)photoType, guid);
+            var file = String.Format("{0}/{1}-{2}.jpg", Folders.Photos, (byte)photoType, guid);
             if (_fileSystem.FileExists(file)) return true;
             var photo = GetPhoto(guid);
             return photo != null && GeneratePhoto2(photo, photoType);
@@ -58,7 +58,7 @@ namespace MS.Katusha.Services
 
         public byte[] GetPhotoData(Guid guid)
         {
-            var file = String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid);
+            var file = String.Format("{0}/{1}.jpg", Folders.PhotoBackups, guid);
             return _fileSystem.GetData(file);
         }
     }
