@@ -5,6 +5,7 @@ using System.Web.Security;
 using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Exceptions;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
@@ -20,7 +21,10 @@ namespace MS.Katusha.Web.Controllers
         private readonly  IPhotosService _photoService;
 
         public AccountController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IPhotosService photoService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService) { _photoService = photoService; }
+            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+        {
+            _photoService = photoService;
+        }
 
         [AllowAnonymous]
         public ActionResult Login() { return ContextDependentView(null, "Login"); }
@@ -317,6 +321,5 @@ namespace MS.Katusha.Web.Controllers
             var errors = GetErrorsFromModelState();
             return Json(new { errors });
         }
-
     }
 }

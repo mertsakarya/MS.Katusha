@@ -78,8 +78,8 @@ namespace MS.Katusha.FileSystems
             Delete(list.ToArray());
         }
 
-        private static string GetFileName(Guid photoGuid, byte i) { return String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, i, photoGuid); }
-        private static string GetBackupFilename(Guid guid) { return String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid); }
+        private static string GetFileName(Guid photoGuid, byte i) { return String.Format("{0}/{1}-{2}.jpg", Folders.Photos, i, photoGuid); }
+        private static string GetBackupFilename(Guid guid) { return String.Format("{0}/{1}.jpg", Folders.PhotoBackups, guid); }
 
         public void CopyBackup(Guid guid)
         {
@@ -88,8 +88,8 @@ namespace MS.Katusha.FileSystems
 
         public void CopyToBucket(Guid guid, string bucketName)
         {
-            var source = String.Format("{0}/{1}.jpg", PhotoFolders.PhotoBackups, guid);
-            var destination = String.Format("{0}/{1}.jpg", PhotoFolders.DeletedPhotos, guid);
+            var source = String.Format("{0}/{1}.jpg", Folders.PhotoBackups, guid);
+            var destination = String.Format("{0}/{1}.jpg", Folders.DeletedPhotos, guid);
 
             using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
                 var request = new CopyObjectRequest {
@@ -127,7 +127,7 @@ namespace MS.Katusha.FileSystems
         {
             var list = new List<PhotoFile>();
             using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
-                var response = client.ListObjects(new ListObjectsRequest().WithBucketName(_bucket.BucketName).WithPrefix(PhotoFolders.Photos+"/" + prefix));
+                var response = client.ListObjects(new ListObjectsRequest().WithBucketName(_bucket.BucketName).WithPrefix(Folders.Photos+"/" + prefix));
                 unparseableFiles = new List<string>();
                 foreach(var s3Object in response.S3Objects) {
                     var fileName = s3Object.Key;
@@ -216,7 +216,7 @@ namespace MS.Katusha.FileSystems
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)
         {
             using (var stream = new MemoryStream(bytes)) {
-                Add(String.Format("{0}/{1}-{2}.jpg", PhotoFolders.Photos, (byte)photoType, photo.Guid), stream);
+                Add(String.Format("{0}/{1}-{2}.jpg", Folders.Photos, (byte)photoType, photo.Guid), stream);
             } 
         }
 

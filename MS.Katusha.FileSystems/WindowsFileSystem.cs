@@ -33,13 +33,13 @@ namespace MS.Katusha.FileSystems
         public void DeletePhoto(Guid photoGuid)
         {
             for (byte i = 0; i <= (byte)PhotoType.MAX; i++) {
-                Delete(String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, i, photoGuid));
+                Delete(String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, Folders.Photos, i, photoGuid));
             }
         }
 
         public void DeleteBackupPhoto(Guid guid)
         {
-            Delete(String.Format("{0}/{1}/{2}.jpg", _baseFolderName, PhotoFolders.PhotoBackups, guid));
+            Delete(String.Format("{0}/{1}/{2}.jpg", _baseFolderName, Folders.PhotoBackups, guid));
         }
 
         public bool FileExists(string path) { return File.Exists(_baseFolderName + "\\" + path); }
@@ -48,7 +48,7 @@ namespace MS.Katusha.FileSystems
         {
             unparseableFiles = new List<string>();
             var list = new List<PhotoFile>();
-            var files = Directory.GetFiles(_baseFolderName + "\\" + PhotoFolders.Photos, prefix + "*.jpg");
+            var files = Directory.GetFiles(_baseFolderName + "\\" + Folders.Photos, prefix + "*.jpg");
             foreach (var fn in files) {
                 var pos = fn.LastIndexOf('\\');
                 var fileName = fn.Substring(pos);
@@ -75,8 +75,8 @@ namespace MS.Katusha.FileSystems
 
         public string GetPhotoUrl(Guid photoGuid, PhotoType photoType, bool encode = false)
         {
-            if (encode) return GetUrl(String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? PhotoFolders.Images : PhotoFolders.Photos), (byte) photoType, photoGuid));
-            var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte) photoType, photoGuid);
+            if (encode) return GetUrl(String.Format("/{0}/{1}-{2}.jpg", ((photoGuid == Guid.Empty) ? Folders.Images : Folders.Photos), (byte) photoType, photoGuid));
+            var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, Folders.Photos, (byte) photoType, photoGuid);
             var bytes = File.ReadAllBytes(path);
             var base64 = Convert.ToBase64String(bytes);
             return base64;
@@ -104,7 +104,7 @@ namespace MS.Katusha.FileSystems
 
         public void ClearPhotos(bool clearBackups = false)
         {
-            var photosFolder = String.Format("{0}/{1}", _baseFolderName, PhotoFolders.Photos);
+            var photosFolder = String.Format("{0}/{1}", _baseFolderName, Folders.Photos);
             if (!Directory.Exists(photosFolder))
                 Directory.CreateDirectory(photosFolder);
             else { //file system won't have backups
@@ -115,7 +115,7 @@ namespace MS.Katusha.FileSystems
 
         public void WritePhoto(Photo photo, PhotoType photoType, byte[] bytes)
         {
-            var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, PhotoFolders.Photos, (byte) photoType, photo.Guid);
+            var path = String.Format("{0}/{1}/{2}-{3}.jpg", _baseFolderName, Folders.Photos, (byte) photoType, photo.Guid);
             using(var writer = new FileStream(path, FileMode.Create, FileAccess.Write)) {
                 writer.Write(bytes, 0, bytes.Length);
             }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Enumerations;
+using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Services;

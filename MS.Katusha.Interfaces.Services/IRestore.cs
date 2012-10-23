@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MS.Katusha.Domain.Entities;
 
 namespace MS.Katusha.Interfaces.Services
 {

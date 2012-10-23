@@ -49,10 +49,12 @@ namespace MS.Katusha.Enumerations
 
     public enum PhotoStatus { Ready = 1, WaitingApproval = 2, Uploading = 3, NotExist = 4, MAX = 4 }
     
-    public static class PhotoFolders
+    public static class Folders
     {
         public static string Photos = "Photos";
         public static string PhotoBackups = "PhotoBackups";
+        public static string ProfileBackups = "ProfileBackups";
+        public static string DeletedProfiles = "DeletedProfiles";
         public static string Images = "Images";
         public static string DeletedPhotos = "DeletedPhotos";
     }

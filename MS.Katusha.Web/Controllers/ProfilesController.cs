@@ -23,13 +23,47 @@ namespace MS.Katusha.Web.Controllers
     public class ProfilesController : KatushaController
     {
         private readonly IProfileService _profileService;
+        private readonly IUtilityService _utilityService;
         private const int PageSize = DependencyConfig.GlobalPageSize;
 
-        public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+        public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IUtilityService utilityService, ITokBoxService tokBoxService)
             : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
         {
             _profileService = profileService;
+            _utilityService = utilityService;
         }
+
+        #region Administrative Actions
+
+        [KatushaFilter(IsAuthenticated = true, AllowedRole = UserRole.Administrator)]
+        [HttpGet]
+        public void Wipe(string key)
+        {
+            Guid guid;
+            Response.ContentType = "text/plain";
+            Response.Write(Guid.TryParse(key, out guid) ? String.Join("\r\n", _utilityService.BackupAndDeleteProfile(KatushaUser, guid)) : "Can't parse Guid");
+        }
+
+        [KatushaFilter(IsAuthenticated = true, AllowedRole = UserRole.Administrator)]
+        [HttpGet]
+        public void Backup(string key)
+        {
+            Guid guid;
+            Response.ContentType = "text/plain";
+            Response.Write(Guid.TryParse(key, out guid) ? String.Join("\r\n", _utilityService.BackupProfile(KatushaUser, guid)) : "Can't parse Guid");
+        }
+
+        [KatushaFilter(IsAuthenticated = true, AllowedRole = UserRole.Administrator)]
+        [HttpGet]
+        public void Restore(string key, bool? isDeleted)
+        {
+            Guid guid;
+            var deleted = isDeleted ?? false;
+            Response.ContentType = "text/plain";
+            Response.Write(Guid.TryParse(key, out guid) ? String.Join("\r\n", _utilityService.RestoreProfile(KatushaUser, guid, deleted)) : "Can't parse Guid");
+        }
+
+        #endregion
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]
         public ActionResult Ping()

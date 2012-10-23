@@ -4,11 +4,20 @@
 @{ var title = Model.Name + "'s Profile";
     ViewBag.Title = title;
     var katushaProfile = ViewBag.KatushaProfile as Profile;
+    var katushaUser = ViewBag.KatushaUser as User;
     var sameProfile = (ViewBag.SameProfile != null && ViewBag.SameProfile);
 }
 <div itemscope itemtype="http://schema.org/Person">
     @if (katushaProfile != null) {
         <table width="100%"><tr><td><h2><span itemprop="name">@Model.Name</span>'s Profile</h2></td><td style="text-align: right; padding-right: 10px;">
+            @if(katushaUser != null && (katushaUser.UserRole & (long)UserRole.Administrator)  > 0) {
+                <script>$(document).ready(function () {
+                    $('#wipeUser').click(function () { return confirm("Are You sure?"); });
+                    $('#backupUser').click(function () { return confirm("Are You sure?"); });
+                });</script>
+                <a class="btn btn-danger" id="wipeUser" href='@Url.Action("Wipe", "Profiles", new { key = Html.KeyFor(Model) })' title="Completely Delete this user">Wipe user!!!</a>
+                <a class="btn btn-danger" id="backupUser" href='@Url.Action("Backup", "Profiles", new { key = Html.KeyFor(Model) })' title="Backup this user">Backup user!!!</a>
+            }
             @if (!sameProfile) {
                 <a class="btn btn-warning cancel mixpanel" id="sendMessageButton" mp-event="!Click Send Message" mp-data="{guid:profile.guid, name:profile.name}"  data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">
                     Send Message
@@ -18,6 +27,7 @@
                     Change Password
                 </a>
             }
+
         </td></tr></table>
     } else {
         <br/>
