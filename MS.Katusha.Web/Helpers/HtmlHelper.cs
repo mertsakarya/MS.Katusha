@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MS.Katusha.Configuration;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
@@ -33,6 +34,13 @@ namespace MS.Katusha.Web.Helpers
 
         public static string GetUrlFriendlyDateTime<TModel>(this HtmlHelper<TModel> htmlHelper, DateTime dateTime) {
             return ResourceService.UrlFriendlyDateTime(dateTime);
+        }
+
+        public static bool CanRegister<TModel>(this HtmlHelper<TModel> htmlHelper)
+        {
+            var ipString = KatushaConfigurationManager.Instance.GetSettings().Ip;
+            var result = !ResourceService.IsBlocked(ipString);
+            return result;
         }
 
         public static MvcHtmlString EnumDropDownListFor<TModel, TEnum>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, bool optional = false) { return EnumDropDownListFor(htmlHelper, expression, optional, null); }

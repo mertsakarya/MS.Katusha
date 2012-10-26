@@ -26,5 +26,7 @@ namespace MS.Katusha.Interfaces.Services
         IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode);
 
         string UrlFriendlyDateTime(DateTime dateTime);
+
+        bool IsBlocked(string ip);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure;
 using MS.Katusha.Infrastructure.Cache;
@@ -76,6 +77,8 @@ namespace MS.Katusha.Services
                                  (second < 10) ? "0" + second : second.ToString(CultureInfo.InvariantCulture)
                 );
         }
+
+        public bool IsBlocked(string ip) { return ResourceManager.IsBlocked(ip); }
     }
 
 }

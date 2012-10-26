@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{249B22
 		publishtest.cmd = publishtest.cmd
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LukeSkywalker.IPNetwork", "LukeSkywalker.IPNetwork\LukeSkywalker.IPNetwork.csproj", "{E76938D8-EDEC-4568-B73C-B98C41044423}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MS.Katusha1.vsmdi
@@ -104,6 +106,10 @@ Global
 		{334451F4-B9CF-4CD8-AF99-F67DC74556B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{334451F4-B9CF-4CD8-AF99-F67DC74556B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{334451F4-B9CF-4CD8-AF99-F67DC74556B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E76938D8-EDEC-4568-B73C-B98C41044423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E76938D8-EDEC-4568-B73C-B98C41044423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E76938D8-EDEC-4568-B73C-B98C41044423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E76938D8-EDEC-4568-B73C-B98C41044423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,5 +124,6 @@ Global
 		{6BC39B87-459B-4967-9B7F-ADA1AAFD3B39} = {9288F010-9F8C-416D-8908-C0FFD78D5D38}
 		{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266} = {9288F010-9F8C-416D-8908-C0FFD78D5D38}
 		{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152} = {9288F010-9F8C-416D-8908-C0FFD78D5D38}
+		{E76938D8-EDEC-4568-B73C-B98C41044423} = {9288F010-9F8C-416D-8908-C0FFD78D5D38}
 	EndGlobalSection
 EndGlobal

@@ -106,6 +106,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LukeSkywalker.IPNetwork\LukeSkywalker.IPNetwork.csproj">
+      <Project>{e76938d8-edec-4568-b73c-b98c41044423}</Project>
+      <Name>LukeSkywalker.IPNetwork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MS.Katusha.Domain\MS.Katusha.csproj">
       <Project>{36AA6969-6329-4BB1-BEA6-8AFCC1CA4152}</Project>
       <Name>MS.Katusha</Name>

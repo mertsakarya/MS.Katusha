@@ -502,6 +502,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\glimpse.readme.txt" />
+    <Content Include="ConfigData\BlockedIPList.txt" />
     <Content Include="ConfigData\bundles.txt" />
     <Content Include="ConfigData\cities15000.txt" />
     <Content Include="ConfigData\cities5000.txt" />

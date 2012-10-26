@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using LukeSkywalker.IPNetwork;
 using MS.Katusha.Configuration;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Repositories.DB;
@@ -18,6 +19,7 @@ namespace MS.Katusha.Infrastructure
         private readonly Dictionary<Section, ConfigurationType> _dependencies;
         private static readonly string root = HttpContext.Current.Server.MapPath(@"~\ConfigData\");
         private static readonly string ConfigurationFilename = root + @"ConfigurationData.txt";
+        private static readonly string BlockedIPListFilename = root + @"BlockedIPList.txt";
         //private static readonly string GeoNamesFilename = root + @"allCountries.txt";
         private const string GeoNamesFilename = @"cities15000.txt";
         private const string GeoCountryFilename = @"countryInfo.txt";
@@ -100,6 +102,21 @@ namespace MS.Katusha.Infrastructure
 
         }
 
+        public static void BlockedIpList(List<IPNetwork> list)
+        {
+            list.Clear();
+            using (var stream = new StreamReader(BlockedIPListFilename)) {
+                while (!stream.EndOfStream) {
+                    var text = stream.ReadLine();
+                    if (String.IsNullOrWhiteSpace(text) || text.Length == 0 || text[0] == '*') continue;
+                    try {
+                        var ipNetwork = IPNetwork.Parse(text);
+                        list.Add(ipNetwork);
+                    } catch(Exception) {}
+                }
+            }
+        }
+
         public ConfigParser(IKatushaDbContext dbContext)
         {
             var configurationData = new ConfigurationType(Section.Configuration) {
@@ -145,7 +162,7 @@ namespace MS.Katusha.Infrastructure
             var line = 0;
             using (var stream = new StreamReader(ConfigurationFilename)) {
                 while (!stream.EndOfStream) {
-                    string text = stream.ReadLine();
+                    var text = stream.ReadLine();
                     line++;
                     if (mode == Section.Start) {
                         if (text == "[START]")

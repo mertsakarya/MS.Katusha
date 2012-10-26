@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
+using MS.Katusha.Configuration;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Exceptions;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
@@ -34,9 +35,11 @@ namespace MS.Katusha.Web.Controllers
         public JsonResult JsonLogin(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid) {
-                if (UserService.ValidateUser(model.UserName, model.Password)) {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    return Json(new {success = true, redirect = returnUrl});
+                if (!IsBlocked()) {
+                    if (UserService.ValidateUser(model.UserName, model.Password)) {
+                        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                        return Json(new {success = true, redirect = returnUrl});
+                    }
                 }
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");
             }
@@ -100,14 +103,15 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public ActionResult JsonRegister(RegisterModel model)
         {
-            return _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
+            var isBlocked = IsBlocked();
+            return isBlocked ? Json(new {errors = (IEnumerable<string>) new [] {"Try again!"}}) : _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            return _Register(model, RedirectToAction("RegisterSuccess"), View(model));
+            return IsBlocked() ? RedirectToAction("Index", "Home") : _Register(model, RedirectToAction("RegisterSuccess"), View(model));
         }
 
         private ActionResult _Register(RegisterModel model, ActionResult successResult, ActionResult failResult)
@@ -320,6 +324,12 @@ namespace MS.Katusha.Web.Controllers
             }
             var errors = GetErrorsFromModelState();
             return Json(new { errors });
+        }
+
+        private bool IsBlocked()
+        {
+            var ip = KatushaConfigurationManager.Instance.GetSettings().Ip;
+            return ResourceService.IsBlocked(ip);
         }
     }
 }

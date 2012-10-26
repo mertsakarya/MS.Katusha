@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading;
+using LukeSkywalker.IPNetwork;
 using MS.Katusha.Infrastructure.Exceptions.Resources;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.DB;
@@ -18,6 +20,7 @@ namespace MS.Katusha.Infrastructure
         private static readonly IDictionary<string, Dictionary<string, string>> ResourceLookupList;
         private static readonly IDictionary<string, Dictionary<string, byte>> ResourceLookupByteList;
         private static readonly GeoLocation Location;
+        private static readonly List<IPNetwork> BlockedIpList;
 
         private static readonly ReaderWriterLockSlim ListLock;
 
@@ -29,6 +32,7 @@ namespace MS.Katusha.Infrastructure
             ResourceLookupByteList = new Dictionary<string, Dictionary<string, byte>>();
             Location = new GeoLocation();
             ListLock = new ReaderWriterLockSlim();
+            BlockedIpList = new List<IPNetwork>();
         }
 
         private ResourceManager()
@@ -56,6 +60,9 @@ namespace MS.Katusha.Infrastructure
             if (isEmpty) {
                 LoadGeoLocationDataFromDb(new GeoCountryRepositoryDB(dbContext), new GeoLanguageRepositoryDB(dbContext), new GeoNameRepositoryDB(dbContext), new GeoTimeZoneRepositoryDB(dbContext));
             }
+            ListLock.EnterReadLock();
+            ConfigParser.BlockedIpList(BlockedIpList);
+            ListLock.ExitReadLock();
         }
 
         public static void LoadGeoLocationDataFromDb(GeoCountryRepositoryDB countryRepository, GeoLanguageRepositoryDB languageRepository, GeoNameRepositoryDB nameRepository, GeoTimeZoneRepositoryDB timeZoneRepository)
@@ -353,5 +360,15 @@ namespace MS.Katusha.Infrastructure
         private static ResourceManager _instance = null;
         public static ResourceManager GetInstance() { return _instance ?? (_instance = new ResourceManager()); }
         public bool CountryHasCity(string countryCode, int cityCode) { return Location.GetCities(countryCode).ContainsKey(cityCode.ToString(CultureInfo.InvariantCulture)); }
+
+        public static bool IsBlocked(string ip)
+        {
+            IPAddress ipAddress;
+            if (ip != null && ip == "::1") ip = "127.0.0.1";
+            if (IPAddress.TryParse(ip, out ipAddress)) {
+                return BlockedIpList.Any(n => IPNetwork.Contains(n, ipAddress));
+            }
+            return true;
+        }
     }
 }

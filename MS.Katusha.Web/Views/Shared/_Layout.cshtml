@@ -81,7 +81,7 @@
                     <div id="k_main_sidebar_left">@Html.Partial("_LeftPartial")</div>
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
-                            if (!(controller == "Account" && action == "Register")) {
+                            if (!(controller == "Account" && action == "Register") && Html.CanRegister()) {
                                 <a class="btn btn-success fileinput-button mixpanel" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration" mp-event="Click Green Register">
                                     <i class="icon-plus icon-white"></i>
                                     <span>Register free for limited time only!</span>
