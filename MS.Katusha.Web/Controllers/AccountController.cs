@@ -103,8 +103,7 @@ namespace MS.Katusha.Web.Controllers
         [HttpPost]
         public ActionResult JsonRegister(RegisterModel model)
         {
-            var isBlocked = IsBlocked();
-            return isBlocked ? Json(new {errors = (IEnumerable<string>) new [] {"Try again!"}}) : _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
+            return IsBlocked() ? Json(new {errors = (IEnumerable<string>) new [] {"Try again!"}}) : _Register(model, Json(new { success = true }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
         [AllowAnonymous]

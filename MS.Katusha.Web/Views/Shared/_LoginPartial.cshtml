@@ -132,9 +132,7 @@
         <li><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1" style="overflow:hidden;height:18px;width:70px; float:right; position: relative; display: inline-block;"></div></li>
         <li style="display:none;">@Html.ActionLink("Register Facebook", "Facebook", "Account", routeValues: null, htmlAttributes: new { id = "facebookRegisterLink", data_dialog_title = "Facebook Registration" })</li>
     *@
-        @if(Html.CanRegister()) {
-            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink", data_dialog_title = "Registration"})</li>
-        }
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink", data_dialog_title = "Registration"})</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
          <!-- Community bar ><script-- id="tb-video-bar" src="https://api.opentok.com/hl/embed/2emb2df2f374135899066c2bcaff6c3907456094/bar.js" rel="#27a4e4"></script-->
 

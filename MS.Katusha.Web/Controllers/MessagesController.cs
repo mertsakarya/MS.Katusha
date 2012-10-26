@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using MS.Katusha.Configuration;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
@@ -69,6 +70,7 @@ namespace MS.Katusha.Web.Controllers
         [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha, IsJson = true)]
         public JsonResult JsonSend(string key, ConversationModel model)
         {
+            if (IsBlocked()) return Json(new {errors = (IEnumerable<string>) new[] {"Try again!"}});
             return (JsonResult) _Send(key, model, Json(new { success = true, message = "Your message has been sent." }), Json(new { errors = GetErrorsFromModelState() }));
         }
 
@@ -76,7 +78,7 @@ namespace MS.Katusha.Web.Controllers
         [KatushaNeedsPayment(Product = ProductNames.MonthlyKatusha)]
         public ActionResult Send(string key, ConversationModel model)
         {
-            return _Send(key, model, RedirectToAction("Received"), View(model));
+            return IsBlocked() ? RedirectToAction("Index", "Home") : _Send(key, model, RedirectToAction("Received"), View(model));
         }
 
         private ActionResult _Send(string key, ConversationModel model, ActionResult successResult, ActionResult failResult)
@@ -109,5 +111,12 @@ namespace MS.Katusha.Web.Controllers
             var message = _conversationService.ReadMessage(KatushaUser, KatushaProfile.Id, guid);
             return Json(new {message = message});
         }
+
+        private bool IsBlocked()
+        {
+            var ip = KatushaConfigurationManager.Instance.GetSettings().Ip;
+            return ResourceService.IsBlocked(ip);
+        }
+
     }
 }
