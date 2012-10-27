@@ -363,6 +363,7 @@ namespace MS.Katusha.Infrastructure
 
         public static bool IsBlocked(string ip)
         {
+
             IPAddress ipAddress;
             if (ip != null && ip == "::1") ip = "127.0.0.1";
             if (IPAddress.TryParse(ip, out ipAddress)) {
