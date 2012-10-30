@@ -5,7 +5,6 @@ using AutoMapper;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Helpers;
 using MS.Katusha.Web.Models;
 using PagedList;
 
