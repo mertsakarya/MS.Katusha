@@ -35,6 +35,12 @@ namespace MS.Katusha.Web.Controllers
             ConversationResultTypeConverter.GetInstance().ProfileService = profileService;
         }
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            filterContext.HttpContext.Response.RedirectPermanent("http://www.mskatusha.com");
+            filterContext.HttpContext.Response.End();
+            base.OnActionExecuting(filterContext);
+        }
         protected override void ExecuteCore()
         {
             var cultureCookie = Request.Cookies["_culture"];
