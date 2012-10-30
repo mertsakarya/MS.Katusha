@@ -144,7 +144,7 @@ namespace MS.Katusha.Services
         {
             if (_cacheContext == null || photoGuid == Guid.Empty) return _fileSystem.GetPhotoUrl(photoGuid, photoType);
             var key = "F:" + (byte) photoType + photoGuid;
-            if (photoType == PhotoType.Icon) encode = true;
+            //if (photoType == PhotoType.Icon) encode = true;
             var encodingText = (encode) ? @"data:image/jpg;base64," : "";
             if (!encode) return encodingText + _fileSystem.GetPhotoUrl(photoGuid, photoType);
             var result = _cacheContext.Get<string>(key);
