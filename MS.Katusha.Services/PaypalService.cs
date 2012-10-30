@@ -18,7 +18,7 @@ namespace MS.Katusha.Services
         private PaypalSettings _settings;
         private const string MSKatushaorderDescription = "Your order for MS.Katusha";
         private const string MSKatushaBrandName = "MS.Katusha";
-        private const string MSKatushaImageUrl = "http://mskatusha.apphb.com/Images/logo.jpg";
+        private const string MSKatushaImageUrl = "http://www.mskatusha.com/Images/logo.jpg";
         const CurrencyCodeType MSKatushaCurrencyCode = CurrencyCodeType.USD;
 
         public PaypalService(IUserService userService)

@@ -41,6 +41,7 @@ namespace MS.Katusha.Web.Controllers
         //    filterContext.HttpContext.Response.End();
         //    base.OnActionExecuting(filterContext);
         //}
+
         protected override void ExecuteCore()
         {
             var cultureCookie = Request.Cookies["_culture"];
