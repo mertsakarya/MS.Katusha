@@ -5,7 +5,7 @@
     <h3>Online Users</h3>
     <div id="onlinegallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         @foreach (var profile in profiles) {
-            @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "onlinegallery", true)
+            @Html.DisplayProfilePhoto(profile, PhotoType.Icon, "onlinegallery", false)
         }
     </div>
     <a class="btn btn-warning cancel mixpanel" mp-event="Click Online Profiles" mp-data="{guid:profile.guid, name:profile.name}" href='@Url.Action("Online", "Profiles")' title="All users online">
