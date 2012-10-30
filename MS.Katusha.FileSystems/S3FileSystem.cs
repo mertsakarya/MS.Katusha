@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Amazon.S3;
 using Amazon.S3.Model;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Service;
@@ -15,15 +16,17 @@ namespace MS.Katusha.FileSystems
     public class S3FileSystem : IKatushaFileSystem
     {
         private readonly BucketData _bucket;
+        private readonly AmazonS3Config _config;
 
         public S3FileSystem(string bucketName = "")
         {
             _bucket = KatushaConfigurationManager.Instance.GetBucket(bucketName);
+            _config = new AmazonS3Config {ServiceURL = _bucket.EndPoint, CommunicationProtocol = Protocol.HTTP };
         }
 
         public void Add(string path, Stream stream)
         {
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 if (client == null) return;
                 var request = new PutObjectRequest();
                 request.WithBucketName(_bucket.BucketName)
@@ -51,16 +54,18 @@ namespace MS.Katusha.FileSystems
 
         private void Delete(string path)
         {
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 var request = new DeleteObjectRequest();
                 request.WithBucketName(_bucket.BucketName).WithKey(path);
                 client.DeleteObject(request);
             }
         }
 
+        private AmazonS3 CreateAmazonS3Client() { return Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey, _config); }
+
         private void Delete(params string[] paths)
         {
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 var request = new DeleteObjectsRequest();
                 foreach (var key in paths)
                     request.AddKey(key);
@@ -91,7 +96,7 @@ namespace MS.Katusha.FileSystems
             var source = String.Format("{0}/{1}.jpg", Folders.PhotoBackups, guid);
             var destination = String.Format("{0}/{1}.jpg", Folders.DeletedPhotos, guid);
 
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 var request = new CopyObjectRequest {
                     SourceBucket = _bucket.BucketName,
                     SourceKey = source,
@@ -111,11 +116,11 @@ namespace MS.Katusha.FileSystems
         public bool FileExists(string path)
         {
             try {
-                using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+                using (var client = CreateAmazonS3Client()) {
                     client.GetObjectMetadata(new GetObjectMetadataRequest().WithBucketName(_bucket.BucketName).WithKey(path));
                     return true;
                 }
-            } catch (Amazon.S3.AmazonS3Exception ex) {
+            } catch (AmazonS3Exception ex) {
                 if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                     return false;
 
@@ -126,7 +131,7 @@ namespace MS.Katusha.FileSystems
         public IList<PhotoFile> GetPhotoNames(out IList<string> unparseableFiles, string prefix = "")
         {
             var list = new List<PhotoFile>();
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 var response = client.ListObjects(new ListObjectsRequest().WithBucketName(_bucket.BucketName).WithPrefix(Folders.Photos+"/" + prefix));
                 unparseableFiles = new List<string>();
                 foreach(var s3Object in response.S3Objects) {
@@ -157,7 +162,7 @@ namespace MS.Katusha.FileSystems
 
         public byte[] GetData(string path)
         {
-            using (var client = Amazon.AWSClientFactory.CreateAmazonS3Client(_bucket.AccessKey, _bucket.SecretKey)) {
+            using (var client = CreateAmazonS3Client()) {
                 var request = new GetObjectRequest();
                 request.WithBucketName(_bucket.BucketName).WithKey(path);
                 using (var response = client.GetObject(request)) {

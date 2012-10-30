@@ -17,6 +17,9 @@ namespace MS.Katusha.Configuration.Data
         private static readonly ConfigurationProperty rootUrl =
             new ConfigurationProperty("rootUrl", typeof(string), string.Empty, ConfigurationPropertyOptions.IsRequired);
 
+        private static readonly ConfigurationProperty endPoint =
+            new ConfigurationProperty("endPoint", typeof(string), string.Empty, ConfigurationPropertyOptions.IsRequired);
+
 
         public BucketData()
         {
@@ -24,7 +27,7 @@ namespace MS.Katusha.Configuration.Data
             base.Properties.Add(accessKey);
             base.Properties.Add(secretKey);
             base.Properties.Add(rootUrl);
-
+            base.Properties.Add(endPoint);
         }
 
         [ConfigurationProperty("rootUrl", IsRequired = true)]
@@ -38,5 +41,8 @@ namespace MS.Katusha.Configuration.Data
 
         [ConfigurationProperty("secretKey", IsRequired = true)]
         public string SecretKey { get { return (string)this[secretKey]; } }
+
+        [ConfigurationProperty("endPoint", IsRequired = true)]
+        public string EndPoint { get { return (string)this[endPoint]; } }
     }
 }
