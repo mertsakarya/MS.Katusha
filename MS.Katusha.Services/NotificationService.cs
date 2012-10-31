@@ -57,7 +57,7 @@ namespace MS.Katusha.Services
         {
             try {
                 var toUser = _userRepository.GetByGuid(conversation.ToGuid);
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, _mailTemplatesFolder, conversation);
+                //Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[NEW MESSAGE] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageSentAdmin, _mailTemplatesFolder, conversation);
                 return Mailer.Mailer.SendMail(toUser.Email, String.Format("Katusha says: {0} sent you a message.", conversation.FromName), MailMessageSent, _mailTemplatesFolder, conversation);
             } catch (Exception ex) {
                 return ex.Message;
@@ -67,7 +67,7 @@ namespace MS.Katusha.Services
         public string MessageRead(Conversation conversation) {
             try {
                 var fromUser = _userRepository.GetByGuid(conversation.FromGuid);
-                Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, _mailTemplatesFolder, conversation);
+                //Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[MESSAGE READ] From: {0} To: {1}", conversation.FromName, conversation.ToName), MailMessageReadAdmin, _mailTemplatesFolder, conversation);
                 return Mailer.Mailer.SendMail(fromUser.Email, String.Format("Katusha says: {0} read your message.", conversation.ToName), MailMessageRead, _mailTemplatesFolder, conversation);
             } catch (Exception ex) {
                 return ex.Message;
@@ -100,11 +100,12 @@ namespace MS.Katusha.Services
 
         public string PhotoAdded(Photo photo)
         {
-            try {
-                return Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo);
-            } catch (Exception ex) {
-                return ex.Message;
-            }
+            return "";
+            //try {
+            //    return Mailer.Mailer.SendMail(_adminMailAddress, String.Format("[PHOTO ADDED] " + photo.FileName), PhotoAddedAdmin, _mailTemplatesFolder, photo);
+            //} catch (Exception ex) {
+            //    return ex.Message;
+            //}
         }
 
         public string TestMail()
