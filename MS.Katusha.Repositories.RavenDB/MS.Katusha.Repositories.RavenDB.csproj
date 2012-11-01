@@ -67,6 +67,10 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
+    <Compile Include="Smuggler\IMSKatushaSmugglerApi.cs" />
+    <Compile Include="Smuggler\MSKatushaSmugglerApi.cs" />
+    <Compile Include="Smuggler\MSKatushaSmugglerApiBase.cs" />
+    <Compile Include="Smuggler\MSKatushaSmugglerOptions.cs" />
     <Compile Include="TokBoxRepositoryRavenDB.cs" />
     <Compile Include="CountryCityCountRepositoryRavenDB.cs" />
     <Compile Include="IKatushaRavenStore.cs" />
