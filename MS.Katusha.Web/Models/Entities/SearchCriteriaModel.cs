@@ -68,7 +68,6 @@ namespace MS.Katusha.Web.Models.Entities
     public class SearchProfileCriteriaModel : BaseSearchCriteriaModel
     {
         public SearchProfileCriteriaModel()
-            : base()
         {
             Alcohol = new List<Alcohol>();
             BreastSize = new List<BreastSize>();

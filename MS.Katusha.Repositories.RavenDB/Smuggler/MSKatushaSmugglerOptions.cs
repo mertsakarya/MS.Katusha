@@ -25,6 +25,7 @@ namespace MS.Katusha.Repositories.RavenDB.Smuggler
 		/// <summary>
 		/// A file to write to when doing an export or read from when doing an import.
 		/// </summary>
+        public string FileName { get; set; }
         public string File { get; set; }
 
         public string BucketName { get; set; }

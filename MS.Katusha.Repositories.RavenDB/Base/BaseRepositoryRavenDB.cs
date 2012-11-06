@@ -34,6 +34,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             //return Single(p => p.Id == id, includeExpressionParams);
             using (var session = DocumentStore.OpenSession()) {
                 var t =  session.Load<T>(id);
+                if (t == null) return null;
                 return t.Deleted ? null : t;
             }
         }

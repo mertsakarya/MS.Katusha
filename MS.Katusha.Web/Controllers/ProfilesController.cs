@@ -26,8 +26,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IUtilityService _utilityService;
         private const int PageSize = DependencyConfig.GlobalPageSize;
 
-        public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IUtilityService utilityService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+        public ProfilesController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, IUtilityService utilityService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _profileService = profileService;
             _utilityService = utilityService;
@@ -71,13 +71,14 @@ namespace MS.Katusha.Web.Controllers
             var pingResult = StateService.Ping(KatushaProfile);
 
             return (pingResult == null)
-                ? Json(new { VisitTime = "", VisitCount = 0, ConversationCount = 0, ConversationUnreadCount = 0, TokBoxSessionId = "" }, JsonRequestBehavior.AllowGet) 
+                ? Json(new { VisitTime = "", VisitCount = 0, ConversationCount = 0, ConversationUnreadCount = 0, TokBoxSessionId = "", TokBoxTicketId = "" }, JsonRequestBehavior.AllowGet) 
                 : Json(new {
                     VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
                     VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
                     ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
                     ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount,
-                    TokBoxSessionId = TokBoxSession.SessionId
+                    TokBoxSessionId = pingResult.State.TokBoxSessionId,
+                    TokBoxTicketId = pingResult.State.TokBoxTicketId
                 }, JsonRequestBehavior.AllowGet);
 
         }

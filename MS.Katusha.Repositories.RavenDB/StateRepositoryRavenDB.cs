@@ -4,9 +4,11 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using Raven.Client.Linq;
+using Profile = MS.Katusha.Domain.Entities.Profile;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
@@ -19,7 +21,7 @@ namespace MS.Katusha.Repositories.RavenDB
             _documentStore = documentStore;
         }
 
-        public State GetById(long profileId)
+        public State GetState(long profileId)
         {
             using (var session = _documentStore.OpenSession()) {
                 return session.Query<State>().AsNoTracking().FirstOrDefault(p => p.ProfileId == profileId);
@@ -45,11 +47,10 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public void UpdateStatus(State state)
+        public void Update(State state)
         {
             //var entity = new State {Id = profile.Id, ProfileId = profile.Id, Gender = profile.Gender, LastOnline = DateTime.Now};
             state.LastOnline = DateTime.Now;
-            state.ProfileId = state.Id;
             using (var session = _documentStore.OpenSession()) {
                 session.Store(state);
                 session.SaveChanges();
@@ -65,6 +66,14 @@ namespace MS.Katusha.Repositories.RavenDB
                 var query = Queryable.Skip(q, (pageNo - 1) * pageSize).Take(pageSize).ToList();
                 total = stats.TotalResults;
                 return query;
+            }
+        }
+
+
+        public State GetState(Profile profile)
+        {
+            using (var session = _documentStore.OpenSession()) {
+                return session.Query<State>().FirstOrDefault(p => p.ProfileGuid == profile.Guid);
             }
         }
 

@@ -14,18 +14,16 @@ namespace MS.Katusha.Web.Controllers
     {
         public User KatushaUser { get; set; }
         public Profile KatushaProfile { get; set; }
-        public TokBoxSession TokBoxSession { get; set; }
+        public State KatushaState { get; set; }
 
-        public ITokBoxService TokBoxService { get; private set; }
         public IUserService UserService { get; private set; }
         public IProfileService ProfileService { get; private set; }
         public IStateService StateService { get; private set; }
         public IResourceService ResourceService { get; set; }
         public IConversationService ConversationService { get; set; }
 
-        protected KatushaBaseController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
+        protected KatushaBaseController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
         {
-            TokBoxService = tokBoxService;
             ResourceService = resourceService;
             ConversationService = conversationService;
             ProfileService = profileService;

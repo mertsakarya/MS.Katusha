@@ -1,4 +1,4 @@
-namespace MS.Katusha.Services
+namespace MS.Katusha.Interfaces.Services
 {
     public interface ISamplesService
     {

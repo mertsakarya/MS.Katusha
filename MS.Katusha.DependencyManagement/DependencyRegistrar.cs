@@ -43,7 +43,6 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<TicketService>().As<ITicketService>().SingleInstance();
             builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
             builder.RegisterType<PaypalService>().As<IPaypalService>().SingleInstance();
-            builder.RegisterType<TokBoxService>().As<ITokBoxService>().SingleInstance();
 
             builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
             builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().SingleInstance();
@@ -51,7 +50,7 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
-            builder.RegisterType<TokBoxRepositoryRavenDB>().As<ITokBoxRepositoryRavenDB>().SingleInstance();
+
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {
                 switch (cacheProviderText.ToLowerInvariant()) {

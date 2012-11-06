@@ -1,6 +1,8 @@
 ﻿// Cache for dialogs
 var dialogs = {};
-profile = { guid: '00000000-0000-0000-0000-000000000000', gender: 'Unknown', name: '* Anonymous *', age: 0, country: '', city: '' };
+profile = { guid: '00000000-0000-0000-0000-000000000000', gender: 'Unknown', name: '* Anonymous *', age: 0, country: '', city: '', tokBoxSessionId: '', tokBoxTicketId: '' };
+var tokBoxApiKey = '21083872';
+
 
 var onLogin = function(profile) {
     if (window.mixpanel != null && profile != null && profile.guid != null) {
@@ -8,8 +10,11 @@ var onLogin = function(profile) {
         window.mixpanel.register(profile);
         window.mixpanel.name_tag(profile.name);
     }
+
     $(function () {
-        ping(); setInterval("ping()", 60000);
+        initTokBox();
+        ping();
+        setInterval("ping()", 60000);
         //var chat = $.connection.communication;
         //chat.addMessage = function (message) {
         //    alert(message);
@@ -22,6 +27,58 @@ var onLogin = function(profile) {
         ////$("#broadcast").click(function () { chat.send($('#msg').val()); });
         //$.connection.hub.start();
     });
+};
+
+var initTokBox = function () {
+    // TB.setLogLevel(TB.DEBUG);
+    if (TB.checkSystemRequirements() != TB.HAS_REQUIREMENTS) {
+        alert('Minimum System Requirements not met!');
+    }
+    TB.addEventListener('exception', exceptionHandler);
+
+    profile.tokBoxSession = (TB != null && profile.tokBoxSessionId != '') ? TB.initSession(profile.tokBoxSessionId) : null;
+    if (profile.tokBoxSession != null) {
+        
+        profile.tokBoxSession.addEventListener('sessionConnected', sessionConnectedHandler);
+        profile.tokBoxSession.addEventListener('sessionDisconnected', sessionDisconnectedHandler);
+        profile.tokBoxSession.addEventListener('connectionCreated', connectionCreatedHandler);
+        profile.tokBoxSession.addEventListener('connectionDestroyed', connectionDestroyedHandler);
+        profile.tokBoxSession.addEventListener('streamCreated', streamCreatedHandler);
+        profile.tokBoxSession.addEventListener('streamDestroyed', streamDestroyedHandler);
+
+        profile.tokBoxSession.connect(tokBoxApiKey, profile.tokBoxTicketId);
+    }
+};
+
+var sessionConnectedHandler = function(event) {
+    var parentDiv = document.getElementById("tokBoxPublisherDiv");
+    var replacementDiv = document.createElement("div");
+    replacementDiv.id = "opentok_publisher";
+    parentDiv.appendChild(replacementDiv);
+
+    var publishProps = { height: 160, width: 200 };
+    profile.tokBoxPublisher = TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
+    profile.tokBoxSubscribers = { };
+    // Send my stream to the session
+    session.publish(profile.tokBoxPublisher);
+};
+
+var streamCreatedHandler = function(event) {
+    for (var i = 0; i < event.streams.length; i++) {
+        addStream(event.streams[i]);
+    }
+};
+
+var addStream = function(stream) {
+    if (stream.connection.connectionId == session.connection.connectionId) {
+        return;
+    }
+    var div = document.createElement('div');
+    var divId = stream.streamId;
+    div.setAttribute('id', divId);
+    document.body.appendChild(div);
+    var subscriberProps = { width: 200, height: 160 };
+    subscribers[stream.streamId] = session.subscribe(stream, divId, subscriberProps);
 };
 
 var showNewConversations = function(unreadCount, count) {
@@ -45,13 +102,8 @@ var ping = function() {
         url: '/Profiles/Ping',
         success: function(data) {
             if (data) {
-                if (data.ConversationUnreadCount && data.ConversationUnreadCount > 0) {
-                    showNewConversations(data.ConversationUnreadCount, data.ConversationCount);
-                }
-                if (data.VisitCount && data.VisitCount > 0) {
-                    showNewVisits(data.VisitTime, data.VisitCount);
-                }
-                //$("#tokboxsession").text(data.TokBoxSessionId);
+                if (data.ConversationUnreadCount && data.ConversationUnreadCount > 0) showNewConversations(data.ConversationUnreadCount, data.ConversationCount);
+                if (data.VisitCount && data.VisitCount > 0) showNewVisits(data.VisitTime, data.VisitCount);
             }
         },
         type: 'GET'

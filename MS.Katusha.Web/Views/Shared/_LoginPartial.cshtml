@@ -17,8 +17,11 @@
             var profileName = profile.Name; profileName = profileName == null ? "" : profileName.Replace("'", "\\\'");
             var age = DateTime.Now.Year - profile.BirthYear;
             var country = profile.Location.CountryName; country = country == null ? "" : country.Replace("'", "\\\'");
+            var state = ViewBag.KatushaState as State;
+            var tokBoxSessionId = (state != null) ? state.TokBoxSessionId : "";
+            var tokBoxTicketId = (state != null) ? state.TokBoxTicketId : "";
             <text>
-            profile = {guid:'@profile.Guid', gender:'@(gender)', name:'@(profileName)', age:@(age), country:'@(country)', city:'@(city)'};
+            profile = {guid:'@profile.Guid', gender:'@(gender)', name:'@(profileName)', age:@(age), country:'@(country)', city:'@(city)', tokBoxSessionId:'@(tokBoxSessionId)', tokBoxTicketId:'@(tokBoxTicketId)' };
             onLogin(profile);
             </text>
         }
@@ -134,8 +137,6 @@
     *@
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink", data_dialog_title = "Registration"})</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", data_dialog_title = "Identification" })</li>
-         <!-- Community bar ><script-- id="tb-video-bar" src="https://api.opentok.com/hl/embed/2emb2df2f374135899066c2bcaff6c3907456094/bar.js" rel="#27a4e4"></script-->
-
         @*<li><span id="fbResult" style="color:#800000"></span></li>*@
     </ul>
 }

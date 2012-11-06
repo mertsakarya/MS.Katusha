@@ -8,6 +8,7 @@ namespace MS.Katusha.Interfaces.Services
     {
         PingResult Ping(Profile profile);
         IEnumerable<State> OnlineProfiles(byte sex, out int total, int pageNo = 1, int pageSize = 20);
+        State GetState(Profile profile);
     }
 
 }

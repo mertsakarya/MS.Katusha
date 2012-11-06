@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Enumerations;
-using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Services;
 using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using PagedList;
@@ -26,9 +23,9 @@ namespace MS.Katusha.Web.Controllers
 
         public UtilitiesController(INotificationService notificationService, IResourceService resourceService, IUserService userService, IProfileService profileService, 
             ISamplesService samplesService, IVisitService visitService, IConversationService conversationService, IStateService stateService,
-            IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext, ITokBoxService tokBoxService
+            IPhotosService photosService, IUtilityService utilityService, IKatushaGlobalCacheContext globalCacheContext
             )
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _notificationService = notificationService;
             _globalCacheContext = globalCacheContext;

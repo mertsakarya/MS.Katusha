@@ -18,6 +18,13 @@ namespace MS.Katusha.Services
 {
     public class TokBox
     {
+        public string CreateSession()
+        {
+            var options = new Dictionary<string, object>();
+
+            return CreateSession(null, options);
+        }
+
         public string CreateSession(string location)
         {
             var options = new Dictionary<string, object>();
@@ -28,7 +35,8 @@ namespace MS.Katusha.Services
         public string CreateSession(string location, Dictionary<string, object> options)
         {
             var appSettings = ConfigurationManager.AppSettings;
-            options.Add("location", location);
+            if(location != null)
+                options.Add("location", location);
             options.Add("partner_id", appSettings["opentok_key"]);
 
             var xmlDoc = CreateSessionId(string.Format("{0}/session/create", appSettings["opentok_server"]), options);
@@ -63,7 +71,7 @@ namespace MS.Katusha.Services
                 options[TokenPropertyConstants.ExpireTime] = Math.Floor(diff.TotalSeconds);
             }
 
-            string dataString = options.Aggregate(string.Empty, (current, pair) => current + (pair.Key + "=" + HttpUtility.UrlEncode(pair.Value.ToString()) + "&"));
+            string dataString = options.Aggregate(string.Empty, (current, pair) => current + (pair.Key + "=" + HttpUtility.UrlEncode((pair.Value == null) ? "" : pair.Value.ToString()) + "&"));
             dataString = dataString.TrimEnd('&');
 
             string sig = SignString(dataString, appSettings["opentok_secret"].Trim());

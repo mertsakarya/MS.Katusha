@@ -13,17 +13,17 @@ namespace MS.Katusha.Services
         private readonly INotificationService _notificationService;
         private readonly IUserRepositoryDB _repository;
         private readonly IKatushaGlobalCacheContext _katushaGlobalCache;
-        private readonly ITokBoxService _tokBoxService;
+        private readonly IStateService _stateService;
         private readonly IProfileRepositoryRavenDB _profileRepositoryRaven;
 
-        public UserService(IProductService productService, INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext, ITokBoxService tokBoxService)
+        public UserService(IProductService productService, INotificationService notificationService, IUserRepositoryDB repository, IProfileRepositoryRavenDB profileRepositoryRaven, IKatushaGlobalCacheContext globalCacheContext, IStateService stateService)
         {
             _productService = productService;
             _notificationService = notificationService;
             _repository = repository;
             _profileRepositoryRaven = profileRepositoryRaven;
             _katushaGlobalCache = globalCacheContext; // new KatushaRavenCacheContext(new CacheObjectRepositoryRavenDB());
-            _tokBoxService = tokBoxService;
+            _stateService = stateService;
         }
 
         public bool ValidateUser(string userName, string password)
@@ -31,8 +31,8 @@ namespace MS.Katusha.Services
             var user = _repository.Single(u => u.UserName == userName);
             if (user == null) return false;
             if (user.Password != password) return false;
-            var ip = Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip;
-            _tokBoxService.CreateSession(user.Guid, ip);
+            var profile = _profileRepositoryRaven.GetByGuid(user.Guid);
+            _stateService.GetState(profile);
             return true;
         }
 
@@ -139,6 +139,5 @@ namespace MS.Katusha.Services
             var user = _repository.Single(u => u.FacebookUid == uid);
             return user;
         }
-
     }
 }

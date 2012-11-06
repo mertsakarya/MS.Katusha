@@ -24,9 +24,9 @@ namespace MS.Katusha.Web.Controllers
 
         public ApiController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
             IConversationService conversationService, IStateService stateService, IUtilityService utilityService,
-            ISearchService searchService, ITokBoxService tokBoxService
+            ISearchService searchService
             )
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
             _utilityService = utilityService;

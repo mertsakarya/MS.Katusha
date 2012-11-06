@@ -26,8 +26,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IConversationService _conversationService;
         private const int PageSize = DependencyConfig.GlobalPageSize;
 
-        public DialogsController(IResourceService resourceService, IUserService userService, IProfileService profileService, IConversationService conversationService, IStateService stateService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+        public DialogsController(IResourceService resourceService, IUserService userService, IProfileService profileService, IConversationService conversationService, IStateService stateService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _profileService = profileService;
             _conversationService = conversationService;

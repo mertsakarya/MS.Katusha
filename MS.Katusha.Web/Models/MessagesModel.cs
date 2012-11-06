@@ -1,4 +1,3 @@
-using System;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Web.Models.Entities;

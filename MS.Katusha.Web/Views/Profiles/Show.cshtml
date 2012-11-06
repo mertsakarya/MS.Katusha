@@ -17,6 +17,7 @@
                 });</script>
                 <a class="btn btn-danger" id="wipeUser" href='@Url.Action("Wipe", "Profiles", new { key = Html.KeyFor(Model) })' title="Completely Delete this user">Wipe user!!!</a>
                 <a class="btn btn-danger" id="backupUser" href='@Url.Action("Backup", "Profiles", new { key = Html.KeyFor(Model) })' title="Backup this user">Backup user!!!</a>
+                <a class="btn btn-success" id="loginUser" href='@Url.Action("LoginWithId", "Account", new { key = Html.KeyFor(Model) })' title="Login as this user">Login As!!!</a>
             }
             @if (!sameProfile) {
                 <a class="btn btn-warning cancel mixpanel" id="sendMessageButton" mp-event="!Click Send Message" mp-data="{guid:profile.guid, name:profile.name}"  data_dialog_title="Send Message" href='@Url.Action("Send", "Messages", new { key = Html.KeyFor(Model) })' title="Send a message to this user">

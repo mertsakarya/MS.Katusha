@@ -651,7 +651,7 @@ ul#social li {
 }
 
 #k_content {
-	width: 729px; /*730*/
+    width: 70%; /* 729px; */ /*730*/
 	float: left;
 	background-repeat: repeat-x;
 	position: relative;

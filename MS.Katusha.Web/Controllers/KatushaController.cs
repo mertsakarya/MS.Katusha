@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Services;
 using MS.Katusha.Web.Models;
@@ -17,8 +15,8 @@ namespace MS.Katusha.Web.Controllers
     {
         private const int ProfileCount = 8;
 
-        protected KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+        protected KatushaController(IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
         }
 
@@ -39,12 +37,6 @@ namespace MS.Katusha.Web.Controllers
             KatushaUser = (User.Identity.IsAuthenticated) ? UserService.GetUser(User.Identity.Name) : null;
             if (KatushaUser != null) {
                 KatushaProfile = (KatushaUser.Gender > 0) ? UserService.GetProfile(KatushaUser.Guid) : null;
-                if (KatushaProfile != null) {
-                    //TokBoxSession = TokBoxService.GetSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
-                    //if ((DateTime.Now - TokBoxSession.LastModified).Minutes > 5)
-                    //    TokBoxSession = TokBoxService.CreateSession(KatushaProfile.Guid, Configuration.KatushaConfigurationManager.Instance.GetSettings().Ip);
-                    TokBoxSession = new TokBoxSession() {IP = "::1", ProfileGuid = Guid.NewGuid(), SessionId = "", LastModified = DateTime.Now};
-                }
             }
             var isPing = (filterContext.ActionDescriptor.ActionName == "Ping");
             if (!isPing) {
@@ -63,9 +55,10 @@ namespace MS.Katusha.Web.Controllers
                     onlineProfiles.AddRange(onlineStates.Select(state => ProfileService.GetProfile(state.ProfileId)));
                     if (onlineProfiles.Count > 0)
                         ViewBag.KatushaOnlineProfiles = Mapper.Map<IEnumerable<ProfileModel>>(onlineProfiles);
+                    KatushaState = StateService.GetState(KatushaProfile);
                 }
             }
-            ViewBag.TokBoxSession = TokBoxSession;
+            ViewBag.KatushaState = KatushaState;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
             ViewBag.GoogleAnalytics = googleAnalytics;
@@ -84,48 +77,46 @@ namespace MS.Katusha.Web.Controllers
 
         protected IEnumerable<string> GetErrorsFromModelState() { return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage)); }
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        {
-            #region internationalization
-            //// Is it View ?
-            //var view = filterContext.Result as ViewResultBase;
-            //if (view == null) // if not exit
-            //    return;
 
-            //string cultureName = Thread.CurrentThread.CurrentCulture.Name; // e.g. "en-US" // filterContext.HttpContext.Request.UserLanguages[0]; // needs validation return "en-us" as default            
+        #region OLD CODE OnActionExecuted
+        //protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        //{
+        //    #region internationalization
+        //    //// Is it View ?
+        //    //var view = filterContext.Result as ViewResultBase;
+        //    //if (view == null) // if not exit
+        //    //    return;
 
-            //// Is it default culture? exit
-            //if (cultureName == CultureHelper.GetDefaultCulture())
-            //    return;
+        //    //string cultureName = Thread.CurrentThread.CurrentCulture.Name; // e.g. "en-US" // filterContext.HttpContext.Request.UserLanguages[0]; // needs validation return "en-us" as default            
 
-            //// Are views implemented separately for this culture?  if not exit
-            //bool viewImplemented = CultureHelper.IsViewSeparate(cultureName);
-            //if (viewImplemented == false)
-            //    return;
+        //    //// Is it default culture? exit
+        //    //if (cultureName == CultureHelper.GetDefaultCulture())
+        //    //    return;
 
-            //string viewName = view.ViewName;
+        //    //// Are views implemented separately for this culture?  if not exit
+        //    //bool viewImplemented = CultureHelper.IsViewSeparate(cultureName);
+        //    //if (viewImplemented == false)
+        //    //    return;
 
-            //int i;
+        //    //string viewName = view.ViewName;
 
-            //if (string.IsNullOrEmpty(viewName))
-            //    viewName = filterContext.RouteData.Values["action"] + "." + cultureName; // Index.en-US
-            //else if ((i = viewName.IndexOf('.')) > 0) {
-            //    // contains . like "Index.cshtml"                
-            //    viewName = viewName.Substring(0, i + 1) + cultureName + viewName.Substring(i);
-            //} else
-            //    viewName += "." + cultureName; // e.g. "Index" ==> "Index.en-Us"
+        //    //int i;
 
-            //view.ViewName = viewName;
+        //    //if (string.IsNullOrEmpty(viewName))
+        //    //    viewName = filterContext.RouteData.Values["action"] + "." + cultureName; // Index.en-US
+        //    //else if ((i = viewName.IndexOf('.')) > 0) {
+        //    //    // contains . like "Index.cshtml"                
+        //    //    viewName = viewName.Substring(0, i + 1) + cultureName + viewName.Substring(i);
+        //    //} else
+        //    //    viewName += "." + cultureName; // e.g. "Index" ==> "Index.en-Us"
 
-            //filterContext.Controller.ViewBag._culture = "." + cultureName;
-            #endregion
+        //    //view.ViewName = viewName;
+
+        //    //filterContext.Controller.ViewBag._culture = "." + cultureName;
+        //    #endregion
             
-            base.OnActionExecuted(filterContext);
-        }
-
-        protected override void ExecuteCore()
-        {
-            base.ExecuteCore();
-        }
+        //    base.OnActionExecuted(filterContext);
+        //}
+        #endregion
     }
 }

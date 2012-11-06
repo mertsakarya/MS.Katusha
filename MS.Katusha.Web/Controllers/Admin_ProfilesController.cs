@@ -9,8 +9,8 @@ namespace MS.Katusha.Web.Controllers
     public class Admin_ProfilesController : GridController<MS.Katusha.Domain.Entities.Profile>
     {
 
-        public Admin_ProfilesController(IResourceService resourceService, IUserService userService, IGridService<MS.Katusha.Domain.Entities.Profile> gridService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, gridService, profileService, stateService, conversationService, tokBoxService)
+        public Admin_ProfilesController(IResourceService resourceService, IUserService userService, IGridService<MS.Katusha.Domain.Entities.Profile> gridService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, gridService, profileService, stateService, conversationService)
         {
           
         }

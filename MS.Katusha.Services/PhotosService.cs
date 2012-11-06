@@ -8,6 +8,7 @@ using ImageResizer.Plugins.Basic;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
+using MS.Katusha.FileSystems;
 using MS.Katusha.Infrastructure.Cache;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
@@ -32,7 +33,7 @@ namespace MS.Katusha.Services
             using (var stream = new MemoryStream()) {
                 try {
                     ImageBuilder.Current.Build(hpf, stream, new ResizeSettings(PhotoTypes.Versions[suffix].ToString()), false, true);
-                } catch(SizeLimits.SizeLimitException ex) {
+                } catch(SizeLimits.SizeLimitException) {
                     //ex
                 }
                 bytes = stream.ToArray();

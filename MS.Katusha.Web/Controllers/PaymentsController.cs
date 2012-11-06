@@ -14,8 +14,8 @@ namespace MS.Katusha.Web.Controllers
         private readonly IPaypalService _paypalService;
         private readonly IProductService _productService;
 
-        public PaymentsController(IPaypalService paypalService, IProductService productService, IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService, ITokBoxService tokBoxService)
-            : base(resourceService, userService, profileService, stateService, conversationService, tokBoxService)
+        public PaymentsController(IPaypalService paypalService, IProductService productService, IResourceService resourceService, IUserService userService, IProfileService profileService, IStateService stateService, IConversationService conversationService)
+            : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _paypalService = paypalService;
             _productService = productService;

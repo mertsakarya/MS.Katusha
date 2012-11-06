@@ -5,7 +5,7 @@ using MS.Katusha.Domain.Entities;
 using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 
-namespace MS.Katusha.Interfaces.Services
+namespace MS.Katusha.FileSystems
 {
     public interface IKatushaFileSystem
     {

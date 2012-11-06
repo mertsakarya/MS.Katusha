@@ -19,5 +19,11 @@ namespace MS.Katusha.Domain.Entities
         public string CountriesToVisit { get; set; }
         public string Searches { get; set; }
         public bool HasPhoto { get; set; }
+
+        public Guid ProfileGuid { get; set; }
+        public string Name { get; set; }
+        public Guid PhotoGuid { get; set; }
+        public string TokBoxSessionId { get; set; }
+        public string TokBoxTicketId { get; set; }
     }
 }
