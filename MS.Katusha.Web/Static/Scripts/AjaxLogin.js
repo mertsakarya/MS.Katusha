@@ -51,16 +51,16 @@ var initTokBox = function () {
 };
 
 var sessionConnectedHandler = function(event) {
-    var parentDiv = document.getElementById("tokBoxPublisherDiv");
-    var replacementDiv = document.createElement("div");
-    replacementDiv.id = "opentok_publisher";
-    parentDiv.appendChild(replacementDiv);
+    //var parentDiv = document.getElementById("tokBoxPublisherDiv");
+    //var replacementDiv = document.createElement("div");
+    //replacementDiv.id = "opentok_publisher";
+    //parentDiv.appendChild(replacementDiv);
 
-    var publishProps = { height: 160, width: 200 };
-    profile.tokBoxPublisher = TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
-    profile.tokBoxSubscribers = { };
-    // Send my stream to the session
-    session.publish(profile.tokBoxPublisher);
+    //var publishProps = { height: 160, width: 200 };
+    //profile.tokBoxPublisher = TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
+    //profile.tokBoxSubscribers = { };
+    //// Send my stream to the session
+    //session.publish(profile.tokBoxPublisher);
 };
 
 var streamCreatedHandler = function(event) {
