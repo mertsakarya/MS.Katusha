@@ -4,6 +4,7 @@ namespace MS.Katusha.Domain.Service
 {
     public class ApiProfileInfo
     {
+        public long Id { get; set; }
         public Guid Guid { get; set; }
         public string Name { get; set; }
         public Guid ProfilePhotoGuid { get; set; }

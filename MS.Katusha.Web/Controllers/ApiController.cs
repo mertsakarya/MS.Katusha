@@ -43,7 +43,7 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             var list = new List<ApiProfileInfo>(searchResult.Profiles.Count());
-            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid, Country = profile.Location.CountryName, Age = DateTime.Now.Year - profile.BirthYear}));
+            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Id = profile.Id,  Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid, Country = profile.Location.CountryName, Age = DateTime.Now.Year - profile.BirthYear}));
             var result = new ApiSearchResult {
                 PageIndex = pageIndex,
                 PageSize = PageSize,
