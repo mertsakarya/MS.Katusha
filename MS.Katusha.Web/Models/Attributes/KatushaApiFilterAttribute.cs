@@ -12,10 +12,10 @@ namespace MS.Katusha.Infrastructure.Attributes
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var localProtocol = ConfigurationManager.AppSettings["Protocol"];
-            var requestProtocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
-            if(localProtocol != requestProtocol)
-                throw new KatushaNotAllowedException(null, null, "Protocol must be HTTPS");
+            //var localProtocol = ConfigurationManager.AppSettings["Protocol"];
+            //var requestProtocol = KatushaConfigurationManager.Instance.GetSettings().Protocol;
+            //if(localProtocol != requestProtocol)
+            //    throw new KatushaNotAllowedException(null, null, "Protocol must be HTTPS");
             base.OnActionExecuting(filterContext);
         }
         public override void OnException(ExceptionContext filterContext)
