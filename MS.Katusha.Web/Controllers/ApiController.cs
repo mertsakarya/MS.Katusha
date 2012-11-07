@@ -25,7 +25,7 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IUtilityService _utilityService;
         private readonly ISearchService _searchService;
-        private const int PageSize = 100;
+        private const int PageSize = 1000;
 
         public ApiController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
             IConversationService conversationService, IStateService stateService, IUtilityService utilityService,
