@@ -12,5 +12,7 @@ namespace MS.Katusha.Domain.Service
         public string Email { get; set; }
         public string Country { get; set; }
         public int Age { get; set; }
+        public DateTime LastUpdate { get; set; }
+
     }
 }

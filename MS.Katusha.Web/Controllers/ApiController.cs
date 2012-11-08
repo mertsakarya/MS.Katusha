@@ -11,10 +11,8 @@ using MS.Katusha.Domain.Service;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Infrastructure.Attributes;
 using MS.Katusha.Interfaces.Services;
-using MS.Katusha.Web.Models;
 using MS.Katusha.Web.Models.Entities;
 using Newtonsoft.Json;
-using PagedList;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -43,7 +41,7 @@ namespace MS.Katusha.Web.Controllers
             var pageIndex = (key ?? 1);
             var searchResult = _searchService.SearchProfiles(data, pageIndex, PageSize);
             var list = new List<ApiProfileInfo>(searchResult.Profiles.Count());
-            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Id = profile.Id,  Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid, Country = profile.Location.CountryName, Age = DateTime.Now.Year - profile.BirthYear}));
+            list.AddRange(searchResult.Profiles.Select(profile => new ApiProfileInfo {Id = profile.Id, Guid = profile.Guid, Name = profile.Name, Email = profile.User.Email, UserName = profile.User.UserName, ProfilePhotoGuid = profile.ProfilePhotoGuid, Country = profile.Location.CountryName, Age = DateTime.Now.Year - profile.BirthYear}));
             var result = new ApiSearchResult {
                 PageIndex = pageIndex,
                 PageSize = PageSize,
@@ -52,6 +50,18 @@ namespace MS.Katusha.Web.Controllers
             };
             Response.ContentType = "application/json";
             Response.Write(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void GetProfilesByTime(string date)
+        {
+            DateTime dateTime;
+            Response.ContentType = "application/json";
+            if (DateTime.TryParse(date, out dateTime)) {
+                var result = ProfileService.GetProfilesByTime(dateTime);
+                Response.Write(JsonConvert.SerializeObject(result));
+            } else Response.Write("{error:'wrong date'}");
         }
 
         [HttpGet]

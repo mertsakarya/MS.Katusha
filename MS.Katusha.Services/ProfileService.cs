@@ -202,6 +202,11 @@ namespace MS.Katusha.Services
             return list;
         }
 
+        public IList<Profile> GetProfilesByTime(DateTime date)
+        {
+            return _profileRepository.Query(p => p.ModifiedDate > date, null, false, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.Photos);
+        }
+
         public IList<string> RestoreFromDB(Expression<Func<Profile, bool>> filter, bool deleteIfExists = false)
         {
             var result = new List<string>();

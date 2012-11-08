@@ -42,5 +42,6 @@ namespace MS.Katusha.Interfaces.Services
         void AddSearches(long profileId, LookingFor lookingFor);
 
         IList<Guid> GetAllProfileGuids();
+        IList<Profile> GetProfilesByTime(DateTime date);
     }
 }
