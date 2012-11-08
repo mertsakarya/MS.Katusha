@@ -54,11 +54,11 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
-        public void GetProfilesByTime(string date)
+        public void GetProfilesByTime(string key)
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
-            if (DateTime.TryParse(date, out dateTime)) {
+            if (DateTime.TryParse(key, out dateTime)) {
                 var result = ProfileService.GetProfilesByTime(dateTime);
                 Response.Write(JsonConvert.SerializeObject(result));
             } else Response.Write("{error:'wrong date'}");
