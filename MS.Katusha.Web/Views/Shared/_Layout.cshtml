@@ -78,7 +78,7 @@
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
                 <div id="k_main" class="k_clearfix">
-                    <div id="k_main_sidebar_left">@Html.Partial("_LeftPartial")</div>
+                    @Html.Partial("_LeftPartial")
                     <div id="k_content">
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
