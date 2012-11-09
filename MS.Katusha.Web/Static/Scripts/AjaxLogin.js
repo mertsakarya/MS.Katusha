@@ -46,7 +46,7 @@ var initTokBox = function () {
         profile.tokBoxSession.addEventListener('streamCreated', streamCreatedHandler);
         profile.tokBoxSession.addEventListener('streamDestroyed', streamDestroyedHandler);
 
-        profile.tokBoxSession.connect(tokBoxApiKey, profile.tokBoxTicketId);
+        //profile.tokBoxSession.connect(tokBoxApiKey, profile.tokBoxTicketId);
     }
 };
 
