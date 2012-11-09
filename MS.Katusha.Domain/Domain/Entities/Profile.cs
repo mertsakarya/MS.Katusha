@@ -54,23 +54,23 @@ namespace MS.Katusha.Domain.Entities
 
         public Guid ProfilePhotoGuid { get; set; }
 
-        public IList<SearchingFor> Searches { get; set; }
-        public IList<CountriesToVisit> CountriesToVisit { get; set; }
-        public IList<LanguagesSpoken> LanguagesSpoken { get; set; }
+        public List<SearchingFor> Searches { get; set; }
+        public List<CountriesToVisit> CountriesToVisit { get; set; }
+        public List<LanguagesSpoken> LanguagesSpoken { get; set; }
 
-        public IList<Photo> Photos { get; set; }
-
-        [JsonIgnore]
-        public IList<Conversation> SentMessages { get; set; }
+        public List<Photo> Photos { get; set; }
 
         [JsonIgnore]
-        public IList<Conversation> RecievedMessages { get; set; }
+        public List<Conversation> SentMessages { get; set; }
 
         [JsonIgnore]
-        public IList<Visit> WhoVisited { get; set; }
+        public List<Conversation> RecievedMessages { get; set; }
+
+        [JsonIgnore]
+        public List<Visit> WhoVisited { get; set; }
         
         [JsonIgnore]
-        public IList<Visit> Visited { get; set; }
+        public List<Visit> Visited { get; set; }
 
         public override string ToString()
         {
