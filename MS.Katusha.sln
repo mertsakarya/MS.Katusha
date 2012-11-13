@@ -39,6 +39,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{249B2266-A348-400E-A462-5103A8F78E44}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		copydb.cmd = copydb.cmd
 		publishmaster.cmd = publishmaster.cmd
 		publishtest.cmd = publishtest.cmd
 	EndProjectSection
