@@ -38,7 +38,7 @@
         @if (profile == null) {
             @name<text><br /><b>Please create a profile</b></text>
         } else {
-            @Html.ActionLink(name, "Show", "Profiles", new { key = Html.KeyFor(profile) }, htmlAttributes: new { @class = "username", title = "View your profile" })
+            @Html.ActionLink(name, "Me", "Profiles", null, htmlAttributes: new { @class = "username", title = "View your profile" })
             <text>!<small><a href="#" onclick="logoff();">Log off</a></small></text>
         }
         
