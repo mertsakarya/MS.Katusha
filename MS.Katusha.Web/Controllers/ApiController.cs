@@ -189,7 +189,10 @@ namespace MS.Katusha.Web.Controllers
             if (messages == null)
                 Response.Write("{error:'Profile not found.', message:'" + from + "' or '" + to + "'}");
             else
-                Response.Write(JsonConvert.SerializeObject(messages));
+                Response.Write(JsonConvert.SerializeObject(new {
+                    Statistics = new { Count = total, From = from, To = to },
+                    Messages = messages
+                }));
         }
 
         [HttpGet]
