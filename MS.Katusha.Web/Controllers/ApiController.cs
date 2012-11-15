@@ -70,7 +70,7 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
-        public void GetMessagesByTime(int? key, string date)
+        public void GetConversationsByTime(int? key, string date)
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
