@@ -58,9 +58,24 @@ namespace MS.Katusha.Web.Controllers
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
-            if (DateTime.TryParse(date, out dateTime)) {
+            if (DateTime.TryParse(date, out dateTime))
+            {
                 var result = ProfileService.GetProfilesByTime(dateTime);
-                 Response.Write(JsonConvert.SerializeObject(result));
+                Response.Write(JsonConvert.SerializeObject(result));
+            }
+            else Response.Write("{'error':'wrong date'}");
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void GetMessagesByTime(int? key, string date)
+        {
+            DateTime dateTime;
+            Response.ContentType = "application/json";
+            if (DateTime.TryParse(date, out dateTime))
+            {
+                var result = ConversationService.GetMessagesByTime(dateTime);
+                Response.Write(JsonConvert.SerializeObject(result));
             }
             else Response.Write("{'error':'wrong date'}");
         }
