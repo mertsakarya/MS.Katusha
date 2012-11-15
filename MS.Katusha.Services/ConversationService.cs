@@ -145,8 +145,7 @@ namespace MS.Katusha.Services
 
         public IList<Domain.Entities.Conversation> GetMessagesByTime(DateTime date)
         {
-            return _conversationRepository.Query(p => p.ModifiedDate > date, p => p.ModifiedDate, false);
-
+            return _conversationRepository.Query(p => p.ModifiedDate > date, null, false);
         }
     }
 
