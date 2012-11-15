@@ -23,15 +23,17 @@ namespace MS.Katusha.Web.Controllers
     {
         private readonly IUtilityService _utilityService;
         private readonly ISearchService _searchService;
+        private readonly IPhotosService _photoService;
         private const int PageSize = 1000;
 
         public ApiController(IResourceService resourceService, IUserService userService, IProfileService profileService, 
             IConversationService conversationService, IStateService stateService, IUtilityService utilityService,
-            ISearchService searchService
+            ISearchService searchService, IPhotosService photoService
             )
             : base(resourceService, userService, profileService, stateService, conversationService)
         {
             _searchService = searchService;
+            _photoService = photoService;
             _utilityService = utilityService;
         }
 
@@ -75,6 +77,20 @@ namespace MS.Katusha.Web.Controllers
             if (DateTime.TryParse(date, out dateTime))
             {
                 var result = ConversationService.GetMessagesByTime(dateTime);
+                Response.Write(JsonConvert.SerializeObject(result));
+            }
+            else Response.Write("{'error':'wrong date'}");
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void GetPhotosByTime(int? key, string date)
+        {
+            DateTime dateTime;
+            Response.ContentType = "application/json";
+            if (DateTime.TryParse(date, out dateTime))
+            {
+                var result = _photoService.GetPhotosByTime(dateTime);
                 Response.Write(JsonConvert.SerializeObject(result));
             }
             else Response.Write("{'error':'wrong date'}");
