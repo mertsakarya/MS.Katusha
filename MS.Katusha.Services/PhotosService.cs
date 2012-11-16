@@ -161,8 +161,8 @@ namespace MS.Katusha.Services
 
         public IList<Photo> GetPhotosByTime(int pageNo, DateTime dateTime, out int total, int pageSize)
         {
-            total = _photoRepository.Count(p => p.ModifiedDate > dateTime);
-            return _photoRepository.Query(p => p.ModifiedDate > dateTime, null, false);
+            //total = _photoRepository.Count(p => p.ModifiedDate > dateTime);
+            return _photoRepository.Query(p => p.ModifiedDate > dateTime, pageNo, pageSize, out total, p => p.ModifiedDate, false);
         }
 
         public IList<Guid> AllPhotos(out int total, string prefix = "", int pageNo = 1, int pageSize = 20)

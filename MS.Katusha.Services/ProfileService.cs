@@ -202,10 +202,9 @@ namespace MS.Katusha.Services
             return list;
         }
 
-        public IList<Profile> GetProfilesByTime(int page, DateTime dateTime, out int total, int pageSize = 128)
+        public IList<Profile> GetProfilesByTime(int pageNo, DateTime dateTime, out int total, int pageSize = 128)
         {
-            total = _profileRepository.Count(p => p.ModifiedDate > dateTime);
-            return _profileRepository.Query(p => p.ModifiedDate > dateTime, null, false, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.Photos);
+            return _profileRepository.Query(p => p.ModifiedDate > dateTime, pageNo, pageSize, out total, p=> p.ModifiedDate, false, p => p.CountriesToVisit, p => p.LanguagesSpoken, p => p.Searches, p => p.User, p => p.Photos);
         }
 
         public IList<string> RestoreFromDB(Expression<Func<Profile, bool>> filter, bool deleteIfExists = false)

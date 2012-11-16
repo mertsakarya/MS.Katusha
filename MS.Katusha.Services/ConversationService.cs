@@ -145,8 +145,8 @@ namespace MS.Katusha.Services
 
         public IList<Domain.Entities.Conversation> GetMessagesByTime(int pageNo, DateTime dateTime, out int total, int pageSize)
         {
-            total = _conversationRepository.Count(p => p.ModifiedDate > dateTime);
-            return _conversationRepository.Query(p => p.ModifiedDate > dateTime, null, false);
+            //total = _conversationRepository.Count(p => p.ModifiedDate > dateTime);
+            return _conversationRepository.Query(p => p.ModifiedDate > dateTime, pageNo, pageSize, out total, p => p.ModifiedDate, false);
         }
     }
 
