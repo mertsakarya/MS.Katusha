@@ -21,6 +21,6 @@ namespace MS.Katusha.Interfaces.Services
         string GetPhotoBaseUrl();
 
         void ClearPhotos(bool clearBackups = false);
-        IList<Photo> GetPhotosByTime(DateTime date);
+        IList<Photo> GetPhotosByTime(int pageNo, DateTime dateTime, out int total, int pageSize);
     }
 }

@@ -410,6 +410,12 @@
 	en	PhotoType		Medium					Medium				3	2
 	en	PhotoType		Large					Large				4	3
 
+	en	PhotoStatus		Ready				Ready				1	1
+	en	PhotoStatus		WaitingApproval		Waiting for Approval	2	2
+	en	PhotoStatus		Uploading			Uploading			3	3
+	en	PhotoStatus		NotExist			Not Exist			4	4
+	en	PhotoStatus		Rejected			Rejected			5	5
+
 	en	Age		LessThan18				<18			1	1
 	en	Age		Between18And24			18-24		2	2
 	en	Age		Between25And29			25-29		3	3

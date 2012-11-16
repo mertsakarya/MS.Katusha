@@ -159,9 +159,10 @@ namespace MS.Katusha.Services
         public string GetPhotoBaseUrl() { return _fileSystem.GetPhotoBaseUrl(); }
         public void ClearPhotos(bool clearBackups) { _fileSystem.ClearPhotos(clearBackups); }
 
-        public IList<Photo> GetPhotosByTime(DateTime date)
+        public IList<Photo> GetPhotosByTime(int pageNo, DateTime dateTime, out int total, int pageSize)
         {
-            return _photoRepository.Query(p => p.ModifiedDate > date, null, false);
+            total = _photoRepository.Count(p => p.ModifiedDate > dateTime);
+            return _photoRepository.Query(p => p.ModifiedDate > dateTime, null, false);
         }
 
         public IList<Guid> AllPhotos(out int total, string prefix = "", int pageNo = 1, int pageSize = 20)

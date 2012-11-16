@@ -75,6 +75,7 @@
     <Compile Include="Configuration\KatushaConfigurationManager.cs" />
     <Compile Include="Domain\Raven\Entities\DialogResult.cs" />
     <Compile Include="Domain\Raven\Entities\TokBoxSession.cs" />
+    <Compile Include="Domain\Service\ApiList.cs" />
     <Compile Include="Encryption\EncryptedStringConverter.cs" />
     <Compile Include="Encryption\EncryptionManager.cs" />
     <Compile Include="Domain\Entities\BaseEntities\BaseFriendlyModel.cs" />

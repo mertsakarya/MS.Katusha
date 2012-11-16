@@ -21,6 +21,6 @@ namespace MS.Katusha.Interfaces.Services
 
         IList<Dialog> GetDialogs(long profileId, out int total, int pageNo, int pageSize);
         IList<Conversation> GetConversation(long profileId, long withProfileId, out int total, int pageNo, int pageSize);
-        IList<Domain.Entities.Conversation> GetMessagesByTime(DateTime date);
+        IList<Domain.Entities.Conversation> GetMessagesByTime(int pageNo, DateTime dateTime, out int total, int _pageSize);
     }
 }

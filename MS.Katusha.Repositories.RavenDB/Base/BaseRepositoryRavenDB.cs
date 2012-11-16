@@ -74,6 +74,13 @@ namespace MS.Katusha.Repositories.RavenDB.Base
             return q.ToList();
         }
 
+        public int Count(Expression<Func<T, bool>> filter)
+        {
+            RavenQueryStatistics stats;
+            var arr = QueryHelper(filter, out stats).Take(0).ToArray();
+            return stats.TotalResults;
+        }
+
         public IList<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
             RavenQueryStatistics stats;

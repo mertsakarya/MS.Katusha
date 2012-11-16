@@ -53,6 +53,12 @@ namespace MS.Katusha.Repositories.DB.Base
             return q.OrderByDescending(p => p.Id).Skip((pageNo - 1)*pageSize).Take(pageSize).ToList();
         }
 
+        public int Count(Expression<Func<T, bool>> filter)
+        {
+            IQueryable<T> q = RepositoryHelper.Query(QueryableRepository, filter);
+            return q.Count();
+        }
+
         public IList<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams)
         {
 #if DEBUG

@@ -56,42 +56,51 @@ namespace MS.Katusha.Web.Controllers
 
         [HttpGet]
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
-        public void GetProfilesByTime(int? key, string date)
+        public void GetProfilesByTime(int? key, string date, int? pageSize)
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
             if (DateTime.TryParse(date, out dateTime))
             {
-                var result = ProfileService.GetProfilesByTime(dateTime);
-                Response.Write(JsonConvert.SerializeObject(result));
+                var pageNo = key ?? 1;
+                var _pageSize = pageSize ?? 128;
+                int total;
+                var result = ProfileService.GetProfilesByTime(pageNo, dateTime, out total, _pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Profile> {Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }
 
         [HttpGet]
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
-        public void GetConversationsByTime(int? key, string date)
+        public void GetConversationsByTime(int? key, string date, int? pageSize)
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
             if (DateTime.TryParse(date, out dateTime))
             {
-                var result = ConversationService.GetMessagesByTime(dateTime);
-                Response.Write(JsonConvert.SerializeObject(result));
+                var pageNo = key ?? 1;
+                var _pageSize = pageSize ?? 128;
+                int total;
+                var result = ConversationService.GetMessagesByTime(pageNo, dateTime, out total, _pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Domain.Entities.Conversation> { Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }
 
         [HttpGet]
         [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
-        public void GetPhotosByTime(int? key, string date)
+        public void GetPhotosByTime(int? key, string date, int? pageSize)
         {
             DateTime dateTime;
             Response.ContentType = "application/json";
             if (DateTime.TryParse(date, out dateTime))
             {
-                var result = _photoService.GetPhotosByTime(dateTime);
-                Response.Write(JsonConvert.SerializeObject(result));
+                var pageNo = key ?? 1;
+                var _pageSize = pageSize ?? 128;
+                int total;
+                var result = _photoService.GetPhotosByTime(pageNo, dateTime, out total, _pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Photo> { Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }

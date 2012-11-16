@@ -47,7 +47,7 @@ namespace MS.Katusha.Enumerations
     [Flags]
     public enum UserRole : long { Normal = 1, Administrator = 2, Editor = 4, ApiUser = 8 }
 
-    public enum PhotoStatus { Ready = 1, WaitingApproval = 2, Uploading = 3, NotExist = 4, MAX = 4 }
+    public enum PhotoStatus { Ready = 1, WaitingApproval = 2, Uploading = 3, NotExist = 4, Rejected = 5, MAX = 5 }
     
     public static class Folders
     {

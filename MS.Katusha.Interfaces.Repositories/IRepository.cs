@@ -11,6 +11,7 @@ namespace MS.Katusha.Interfaces.Repositories
         IList<T> GetAll(out int total);
         IList<T> GetAll(out int total, int pageNo, int pageSize);
 
+        int Count(Expression<Func<T, bool>> filter);
         IList<T> Query(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams);
         IList<T> Query<TKey>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, TKey>> orderByClause, bool ascending, params Expression<Func<T, object>>[] includeExpressionParams);
 

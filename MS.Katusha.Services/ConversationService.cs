@@ -143,9 +143,10 @@ namespace MS.Katusha.Services
             return _conversationRepositoryRaven.GetConversation(profileId, withProfileId, out total, pageNo, pageSize);
         }
 
-        public IList<Domain.Entities.Conversation> GetMessagesByTime(DateTime date)
+        public IList<Domain.Entities.Conversation> GetMessagesByTime(int pageNo, DateTime dateTime, out int total, int pageSize)
         {
-            return _conversationRepository.Query(p => p.ModifiedDate > date, null, false);
+            total = _conversationRepository.Count(p => p.ModifiedDate > dateTime);
+            return _conversationRepository.Query(p => p.ModifiedDate > dateTime, null, false);
         }
     }
 
