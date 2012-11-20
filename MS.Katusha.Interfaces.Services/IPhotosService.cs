@@ -22,5 +22,7 @@ namespace MS.Katusha.Interfaces.Services
 
         void ClearPhotos(bool clearBackups = false);
         IList<Photo> GetPhotosByTime(int pageNo, DateTime dateTime, out int total, int pageSize);
+        bool DeletePhotoByGuid(Guid guid);
+        bool UpdatePhotoStatus(Guid guid, PhotoStatus photoStatus);
     }
 }

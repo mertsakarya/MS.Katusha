@@ -63,10 +63,10 @@ namespace MS.Katusha.Web.Controllers
             if (DateTime.TryParse(date, out dateTime))
             {
                 var pageNo = key ?? 1;
-                var _pageSize = pageSize ?? 128;
+                pageSize = pageSize ?? 128;
                 int total;
-                var result = ProfileService.GetProfilesByTime(pageNo, dateTime, out total, _pageSize);
-                Response.Write(JsonConvert.SerializeObject(new ApiList<Profile> {Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
+                var result = ProfileService.GetProfilesByTime(pageNo, dateTime, out total, (int) pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Profile> {Items = result, PageNo = pageNo, PageSize = (int) pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }
@@ -80,10 +80,10 @@ namespace MS.Katusha.Web.Controllers
             if (DateTime.TryParse(date, out dateTime))
             {
                 var pageNo = key ?? 1;
-                var _pageSize = pageSize ?? 128;
+                pageSize = pageSize ?? 128;
                 int total;
-                var result = ConversationService.GetMessagesByTime(pageNo, dateTime, out total, _pageSize);
-                Response.Write(JsonConvert.SerializeObject(new ApiList<Domain.Entities.Conversation> { Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
+                var result = ConversationService.GetMessagesByTime(pageNo, dateTime, out total, (int) pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Domain.Entities.Conversation> { Items = result, PageNo = pageNo, PageSize = (int) pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }
@@ -97,10 +97,10 @@ namespace MS.Katusha.Web.Controllers
             if (DateTime.TryParse(date, out dateTime))
             {
                 var pageNo = key ?? 1;
-                var _pageSize = pageSize ?? 128;
+                pageSize = pageSize ?? 128;
                 int total;
-                var result = _photoService.GetPhotosByTime(pageNo, dateTime, out total, _pageSize);
-                Response.Write(JsonConvert.SerializeObject(new ApiList<Photo> { Items = result, PageNo = pageNo, PageSize = _pageSize, Total = total }));
+                var result = _photoService.GetPhotosByTime(pageNo, dateTime, out total, (int) pageSize);
+                Response.Write(JsonConvert.SerializeObject(new ApiList<Photo> { Items = result, PageNo = pageNo, PageSize = (int) pageSize, Total = total }));
             }
             else Response.Write("{'error':'wrong date'}");
         }
@@ -154,8 +154,8 @@ namespace MS.Katusha.Web.Controllers
             using (var str = new StreamReader(Request.InputStream))
                 extendedProfileText = str.ReadToEnd();
             var extendedProfile = JsonConvert.DeserializeObject<AdminExtendedProfile>(extendedProfileText);
-            if(extendedProfile == null) 
-                throw new ArgumentNullException("ProfileData");
+            if (extendedProfile == null)
+                throw new Exception("Extended Profile is null");
             var lines = _utilityService.SetExtendedProfile(extendedProfile);
             Response.ContentType = "text/plain";
             if (lines.Count == 0)
@@ -172,14 +172,12 @@ namespace MS.Katusha.Web.Controllers
         {
             User user;
             long id;
-            if (!long.TryParse(key, out id)) {
+            if (!long.TryParse(key, out id))
+            {
                 Guid guid;
-                if (!Guid.TryParse(key, out guid)) {
-                    user = UserService.GetUser(key);
-                } else {
-                    user = UserService.GetUser(guid);
-                }
-            } else {
+                user = !Guid.TryParse(key, out guid) ? UserService.GetUser(key) : UserService.GetUser(guid);
+            }
+            else {
                 user = UserService.GetUser(id);
             }
             var profileId = ProfileService.GetProfileId(user.Guid);
@@ -246,7 +244,7 @@ namespace MS.Katusha.Web.Controllers
                     if (e.Count > 0) errors.AddRange(e);
                 }
             }
-            Response.Write(errors.Count > 0 ? JsonConvert.SerializeObject(new { errors = errors }) : "{status:'ok'}");
+            Response.Write(errors.Count > 0 ? JsonConvert.SerializeObject(new { errors }) : "{status:'ok'}");
 
         }
 
@@ -265,7 +263,36 @@ namespace MS.Katusha.Web.Controllers
         {
             Response.ContentType = "application/json";
             var e = _deleteMessage(key);
-            Response.Write(e.Count > 0 ? JsonConvert.SerializeObject(new {errors = e}) : "{status:'ok'}");
+            Response.Write(e.Count > 0 ? JsonConvert.SerializeObject(new { errors = e }) : "{status:'ok'}");
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void DeletePhoto(string key)
+        {
+            Guid guid;
+            Response.ContentType = "application/json";
+            if (!Guid.TryParse(key, out guid)) Response.Write("{error:'Wrong Guid!'}");
+            _photoService.DeletePhotoByGuid(guid);
+            Response.Write("{status:'ok'}");
+        }
+
+        [HttpGet]
+        [KatushaApiFilter(AllowedRole = UserRole.Administrator)]
+        public void UpdatePhotoStatus(string key, byte value)
+        {
+            Guid guid;
+            var photoStatus = (PhotoStatus) value;
+            Response.ContentType = "application/json";
+            if (!(photoStatus> 0 && photoStatus <= PhotoStatus.MAX)) {
+                Response.Write("{'error':'wrong value'}");
+            } else if (Guid.TryParse(key, out guid)) {
+                int total;
+                if(_photoService.UpdatePhotoStatus(guid, photoStatus))
+                    Response.Write("{status:'ok'}");
+                else 
+                    Response.Write("{error:'Could not update photo status'}");
+            } else Response.Write("{'error':'wrong guid'}");
         }
 
         private List<string[]> _deleteDialog(string key, string to)
@@ -308,7 +335,8 @@ namespace MS.Katusha.Web.Controllers
                 const int pageSize = 1000;
                 var dialogs = ConversationService.GetDialogs(profile.Id, out total, 1, pageSize);
                 return dialogs;
-            } else return null;
+            } 
+            return null;
         }
 
         private IList<Conversation> GetConversation(string from, string to, out int total)

@@ -219,25 +219,51 @@ namespace MS.Katusha.Services
         public bool DeletePhoto(long profileId, Guid photoGuid)
         {
             var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
-            if (entity != null) {
+            return _DeletePhoto(entity);
+        }
+
+        public bool DeletePhotoByGuid(Guid photoGuid)
+        {
+            var entity = _photoRepository.SingleAttached(p => p.Guid == photoGuid);
+            return _DeletePhoto(entity);
+        }
+
+        public bool UpdatePhotoStatus(Guid guid, PhotoStatus photoStatus)
+        {
+            var entity = _photoRepository.SingleAttached(p => p.Guid == guid);
+            entity.Status = (byte)photoStatus;
+            _photoRepository.Save();
+            return true;
+        }
+
+        private bool _DeletePhoto(Photo entity)
+        {
+            var isProfilePhoto = false;
+            if (entity != null)
+            {
+                var profileId = entity.ProfileId;
+                var photoGuid = entity.Guid;
                 _photoRepository.Delete(entity);
-                if (!_conversationService.HasPhotoGuid(photoGuid)) {
+                if (!_conversationService.HasPhotoGuid(photoGuid))
+                {
                     _fileSystem.DeletePhoto(photoGuid);
                     _photoBackupService.DeleteBackupPhoto(photoGuid);
                 }
-            }
 
-            var isProfilePhoto = false;
-            var profile = _profileRepository.SingleAttached(p => p.Id == profileId, p => p.Photos);
-            if (profile != null) {
-                if (profile.ProfilePhotoGuid == photoGuid) {
-                    isProfilePhoto = true;
-                    profile.ProfilePhotoGuid = Guid.Empty;
-                    _profileRepository.FullUpdate(profile);
+                var profile = _profileRepository.SingleAttached(p => p.Id == profileId, p => p.Photos);
+                if (profile != null)
+                {
+                    if (profile.ProfilePhotoGuid == photoGuid)
+                    {
+                        isProfilePhoto = true;
+                        profile.ProfilePhotoGuid = Guid.Empty;
+                        _profileRepository.FullUpdate(profile);
+                    }
+                    _profileService.UpdateRavenProfile(profileId);
                 }
-                _profileService.UpdateRavenProfile(profileId);
             }
             return isProfilePhoto;
         }
+
     }
 }
