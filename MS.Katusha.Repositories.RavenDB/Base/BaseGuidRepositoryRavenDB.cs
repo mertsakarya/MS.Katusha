@@ -12,7 +12,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
         //{
         //}
 
-        protected BaseGuidRepositoryRavenDB(IKatushaRavenStore documentStore)
+        protected BaseGuidRepositoryRavenDB(IDocumentStore documentStore)
             : base(documentStore)
         {
         }

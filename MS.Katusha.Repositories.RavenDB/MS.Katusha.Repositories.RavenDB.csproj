@@ -42,9 +42,6 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="MS.Katusha.FileSystems">
-      <HintPath>..\MS.Katusha.Services\bin\Debug\MS.Katusha.FileSystems.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -73,10 +70,6 @@
     <Compile Include="Base\BaseFriendlyNameRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseGuidRepositoryRavenDB.cs" />
     <Compile Include="Base\BaseRepositoryRavenDB.cs" />
-    <Compile Include="Smuggler\IMSKatushaSmugglerApi.cs" />
-    <Compile Include="Smuggler\MSKatushaSmugglerApi.cs" />
-    <Compile Include="Smuggler\MSKatushaSmugglerApiBase.cs" />
-    <Compile Include="Smuggler\MSKatushaSmugglerOptions.cs" />
     <Compile Include="CountryCityCountRepositoryRavenDB.cs" />
     <Compile Include="IKatushaRavenStore.cs" />
     <Compile Include="Indexes\ConversationToCountIndex.cs" />

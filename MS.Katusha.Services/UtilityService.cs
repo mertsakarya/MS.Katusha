@@ -18,6 +18,7 @@ using MS.Katusha.Repositories.RavenDB;
 using Newtonsoft.Json;
 using Raven.Abstractions.Commands;
 using AutoMapper;
+using Raven.Client;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 using PhotoBackup = MS.Katusha.Domain.Entities.PhotoBackup;
 using Profile = MS.Katusha.Domain.Entities.Profile;
@@ -26,7 +27,7 @@ namespace MS.Katusha.Services
 {
     public class UtilityService : IUtilityService
     {
-        private readonly IKatushaRavenStore _ravenStore;
+        private readonly KatushaRavenStore _ravenStore;
         private readonly IProfileRepositoryDB _profileRepository;
         private readonly IUserRepositoryDB _userRepository;
         private readonly IPhotoBackupService _photoBackupService;
@@ -47,7 +48,7 @@ namespace MS.Katusha.Services
         private readonly ResourceManager _resourceManager;
         private readonly IDictionary<string, string> _languages;
 
-        public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IKatushaRavenStore ravenStore,
+        public UtilityService(IPhotosService photoService, IConversationService conversationService, IProfileService profileService, IKatushaDbContext dbContext, IDocumentStore ravenStore,
                               IPhotoRepositoryDB photoRepository, IProfileRepositoryDB profileRepository, IUserRepositoryDB userRepository, IPhotoBackupService photoBackupService,
                               ICountriesToVisitRepositoryDB countriesToVisitRepository, ILanguagesSpokenRepositoryDB languagesSpokenRepository, ISearchingForRepositoryDB searchingForRepository,
                               IConversationRepositoryDB conversationRepository, IProfileRepositoryRavenDB profileRepositoryRaven, IVisitRepositoryRavenDB visitRepositoryRaven, IConversationRepositoryRavenDB conversationRepositoryRaven,
@@ -65,7 +66,7 @@ namespace MS.Katusha.Services
             _countriesToVisitRepository = countriesToVisitRepository;
             _languagesSpokenRepository = languagesSpokenRepository;
             _searchingForRepository = searchingForRepository;
-            _ravenStore = ravenStore;
+            _ravenStore = ravenStore as KatushaRavenStore;
             _profileRepository = profileRepository;
             _userRepository = userRepository;
             _photoBackupService = photoBackupService;

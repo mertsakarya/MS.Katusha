@@ -4,9 +4,9 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper;
 using MS.Katusha.Domain.Entities;
 using MS.Katusha.Interfaces.Repositories;
+using Raven.Client;
 using Raven.Client.Linq;
 using Profile = MS.Katusha.Domain.Entities.Profile;
 
@@ -14,9 +14,9 @@ namespace MS.Katusha.Repositories.RavenDB
 {
     public class StateRepositoryRavenDB : IStateRepositoryRavenDB
     {
-        private readonly IKatushaRavenStore _documentStore;
+        private readonly IDocumentStore _documentStore;
 
-        public StateRepositoryRavenDB(IKatushaRavenStore documentStore)
+        public StateRepositoryRavenDB(IDocumentStore documentStore)
         {
             _documentStore = documentStore;
         }

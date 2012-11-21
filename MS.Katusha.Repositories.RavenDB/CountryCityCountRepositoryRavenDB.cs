@@ -6,15 +6,16 @@ using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB.Indexes;
+using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
     public class CountryCityCountRepositoryRavenDB : ICountryCityCountRepositoryRavenDB
     {
-        private readonly IKatushaRavenStore _documentStore;
+        private readonly IDocumentStore _documentStore;
 
-        public CountryCityCountRepositoryRavenDB(IKatushaRavenStore documentStore) { _documentStore = documentStore; }
+        public CountryCityCountRepositoryRavenDB(IDocumentStore documentStore) { _documentStore = documentStore; }
 
         public IDictionary<string, string> GetSearchableCities(Sex gender, string countryCode)
         {

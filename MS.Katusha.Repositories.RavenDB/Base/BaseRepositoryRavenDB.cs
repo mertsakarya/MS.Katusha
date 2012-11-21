@@ -18,9 +18,9 @@ namespace MS.Katusha.Repositories.RavenDB.Base
     {
         private static Logger logger = LogManager.GetLogger("MS.Katusha.Repository.Raven");
 
-        protected BaseRepositoryRavenDB(IKatushaRavenStore documentStore) { DocumentStore = documentStore; }
+        protected BaseRepositoryRavenDB(IDocumentStore documentStore) { DocumentStore = documentStore; }
 
-        protected IKatushaRavenStore DocumentStore { get; private set; }
+        protected IDocumentStore DocumentStore { get; private set; }
 
         private IQueryable<T> QueryableRepository(out RavenQueryStatistics stats, bool withTracking = false)
         {

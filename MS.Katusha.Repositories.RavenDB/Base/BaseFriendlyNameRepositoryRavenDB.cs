@@ -9,7 +9,7 @@ namespace MS.Katusha.Repositories.RavenDB.Base
     public abstract class BaseFriendlyNameRepositoryRavenDB<T> : BaseGuidRepositoryRavenDB<T>, IRavenFriendlyNameRepository<T> where T : BaseFriendlyModel
     {
 
-        protected BaseFriendlyNameRepositoryRavenDB(IKatushaRavenStore documentStore)
+        protected BaseFriendlyNameRepositoryRavenDB(IDocumentStore documentStore)
             : base(documentStore)
         { }
 

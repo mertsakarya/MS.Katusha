@@ -14,6 +14,7 @@ using MS.Katusha.Repositories.DB.Context;
 using MS.Katusha.Repositories.RavenDB;
 using MS.Katusha.Services;
 using Raven.Client.Document;
+using Raven.Client;
 
 //using ServiceStack.Redis;
 
@@ -44,7 +45,7 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
             builder.RegisterType<PaypalService>().As<IPaypalService>().SingleInstance();
 
-            builder.RegisterType<KatushaRavenStore>().As<IKatushaRavenStore>().SingleInstance();
+            builder.RegisterType<KatushaRavenStore>().As<IDocumentStore>().SingleInstance();
             builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<VisitRepositoryRavenDB>().As<IVisitRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().SingleInstance();
@@ -95,7 +96,7 @@ namespace MS.Katusha.DependencyManagement
         }
         public static object RegisterGlimpse()
         {
-            var store = DependencyResolver.Current.GetService<IKatushaRavenStore>() as DocumentStore;
+            var store = DependencyResolver.Current.GetService<IDocumentStore>() as DocumentStore;
             if (store == null) return null;
             Glimpse.RavenDb.Profiler.AttachTo(store);
             Glimpse.RavenDb.Profiler.HideFields("PasswordHash", "PasswordSalt");

@@ -14,7 +14,7 @@ using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
-    public class KatushaRavenStore : DocumentStore, IKatushaRavenStore
+    public class KatushaRavenStore : DocumentStore
     {
         public KatushaRavenStore(int i, string connectionString)
         {
