@@ -225,8 +225,11 @@ namespace MS.Katusha.Services
                 return _DeletePhoto(entity);
             }
             var profile = _profileRepository.SingleAttached(p=> p.Id == profileId);
-            profile.ProfilePhotoGuid = photos[0].Guid;
-            _profileRepository.Save();
+            var firstOrDefault = photos.FirstOrDefault();
+            if (firstOrDefault != null) {
+                profile.ProfilePhotoGuid = firstOrDefault.Guid;
+                _profileRepository.Save();
+            }
             throw new Exception("Only one photo remaining. Cannot delete.");
         }
 
