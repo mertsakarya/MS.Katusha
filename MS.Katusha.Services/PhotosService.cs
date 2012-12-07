@@ -218,8 +218,12 @@ namespace MS.Katusha.Services
 
         public bool DeletePhoto(long profileId, Guid photoGuid)
         {
-            var entity = _photoRepository.SingleAttached(p=>p.Guid == photoGuid);
-            return _DeletePhoto(entity);
+            var photoCount = _photoRepository.Query(p => p.ProfileId == profileId, null, false).Count();
+            if (photoCount > 1) {
+                var entity = _photoRepository.SingleAttached(p => p.Guid == photoGuid && p.ProfileId == profileId);
+                return _DeletePhoto(entity);
+            }
+            throw new Exception("Only one photo remaining. Cannot delete.");
         }
 
         public bool DeletePhotoByGuid(Guid photoGuid)

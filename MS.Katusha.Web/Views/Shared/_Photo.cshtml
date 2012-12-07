@@ -9,9 +9,11 @@
                 <div class="mosaic-block bar">
                     <div class="mosaic-overlay">
                         <div class="details">
-                            <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid');"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                            @if(Model.Photos.Count > 1) {
+                                <a href="#" onclick=" DeletePhoto('@Html.KeyFor(Model)', '@photo.Guid');"><img src="/Images/close.gif" alt="Delete photo"/></a>
+                            }
                             <a title="Make this your profile picture" href="#" onclick="MakeProfilePhoto('@(Html.GetPhotoBaseUrl())', '@((byte)PhotoType.Medium)', '@Html.KeyFor(Model)', '@photo.Guid');">
-                                <img src="/Images/profile.gif" alt="Delete photo"/>
+                                <img src="/Images/profile.gif" alt="Make this your profile picture"/>
                             </a>
                         </div>
                     </div>

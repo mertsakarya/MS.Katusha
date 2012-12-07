@@ -39,8 +39,13 @@ namespace MS.Katusha.Web.Controllers
         public JsonResult DeletePhoto(string key, string photoGuid)
         {
             if (!IsKeyForProfile(key)) throw new HttpException(404, "Photo not found!");
-            var isProfilePhoto = _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
-            return Json(new { isProfilePhoto = isProfilePhoto });
+            try {
+                var isProfilePhoto = _photosService.DeletePhoto(KatushaProfile.Id, Guid.Parse(photoGuid));
+                return Json(new {isProfilePhoto = isProfilePhoto});
+            }
+            catch (Exception ex) {
+                throw new HttpException(404, ex.Message);
+            }
         }
 
         [KatushaFilter(IsAuthenticated = true, MustHaveGender = true, MustHaveProfile = true)]

@@ -316,7 +316,7 @@ namespace MS.Katusha.Services
             }
             if(photos.Count > 0)
                 foreach (var item in photos)
-                    _photoService.DeletePhoto(item.ProfileId, item.Guid);
+                    _photoService.DeletePhotoByGuid(item.Guid);
             if (ravenCommands.Count > 0) _ravenStore.Batch(ravenCommands);
             if (sqlCommands.Count > 0) _dbContext.ExecuteNonQuery(sqlCommands);
         }
