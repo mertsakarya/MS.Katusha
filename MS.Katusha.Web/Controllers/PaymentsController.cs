@@ -23,7 +23,7 @@ namespace MS.Katusha.Web.Controllers
 
         public ActionResult PaypalCancel()
         {
-            return View("KatushaException", new HandleErrorInfo(new Exception("WHYYYYY???"), "PaypayCancel", "Payments"));
+            return View("KatushaException", new HandleErrorInfo(new Exception("WHYYYYY???"), "Payments", "PaypalCancel"));
         }
 
         public ActionResult Needed(string key)
@@ -48,7 +48,7 @@ namespace MS.Katusha.Web.Controllers
                 var paypalPaymentTest = ConfigurationManager.AppSettings["PaypalSandbox"] == "true";
                 return Redirect("https://www."+((paypalPaymentTest) ? "sandbox." :"")+"paypal.com/webscr?cmd=_express-checkout&token=" + token);
             } catch (KatushaProductNameNotFoundException pex) {
-                return View("KatushaException", new HandleErrorInfo(pex, "PaypalSetCheckout", "Payments"));
+                return View("KatushaException", new HandleErrorInfo(pex, "Payments", "PaypalSetCheckout"));
             }
         }
 

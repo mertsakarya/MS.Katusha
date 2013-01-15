@@ -15,7 +15,7 @@ namespace MS.Katusha.Services
     {
         private readonly IUserService _userService;
         private readonly PayPalAPIInterfaceServiceService _payPalApiService;
-        private PaypalSettings _settings;
+        private readonly PaypalSettings _settings;
         private const string MSKatushaorderDescription = "Your order for MS.Katusha";
         private const string MSKatushaBrandName = "MS.Katusha";
         private const string MSKatushaImageUrl = "http://www.mskatusha.com/Images/logo.jpg";
@@ -84,7 +84,7 @@ namespace MS.Katusha.Services
                 AddressOverride = "0", 
                 NoShipping = "1", 
                 SolutionType = SolutionTypeType.SOLE, 
-                BuyerDetails = new BuyerDetailsType() {BuyerId = user.Guid.ToString(), BuyerRegistrationDate = user.CreationDate.ToString("s"), BuyerUserName = user.UserName},
+                BuyerDetails = new BuyerDetailsType {BuyerId = user.Guid.ToString(), BuyerRegistrationDate = user.CreationDate.ToString("s"), BuyerUserName = user.UserName},
                 cppHeaderImage = MSKatushaImageUrl,
                 BrandName = MSKatushaBrandName
                 //PageStyle = pageStyle.Value,
@@ -137,7 +137,7 @@ namespace MS.Katusha.Services
                 var response = _GetExpressCheckoutDetails(token);
                 CheckoutStatus status;
                 if (!Enum.TryParse(response.GetExpressCheckoutDetailsResponseDetails.CheckoutStatus, true, out status))
-                    return new CheckoutDetailResult() {Errors = new List<string>() {"NOCHECKOUTSTATUS"}};
+                    return new CheckoutDetailResult {Errors = new List<string> {"NOCHECKOUTSTATUS"}};
                 var result = new CheckoutDetailResult { CheckoutStatus = status, Errors = new List<string>(), };
                 if (response.Ack.Equals(AckCodeType.FAILURE) || (response.Errors != null && response.Errors.Count > 0)) {
                     foreach (var error in response.Errors)
@@ -149,7 +149,7 @@ namespace MS.Katusha.Services
                 }
                 return result;
             } catch (KatushaProductNameNotFoundException) {
-                return new CheckoutDetailResult() { Errors = new List<string> { "PRODUCTNOTFOUND" } };
+                return new CheckoutDetailResult { Errors = new List<string> { "PRODUCTNOTFOUND" } };
             }
         }
 
@@ -169,7 +169,7 @@ namespace MS.Katusha.Services
             var getEcResponse = _GetExpressCheckoutDetails(token);
             CheckoutStatus status;
             if (!Enum.TryParse(getEcResponse.GetExpressCheckoutDetailsResponseDetails.CheckoutStatus, true, out status))
-                return new CheckoutPaymentResult() {Errors = new List<string>() {"NOCHECKOUTSTATUS"}};
+                return new CheckoutPaymentResult {Errors = new List<string> {"NOCHECKOUTSTATUS"}};
             if (status == CheckoutStatus.PaymentActionNotInitiated) {
                 user.PaypalPayerId = payerId;
                 var request = new DoExpressCheckoutPaymentRequestType();
@@ -179,7 +179,7 @@ namespace MS.Katusha.Services
                 var wrapper = new DoExpressCheckoutPaymentReq {DoExpressCheckoutPaymentRequest = request};
                 var doEcResponse = _payPalApiService.DoExpressCheckoutPayment(wrapper, GetApiUserName());
                 var custom = getEcResponse.GetExpressCheckoutDetailsResponseDetails.PaymentDetails[0].Custom.Split('|');
-                var result = new CheckoutPaymentResult() {
+                var result = new CheckoutPaymentResult {
                     BillingAgreementId = doEcResponse.DoExpressCheckoutPaymentResponseDetails.BillingAgreementID,
                     PaymentStatus = doEcResponse.DoExpressCheckoutPaymentResponseDetails.PaymentInfo[0].PaymentStatus.ToString(),
                     PendingReason = doEcResponse.DoExpressCheckoutPaymentResponseDetails.PaymentInfo[0].PendingReason.ToString(),
@@ -195,7 +195,7 @@ namespace MS.Katusha.Services
                     _userService.Purchase(user, result.ProductName, payerId);
                 }
                 return result;
-            } return new CheckoutPaymentResult() { Errors = new List<string>() { status.ToString() } };
+            } return new CheckoutPaymentResult { Errors = new List<string> { status.ToString() } };
         }
     }
 }

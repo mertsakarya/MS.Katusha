@@ -42,11 +42,9 @@ namespace MS.Katusha.Services
 
         public IEnumerable<Conversation> GetMessages(long profileId, MessageType messageType, out int total, int pageNo = 1, int pageSize = 20)
         {
-            if (messageType == MessageType.Received) {
+            if (messageType == MessageType.Received) 
                 return _conversationRepositoryRaven.Query(q => (q.ToId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
-            } else {
-                return _conversationRepositoryRaven.Query(q => (q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
-            }
+            return _conversationRepositoryRaven.Query(q => (q.FromId == profileId), pageNo, pageSize, out total, o => o.CreationDate, false).ToList();
         }
 
         public void SendMessage(User user, Conversation message, bool force = false)

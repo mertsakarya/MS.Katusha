@@ -9,9 +9,9 @@ namespace MS.Katusha.Services
 {
     public class ProductService : IProductService
     {
-        private static readonly IDictionary<string, Product> products = new Dictionary<string, Product> {
+        private static readonly IDictionary<string, Product> Products = new Dictionary<string, Product> {
             {
-                "MonthlyKatusha", new Product() {
+                "MonthlyKatusha", new Product {
                     Id = 1,
                     Guid = Guid.Parse("1000b22b-0683-4dd6-ac2f-396046fc0001"),
                     FriendlyName = "MonthlyKatusha",
@@ -34,9 +34,9 @@ namespace MS.Katusha.Services
 
         public Product GetProductByName(ProductNames productName)
         {
-            if (!products.ContainsKey(productName.ToString()))
+            if (!Products.ContainsKey(productName.ToString()))
                 throw new KatushaProductNameNotFoundException(productName.ToString());
-            return products[productName.ToString()];
+            return Products[productName.ToString()];
         }
     }
 

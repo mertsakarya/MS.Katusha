@@ -43,7 +43,6 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<EncryptionService>().As<IEncryptionService>().SingleInstance();
             builder.RegisterType<TicketService>().As<ITicketService>().SingleInstance();
             builder.RegisterType<S3FileSystem>().As<IKatushaFileSystem>().SingleInstance();
-            builder.RegisterType<PaypalService>().As<IPaypalService>().SingleInstance();
 
             builder.RegisterType<KatushaRavenStore>().As<IDocumentStore>().SingleInstance();
             builder.RegisterType<ProfileRepositoryRavenDB>().As<IProfileRepositoryRavenDB>().SingleInstance();
@@ -76,6 +75,8 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<SamplesService>().As<ISamplesService>().InstancePerHttpRequest();
             builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
             builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerHttpRequest();
+
+            builder.RegisterType<PaypalService>().As<IPaypalService>().InstancePerHttpRequest();
             builder.RegisterType<ProductService>().As<IProductService>().InstancePerHttpRequest();
 
             builder.RegisterType<ConversationRepositoryDB>().As<IConversationRepositoryDB>().InstancePerHttpRequest();
