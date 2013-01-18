@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MS.Katusha.Domain.Entities.BaseEntities;
+using MS.Katusha.Domain.Raven.Entities;
 using PagedList;
-using Raven.Abstractions.Data;
 
 namespace MS.Katusha.Web.Models.Entities
 {
@@ -9,7 +9,7 @@ namespace MS.Katusha.Web.Models.Entities
     {
         public int Total { get; set; }
         public StaticPagedList<ProfileModel> Profiles { get; set; }
-        public IDictionary<string, IEnumerable<FacetValue>> FacetValues { get; set; }
+        public IDictionary<string, IEnumerable<FacetData>> FacetValues { get; set; }
         public abstract BaseSearchCriteriaModel GetSearchCriteria();
     }
     public class SearchStateResultModel : BaseSearchResultModel

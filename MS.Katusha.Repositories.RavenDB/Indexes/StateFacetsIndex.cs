@@ -10,16 +10,16 @@ namespace MS.Katusha.Repositories.RavenDB.Indexes
     {
         public StateFacetsIndex()
         {
-            Map = states => from p in states where p.LastOnline > DateTime.Now - new TimeSpan(0,0,5)
+            Map = states => from p in states // where p.LastOnline > DateTime.Now - new TimeSpan(0,0,5)
                 select new {
-                    CountryCode = p.CountryCode, 
-                    CityCode = p.CityCode, 
-                    Gender = p.Gender, 
-                    BodyBuild = p.BodyBuild, 
-                    HairColor = p.HairColor, 
-                    EyeColor = p.EyeColor, 
-                    Height = p.Height,
-                    BirthYear = p.BirthYear
+                    p.CountryCode, 
+                    p.CityCode, 
+                    p.Gender, 
+                    p.BodyBuild, 
+                    p.HairColor, 
+                    p.EyeColor, 
+                    p.Height,
+                    p.BirthYear
                 };
         }
     }

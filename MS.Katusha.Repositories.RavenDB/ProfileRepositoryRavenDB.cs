@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Repositories.RavenDB.Base;
-using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Linq;
 
@@ -17,14 +17,21 @@ namespace MS.Katusha.Repositories.RavenDB
             : base(documentStore)
         { }
 
-        public IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
+        public IDictionary<string, IEnumerable<FacetData>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
         {
+            var  dict = new Dictionary<string, IEnumerable<FacetData>>();
             using (var session = DocumentStore.OpenSession()) {
-                return null;
-                //TODO: FIX LINE BELOW return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
-                //return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
-                //.AsProjection<Profile>()
+                var result = Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
+                if (result != null && result.Results != null) {
+                    foreach (var r in result.Results) {
+                        var key = r.Key;
+                        var list = new List<FacetData>(r.Value.Values.Count);
+                        list.AddRange(r.Value.Values.Select(value => new FacetData {Count = value.Hits, Range = value.Range}));
+                        dict.Add(key, list);
+                    }
+                }
             }
+            return dict;
         }
 
         public IList<T> Search<T>(Expression<Func<T, bool>> filter, int pageNo, int pageSize, out int total, Expression<Func<T, object>> orderByClause, bool ascending = false)

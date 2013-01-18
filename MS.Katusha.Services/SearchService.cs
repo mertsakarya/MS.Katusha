@@ -39,7 +39,7 @@ namespace MS.Katusha.Services
             return profileList;
         }
 
-        private IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
+        private IDictionary<string, IEnumerable<FacetData>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
         {
             return _profileRepositoryRaven.FacetSearch(filter, facetName);
         }
