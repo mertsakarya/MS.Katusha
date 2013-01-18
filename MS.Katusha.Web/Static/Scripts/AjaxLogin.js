@@ -31,12 +31,12 @@ var onLogin = function(profile) {
 
 var initTokBox = function () {
     // TB.setLogLevel(TB.DEBUG);
-    if (TB.checkSystemRequirements() != TB.HAS_REQUIREMENTS) {
+    if (window.TB.checkSystemRequirements() != window.TB.HAS_REQUIREMENTS) {
         alert('Minimum System Requirements not met!');
     }
-    TB.addEventListener('exception', exceptionHandler);
+    window.TB.addEventListener('exception', exceptionHandler);
 
-    profile.tokBoxSession = (TB != null && profile.tokBoxSessionId != '') ? TB.initSession(profile.tokBoxSessionId) : null;
+    profile.tokBoxSession = (window.TB != null && profile.tokBoxSessionId != '') ? window.TB.initSession(profile.tokBoxSessionId) : null;
     if (profile.tokBoxSession != null) {
         
         profile.tokBoxSession.addEventListener('sessionConnected', sessionConnectedHandler);
@@ -46,21 +46,21 @@ var initTokBox = function () {
         profile.tokBoxSession.addEventListener('streamCreated', streamCreatedHandler);
         profile.tokBoxSession.addEventListener('streamDestroyed', streamDestroyedHandler);
 
-        //profile.tokBoxSession.connect(tokBoxApiKey, profile.tokBoxTicketId);
+        profile.tokBoxSession.connect(tokBoxApiKey, profile.tokBoxTicketId);
     }
 };
 
 var sessionConnectedHandler = function(event) {
-    //var parentDiv = document.getElementById("tokBoxPublisherDiv");
-    //var replacementDiv = document.createElement("div");
-    //replacementDiv.id = "opentok_publisher";
-    //parentDiv.appendChild(replacementDiv);
+    var parentDiv = document.getElementById("tokBoxPublisherDiv");
+    var replacementDiv = document.createElement("div");
+    replacementDiv.id = "opentok_publisher";
+    parentDiv.appendChild(replacementDiv);
 
-    //var publishProps = { height: 160, width: 200 };
-    //profile.tokBoxPublisher = TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
-    //profile.tokBoxSubscribers = { };
-    //// Send my stream to the session
-    //session.publish(profile.tokBoxPublisher);
+    var publishProps = { height: 160, width: 200 };
+    profile.tokBoxPublisher = window.TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
+    profile.tokBoxSubscribers = { };
+    // Send my stream to the session
+    session.publish(profile.tokBoxPublisher);
 };
 
 var streamCreatedHandler = function(event) {

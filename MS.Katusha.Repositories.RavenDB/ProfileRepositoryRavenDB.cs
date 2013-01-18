@@ -20,7 +20,9 @@ namespace MS.Katusha.Repositories.RavenDB
         public IDictionary<string, IEnumerable<FacetValue>> FacetSearch<T>(Expression<Func<T, bool>> filter, string facetName)
         {
             using (var session = DocumentStore.OpenSession()) {
-                return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
+                return null;
+                //TODO: FIX LINE BELOW return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
+                //return Queryable.Where(session.Query<T>(facetName + "Index"), filter).ToFacets("facets/" + facetName);
                 //.AsProjection<Profile>()
             }
         }

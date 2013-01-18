@@ -21,7 +21,7 @@
                 <a title="@(profile.Name + " - " + (DateTime.Now.Year - profile.BirthYear).ToString() + " - " + profile.Location.CountryName)" href="/Profiles/Show/@(val)" rel="gallery">
                     @Html.PhotoImg(profile.ProfilePhotoGuid, PhotoType.Thumbnail)
                 </a>
-                <div style="border: 1 solid">
+                <div style="border: 1px solid">
                     @profile.Name<br/>
                     @(dateString)<br/>
                     @(visit.Count) Time(s)<br/><br/>

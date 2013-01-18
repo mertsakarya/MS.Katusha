@@ -5,10 +5,11 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using Glimpse.Core.Extensibility;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
+using Raven.Imports.Newtonsoft.Json.Linq;
 using Raven.Json.Linq;
 
 namespace Glimpse.RavenDb
@@ -82,9 +83,10 @@ namespace Glimpse.RavenDb
 		}
 
 		private List<object[]> GetRequestList() {
-			List<object[]> data = new List<object[]>();
-			data.Add(new object[] { "At", "Duration", "HttpMetod", "Url", "Data", "HttpResult", "Status", "Result" });
-			var requests = from id in ContextualSessionList
+			var data = new List<object[]> {
+			    new object[] {"At", "Duration", "HttpMetod", "Url", "Data", "HttpResult", "Status", "Result"}
+			};
+		    var requests = from id in ContextualSessionList
 						   from store in stores.Keys
 						   let info = store.GetProfilingInformationFor(id)
 						   where info != null
@@ -130,18 +132,18 @@ namespace Glimpse.RavenDb
 				var arr = (RavenJArray)token;
 				if (arr.Length == 0)
 					return null;
-				List<object[]> arrayItems = new List<object[]>();
+				var arrayItems = new List<object[]>();
 				for (int i = 0; i < arr.Length; i++) {
 					arrayItems.Add(new object[] { Visit(arr[i]) });
 				}
 
 				if (arr[0].Type == JTokenType.Object) {
 					// Handle objects in a special way by pivoting them
-					List<object[]> pivotData = new List<object[]>();
+					var pivotData = new List<object[]>();
 					var keys = arrayItems.SelectMany(d => (List<object[]>)d[0]).Cast<object[]>().Where(d => (string)d[0] != "Key" || (string)d[1] != "Value").Select(d => (string)d[0]).Distinct().ToArray();
 					pivotData.Add(keys);
 					foreach (var row in arrayItems.Select(d => d[0]).Cast<List<object[]>>()) {
-						object[] vals = new object[keys.Length];
+						var vals = new object[keys.Length];
 						for (int i = 0; i < keys.Length; i++) {
 							var keyVal = row.FirstOrDefault(d => (string)d[0] == keys[i]);
 							if (keyVal != null) {
