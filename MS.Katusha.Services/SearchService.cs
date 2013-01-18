@@ -7,7 +7,6 @@ using MS.Katusha.Domain.Raven;
 using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Interfaces.Repositories;
 using MS.Katusha.Interfaces.Services;
-using Raven.Abstractions.Data;
 
 namespace MS.Katusha.Services
 {

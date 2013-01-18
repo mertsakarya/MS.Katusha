@@ -1,6 +1,5 @@
 ﻿using System;
 using MS.Katusha.Domain.Entities.BaseEntities;
-using Raven.Abstractions.Data;
 
 namespace MS.Katusha.Interfaces.Repositories
 {
@@ -22,7 +21,7 @@ namespace MS.Katusha.Interfaces.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <param name="patchRequests"></param>
-        void Patch(long id, PatchRequest[] patchRequests);
+        //void Patch(long id, PatchRequest[] patchRequests);
 
         T Add(T entity, DateTime expireTimeUtc);
 
