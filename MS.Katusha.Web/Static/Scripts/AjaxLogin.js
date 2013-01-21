@@ -60,6 +60,9 @@ var sessionConnectedHandler = function (event) {
     profile.tokBoxPublisher = window.TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
     profile.tokBoxSubscribers = {};
     session.publish(profile.tokBoxPublisher);
+    for (var i = 0; i < event.streams.length; i++) {
+        addStream(event.streams[i]);
+    }
 };
 var connectionCount = 0;
 var connectionCreatedHandler = function(event) {
