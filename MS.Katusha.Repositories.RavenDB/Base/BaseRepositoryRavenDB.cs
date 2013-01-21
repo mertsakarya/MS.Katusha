@@ -9,7 +9,6 @@ using MS.Katusha.Interfaces.Repositories;
 using NLog;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Raven.Client.Linq;
 using Raven.Json.Linq;
 
 namespace MS.Katusha.Repositories.RavenDB.Base

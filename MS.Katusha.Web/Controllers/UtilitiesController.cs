@@ -96,9 +96,6 @@ namespace MS.Katusha.Web.Controllers
                 case "conversations":
                     list = _conversationService.RestoreFromDB(null, delete);
                     break;
-                case "states":
-                    list = StateService.RestoreFromDB(null, delete);
-                    break;
                 default:
                     list = new List<string> {"Unnkown parameter: " + key};
                     break;

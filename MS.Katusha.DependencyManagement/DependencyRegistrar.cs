@@ -50,6 +50,8 @@ namespace MS.Katusha.DependencyManagement
             builder.RegisterType<ConversationRepositoryRavenDB>().As<IConversationRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<StateRepositoryRavenDB>().As<IStateRepositoryRavenDB>().SingleInstance();
             builder.RegisterType<CountryCityCountRepositoryRavenDB>().As<ICountryCityCountRepositoryRavenDB>().SingleInstance();
+            builder.RegisterType<VideoRoomRepositoryRavenDB>().As<IVideoRoomRepository>().SingleInstance();
+            builder.RegisterType<VideoRoomService>().As<IVideoRoomService>().SingleInstance();
 
             var cacheProviderText = ConfigurationManager.AppSettings["CacheProvider"];
             if (!String.IsNullOrWhiteSpace(cacheProviderText)) {

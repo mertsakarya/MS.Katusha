@@ -61,6 +61,7 @@ namespace MS.Katusha.Web.Controllers
             ViewBag.KatushaState = KatushaState;
             ViewBag.KatushaUser = KatushaUser;
             ViewBag.KatushaProfile = KatushaProfile;
+            //ViewBag.AvailableVideoRooms = StateService.GetVideoRooms(KatushaProfile);
             ViewBag.GoogleAnalytics = googleAnalytics;
         }
 

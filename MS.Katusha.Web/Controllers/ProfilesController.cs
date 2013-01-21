@@ -69,18 +69,26 @@ namespace MS.Katusha.Web.Controllers
         public ActionResult Ping()
         {
             var pingResult = StateService.Ping(KatushaProfile);
-
-            return (pingResult == null)
-                ? Json(new { VisitTime = "", VisitCount = 0, ConversationCount = 0, ConversationUnreadCount = 0, TokBoxSessionId = "", TokBoxTicketId = "" }, JsonRequestBehavior.AllowGet) 
-                : Json(new {
-                    VisitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime), 
-                    VisitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count,
-                    ConversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count,
-                    ConversationUnreadCount = (pingResult.Conversations == null) ? 0: pingResult.Conversations.UnreadCount,
-                    TokBoxSessionId = pingResult.State.TokBoxSessionId,
-                    TokBoxTicketId = pingResult.State.TokBoxTicketId
-                }, JsonRequestBehavior.AllowGet);
-
+            object state;
+            if (pingResult == null) {
+                state = new { VisitTime = "", VisitCount = 0, ConversationCount = 0, ConversationUnreadCount = 0, TokBoxSessionId = "", TokBoxTicketId = "" };
+            } else {
+                var visitTime = (pingResult.Visits == null) ? "" : ResourceService.UrlFriendlyDateTime(pingResult.Visits.LastVisitTime);
+                var visitCount = (pingResult.Visits == null) ? 0 : pingResult.Visits.Visits.Count;
+                var conversationCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.Count;
+                var conversationUnreadCount = (pingResult.Conversations == null) ? 0 : pingResult.Conversations.UnreadCount;
+                var tokBoxSessionId = (pingResult.State == null) ? "" : pingResult.State.TokBoxSessionId;
+                var tokBoxTicketId = (pingResult.State == null) ? "" : pingResult.State.TokBoxTicketId;
+                state = new {
+                    VisitTime = visitTime,
+                    VisitCount = visitCount,
+                    ConversationCount = conversationCount,
+                    ConversationUnreadCount = conversationUnreadCount,
+                    TokBoxSessionId = tokBoxSessionId,
+                    TokBoxTicketId = tokBoxTicketId
+                };
+            }
+            return Json(state, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Online(int? key) {

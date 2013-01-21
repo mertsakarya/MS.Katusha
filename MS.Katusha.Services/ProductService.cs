@@ -39,5 +39,4 @@ namespace MS.Katusha.Services
             return Products[productName.ToString()];
         }
     }
-
 }

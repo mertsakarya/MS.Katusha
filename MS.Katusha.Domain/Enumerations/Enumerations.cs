@@ -36,9 +36,10 @@ namespace MS.Katusha.Enumerations
     public enum Action : int { LoggedIn = 1, LoggedOut, CreatedProfile, EditedProfile, VisitedProfile, SendMessage, ReadMessage, BecameMember, CanceledMembership, MembershipEXpired, AddedPhoto, ChangedProfilePicture }
 
     public enum CheckoutStatus { PaymentActionNotInitiated, PaymentActionFailed, PaymentActionInProgress, PaymentCompleted }
-    public enum ProductNames { MonthlyKatusha = 1}
+    public enum ProductNames { MonthlyKatusha = 1 }
+    public enum VideoRoomNames : byte { Men = 1, Girls = 2, Everyone = 3 }
 
-    public enum PaypalEnvironment { Sandbox = 1, Live = 2}
+    public enum PaypalEnvironment { Sandbox = 1, Live = 2 }
 
     public enum MSKatushaSource { Local = 1, Live = 2, LiveEU = 3 }
     public enum MSKatushaMode { Web = 1, Windows = 2 }

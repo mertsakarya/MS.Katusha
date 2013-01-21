@@ -74,9 +74,9 @@
     <Compile Include="Configuration\Data\SettingsData.cs" />
     <Compile Include="Configuration\KatushaConfigurationHandler.cs" />
     <Compile Include="Configuration\KatushaConfigurationManager.cs" />
+    <Compile Include="Domain\Raven\Entities\VideoRoom.cs" />
     <Compile Include="Domain\Raven\Entities\DialogResult.cs" />
     <Compile Include="Domain\Raven\Entities\FacetData.cs" />
-    <Compile Include="Domain\Raven\Entities\TokBoxSession.cs" />
     <Compile Include="Domain\Service\ApiList.cs" />
     <Compile Include="Encryption\EncryptedStringConverter.cs" />
     <Compile Include="Encryption\EncryptionManager.cs" />

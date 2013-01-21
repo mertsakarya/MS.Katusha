@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IVideoRoomRepository.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="ICountryCityCountRepositoryRavenDB.cs" />
     <Compile Include="IGeoCountryRepositoryDB.cs" />

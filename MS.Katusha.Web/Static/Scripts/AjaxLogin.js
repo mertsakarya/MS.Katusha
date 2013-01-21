@@ -50,7 +50,7 @@ var initTokBox = function () {
     }
 };
 
-var sessionConnectedHandler = function(event) {
+var sessionConnectedHandler = function (event) {
     var parentDiv = document.getElementById("tokBoxPublisherDiv");
     var replacementDiv = document.createElement("div");
     replacementDiv.id = "opentok_publisher";
@@ -58,12 +58,23 @@ var sessionConnectedHandler = function(event) {
 
     var publishProps = { height: 160, width: 200 };
     profile.tokBoxPublisher = window.TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
-    profile.tokBoxSubscribers = { };
-    // Send my stream to the session
+    profile.tokBoxSubscribers = {};
     session.publish(profile.tokBoxPublisher);
 };
+var connectionCount = 0;
+var connectionCreatedHandler = function(event) {
+    connectionCount += event.connections.length;
+    displayConnectionCount();
+};
 
-var streamCreatedHandler = function(event) {
+var connectionDestroyedHandler = function (event) {
+    connectionCount -= event.connections.length;
+    displayConnectionCount();
+};
+function displayConnectionCount() {
+    document.getElementById("connectionCountField").value = connectionCount.toString();
+}
+var streamCreatedHandler = function (event) {
     for (var i = 0; i < event.streams.length; i++) {
         addStream(event.streams[i]);
     }

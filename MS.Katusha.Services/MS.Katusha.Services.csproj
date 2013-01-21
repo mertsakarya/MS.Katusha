@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VideoRoomService.cs" />
     <Compile Include="TokBox.cs" />
     <Compile Include="EncryptionService.cs" />
     <Compile Include="S3PhotoBackupService.cs" />

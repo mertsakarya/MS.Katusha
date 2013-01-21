@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using MS.Katusha.Domain.Entities;
+using MS.Katusha.Domain.Raven.Entities;
 using MS.Katusha.Enumerations;
 using MS.Katusha.Repositories.RavenDB.Indexes;
 using Raven.Abstractions.Commands;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
-using Raven.Json.Linq;
 using Conversation = MS.Katusha.Domain.Raven.Entities.Conversation;
 
 namespace MS.Katusha.Repositories.RavenDB
 {
-    public class KatushaRavenStore : DocumentStore
+    public sealed class KatushaRavenStore : DocumentStore
     {
         public KatushaRavenStore(int i, string connectionString)
         {
@@ -47,6 +46,7 @@ namespace MS.Katusha.Repositories.RavenDB
             DeleteAll<Visit>();
             DeleteAll<Profile>();
             DeleteAll<FacetSetup>();
+            DeleteAll<VideoRoom>();
             var indexes = DatabaseCommands.GetIndexNames(0, int.MaxValue);
             foreach (var index in indexes)
                 if (!index.ToLowerInvariant().StartsWith("raven/"))
@@ -62,7 +62,7 @@ namespace MS.Katusha.Repositories.RavenDB
 
         public void DeleteAll<T>()
         {
-            using (var session = this.OpenSession()) {
+            using (var session = OpenSession()) {
                 foreach (var item in session.Query<T>()) {
                     session.Delete(item);
                 }
@@ -70,16 +70,14 @@ namespace MS.Katusha.Repositories.RavenDB
             }
         }
 
-        public List<ICommandData> DeleteProfile(long profileId, Domain.Entities.Visit[] visits, Conversation[] messages)
+        public IEnumerable<ICommandData> DeleteProfile(long profileId, IEnumerable<Visit> visits, IEnumerable<Conversation> messages)
         {
             var list = new List<ICommandData> {
                 new DeleteCommandData {Etag = null, Key = "profiles/" + profileId},
                 new DeleteCommandData {Etag = null, Key = "states/" + profileId}
             };
-            foreach (var item in visits) 
-                list.Add(new DeleteCommandData() { Etag = null, Key = "visits/" + item.Id });
-            foreach (var item in messages) 
-                list.Add(new DeleteCommandData() { Etag = null, Key = "conversations/" + item.Id });
+            list.AddRange(visits.Select(item => new DeleteCommandData {Etag = null, Key = "visits/" + item.Id}));
+            list.AddRange(messages.Select(item => new DeleteCommandData {Etag = null, Key = "conversations/" + item.Id}));
             return list;
         }
 
@@ -137,5 +135,6 @@ namespace MS.Katusha.Repositories.RavenDB
                 session.SaveChanges();
             }
         }
+
     }
 }
