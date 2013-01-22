@@ -88,7 +88,7 @@ var connectionDestroyedHandler = function (event) {
     displayConnectionCount();
 };
 function displayConnectionCount() {
-    document.getElementById("connectionCountField").value = connectionCount.toString();
+    //document.getElementById("connectionCountField").value = connectionCount.toString();
 }
 
 var streamCreatedHandler = function (event) {
@@ -101,7 +101,8 @@ var addStream = function(stream) {
     var div = document.createElement('div');
     var divId = stream.streamId;
     div.setAttribute('id', divId);
-    document.body.appendChild(div);
+    var subscribersDiv = document.getEleementById("tokBoxSubscribersDiv");
+    subscribersDiv.appendChild(div);
     var subscriberProps = { width: 200, height: 160, rememberDeviceAccess : true };
     profile.tokBoxSubscribers[stream.streamId] = profile.tokBoxSession.subscribe(stream, divId, subscriberProps);
 };
