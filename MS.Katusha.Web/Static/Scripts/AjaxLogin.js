@@ -30,7 +30,7 @@ var onLogin = function(profile) {
 };
 
 var initTokBox = function () {
-    window.TB.setLogLevel(window.TB.DEBUG);
+    //window.TB.setLogLevel(window.TB.DEBUG);
     if (window.TB.checkSystemRequirements() != window.TB.HAS_REQUIREMENTS) {
         alert('Minimum System Requirements not met!');
     }
@@ -63,11 +63,12 @@ var sessionConnectedHandler = function (event) {
     profile.tokBoxPublisher.addEventListener('accessAllowed', publisherAccessAllowedHandler);
     profile.tokBoxPublisher.addEventListener('accessDenied', publisherAccessDeniedHandler);
     profile.tokBoxSubscribers = {};
-    profile.tokBoxPublisher = session.publish(profile.tokBoxPublisher);
-    //alert(profile.tokBoxPublisher);
-    //for (var i = 0; i < event.streams.length; i++) {
-    //    addStream(event.streams[i]);
-    //}
+    profile.tokBoxPublisher = profile.tokBoxSession.publish(profile.tokBoxPublisher);
+    if (event.streams != null) {
+        profile.tokBoxStreams = event.streams;
+        for (var i = 0; i < event.streams.length; i++)
+            addStream(event.streams[i]);
+    }
 };
 
 
@@ -91,21 +92,18 @@ function displayConnectionCount() {
 }
 
 var streamCreatedHandler = function (event) {
-    for (var i = 0; i < event.streams.length; i++) {
+    for (var i = 0; i < event.streams.length; i++) 
         addStream(event.streams[i]);
-    }
 };
 
 var addStream = function(stream) {
-    if (stream.connection.connectionId == session.connection.connectionId) {
-        return;
-    }
+    if (stream.connection.connectionId == profile.tokBoxSession.connection.connectionId) { return; }
     var div = document.createElement('div');
     var divId = stream.streamId;
     div.setAttribute('id', divId);
     document.body.appendChild(div);
-    var subscriberProps = { width: 200, height: 160 };
-    subscribers[stream.streamId] = session.subscribe(stream, divId, subscriberProps);
+    var subscriberProps = { width: 200, height: 160, rememberDeviceAccess : true };
+    profile.tokBoxSubscribers[stream.streamId] = profile.tokBoxSession.subscribe(stream, divId, subscriberProps);
 };
 
 var showNewConversations = function(unreadCount, count) {
