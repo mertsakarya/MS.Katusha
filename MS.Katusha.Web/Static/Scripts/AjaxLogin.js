@@ -101,7 +101,7 @@ var addStream = function(stream) {
     var div = document.createElement('div');
     var divId = stream.streamId;
     div.setAttribute('id', divId);
-    var subscribersDiv = document.getEleementById("tokBoxSubscribersDiv");
+    var subscribersDiv = document.getElementById("tokBoxSubscribersDiv");
     subscribersDiv.appendChild(div);
     var subscriberProps = { width: 200, height: 160, rememberDeviceAccess : true };
     profile.tokBoxSubscribers[stream.streamId] = profile.tokBoxSession.subscribe(stream, divId, subscriberProps);
