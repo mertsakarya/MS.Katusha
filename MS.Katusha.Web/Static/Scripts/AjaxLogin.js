@@ -30,7 +30,7 @@ var onLogin = function(profile) {
 };
 
 var initTokBox = function () {
-    // TB.setLogLevel(TB.DEBUG);
+    window.TB.setLogLevel(window.TB.DEBUG);
     if (window.TB.checkSystemRequirements() != window.TB.HAS_REQUIREMENTS) {
         alert('Minimum System Requirements not met!');
     }
