@@ -56,14 +56,26 @@ var sessionConnectedHandler = function (event) {
     replacementDiv.id = "opentok_publisher";
     parentDiv.appendChild(replacementDiv);
 
-    var publishProps = { height: 160, width: 200 };
+    var publishProps = { height: 160, width: 200, rememberDeviceAccess: true };
     profile.tokBoxPublisher = window.TB.initPublisher(tokBoxApiKey, replacementDiv.id, publishProps);
+    profile.tokBoxPublisher.addEventListener('accessDialogOpened', publisherAccessDialogOpenedHandler);
+    profile.tokBoxPublisher.addEventListener('accessDialogClosed', publisherAccessDialogClosedHandler);
+    profile.tokBoxPublisher.addEventListener('accessAllowed', publisherAccessAllowedHandler);
+    profile.tokBoxPublisher.addEventListener('accessDenied', publisherAccessDeniedHandler);
     profile.tokBoxSubscribers = {};
-    session.publish(profile.tokBoxPublisher);
-    for (var i = 0; i < event.streams.length; i++) {
-        addStream(event.streams[i]);
-    }
+    profile.tokBoxPublisher = session.publish(profile.tokBoxPublisher);
+    //alert(profile.tokBoxPublisher);
+    //for (var i = 0; i < event.streams.length; i++) {
+    //    addStream(event.streams[i]);
+    //}
 };
+
+
+var publisherAccessDialogOpenedHandler = function(event) {  };
+var publisherAccessDialogClosedHandler = function(event) {  };
+var publisherAccessAllowedHandler = function(event) {  };
+var publisherAccessDeniedHandler = function(event) {  };
+
 var connectionCount = 0;
 var connectionCreatedHandler = function(event) {
     connectionCount += event.connections.length;
@@ -77,6 +89,7 @@ var connectionDestroyedHandler = function (event) {
 function displayConnectionCount() {
     document.getElementById("connectionCountField").value = connectionCount.toString();
 }
+
 var streamCreatedHandler = function (event) {
     for (var i = 0; i < event.streams.length; i++) {
         addStream(event.streams[i]);
