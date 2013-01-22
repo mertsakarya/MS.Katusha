@@ -74,12 +74,12 @@
             </div>
         </header>
         <div id="body">
-            <div id="tokBoxSubscribersDiv"></div>
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
                 <div id="k_main" class="k_clearfix">
                     @Html.Partial("_LeftPartial")
                     <div id="k_content">
+                        <div id="tokBoxSubscribersDiv"></div>
                         @if (!Request.IsAuthenticated) {
                             if (!(controller == "Account" && action == "Register")) {
                                 <a class="btn btn-success fileinput-button mixpanel" href="@Url.Action("Register", "Account")" id="registerLink2" data_dialog_title="Registration" mp-event="Click Green Register">
