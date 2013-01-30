@@ -19,12 +19,10 @@
         <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Static/Scripts/js")" type="text/javascript" language="javascript" ></script>
         @{
             var katushaProfile = ViewBag.KatushaProfile as Profile;
-            var katushaUser = ViewBag.KatushaUser as User;
+            //var katushaUser = ViewBag.KatushaUser as User;
             var controller = ViewContext.RouteData.Values["Controller"].ToString();
             var action = ViewContext.RouteData.Values["Action"].ToString();
             var settings = KatushaConfigurationManager.Instance.GetSettings();
-        }
-        @{
 
             //*if (protocol == "https") { <script type="text/javascript">function rp2ps() { if (window.location.substr(0, 6) != "https:") { var pu = window.location.hostname + window.location.pathname + window.location.search; var psu = "https://" + pu; window.location = psu; } } rp2ps();</script>}*@
             if (controller.StartsWith("Admin_")) {
