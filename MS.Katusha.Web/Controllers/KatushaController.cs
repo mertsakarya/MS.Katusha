@@ -79,11 +79,13 @@ namespace MS.Katusha.Web.Controllers
 
         protected IEnumerable<string> GetErrorsFromModelState() { return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage)); }
 
-
-        #region OLD CODE OnActionExecuted
-        //protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        //{
-        //    #region internationalization
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            var items = filterContext.HttpContext.Items;
+            items["ActionName"] = filterContext.ActionDescriptor.ActionName;
+            items["ControllerName"] = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            items["ViewData"] = filterContext.Controller.ViewData;
+            //    #region internationalization
         //    //// Is it View ?
         //    //var view = filterContext.Result as ViewResultBase;
         //    //if (view == null) // if not exit
@@ -117,8 +119,7 @@ namespace MS.Katusha.Web.Controllers
         //    //filterContext.Controller.ViewBag._culture = "." + cultureName;
         //    #endregion
             
-        //    base.OnActionExecuted(filterContext);
-        //}
-        #endregion
+            base.OnActionExecuted(filterContext);
+        }
     }
 }
