@@ -63,6 +63,7 @@ namespace MS.Katusha.Web.Controllers
             ViewBag.KatushaProfile = KatushaProfile;
             //ViewBag.AvailableVideoRooms = StateService.GetVideoRooms(KatushaProfile);
             ViewBag.GoogleAnalytics = googleAnalytics;
+            filterContext.HttpContext.Items["ViewBag"] = ViewBag;
         }
 
         protected ActionResult ContextDependentView(object model = null, string viewName = "")
