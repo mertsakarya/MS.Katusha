@@ -2,7 +2,7 @@ REM ---
 @ECHO OFF
 
 ECHO DATABASE
-P:\sqlbulkcopy\AppHarbor.SqlServerBulkCopy.exe --srcserver=926c7be5-4517-4cf6-94ff-a0b000e723b1.sqlserver.sequelizer.com --srcusername=hiamzfceeoitrveq --srcpassword=LELBhM3GDwwtrugH4Ys53DigSrQniWo5k78BGfCNAA7FXT4WAUZYEpThvESX5NxP --srcdatabasename=db926c7be545174cf694ffa0b000e723b1 --dstserver=.\SQLEXPRESS --dstdatabasename=MS.Katusha.Domain.DbContext --cleardstdatabase --checkidentityexists
+P:\bin\AppHarbor.SqlServerBulkCopy.exe --srcserver=926c7be5-4517-4cf6-94ff-a0b000e723b1.sqlserver.sequelizer.com --srcusername=hiamzfceeoitrveq --srcpassword=LELBhM3GDwwtrugH4Ys53DigSrQniWo5k78BGfCNAA7FXT4WAUZYEpThvESX5NxP --srcdatabasename=db926c7be545174cf694ffa0b000e723b1 --dstserver=.\SQLEXPRESS --dstdatabasename=MS.Katusha.Domain.DbContext --cleardstdatabase --checkidentityexists
 
 ECHO RAVENDB
 
